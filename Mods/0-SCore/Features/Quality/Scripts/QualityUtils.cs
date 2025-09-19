@@ -38,16 +38,16 @@ public static class QualityUtils
     {
         tier = CalculateTier(tier);
         
-        if ( tier > QualityInfo.qualityColors.Length )
-            tier = QualityInfo.qualityColors.Length;
+        if ( tier > QualityInfo.qualityColors.Length -1)
+            tier = QualityInfo.qualityColors.Length -1;
         return QualityInfo.qualityColors[tier];
     }
 
     public static string GetColorHex(int tier)
     {
         tier = CalculateTierHex(tier);
-        if ( tier > QualityInfo.hexColors.Length )
-            tier = QualityInfo.hexColors.Length;
+        if ( tier > QualityInfo.hexColors.Length -1)
+            tier = QualityInfo.hexColors.Length -1;
         return QualityInfo.hexColors[tier];
     }
 

@@ -33,9 +33,8 @@
         <property name="DegradationBreaksAfter" value="false"/>
         
         <effect_group name="DamageHooks">
-            <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
-            <triggered_effect trigger="onSelfRoutineUpdate" action="LogMessage" message="DegradeItemValue:: biome Badge" />
-            <triggered_effect trigger="onSelfRoutineUpdate" action="DegradeItemValueMod, SCore"/>
+            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="DegradeSpecificItemValueMod:: biome Badge" />
+            <triggered_effect trigger="onOtherDamagedSelf" action="DegradeSpecificItemValueMod, SCore" item_name="biomeWeatherItem1,biomeWeatherItem2,biomeWeatherItem3,biomeWeatherItem4" slots="equipment" />
         </effect_group>
 
         <!-- Make the tools degrade over a longer period of time, as they fire more often -->

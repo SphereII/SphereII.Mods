@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Audio;
 using HarmonyLib;
 using UnityEngine;
@@ -78,7 +79,8 @@ namespace SCore.Features.ItemDegradation.Utils
         {
             if (mod == null) return false;
             if (mod.IsEmpty()) return false;
-            if (!mod.HasQuality) return false;
+            if (!mod.ItemClass.ShowQualityBar) return false;
+            //if (!mod.HasQuality) return false;
             if (GetMaxUseTimes(mod) <= 1) return false;
             return true;
         }
@@ -117,25 +119,40 @@ namespace SCore.Features.ItemDegradation.Utils
             minEffect.FireEvent((MinEventTypes)SCoreMinEventTypes.onSelfItemDegrade, minEventParams);
          }
 
-        public static void CheckModification(ItemValue mod, EntityAlive player)
+        public static void CheckModification(ItemValue mod, EntityAlive player, int degradeOveride = 0)
         {
             if (!CanDegrade(mod)) return;
-            if (IsDegraded(mod)) return;
+            if (IsDegraded(mod))
+            {
+                DeactivateItem(mod, player);
+                return;
+            }
             mod.UseTimes += GetDegradationPerUse(mod);
+            // Allow an over-ride
+            mod.UseTimes += degradeOveride;
             if (mod.UseTimes < GetMaxUseTimes(mod)) return;
-
+            
+            // Make sure it doesn't get silly and reset it to the max use time.
+            mod.UseTimes = GetMaxUseTimes(mod);
+            
             if ( player != null)
                 Manager.BroadcastPlay(player, "itembreak");
+            
+            DeactivateItem(mod, player);
+
+            if (mod.ItemClass.MaxUseTimesBreaksAfter.Value)
+            {
+                mod = ItemValue.None;
+            }
+        }
+
+        private static void DeactivateItem(ItemValue mod, EntityAlive player)
+        {
             if (mod.ItemClass.HasTrigger(MinEventTypes.onSelfItemActivate) && mod.Activated != 0)
             {
                 player.MinEventContext.ItemValue = mod;
                 mod.FireEvent(MinEventTypes.onSelfItemDeactivate, player != null ? player.MinEventContext : null);
                 mod.Activated = 0;
-            }
-
-            if (mod.ItemClass.MaxUseTimesBreaksAfter.Value)
-            {
-                mod = ItemValue.None;
             }
         }
 
@@ -175,7 +192,112 @@ namespace SCore.Features.ItemDegradation.Utils
             }
         }
 
+        public static List<ItemValue> FindAllItemValues(EntityAlive entityAlive, string itemName, string tagsString)
+        {
+            List<ItemValue> itemValues = new List<ItemValue>();
 
-     
+            // Early exit if both criteria are empty, no search needed.
+            if (string.IsNullOrEmpty(itemName) && string.IsNullOrEmpty(tagsString))
+            {
+                return itemValues;
+            }
+
+            // Parse tags once if provided.
+            FastTags<TagGroup.Global> tags = FastTags<TagGroup.Global>.none;
+            if (!string.IsNullOrEmpty(tagsString))
+            {
+                tags = FastTags<TagGroup.Global>.Parse(tagsString);
+            }
+
+            // Find items in bag
+            FindItemValues(entityAlive.bag.GetSlots(), itemName, tags, itemValues);
+            // Find items in inventory
+            FindItemValues(entityAlive.inventory.GetSlots(), itemName, tags, itemValues);
+            // Find items in equipment
+            FindItemValues(entityAlive.equipment.m_slots, itemName, tags, itemValues);
+
+            return itemValues;
+        }
+      
+        public static void FindItemValues(ItemValue[] rawItemValues, string itemName, FastTags<TagGroup.Global> tags, List<ItemValue> resultsList)
+        {
+            if (rawItemValues == null || rawItemValues.Length == 0)
+            {
+                return;
+            }
+
+            foreach (var itemValue in rawItemValues)
+            {
+                // Skip if the itemValue itself is null or empty
+                if (itemValue == null || itemValue.IsEmpty())
+                {
+                    continue;
+                }
+
+                // Check if the itemValue matches the criteria
+                if (IsItemMatch(itemValue, itemName, tags))
+                {
+                    resultsList.Add(itemValue);
+                }
+            }
+        }
+        
+        public static void FindItemValues(ItemStack[] itemStacks, string itemName, FastTags<TagGroup.Global> tags, List<ItemValue> resultsList)
+        {
+            if (itemStacks == null || itemStacks.Length == 0)
+            {
+                return;
+            }
+
+            foreach (var itemStack in itemStacks)
+            {
+                // Skip if the stack itself is null, empty, or its contained itemValue is null
+                if (itemStack == null || itemStack.IsEmpty() || itemStack.itemValue == null)
+                {
+                    continue;
+                }
+
+                // Check if the itemValue matches the criteria
+                if (IsItemMatch(itemStack.itemValue, itemName, tags))
+                {
+                    resultsList.Add(itemStack.itemValue);
+                }
+            }
+        }
+
+        private static bool IsItemMatch(ItemValue itemValue, string itemNameCsv, FastTags<TagGroup.Global> tags)
+        {
+            // 1. Basic validation for the item itself
+            if (itemValue == null || itemValue.IsEmpty() || itemValue.ItemClass == null)
+            {
+                return false;
+            }
+
+            // 2. Check for item name matches (if itemNameCsv is provided)
+            bool nameMatches = false;
+            if (!string.IsNullOrEmpty(itemNameCsv))
+            {
+                string currentItemName = itemValue.ItemClass.GetItemName();
+                // Split the CSV string and iterate. Using StringSplitOptions.RemoveEmptyEntries
+                // prevents empty strings if there are consecutive commas or leading/trailing commas.
+                string[] namesToMatch = itemNameCsv.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string nameEntry in namesToMatch)
+                {
+                    // Trim whitespace from the entry for accurate comparison
+                    if (currentItemName.Equals(nameEntry.Trim(), System.StringComparison.Ordinal)) // Or OrdinalIgnoreCase if desired
+                    {
+                        nameMatches = true;
+                        break; // Found a match, no need to check other names
+                    }
+                }
+            }
+        
+            // 3. Check for tag matches (if tags are provided)
+            bool tagsMatch = !tags.IsEmpty && itemValue.ItemClass.HasAnyTags(tags);
+
+            // 4. Return true if either names match OR tags match
+            return nameMatches || tagsMatch;
+        }
     }
 }

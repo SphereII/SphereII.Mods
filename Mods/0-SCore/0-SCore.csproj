@@ -558,6 +558,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionConvertItem.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionDamageBlock.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionDegradeItemValue.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionDegradeSpecificItemValue.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifyItem.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionOpenWindow.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionRecalculateEncumbrance.cs" />

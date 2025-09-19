@@ -89,10 +89,7 @@ public class MinEventActionRoutineUpdate : MinEventActionTargetedBase
         var flag = base.ParseXmlAttribute(attribute);
         if (flag) return true;
         var localName = attribute.Name.LocalName;
-        if (localName != "slots")
-        {
-            return false;
-        }
+        if (localName != "slots") return false;
 
         var slots = attribute.Value.ToLower();
         bBag = slots.Contains("bag");
