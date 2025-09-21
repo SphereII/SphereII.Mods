@@ -58,6 +58,7 @@
         <Compile Include="PlayerParty\Harmony\AddParty.cs" />
         <Compile Include="PlayerParty\Harmony\GetPartyXP.cs" />
         <Compile Include="PlayerParty\Harmony\IsFull.cs" />
+        <Compile Include="PlayerParty\Harmony\SharedKillClient.cs" />
         <Compile Include="PlayerParty\PlayerPartyInit.cs" />
         <Compile Include="PlayerParty\PlayerPartySettings.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>

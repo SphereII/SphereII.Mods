@@ -127,10 +127,13 @@ namespace SCore.Features.ItemDegradation.Utils
                 DeactivateItem(mod, player);
                 return;
             }
+            
             mod.UseTimes += GetDegradationPerUse(mod);
             // Allow an over-ride
             mod.UseTimes += degradeOveride;
-            if (mod.UseTimes < GetMaxUseTimes(mod)) return;
+
+            // Do another IsDegraded check to see if we need to trigger any events.
+            if (!IsDegraded(mod)) return;
             
             // Make sure it doesn't get silly and reset it to the max use time.
             mod.UseTimes = GetMaxUseTimes(mod);

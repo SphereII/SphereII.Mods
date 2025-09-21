@@ -8,7 +8,8 @@ public static class OnLootContainerPicked
         var minEventParams = new MinEventParams {
             TileEntity = TraderUtils.GetCurrentTraderTileEntity(),
             Self = GameManager.Instance.World.GetPrimaryPlayer(),
-            BlockValue = blockValue
+            BlockValue = blockValue,
+            Biome = GameManager.Instance.World.GetPrimaryPlayer()?.biomeStandingOn
         };
 
         minEventParams.Self.MinEventContext = minEventParams;

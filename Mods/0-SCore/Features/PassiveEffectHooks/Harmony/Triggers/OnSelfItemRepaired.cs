@@ -14,7 +14,8 @@ public static class OnRepair
         var minEventParams = new MinEventParams {
             TileEntity = TraderUtils.GetCurrentTraderTileEntity(),
             ItemValue = stack,
-            Self = GameManager.Instance.World.GetPrimaryPlayer()
+            Self = GameManager.Instance.World.GetPrimaryPlayer(),
+            Biome = GameManager.Instance.World.GetPrimaryPlayer()?.biomeStandingOn
         };
 
         if (Configuration.CheckFeatureStatus(ItemDegradationHelpers.AdvFeatureClass, "RepairModsWithItem"))

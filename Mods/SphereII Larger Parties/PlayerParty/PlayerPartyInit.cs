@@ -1,4 +1,5 @@
 using System.Reflection;
+using UnityEngine;
 
 namespace LargerParties.PlayerParty {
     public class LargerParties : IModApi
@@ -8,8 +9,8 @@ namespace LargerParties.PlayerParty {
             Log.Out(" Loading Patch: " + GetType());
             var harmony = new HarmonyLib.Harmony(GetType().ToString());
             harmony.PatchAll(Assembly.GetExecutingAssembly());
-
         }
+
     }
 
 }

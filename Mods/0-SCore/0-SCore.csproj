@@ -231,6 +231,8 @@
     <Compile Include="Features\Quality\Harmony\QualityInfoGetQualityColorHex.cs" />
     <Compile Include="Features\Quality\Harmony\QualityInfoGetQualityLevelName.cs" />
     <Compile Include="Features\Quality\Harmony\QualityInfoGetTierColor.cs" />
+    <Compile Include="Features\Quality\Harmony\XUiCCraftingInfoAddQualityButton_OnPress.cs" />
+    <Compile Include="Features\Quality\Harmony\XUiCCraftingInfoSubtractQualityButton_OnPress.cs" />
     <Compile Include="Features\Quality\Harmony\XUiMTraderGetBuyPrice.cs" />
     <Compile Include="Features\Quality\Harmony\XUiMTraderGetSellPrice.cs" />
     <Compile Include="Features\Quality\Scripts\QualityUtils.cs" />
@@ -320,6 +322,7 @@
     <Compile Include="Harmony\NPCFeatures\AllowStashButtonsForNPCs.cs" />
     <Compile Include="Harmony\NPCFeatures\DynamicMusicPlayerTracking.cs" />
     <Compile Include="Harmony\NPCFeatures\DynamicPrefabGetTraderArea.cs" />
+    <Compile Include="Harmony\NPCFeatures\EntityAliveCheckForTeleportOutofTraderArea.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityAliveGroundDetection.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityAlivePatcher.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityAlivePatcherAwardKill.cs" />

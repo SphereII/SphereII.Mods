@@ -10,7 +10,7 @@ namespace LargerParties.PlayerParty.Harmony {
             // For large parties, provide a minimum level of exp to all players.
             var temp = __result;
             __result = Math.Max(PlayerPartySettings.MinExp, __result);
-            Log.Out($"GetPartyXP(): Party Members: {__instance.MemberList.Count} startingXP: {startingXP} Calculated: {temp} Actual XP Given: {__result}");
+           // Log.Out($"GetPartyXP(): Party Members: {__instance.MemberList.Count} startingXP: {startingXP} Calculated: {temp} Actual XP Given: {__result}");
         }
     }
 }

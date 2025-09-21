@@ -8,7 +8,8 @@ public static class OnSelfQuestCompleted
         var minEventParams = new MinEventParams {
             TileEntity = TraderUtils.GetCurrentTraderTileEntity(),
             Self = GameManager.Instance.World.GetPrimaryPlayer(),
-            ItemValue = ItemValue.None
+            ItemValue = ItemValue.None,
+            Biome = GameManager.Instance.World.GetPrimaryPlayer()?.biomeStandingOn
         };
 
         minEventParams.Self.SetCVar("$completedQuestTier", questClass.DifficultyTier);

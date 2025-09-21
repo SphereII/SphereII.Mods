@@ -7,7 +7,8 @@ public static class OnSelfPlaceBlock
             TileEntity = TraderUtils.GetCurrentTraderTileEntity(),
             Self = GameManager.Instance.World.GetPrimaryPlayer(),
             ItemValue = ItemValue.None,
-            BlockValue = block
+            BlockValue = block,
+            Biome = GameManager.Instance.World.GetPrimaryPlayer()?.biomeStandingOn
         };
         minEventParams.Self.MinEventContext = minEventParams;
         minEventParams.Self.FireEvent(MinEventTypes.onSelfPlaceBlock);

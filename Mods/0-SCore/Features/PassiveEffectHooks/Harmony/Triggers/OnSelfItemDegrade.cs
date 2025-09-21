@@ -17,7 +17,8 @@ public static class OnSelfItemDegrade
         if (!ItemDegradationHelpers.CanDegrade(itemValue)) return;
         var minEventParams = new MinEventParams {
             ItemValue = itemValue,
-            Self = playerAlive
+            Self = playerAlive,
+            Biome = GameManager.Instance.World.GetPrimaryPlayer()?.biomeStandingOn
         };
 
         itemValue.ItemClass.FireEvent((MinEventTypes)SCoreMinEventTypes.onSelfItemDegrade, minEventParams);

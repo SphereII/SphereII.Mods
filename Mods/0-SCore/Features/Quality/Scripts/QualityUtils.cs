@@ -16,6 +16,7 @@ public static class QualityUtils
         return range.y;
     }
 
+ 
     public static int GetMinQuality()
     {
         var qualityRange = Configuration.GetPropertyValue(AdvFeatureClass, Feature);
@@ -25,7 +26,7 @@ public static class QualityUtils
         return range.x;
     }
 
-    private static int CalculateTier(int quality)
+    public static int CalculateTier(int quality)
     {
         if (quality == 0) return 0;
         var tier = Mathf.Clamp(quality / 100, GetMinQuality(), GetMaxQuality());

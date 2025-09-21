@@ -12,18 +12,18 @@ namespace SCore.Features.ItemDegradation.Harmony.General
         {
             if (_instance == null || !ItemDegradationHelpers.IsDegraded(_instance)) return;
             var itemClass = _instance.ItemClass;
-            var tintVector = new Vector3i(210, 0, 0) ;
+            var brokenTint = Configuration.GetPropertyValue(ItemDegradationHelpers.AdvFeatureClass, "BrokenTint");
+            if (string.IsNullOrEmpty(brokenTint)) return;
+            
+            // Default tint
+            var tintVector = StringParsers.ParseVector3i(brokenTint);
             if (itemClass.Properties.Contains("BrokenTint"))
             {
                 tintVector = StringParsers.ParseVector3i(itemClass.Properties.GetStringValue("BrokenTint"));
             }
-            else
-            {
-                var brokenTint = Configuration.GetPropertyValue(ItemDegradationHelpers.AdvFeatureClass, "BrokenTint");
-                // Default tint
-                tintVector = string.IsNullOrEmpty(brokenTint) ? tintVector : StringParsers.ParseVector3i(brokenTint);
-            }
 
+            if (tintVector == new Vector3i(255, 255, 255)) return;
+            
             __result = new Color(tintVector.x, tintVector.y, tintVector.z);
         }
     }

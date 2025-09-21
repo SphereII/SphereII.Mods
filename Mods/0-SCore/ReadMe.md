@@ -32,6 +32,35 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.3.37.1023
+	[ Item Degradation ]
+		- Added Biome support for onSelfItemDegrade / onSelfRoutineUpdate
+		- If IconTint is set to 255,255,255, no tint shall be applied, regardless of other checks.
+		- Added a check to see if the currently degraded item has met its max, and if so, trigger the break check.
+
+
+	[ onSelf Triggers ]
+		- Added Biome Support for the following triggers:
+			- OnLootContainerPicked
+			- OnSelfItemDegrade
+			- OnSelfItemRepaired
+			- OnSelfItemScrap
+			- OnSelfItemSold
+			- OnSelfPlaceBlock
+			- OnSelfQuestComplete
+			- OnSelfRoutineUpdate
+
+	[ Traders ]
+		- Added a patch to allow entities to stay within trader bounds if a cvar is set.
+		- If cvar "traderStayTicket" is greater than 0, the entity will not be teleported outside of the compound.
+		- This applies to any EntityAlive with the cvar set, be it player, npc, or zombies(?!)
+		- The trader closes and locks all the doors in their compound. You will not be able to open them.
+			- This was humourous. 
+		
+	[ SphereII Larger Parties ]
+		- Fixed an issue where exp gain was being calculated in a different spot, causing 0xp to be rewarded in large groups
+
+		
 Version: 2.3.35.1444
 	[ Item Degradation ]
 		- Added new MinEventAction that can be triggered from any trigger

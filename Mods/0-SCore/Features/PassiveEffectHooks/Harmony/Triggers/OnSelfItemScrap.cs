@@ -11,7 +11,8 @@ public static class OnSelfItemScrap
         var minEventParams = new MinEventParams {
             TileEntity = TraderUtils.GetCurrentTraderTileEntity(),
             ItemValue = stack.itemValue,
-            Self = GameManager.Instance.World.GetPrimaryPlayer()
+            Self = GameManager.Instance.World.GetPrimaryPlayer(),
+            Biome = GameManager.Instance.World.GetPrimaryPlayer()?.biomeStandingOn
         };
 
         

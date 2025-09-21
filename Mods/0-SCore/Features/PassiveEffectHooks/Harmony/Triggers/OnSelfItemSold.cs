@@ -7,7 +7,8 @@ public static class OnSell
         var minEventParams = new MinEventParams {
             TileEntity = TraderUtils.GetCurrentTraderTileEntity(),
             Self = GameManager.Instance.World.GetPrimaryPlayer(),
-            ItemValue = ItemValue.None
+            ItemValue = ItemValue.None,
+            Biome = GameManager.Instance.World.GetPrimaryPlayer()?.biomeStandingOn
         };
         var currentTrader = GameManager.Instance.World.GetEntity(minEventParams.TileEntity.EntityId) as EntityNPC;
         minEventParams.Other = currentTrader;
