@@ -221,6 +221,7 @@ public class FireHandler : IFireHandler
 
         fireBlockData.BlockValue.damage += fireBlockData.FireDamage;
         _fireMap[position] = fireBlockData;
+        
 
         if (fireBlockData.BlockValue.damage >= fireBlockData.BlockValue.Block.MaxDamage)
         {
@@ -229,7 +230,8 @@ public class FireHandler : IFireHandler
             return;
         }
 
-        _pendingChanges.Add(new BlockChangeInfo(0, position, fireBlockData.BlockValue));
+        GameManager.Instance.World.SetBlockRPC(0, position, fireBlockData.BlockValue);
+            //_pendingChanges.Add(new BlockChangeInfo(0, position, fireBlockData.BlockValue));
 
         var extinguishChance = fireBlockData.ChanceToExtinguish * (rainfallValue > 0.25f ? 2f : 1f);
         if (_random.RandomRange(0f, 1f) < extinguishChance)
@@ -245,7 +247,7 @@ public class FireHandler : IFireHandler
     {
         if (_pendingChanges.Count > 0)
         {
-            GameManager.Instance.SetBlocksRPC(_pendingChanges);
+         //   GameManager.Instance.SetBlocksRPC(_pendingChanges);
             _pendingChanges.Clear();
         }
 

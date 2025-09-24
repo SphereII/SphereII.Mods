@@ -32,6 +32,24 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.3.40.1113
+	[ Challenges ]
+		- Updated ClearedSleeper challenge to use the right hook, to fix possible dedi issues
+
+	[ One Block Crouch ]
+		- Changed the CVar check that the value of "NoOneBlockCrouch" must be greater than 0.
+
+	[ Item Degradation ]
+		- Moved check for Item Break up further, and added a debug statement.
+		- This debug statement will be removed in the next release if tested successfully.
+
+	[ Fire Manager ]
+		- Made a change to send block damage as it happens, instead of queueing
+		- This was made to fix an issue with blocks not showing damaged on dedi.
+		- This may cause some performance issues.
+	
+
+	
 Version: 2.3.37.1023
 	[ Item Degradation ]
 		- Added Biome support for onSelfItemDegrade / onSelfRoutineUpdate

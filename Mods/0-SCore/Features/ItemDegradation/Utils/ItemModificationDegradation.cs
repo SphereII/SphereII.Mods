@@ -125,6 +125,14 @@ namespace SCore.Features.ItemDegradation.Utils
             if (IsDegraded(mod))
             {
                 DeactivateItem(mod, player);
+                if (mod.ItemClass.MaxUseTimesBreaksAfter.Value)
+                {
+                    if ( player != null)
+                        Manager.BroadcastPlay(player, "itembreak");
+                    Debug.Log($"Item Break! {mod.ItemClass.GetItemName()}");
+                    mod = ItemValue.None;
+                }
+
                 return;
             }
             
@@ -138,15 +146,9 @@ namespace SCore.Features.ItemDegradation.Utils
             // Make sure it doesn't get silly and reset it to the max use time.
             mod.UseTimes = GetMaxUseTimes(mod);
             
-            if ( player != null)
-                Manager.BroadcastPlay(player, "itembreak");
-            
             DeactivateItem(mod, player);
 
-            if (mod.ItemClass.MaxUseTimesBreaksAfter.Value)
-            {
-                mod = ItemValue.None;
-            }
+      
         }
 
         private static void DeactivateItem(ItemValue mod, EntityAlive player)

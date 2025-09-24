@@ -30,7 +30,7 @@ namespace Harmony.PlayerFeatures
         
                 float heightModifier;
 
-                if (__instance.localPlayer.Buffs.HasCustomVar("NoOneBlockCrouch"))
+                if (__instance.localPlayer.Buffs.GetCustomVar("NoOneBlockCrouch") > 0)
                 {
                     heightModifier = StandardCrouchHeightModifier;
                 }
@@ -79,7 +79,7 @@ namespace Harmony.PlayerFeatures
                 }
 
                 // If the player has the buff, set to the standard crouch height and exit
-                if (playerLocal.Buffs.HasCustomVar("NoOneBlockCrouch"))
+                if (playerLocal.Buffs.GetCustomVar("NoOneBlockCrouch") > 0)
                 {
                     __instance.PositionOffset.y = NormalPositionOffset;
                     return;

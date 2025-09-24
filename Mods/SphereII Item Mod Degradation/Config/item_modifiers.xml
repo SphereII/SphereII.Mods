@@ -52,5 +52,7 @@
     <include filename="ItemModifiers/modGunFlashlight.xml" />
     <include filename="ItemModifiers/modVehicleOffRoadHeadlights.xml" />
 
-
+    <append xpath="//item_property_overrides[@name='meleeWpnSledgeT1IronSledgehammer']">
+        <append name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+    </append>
 </configs>
