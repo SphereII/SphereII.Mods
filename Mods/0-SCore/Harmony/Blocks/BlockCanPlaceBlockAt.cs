@@ -22,6 +22,14 @@ namespace SCore.Harmony.Blocks
             {
                 if (__result == false) return false;
 
+                if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty"
+                    || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting"
+                    || GamePrefs.GetString(EnumGamePrefs.GameMode) == "GameModeEditWorld")
+                {
+                    return __result;
+                } 
+
+                
                 dynamicPrefabDecorator ??= _world.ChunkCache.ChunkProvider.GetDynamicPrefabDecorator();
                 var prefabInstance = dynamicPrefabDecorator.GetPrefabAtPosition(_blockPos);
                 if (prefabInstance == null) return true;

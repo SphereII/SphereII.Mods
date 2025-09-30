@@ -7,8 +7,7 @@ public class FireParticleOptimizer
 {
     // Changed from List to HashSet for O(1) lookups/removals
     public HashSet<Vector3i> activeFireParticleObjects = new HashSet<Vector3i>();
-    
-     
+
 
     // A small margin to prevent floating point issues if using floats instead of Vector3i
     private const float CULL_EPSILON = 0.1f;
@@ -26,64 +25,78 @@ public class FireParticleOptimizer
     {
         _cullDistance = cullDistance;
     }
-    /// <summary>
-    /// Updates particle systems based on new fire positions,
-    /// optimizing by removing particles next to others.
-    /// </summary>
-    /// <param name="currentFireBlockPositions">The set of all blocks currently on fire.</param>
- public void UpdateAndOptimizeFireParticlesRoutine(Dictionary<Vector3i, FireBlockData> fireMap, FireConfig fireConfig)
+
+    public void UpdateAndOptimizeFireParticlesRoutine(Dictionary<Vector3i, FireBlockData> fireMap, FireConfig fireConfig)
     {
-        // Step 1: Clean up particles that are no longer associated with a fire block
-        // This is still done in one go as it's typically less resource-intensive.
-        var particlesToDeactivate = activeFireParticleObjects.Where(pos => !fireMap.ContainsKey(pos)).ToList();
+        // *** Step 1: DETERMINE THE NEW OPTIMAL PARTICLE POSITIONS (Deterministic Culling) ***
+        var newOptimalParticlePositions = new HashSet<Vector3i>();
+
+        // This loop ensures we check every current fire block position.
+        foreach (var currentPos in fireMap.Keys)
+        {
+            bool shouldPlaceParticle = true;
+
+            // Check if a neighbor *of this fire block* is a "better" candidate for the particle.
+            // A "better" candidate must be an *active fire block* and satisfy the tie-breaker rule.
+            foreach (var neighborOffset in GetNeighborOffsets(_cullDistance))
+            {
+                Vector3i neighborPos = currentPos + neighborOffset;
+
+                // Skip self and non-fire positions
+                if (neighborOffset == Vector3i.zero || !fireMap.ContainsKey(neighborPos)) continue;
+
+                // If a neighbor is lexicographically smaller (the tie-breaker you defined), 
+                // the neighbor is the 'chosen' one for the particle, and we should NOT place a particle here.
+                if (IsPositionLexicographicallySmaller(neighborPos, currentPos))
+                {
+                 //   shouldPlaceParticle = false;
+                    break; // Neighbor is 'better', so currentPos is redundant.
+                }
+            }
+
+            if (shouldPlaceParticle)
+            {
+                newOptimalParticlePositions.Add(currentPos);
+            }
+        }
+
+
+        // *** Step 2: APPLY CHANGES (Add/Remove particles based on optimal set) ***
+
+        // A. Identify and Remove particles that are no longer optimal (culling or fire burned out)
+        // Compare old active set with new optimal set.
+        var particlesToDeactivate = activeFireParticleObjects
+            .Except(newOptimalParticlePositions)
+            .ToList();
+
         foreach (var pos in particlesToDeactivate)
         {
             BlockUtilitiesSDX.removeParticles(pos);
             activeFireParticleObjects.Remove(pos);
         }
 
-        // Step 2: Add new particles and remove redundant ones within current fire regions
-        var firePositionsToProcess = new Queue<Vector3i>(fireMap.Keys.Except(activeFireParticleObjects));
-       
-        while (firePositionsToProcess.Count > 0)
+        // B. Identify and Add particles for new optimal positions
+        // Compare new optimal set with old active set.
+        var particlesToActivate = newOptimalParticlePositions
+            .Except(activeFireParticleObjects)
+            .ToList();
+
+        foreach (var currentPos in particlesToActivate)
         {
-            var currentPos = firePositionsToProcess.Dequeue();
-            
-            // Check if this fire position is redundant to an already selected optimal particle position.
-            bool isRedundantToOptimal = false;
-            foreach (var neighborOffset in GetNeighborOffsets(_cullDistance))
+            // Add Particle (including configuration logic)
+            var particle = fireConfig.FireParticle;
+            if (fireMap.TryGetValue(currentPos, out var data))
             {
-                Vector3i neighborPos = currentPos + neighborOffset;
-                if (neighborOffset == Vector3i.zero) continue;
-
-                if (activeFireParticleObjects.Contains(neighborPos))
-                {
-                    isRedundantToOptimal = true;
-                    break;
-                }
+                particle = data.FireParticle;
             }
 
-            if (!isRedundantToOptimal)
-            {
-                
-                var particle = fireConfig.FireParticle;
-                if (fireMap.TryGetValue(currentPos, out var data))
-                {
-                //    Debug.Log($"Default Particle: {particle}  Position Particle: {data.FireParticle}");
-                    particle = data.FireParticle;
-                    
-                }
-
-                // This position is a good candidate for a particle. Add it.
-                BlockUtilitiesSDX.addParticles(particle, currentPos);
-                activeFireParticleObjects.Add(currentPos);
-            }
-            
-       
+            BlockUtilitiesSDX.addParticles(particle, currentPos);
+            activeFireParticleObjects.Add(currentPos);
         }
-        
+
         Log.Out($"Optimized Particles: Fires: {fireMap.Count} : Particles: {activeFireParticleObjects.Count}");
     }
+
     /// <summary>
     /// Helper to generate offsets for neighbors within a given Manhattan distance.
     /// </summary>
@@ -114,7 +127,4 @@ public class FireParticleOptimizer
         if (a.y > b.y) return false;
         return a.z < b.z;
     }
-
-   
-
 }

@@ -345,6 +345,7 @@
     <Compile Include="Harmony\Progression\EntityAliveSDXProgressionHooks.cs" />
     <Compile Include="Harmony\Progression\Progression.cs" />
     <Compile Include="Harmony\Quests\QuestEventManager.cs" />
+    <Compile Include="Harmony\Quests\QuestEventManagerGetQuestList.cs" />
     <Compile Include="Harmony\QuickContinue\QuickContinue.cs" />
     <Compile Include="Harmony\SleeperVolume\SleeperVolumeSpawn.cs" />
     <Compile Include="Harmony\SoundFeatures\AudioClientPlay.cs" />
@@ -404,8 +405,8 @@
     <Compile Include="Scripts\Blocks\BlockPathFinding.cs" />
     <Compile Include="Scripts\Blocks\BlockPickUpAndReplace.cs" />
     <Compile Include="Scripts\Blocks\BlockDecoAoE.cs" />
-    <Compile Include="Scripts\Blocks\BlockPoweredPortal.cs" />
     <Compile Include="Scripts\Blocks\BlockPortal.cs" />
+    <Compile Include="Scripts\Blocks\BlockPoweredPortal.cs" />
     <Compile Include="Scripts\Blocks\BlockPoweredWorkstation.cs" />
     <Compile Include="Scripts\Blocks\BlockPrefabPlacer.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnCube2SDX.cs" />
@@ -536,6 +537,7 @@
     <Compile Include="Scripts\Features\AdvLogging.cs" />
     <Compile Include="Scripts\Features\Configuration.cs" />
     <Compile Include="Scripts\Features\ILUtilities.cs" />
+    <Compile Include="Scripts\GameEvents\RequirementHasFailedQuest.cs" />
     <Compile Include="Scripts\GameEvents\RequirementInVehicleSDX.cs" />
     <Compile Include="Scripts\ItemAction\ItemActionMeleeSDX.cs" />
     <Compile Include="Scripts\ItemAction\ItemActionLauncherSDX.cs" />
@@ -734,6 +736,7 @@
     <Compile Include="Scripts\XUiC\Companions\XUiC_SCoreInGameMenu.cs" />
     <Compile Include="Scripts\XUiC\Controls\XUiC_ToggleButtonCVar.cs" />
     <Compile Include="Scripts\XUiC\XUiC_CharacterFrameWindowSDX.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_CombineGridMod.cs" />
     <Compile Include="Scripts\XUiC\XUiC_DialogHireInformationSDX.cs" />
     <Compile Include="Scripts\XUiC\XUiC_DialogRespondentNameSDX.cs" />
     <Compile Include="Scripts\XUiC\XUiC_DialogStatementWindowSDX.cs" />

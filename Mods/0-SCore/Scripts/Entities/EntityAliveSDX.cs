@@ -25,7 +25,8 @@ using UnityEngine.Serialization;
 using Debug = UnityEngine.Debug;
 
 // ReSharper disable once CheckNamespace
-public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
+public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
+{
     public List<string> lstQuests = new List<string>();
     public bool isAlwaysAwake;
 
@@ -82,12 +83,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     private string _defaultWeapon = "";
 
     // if the NPC isn't available, don't return a loot. This disables the "Press <E> to search..."
-    public override string GetLootList() {
+    public override string GetLootList()
+    {
         return IsAvailable() == false ? "" : base.GetLootList();
     }
 
     // Check to see if the NPC is available
-    public bool IsAvailable() {
+    public bool IsAvailable()
+    {
         if (this.Buffs.HasCustomVar("onMission") && this.Buffs.GetCustomVar("onMission") == 1f)
             return false;
         return true;
@@ -142,27 +145,32 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
 
-    public void DisplayLog(string strMessage) {
+    public void DisplayLog(string strMessage)
+    {
         if (_blDisplayLog && !IsDead())
             Debug.Log(entityName + ": " + strMessage);
     }
 
-    public override string ToString() {
+    public override string ToString()
+    {
         return entityName;
         //return EntityUtilities.DisplayEntityStats(entityId);
     }
 
-    public override bool CanEntityJump() {
+    public override bool CanEntityJump()
+    {
         return canJump;
     }
 
 
-    public bool IsOnMission() {
+    public bool IsOnMission()
+    {
         return this.Buffs.HasCustomVar("onMission") && this.Buffs.GetCustomVar("onMission") == 1f;
     }
 
     // SendOnMission will make the NPC disappear and be unavailable
-    public void SendOnMission(bool send) {
+    public void SendOnMission(bool send)
+    {
         if (send)
         {
             var enemy = GetRevengeTarget();
@@ -207,15 +215,18 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         }
     }
 
-    public override float GetEyeHeight() {
+    public override float GetEyeHeight()
+    {
         if (this.walkType == 21)
         {
             return 0.15f;
         }
+
         if (this.walkType == 22)
         {
             return 0.6f;
         }
+
         if (!this.IsCrouching)
         {
             return base.height * 0.8f;
@@ -225,12 +236,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         // return flEyeHeight == -1f ? base.GetEyeHeight() : flEyeHeight;
     }
 
-    public override void SetModelLayer(int _layerId, bool _force = false, string[] excludeTags = null) {
+    public override void SetModelLayer(int _layerId, bool _force = false, string[] excludeTags = null)
+    {
         //Utils.SetLayerRecursively(this.emodel.GetModelTransform().gameObject, _layerId);
     }
 
     // Over-ride for CopyProperties to allow it to read in StartingQuests.
-    public override void CopyPropertiesFromEntityClass() {
+    public override void CopyPropertiesFromEntityClass()
+    {
         base.CopyPropertiesFromEntityClass();
         var _entityClass = EntityClass.list[entityClass];
 
@@ -335,7 +348,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
 
     public string DialogWindow { get; set; }
 
-    public override float getNextStepSoundDistance() {
+    public override float getNextStepSoundDistance()
+    {
         return !IsRunning ? 0.5f : 0.25f;
     }
 
@@ -345,7 +359,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     ///     several of their properties are set so they are spawned in a sleeping state.
     ///     If the NPC should always be awake, those properties can be reset here.
     /// </summary>
-    public override void OnAddedToWorld() {
+    public override void OnAddedToWorld()
+    {
         if (isAlwaysAwake)
         {
             // Set the current order, defaults to "Wander"
@@ -363,7 +378,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
     // This is an attempt at turning off gravity for the entity when chunks are no longer visible. The hope is that it will resolve the disappearing NPCs.
-    public void OnChunkDisplayed(long _key, bool _bDisplayed) {
+    public void OnChunkDisplayed(long _key, bool _bDisplayed)
+    {
         if (this.emodel == null) return;
         var modelTransform = this.emodel.GetModelTransform();
         if (modelTransform == null) return;
@@ -373,7 +389,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         }
     }
 
-    public void ConfigureBoundaryBox(Vector3 newSize, Vector3 center) {
+    public void ConfigureBoundaryBox(Vector3 newSize, Vector3 center)
+    {
         var component = gameObject.GetComponent<BoxCollider>();
         if (!component) return;
 
@@ -397,7 +414,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         DisplayLog(" After BoundaryBox: " + boundingBox.ToCultureInvariantString());
     }
 
-    public override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks) {
+    public override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
+    {
         if (this.isEntityRemote && _partialTicks > 1f)
         {
             _dist /= _partialTicks;
@@ -422,7 +440,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         this.SetMovementState();
     }
 
-    public void RestoreSpeed() {
+    public void RestoreSpeed()
+    {
         // Reset the movement speed when an attack target is set
         moveSpeed = EntityUtilities.GetFloatValue(entityId, "MoveSpeed");
 
@@ -435,7 +454,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         moveSpeedAggroMax = vector.y;
     }
 
-    public override EntityActivationCommand[] GetActivationCommands(Vector3i _tePos, EntityAlive _entityFocusing) {
+    public override EntityActivationCommand[] GetActivationCommands(Vector3i _tePos, EntityAlive _entityFocusing)
+    {
         // Don't allow you to interact with it when its dead.
         if (IsDead() || NPCInfo == null)
         {
@@ -460,21 +480,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         };
     }
 
-    public virtual void InitializeQuestList(EntityAlive entityFocusing)
-    {
-        if (entityFocusing is not EntityPlayer player) return;
-        if (!QuestEventManager.Current.npcQuestData.ContainsKey(entityId)) return;
-        var npcquestData = QuestEventManager.Current.npcQuestData[entityId];
-        if (npcquestData?.PlayerQuestList == null) return;
-        if (!npcquestData.PlayerQuestList.TryGetValue(player.entityId, out var playerQuestData)) return;
 
-        if (playerQuestData?.QuestList == null)
-        {
-            SetupActiveQuestsForPlayer(player);
-        }
-    }
     public override bool OnEntityActivated(int indexInBlockActivationCommands, Vector3i tePos,
-        EntityAlive entityFocusing) {
+        EntityAlive entityFocusing)
+    {
         var localPlayer = entityFocusing as EntityPlayerLocal;
 
         if (IsDead())
@@ -518,6 +527,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityFocusing as EntityPlayerLocal);
         uiforPlayer.xui.Dialog.Respondent = this;
 
+        return base.OnEntityActivated(indexInBlockActivationCommands, tePos, entityFocusing);
+        
         // We don't want the quest system to consider this NPC as interacted with
         if (Buffs.HasCustomVar("NPCInteractedFlag") && Buffs.GetCustomVar("NPCInteractedFlag") == 1)
         {
@@ -546,18 +557,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
             }
             else
             {
-                try
-                {
-                    InitializeQuestList(entityFocusing);
-                    this.activeQuests = QuestEventManager.Current.GetQuestList(GameManager.Instance.World, this.entityId,
-                        entityFocusing.entityId);
-                }
-                catch (Exception ex)
-                {
-                    Debug.Log($"Caught Exception: {ex.ToString()}");
-                    activeQuests = null;
-                }
-
+                this.activeQuests = QuestEventManager.Current.GetQuestList(GameManager.Instance.World, this.entityId,
+                    entityFocusing.entityId);
                 if (this.activeQuests == null)
                 {
                     this.activeQuests = this.PopulateActiveQuests(entityFocusing as EntityPlayer, -1);
@@ -594,7 +595,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
             uiforPlayer.xui.Dialog.Respondent = this;
             if (nextCompletedQuest == null)
             {
-                
                 uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
                 uiforPlayer.windowManager.Open(DialogWindow, true, false, true);
                 return false;
@@ -615,18 +615,21 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
 
-    public override bool CanBePushed() {
+    public override bool CanBePushed()
+    {
         return true;
     }
-    
-   
-    public override void InitLocation(Vector3 _pos, Vector3 _rot) {
+
+
+    public override void InitLocation(Vector3 _pos, Vector3 _rot)
+    {
         base.InitLocation(_pos, _rot);
         // Trader class turns that off.
         PhysicsTransform.gameObject.SetActive(true);
     }
 
-    public override void PostInit() {
+    public override void PostInit()
+    {
         base.PostInit();
 
         // disable god mode, since that's enabled by default in the NPC
@@ -667,7 +670,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
     /// <inheritdoc/>
-    public virtual void UpdatePatrolPoints(Vector3 position) {
+    public virtual void UpdatePatrolPoints(Vector3 position)
+    {
         // Center the x and z values of the passed in blocks for a unique check.
         var temp = position;
         temp.x = 0.5f + Utils.Fastfloor(position.x);
@@ -681,7 +685,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
     // Reads the buff and quest information
-    public override void Read(byte _version, BinaryReader _br) {
+    public override void Read(byte _version, BinaryReader _br)
+    {
         base.Read(_version, _br);
         _strMyName = _br.ReadString();
         questJournal = new QuestJournal();
@@ -718,16 +723,19 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         ReadSyncData(_br, 1, -1);
     }
 
-    public ushort GetSyncFlagsReplicated(ushort syncFlags) {
+    public ushort GetSyncFlagsReplicated(ushort syncFlags)
+    {
         return syncFlags;
     }
 
-    public void SendSyncData(ushort syncFlags = 1) {
+    public void SendSyncData(ushort syncFlags = 1)
+    {
         var primaryPlayerId = GameManager.Instance.World.GetPrimaryPlayerId();
         this.SendSyncData(syncFlags, primaryPlayerId);
     }
 
-    private void SendSyncData(ushort syncFlags, int playerId) {
+    private void SendSyncData(ushort syncFlags, int playerId)
+    {
         var package = NetPackageManager.GetPackage<NetPackageEntityAliveSDXDataSync>().Setup(this, playerId, syncFlags);
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
@@ -738,7 +746,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(package);
     }
 
-    public void ReadSyncData(BinaryReader _br, ushort syncFlags, int senderId) {
+    public void ReadSyncData(BinaryReader _br, ushort syncFlags, int senderId)
+    {
         // Preserve Inventory
         if (lootContainer == null) return;
         var num2 = (int)_br.ReadByte();
@@ -762,7 +771,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
     /// <inheritdoc/>
-    public void SetupAutoPathingBlocks() {
+    public void SetupAutoPathingBlocks()
+    {
         // If we already have a pathing code, don't re-scan.
         if (Buffs.HasCustomVar("PathingCode") &&
             (Buffs.GetCustomVar("PathingCode") < 0 || Buffs.GetCustomVar("PathingCode") > 0))
@@ -826,7 +836,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
     // Saves the buff and quest information
-    public override void Write(BinaryWriter _bw, bool bNetworkWrite) {
+    public override void Write(BinaryWriter _bw, bool bNetworkWrite)
+    {
         base.Write(_bw, bNetworkWrite);
         _bw.Write(_strMyName);
         questJournal.Write(_bw as PooledBinaryWriter);
@@ -853,7 +864,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         WriteSyncData(_bw, 1);
     }
 
-    public void WriteSyncData(BinaryWriter _bw, ushort syncFlags) {
+    public void WriteSyncData(BinaryWriter _bw, ushort syncFlags)
+    {
         // Inventory
         //var slots = this.bag.GetSlots();
         if (lootContainer == null) return;
@@ -867,7 +879,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         _bw.Write(_currentWeapon);
     }
 
-    public void GiveQuest(string strQuest) {
+    public void GiveQuest(string strQuest)
+    {
         // Don't give duplicate quests.
         foreach (var quest in questJournal.quests)
             if (quest.ID == strQuest.ToLower())
@@ -884,7 +897,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         questJournal.AddQuest(newQuest);
     }
 
-    public override void UpdateJump() {
+    public override void UpdateJump()
+    {
         if (this.walkType == 4 && !this.isSwimming)
         {
             base.FaceJumpTo();
@@ -910,9 +924,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
 
         this.accumulatedRootMotion.y = 0f;
     }
-  
 
-    public override void MoveEntityHeaded(Vector3 _direction, bool _isDirAbsolute) {
+
+    public override void MoveEntityHeaded(Vector3 _direction, bool _isDirAbsolute)
+    {
         // Check the state to see if the controller IsBusy or not. If it's not, then let it walk.
         var isBusy = false;
         if (emodel != null && emodel.avatarController != null)
@@ -1053,6 +1068,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
             {
                 num3 /= magnitude;
             }
+
             float num5 = _direction.z * num3;
             if (this.lerpForwardSpeed)
             {
@@ -1060,12 +1076,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
                 {
                     this.speedForwardTargetStep = Utils.FastAbs(num5 - this.speedForward) / 0.18f;
                 }
+
                 this.speedForwardTarget = num5;
             }
             else
             {
                 this.speedForward = num5;
             }
+
             this.speedStrafe = _direction.x * num3;
             this.SetMovementState();
             base.ReplicateSpeeds();
@@ -1073,7 +1091,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         //  base.MoveEntityHeaded(_direction, _isDirAbsolute);
     }
 
-    public override void HandleNavObject() {
+    public override void HandleNavObject()
+    {
         if (EntityClass.list[this.entityClass].NavObject != "")
         {
             if (this.LocalPlayerIsOwner() && this.Owner != null)
@@ -1100,7 +1119,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         }
     }
 
-    public bool LocalPlayerIsOwner() {
+    public bool LocalPlayerIsOwner()
+    {
         var leader = EntityUtilities.GetLeaderOrOwner(entityId);
         if (leader != null)
         {
@@ -1112,7 +1132,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
 
-    public override bool IsSavedToFile() {
+    public override bool IsSavedToFile()
+    {
         // Has a leader cvar set, good enough, as the leader may already be disconnected, so we'll fail a GetLeaderOrOwner()
         if (Buffs.HasCustomVar("Leader")) return true;
 
@@ -1134,7 +1155,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
 
     public void CheckLeaderProximity()
     {
-     
         List<Entity> entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(this.position, Vector3.one * 2f));
         if (entitiesInBounds.Count > 0)
         {
@@ -1142,7 +1162,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
             {
                 if (t is not EntityPlayer) continue;
                 var entityPlayer = t as EntityPlayer;
-                if ( entityPlayer == null ) continue;
+                if (entityPlayer == null) continue;
                 if (EntityUtilities.IsAnAlly(entityId, entityPlayer.entityId))
                 {
                     ToggleCollisions(false, this);
@@ -1150,11 +1170,13 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
                 }
             }
         }
-        ToggleCollisions(true, this);    
+
+        ToggleCollisions(true, this);
     }
 
-    private void ToggleCollisions(bool value, EntityAlive entity) {
-        if ( _largeEntityBlocker == null)
+    private void ToggleCollisions(bool value, EntityAlive entity)
+    {
+        if (_largeEntityBlocker == null)
             _largeEntityBlocker = GameUtils.FindTagInChilds(RootTransform, "LargeEntityBlocker");
         if (_largeEntityBlocker)
         {
@@ -1164,7 +1186,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         entity.PhysicsTransform.gameObject.SetActive(value);
         entity.IsNoCollisionMode.Value = !value;
     }
-    public void LeaderUpdate() {
+
+    public void LeaderUpdate()
+    {
         if (IsDead()) return;
 
         if (Buffs.HasBuff("buffOrderDismiss")) return;
@@ -1234,14 +1258,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
                 }
 
                 // This needs to be set for the entities to be still alive, so the player can teleport them
-            //    IsEntityUpdatedInUnloadedChunk = true;
+                //    IsEntityUpdatedInUnloadedChunk = true;
                 bWillRespawn =
                     true; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
 
                 var distanceToLeader = GetDistance(leader);
                 if (distanceToLeader > 60)
                     TeleportToPlayer(leader);
-         
+
                 if (player && AddNPCToCompanion && IsAlive())
                 {
                     if (player.Companions.IndexOf(this) < 0)
@@ -1264,7 +1288,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
             case EntityUtilities.Orders.Wander:
             default:
                 // This needs to be set for the entities to be still alive, so the player can teleport them
-          //      IsEntityUpdatedInUnloadedChunk = false;
+                //      IsEntityUpdatedInUnloadedChunk = false;
                 bWillRespawn =
                     false; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
                 if (player)
@@ -1274,7 +1298,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         }
     }
 
-    public override void OnUpdateLive() {
+    public override void OnUpdateLive()
+    {
         //CheckNoise();
         if (isHirable)
             LeaderUpdate();
@@ -1306,7 +1331,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         {
             base.OnUpdateLive();
             // Potential work around for NPC stuck for 3 seconds in crouch after being stunned
-            if (bodyDamage.CurrentStun is EnumEntityStunType.Getup or EnumEntityStunType.Prone) 
+            if (bodyDamage.CurrentStun is EnumEntityStunType.Getup or EnumEntityStunType.Prone)
             {
                 SetHeight(this.physicsBaseHeight);
             }
@@ -1325,11 +1350,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
             }
         }
 
-    
-        
+
         // Allow EntityAliveSDX to get buffs from blocks
-       // if (!isEntityRemote && !SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
-       if (!isEntityRemote)
+        // if (!isEntityRemote && !SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        if (!isEntityRemote)
             EntityUtilities.UpdateBlockRadiusEffects(this);
 
         // No NPC info, don't continue
@@ -1353,7 +1377,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         var avatarController = this.emodel.avatarController;
         if (!avatarController) return;
 
-     
+
         var flag = this.onGround || this.isSwimming || this.bInElevator;
         if (flag)
         {
@@ -1390,11 +1414,13 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
 
     private float fallThresholdTime;
 
-    public override Ray GetLookRay() {
+    public override Ray GetLookRay()
+    {
         return new Ray(position + new Vector3(0f, GetEyeHeight() * eyeHeightHackMod, 0f), GetLookVector());
     }
 
-    public void ToggleTraderID(bool Restore) {
+    public void ToggleTraderID(bool Restore)
+    {
         if (NPCInfo == null)
             return;
 
@@ -1405,7 +1431,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
             NPCInfo.TraderID = 0;
     }
 
-    public override void ProcessDamageResponse(DamageResponse _dmResponse) {
+    public override void ProcessDamageResponse(DamageResponse _dmResponse)
+    {
         if (IsOnMission()) return;
         base.ProcessDamageResponse(_dmResponse);
     }
@@ -1418,7 +1445,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
     public override int DamageEntity(DamageSource _damageSource, int _strength, bool _criticalHit,
-        float _impulseScale) {
+        float _impulseScale)
+    {
         if (IsOnMission()) return 0;
 
         if (EntityUtilities.GetBoolValue(entityId, "Invulnerable"))
@@ -1440,7 +1468,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
 
-    public new void SetRevengeTarget(EntityAlive _other) {
+    public new void SetRevengeTarget(EntityAlive _other)
+    {
         if (IsOnMission())
             return;
 
@@ -1463,7 +1492,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         Buffs.AddBuff("buffNotifyTeamAttack");
     }
 
-    public override void OnEntityUnload() {
+    public override void OnEntityUnload()
+    {
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayer;
         if (leader)
         {
@@ -1473,7 +1503,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         base.OnEntityUnload();
     }
 
-    public override void SetDead() {
+    public override void SetDead()
+    {
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayerLocal;
         if (leader)
         {
@@ -1546,7 +1577,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
 
-    public new void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime) {
+    public new void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
+    {
         if (_attackTarget != null)
         {
             if (_attackTarget.IsDead())
@@ -1570,7 +1602,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         Buffs.AddBuff("buffNotifyTeamAttack");
     }
 
-    public override void OnUpdatePosition(float _partialTicks) {
+    public override void OnUpdatePosition(float _partialTicks)
+    {
         if (!isHirable)
         {
             base.OnUpdatePosition(_partialTicks);
@@ -1590,19 +1623,22 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         base.OnUpdatePosition(_partialTicks);
     }
 
-    public override bool CanDamageEntity(int _sourceEntityId) {
+    public override bool CanDamageEntity(int _sourceEntityId)
+    {
         var canDamage = EntityTargetingUtilities.CanTakeDamage(this, world.GetEntity(_sourceEntityId));
         return canDamage;
     }
 
-    public override bool IsAttackValid() {
+    public override bool IsAttackValid()
+    {
         // If they are on a mission, don't attack. 
         if (IsOnMission()) return false;
 
         return base.IsAttackValid();
     }
 
-    public void TeleportToPlayer(EntityAlive target, bool randomPosition = false) {
+    public void TeleportToPlayer(EntityAlive target, bool randomPosition = false)
+    {
         if (target == null) return;
 
         if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Stay) return;
@@ -1646,7 +1682,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         StartCoroutine(validateTeleport(target, randomPosition));
     }
 
-    private float getAltitude(Vector3 pos) {
+    private float getAltitude(Vector3 pos)
+    {
         RaycastHit raycastHit;
         if (Physics.Raycast(pos - Origin.position, Vector3.down, out raycastHit, 1000f, 65536))
         {
@@ -1656,7 +1693,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         return -1f;
     }
 
-    private IEnumerator validateTeleport(EntityAlive target, bool randomPosition = false) {
+    private IEnumerator validateTeleport(EntityAlive target, bool randomPosition = false)
+    {
         yield return new WaitForSeconds(1f);
         var y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z);
         if (position.y < y)
@@ -1690,7 +1728,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         yield break;
     }
 
-    public override void ProcessDamageResponseLocal(DamageResponse _dmResponse) {
+    public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)
+    {
         if (EntityUtilities.GetBoolValue(entityId, "Invulnerable"))
             return;
 
@@ -1712,7 +1751,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
 
     // Cleaned up this method to try to avoid the disappearing NPCs.
     //Original logic was meant to protect the trader's from unloading NPCs when they entered a trader area.
-    public override void MarkToUnload() {
+    public override void MarkToUnload()
+    {
         GameManager.Instance.World.ChunkClusters[0].OnChunkVisibleDelegates -= this.chunkClusterVisibleDelegate;
 
         //if ( !isHirable)
@@ -1750,9 +1790,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         base.MarkToUnload();
     }
 
- 
 
-    public override float GetMoveSpeed() {
+    public override float GetMoveSpeed()
+    {
         var speed = EffectManager.GetValue(PassiveEffects.WalkSpeed, null, this.moveSpeed);
         if (IsCrouching)
             speed = EffectManager.GetValue(PassiveEffects.CrouchSpeed, null, this.moveSpeed);
@@ -1760,18 +1800,21 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         return speed;
     }
 
-    public override float GetMoveSpeedAggro() {
+    public override float GetMoveSpeedAggro()
+    {
         var speed = EffectManager.GetValue(PassiveEffects.RunSpeed, null, this.moveSpeedPanic);
         return speed;
     }
 
-    public new float GetMoveSpeedPanic() {
+    public new float GetMoveSpeedPanic()
+    {
         var speed = EffectManager.GetValue(PassiveEffects.RunSpeed, null, this.moveSpeedPanic);
         return speed;
     }
 
 
-    public void AddKillXP(EntityAlive killedEntity, float xpModifier = 1f) {
+    public void AddKillXP(EntityAlive killedEntity, float xpModifier = 1f)
+    {
         var num = EntityClass.list[killedEntity.entityClass].ExperienceValue;
         if (xpModifier is > 1f or < 1f)
         {
@@ -1835,7 +1878,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     // General ExecuteAction that takes an action ID.
     private bool bLastAttackReleased;
 
-    public bool ExecuteAction(bool _bAttackReleased, int actionIndex) {
+    public bool ExecuteAction(bool _bAttackReleased, int actionIndex)
+    {
         if (!_bAttackReleased)
         {
             if (this.emodel && this.emodel.avatarController && this.emodel.avatarController.IsAnimationAttackPlaying())
@@ -1866,7 +1910,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         return true;
     }
 
-    public override void OnEntityDeath() {
+    public override void OnEntityDeath()
+    {
         Log.Out($"{entityName} ({entityId}) has died.");
         Log.Out("Active Buffs:");
         foreach (var buff in Buffs.ActiveBuffs)
@@ -1877,7 +1922,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         base.OnEntityDeath();
     }
 
-    public override void dropItemOnDeath() {
+    public override void dropItemOnDeath()
+    {
         // Don't drop your toolbelt
         if (this.world.IsDark())
         {
@@ -1924,14 +1970,16 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     //
     // }
 
-    public override void PlayStepSound(string stepSound, float volume) {
+    public override void PlayStepSound(string stepSound, float volume)
+    {
         if (IsOnMission()) return;
         if (HasAnyTags(FastTags<TagGroup.Global>.Parse("floating"))) return;
 
         base.PlayStepSound(stepSound, volume);
     }
 
-    public void CheckNoise() {
+    public void CheckNoise()
+    {
         // if they arn't sleeping, don't bother scanning for players.
         if (!IsSleeping) return;
 
@@ -1955,7 +2003,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         }
     }
 
-    public override void AwardKill(EntityAlive killer) {
+    public override void AwardKill(EntityAlive killer)
+    {
         if (killer != null && killer != this)
         {
             var entityPlayer = killer as EntityPlayer;
@@ -1969,7 +2018,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         base.AwardKill(killer);
     }
 
-    public void Collect(int _playerId) {
+    public void Collect(int _playerId)
+    {
         var entityPlayerLocal = world.GetEntity(_playerId) as EntityPlayerLocal;
         if (entityPlayerLocal == null) return;
         var uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
@@ -1987,7 +2037,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         }
     }
 
-    public void SetItemValue(ItemValue itemValue) {
+    public void SetItemValue(ItemValue itemValue)
+    {
         var entityName = itemValue.GetMetadata("NPCName") as string;
         SetEntityName(entityName);
 
@@ -2075,7 +2126,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);
     }
 
-    public ItemValue GetItemValue() {
+    public ItemValue GetItemValue()
+    {
         var type = 0;
 
         var targetItemClass = "spherePickUpNPC";
@@ -2167,7 +2219,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         return itemValue;
     }
 
-    public bool FindWeapon(string weapon) {
+    public bool FindWeapon(string weapon)
+    {
         var currentWeapon = ItemClass.GetItem(weapon);
         if (currentWeapon == null) return false;
         if (!currentWeapon.ItemClass.Properties.Contains("CompatibleWeapon")) return false;
@@ -2195,7 +2248,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
 
-    public override void SetupStartingItems() {
+    public override void SetupStartingItems()
+    {
         for (var i = 0; i < this.itemsOnEnterGame.Count; i++)
         {
             var itemStack = this.itemsOnEnterGame[i];
@@ -2215,7 +2269,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         }
     }
 
-    private void AddToInventory() {
+    private void AddToInventory()
+    {
         // We only want to fire the initial inventory once per entity creation.
         // Let's gate it using a cvar
         if (Buffs.GetCustomVar("InitialInventory") > 0) return;
@@ -2240,12 +2295,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         }
     }
 
-    public void RefreshWeapon() {
+    public void RefreshWeapon()
+    {
         var item = ItemClass.GetItem(_currentWeapon);
         UpdateWeapon(item);
     }
 
-    public void UpdateWeapon(string itemName = "") {
+    public void UpdateWeapon(string itemName = "")
+    {
         if (string.IsNullOrEmpty(itemName))
             itemName = _currentWeapon;
 
@@ -2255,7 +2312,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
     // Allows the NPC to change their hand items, and update their animator.
-    public void UpdateWeapon(ItemValue item, bool force = false) {
+    public void UpdateWeapon(ItemValue item, bool force = false)
+    {
         if (item == null) return;
         if (item.GetItemId() < 0) return;
         _currentWeapon = item.ItemClass.GetItemName();
@@ -2263,7 +2321,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         // Do we have this item?
         if (!FindWeapon(_currentWeapon))
         {
-         //   Debug.Log($"EntityAliveSDX: UpdateWeapon() Item not found: {_currentWeapon}");
+            //   Debug.Log($"EntityAliveSDX: UpdateWeapon() Item not found: {_currentWeapon}");
             if (string.IsNullOrEmpty(_defaultWeapon))
                 return;
 
@@ -2295,9 +2353,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
 
         if (emodel.avatarController is AvatarZombieController zombieController)
         {
-           zombieController.rightHandT = zombieController.FindTransform(GetRightHandTransformName());    
+            zombieController.rightHandT = zombieController.FindTransform(GetRightHandTransformName());
         }
-        
+
         // Item update has to happen after the SwitchModelAndView, otherwise the weapon will attach to the previous hand position
         inventory.OnUpdate();
         inventory.ForceHoldingItemUpdate();
@@ -2305,8 +2363,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
 
     // The GetRightHandTransformName() is not virtual in the base class. There's a Harmony patch that redirects the AvatarAnimator's call here.
     // This helps adjust the hand position for various weapons we can add to the NPC.
-    public new string GetRightHandTransformName() {
-
+    public new string GetRightHandTransformName()
+    {
         var currentItemHand = inventory.holdingItem;
         if (currentItemHand.Properties.Contains(EntityClass.PropRightHandJointName))
         {
@@ -2323,12 +2381,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
     public override void PlayOneShot(string clipName, bool sound_in_head = false, bool netsync = true,
-        bool isUnique = false, AnimationEvent _animEvent = null) {
+        bool isUnique = false, AnimationEvent _animEvent = null)
+    {
         if (IsOnMission()) return;
         base.PlayOneShot(clipName, sound_in_head);
     }
 
-    public override void OnDeathUpdate() {
+    public override void OnDeathUpdate()
+    {
         if (this.deathUpdateTime < this.timeStayAfterDeath)
         {
             this.deathUpdateTime++;
@@ -2358,7 +2418,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         }
     }
 
-    public override Vector3i dropCorpseBlock() {
+    public override Vector3i dropCorpseBlock()
+    {
         if (lootContainer != null && lootContainer.IsUserAccessing())
         {
             return Vector3i.zero;
@@ -2419,7 +2480,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         return vector3I;
     }
 
-    public override void updateStepSound(float distX, float distZ, float rotDelta) {
+    public override void updateStepSound(float distX, float distZ, float rotDelta)
+    {
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
         if (leader == null)
         {
@@ -2436,7 +2498,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         base.updateStepSound(distX, distZ, rotDelta);
     }
 
-    private bool ShouldPushOutOfBlock(int _x, int _y, int _z, bool pushOutOfTerrain) {
+    private bool ShouldPushOutOfBlock(int _x, int _y, int _z, bool pushOutOfTerrain)
+    {
         var shape = world.GetBlock(_x, _y, _z).Block.shape;
         if (shape.IsSolidSpace && !shape.IsTerrain())
         {
@@ -2448,7 +2511,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         return shape2.IsSolidSpace && shape2.IsTerrain();
     }
 
-    private bool PushOutOfBlocks(float _x, float _y, float _z) {
+    private bool PushOutOfBlocks(float _x, float _y, float _z)
+    {
         var num = Utils.Fastfloor(_x);
         var num2 = Utils.Fastfloor(_y);
         var num3 = Utils.Fastfloor(_z);
@@ -2515,7 +2579,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         return result;
     }
 
-    private bool CheckNonSolidVertical(Vector3i blockPos, int maxY, int verticalSpace) {
+    private bool CheckNonSolidVertical(Vector3i blockPos, int maxY, int verticalSpace)
+    {
         for (int i = 0; i < maxY; i++)
         {
             if (!this.world.GetBlock(blockPos.x, blockPos.y + i + 1, blockPos.z).Block.shape.IsSolidSpace)
@@ -2541,7 +2606,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
 
-    public virtual void CheckStuck() {
+    public virtual void CheckStuck()
+    {
         IsStuck = false;
         if (IsFlyMode.Value) return;
         var num = boundingBox.min.y + 0.5f;

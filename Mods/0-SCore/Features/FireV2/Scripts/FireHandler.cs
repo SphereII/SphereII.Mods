@@ -219,19 +219,39 @@ public class FireHandler : IFireHandler
             return;
         }
 
+       // Debug.Log($"PricessSingleFire(): Fire Block Data Fire Damage: {fireBlockData.FireDamage}");
         fireBlockData.BlockValue.damage += fireBlockData.FireDamage;
-        _fireMap[position] = fireBlockData;
-        
 
         if (fireBlockData.BlockValue.damage >= fireBlockData.BlockValue.Block.MaxDamage)
         {
+            fireBlockData.BlockValue.Block.SpawnDestroyFX(GameManager.Instance.World, fireBlockData.BlockValue, position,
+                fireBlockData.BlockValue.Block.tintColor, -1);
+            _events.RaiseBlockDestroyed(position, fireBlockData.BlockValue);
+
+            var blockValue2 = fireBlockData.DowngradeBlock;
+
+            if (fireBlockData.BlockValue.Block.Properties.Values.ContainsKey("Explosion.ParticleIndex") ||
+                fireBlockData.BlockValue.Block.Properties.Classes.ContainsKey("Explosion"))
+            {
+                fireBlockData.BlockValue.Block.OnBlockDestroyedByExplosion(GameManager.Instance.World, 0, position,
+                    fireBlockData.BlockValue, -1);
+            }
+
+            if (!blockValue2.isair)
+            {
+                blockValue2 = BlockPlaceholderMap.Instance.Replace(blockValue2,
+                    GameManager.Instance.World.GetGameRandom(), position.x, position.z);
+                blockValue2.rotation = fireBlockData.BlockValue.rotation;
+            }
             _removeFires.Add(position);
-            HandleBlockDestruction(position, fireBlockData);
-            return;
+            GameManager.Instance.World.SetBlockRPC(0, position, blockValue2);
+           // _pendingChanges.Add(new BlockChangeInfo(0, position, blockValue2));          
+             return;
         }
 
+        _fireMap[position] = fireBlockData;
         GameManager.Instance.World.SetBlockRPC(0, position, fireBlockData.BlockValue);
-            //_pendingChanges.Add(new BlockChangeInfo(0, position, fireBlockData.BlockValue));
+       // _pendingChanges.Add(new BlockChangeInfo(0, position, fireBlockData.BlockValue));
 
         var extinguishChance = fireBlockData.ChanceToExtinguish * (rainfallValue > 0.25f ? 2f : 1f);
         if (_random.RandomRange(0f, 1f) < extinguishChance)
@@ -247,7 +267,8 @@ public class FireHandler : IFireHandler
     {
         if (_pendingChanges.Count > 0)
         {
-         //   GameManager.Instance.SetBlocksRPC(_pendingChanges);
+          //  Debug.Log($"Sending Block Changes: {_pendingChanges.Count}");
+            GameManager.Instance.SetBlocksRPC(_pendingChanges);
             _pendingChanges.Clear();
         }
 
@@ -279,7 +300,7 @@ public class FireHandler : IFireHandler
     {
         var damage = (int)_config.FireDamage;
 
-        if (block.Block.Properties.Contains("FireDamage"))
+        if (block.Block.Properties.Contains(""))
             damage = block.Block.Properties.GetInt("FireDamage");
 
         if (block.Block.blockMaterial.Properties.Contains("FireDamage"))
@@ -288,31 +309,7 @@ public class FireHandler : IFireHandler
         return damage;
     }
     
-    private void HandleBlockDestruction(Vector3i position, FireBlockData fireBlockData)
-    {
-        fireBlockData.BlockValue.Block.SpawnDestroyFX(GameManager.Instance.World, fireBlockData.BlockValue, position,
-            fireBlockData.BlockValue.Block.tintColor, -1);
-        _events.RaiseBlockDestroyed(position, fireBlockData.BlockValue);
-
-        var blockValue2 = fireBlockData.DowngradeBlock;
-
-        if (fireBlockData.BlockValue.Block.Properties.Values.ContainsKey("Explosion.ParticleIndex") ||
-            fireBlockData.BlockValue.Block.Properties.Classes.ContainsKey("Explosion"))
-        {
-            fireBlockData.BlockValue.Block.OnBlockDestroyedByExplosion(GameManager.Instance.World, 0, position,
-                fireBlockData.BlockValue, -1);
-        }
-
-        if (!blockValue2.isair)
-        {
-            blockValue2 = BlockPlaceholderMap.Instance.Replace(blockValue2,
-                GameManager.Instance.World.GetGameRandom(), position.x, position.z);
-            blockValue2.rotation = fireBlockData.BlockValue.rotation;
-        }
-
-        _pendingChanges.Add(new BlockChangeInfo(0, position, blockValue2));
-    }
-
+    
     private BlockValue GetDowngradedBlock(BlockValue block)
     {
         if (block.Block.Properties.Values.ContainsKey("FireDowngradeBlock"))

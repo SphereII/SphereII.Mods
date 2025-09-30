@@ -32,6 +32,28 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.4.2.1406
+	[ Fire Manager ]
+		- Fixed (again) the fire manager from not breaking blocks on a dedicated server.
+
+	[ Blocks ]
+		- Fixed a null reference in a patch for CanPlaceBlockAt() when in Prefab editor
+
+	[ EntityAlive SDX ]
+		- Added a patch to try to catch the Null reference from GetQuestList()
+		- Updated the OnEntityActivated() to go through vanilla hooks instead of duplicated code.
+
+	[ XUiC Combine Grid ]
+		- Added code donated by dwallorde
+		- Reference :  controller="CombineGridMod, SCore"
+	
+	[ Game Events ]
+		- Added RequirementHasFailedQuest.
+			<action_sequence name="quest_XYZ_restart">
+				<requirement type="HasFailedQuestSDX, SCore" value="quest_XYZ" />
+				<action type="AddQuest" quest="quest_XYZ" />
+			</action_sequence>
+
 Version: 2.3.40.1113
 	[ Challenges ]
 		- Updated ClearedSleeper challenge to use the right hook, to fix possible dedi issues

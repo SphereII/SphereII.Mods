@@ -375,6 +375,7 @@ public class FireManager : MonoBehaviour
             if (block.Block.Properties.Contains("ChanceToExtinguish"))
                 block.Block.Properties.ParseFloat("ChanceToExtinguish", ref _chanceToExtinguish);
 
+            
             block.damage += damage;
 
             if (block.damage >= block.Block.MaxDamage)
