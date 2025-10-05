@@ -6,7 +6,8 @@ using UnityEngine;
 
 /*
  *
- * 	<append xpath="entity_classes/entity_class[@name='zombieArlene']">
+ *
+    <append xpath="entity_classes/entity_class[@name='zombieArlene']">
 		<property name="AltMats" value="#@modfolder:Resources/ww_zeds_1.unity3d?HD_Arlene_COLD,#@modfolder:Resources/ww_zeds_1.unity3d?HD_Arlene_FROZEN,#@modfolder:Resources/ww_zeds_1.unity3d?HD_Arlene_SNOW HIGH,#@modfolder:Resources/ww_zeds_1.unity3d?HD_Arlene_SNOW LOW"/>
 	</append>
 	

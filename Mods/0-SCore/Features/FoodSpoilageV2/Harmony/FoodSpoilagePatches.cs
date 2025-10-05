@@ -294,18 +294,18 @@ namespace SphereII.FoodSpoilage.HarmonyPatches
                 var isFreshnessOnly = instance.itemClass.Properties.GetBool(SpoilageConstants.PropFreshnessOnly);
                 bool isFresh = IsFreshEnough(instance.ItemStack.itemValue); // Check if freshness > threshold
 
+                var maxQuality = QualityUtils.GetMaxQuality();
                 // Get Quality Tier Color based on freshness percentage (0-7)
-                int tierColor =
-                    7 - (int)Math.Round(7 * (currentSpoilage /
-                                             spoilageMax)); // Inverted: 0% fresh = tier 0, 100% fresh = tier 7
-                tierColor = Mathf.Clamp(tierColor, 0, 7); // Clamp to valid range
+                int tierColor = maxQuality - (int)Math.Round(maxQuality * (currentSpoilage /
+                                                       spoilageMax)); // Inverted: 0% fresh = tier 0, 100% fresh = tier 7
+                tierColor = Mathf.Clamp(tierColor, 0, maxQuality); // Clamp to valid range
 
                 // Allow item property to override calculated color
                 var itemClass = instance.ItemStack.itemValue?.ItemClass;
                 if (itemClass != null && itemClass.Properties.Contains(SpoilageConstants.PropQualityTierColor))
                 {
                     tierColor = itemClass.Properties.GetInt(SpoilageConstants.PropQualityTierColor);
-                    tierColor = Mathf.Clamp(tierColor, 0, 7); // Clamp override too
+                    tierColor = Mathf.Clamp(tierColor, 0, maxQuality); // Clamp override too
                 }
 
                 // Update Durability Sprite

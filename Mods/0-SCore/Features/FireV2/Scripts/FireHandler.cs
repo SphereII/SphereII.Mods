@@ -13,8 +13,8 @@ public class FireHandler : IFireHandler
 {
   
 
-    private readonly Dictionary<Vector3i, FireBlockData> _fireMap = new Dictionary<Vector3i, FireBlockData>();
-    private readonly Dictionary<Vector3i, float> _extinguishedPositions = new Dictionary<Vector3i, float>();
+    private Dictionary<Vector3i, FireBlockData> _fireMap = new Dictionary<Vector3i, FireBlockData>();
+    private Dictionary<Vector3i, float> _extinguishedPositions = new Dictionary<Vector3i, float>();
     private readonly FireEvents _events;
     private readonly FireConfig _config;
     private readonly FireParticleOptimizer _fireParticleOptimizer;
@@ -28,7 +28,7 @@ public class FireHandler : IFireHandler
     private bool _isProcessing = false;
     private float _lastProcessTime;
     private const float PROCESS_INTERVAL = 0.1f; // 100ms between processing batches
-
+    private FireNetworkManager _fireNetworkManager = new FireNetworkManager();
     public FireHandler(FireEvents events, FireConfig config)
     {
         _events = events;
@@ -44,6 +44,11 @@ public class FireHandler : IFireHandler
     public bool IsProcessing()
     {
         return _isProcessing;
+    }
+
+    public Dictionary<Vector3i, FireBlockData> GetFireMap()
+    {
+        return _fireMap;
     }
 
     public void AddFire(Vector3i position, int entityId = -1)
@@ -101,7 +106,8 @@ public class FireHandler : IFireHandler
 
             if (IsFlammable(neighborPos) && _random.NextDouble() > _config.ChanceToExtinguish)
             {
-                AddFire(neighborPos);
+                FireManager.Instance.AddFire(neighborPos);
+                //AddFire(neighborPos);
                 _events.RaiseFireSpread(neighborPos, -1);
             }
         }
@@ -219,7 +225,6 @@ public class FireHandler : IFireHandler
             return;
         }
 
-       // Debug.Log($"PricessSingleFire(): Fire Block Data Fire Damage: {fireBlockData.FireDamage}");
         fireBlockData.BlockValue.damage += fireBlockData.FireDamage;
 
         if (fireBlockData.BlockValue.damage >= fireBlockData.BlockValue.Block.MaxDamage)
@@ -227,7 +232,8 @@ public class FireHandler : IFireHandler
             fireBlockData.BlockValue.Block.SpawnDestroyFX(GameManager.Instance.World, fireBlockData.BlockValue, position,
                 fireBlockData.BlockValue.Block.tintColor, -1);
             _events.RaiseBlockDestroyed(position, fireBlockData.BlockValue);
-
+            _fireNetworkManager.SyncBlockDestroyedByFire(1);
+            
             var blockValue2 = fireBlockData.DowngradeBlock;
 
             if (fireBlockData.BlockValue.Block.Properties.Values.ContainsKey("Explosion.ParticleIndex") ||
@@ -244,14 +250,15 @@ public class FireHandler : IFireHandler
                 blockValue2.rotation = fireBlockData.BlockValue.rotation;
             }
             _removeFires.Add(position);
-            GameManager.Instance.World.SetBlockRPC(0, position, blockValue2);
-           // _pendingChanges.Add(new BlockChangeInfo(0, position, blockValue2));          
+           // GameManager.Instance.World.SetBlockRPC(0, position, blockValue2);
+            _pendingChanges.Add(new BlockChangeInfo(0, position, blockValue2));   
+            
              return;
         }
 
         _fireMap[position] = fireBlockData;
-        GameManager.Instance.World.SetBlockRPC(0, position, fireBlockData.BlockValue);
-       // _pendingChanges.Add(new BlockChangeInfo(0, position, fireBlockData.BlockValue));
+      //  GameManager.Instance.World.SetBlockRPC(0, position, fireBlockData.BlockValue);
+        _pendingChanges.Add(new BlockChangeInfo(0, position, fireBlockData.BlockValue));
 
         var extinguishChance = fireBlockData.ChanceToExtinguish * (rainfallValue > 0.25f ? 2f : 1f);
         if (_random.RandomRange(0f, 1f) < extinguishChance)
@@ -267,9 +274,7 @@ public class FireHandler : IFireHandler
     {
         if (_pendingChanges.Count > 0)
         {
-          //  Debug.Log($"Sending Block Changes: {_pendingChanges.Count}");
             GameManager.Instance.SetBlocksRPC(_pendingChanges);
-            _pendingChanges.Clear();
         }
 
         foreach (var position in _removeFires)
@@ -279,11 +284,11 @@ public class FireHandler : IFireHandler
         _removeFires.Clear();
 
         UpdateExtinguishedPositions();
-        if ( _fireMap.Count > 300)
-            _fireParticleOptimizer.UpdateCullDistance(2);
-        else
-            _fireParticleOptimizer.UpdateCullDistance(1);
-        _fireParticleOptimizer.UpdateAndOptimizeFireParticlesRoutine(_fireMap, _config);
+        // if ( _fireMap.Count > 300)
+        //     _fireParticleOptimizer.UpdateCullDistance(2);
+        // else
+        //     _fireParticleOptimizer.UpdateCullDistance(1);
+        // _fireParticleOptimizer.UpdateAndOptimizeFireParticlesRoutine(_fireMap, _config);
 
         _events.RaiseFireUpdate(_fireMap.Count);
     }
@@ -318,6 +323,7 @@ public class FireHandler : IFireHandler
         return block.Block.DowngradeBlock;
     }
 
+    
     public List<Vector3i> GetRemovalBlocks()
     {
         return _removeFires;

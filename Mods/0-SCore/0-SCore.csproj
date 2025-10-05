@@ -110,6 +110,7 @@
     <Compile Include="Features\Farming\Scripts\FarmPlotManager.cs" />
     <Compile Include="Features\Farming\Scripts\NetPackage\NetPackageToggleSprinkler.cs" />
     <Compile Include="Features\Farming\Scripts\WaterPipeManager.cs" />
+    <Compile Include="Features\FireV2\Harmony\BlockInit.cs" />
     <Compile Include="Features\FireV2\Harmony\ChunkSetBlock.cs" />
     <Compile Include="Features\FireV2\Harmony\Explosion.cs" />
     <Compile Include="Features\FireV2\Harmony\FireInit.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="Features\Quality\Harmony\QualityInfoGetTierColor.cs" />
     <Compile Include="Features\Quality\Harmony\XUiCCraftingInfoAddQualityButton_OnPress.cs" />
     <Compile Include="Features\Quality\Harmony\XUiCCraftingInfoSubtractQualityButton_OnPress.cs" />
+    <Compile Include="Features\Quality\Harmony\XUiCRecipeStackSetRecipe.cs" />
     <Compile Include="Features\Quality\Harmony\XUiMTraderGetBuyPrice.cs" />
     <Compile Include="Features\Quality\Harmony\XUiMTraderGetSellPrice.cs" />
     <Compile Include="Features\Quality\Scripts\QualityUtils.cs" />
@@ -340,8 +342,11 @@
     <Compile Include="Harmony\PlayerFeatures\PlayerMoveControllerUpdate.cs" />
     <Compile Include="Harmony\PlayerFeatures\SoftHands.cs" />
     <Compile Include="Harmony\PlayerFeatures\TeleportNPCs.cs" />
+    <Compile Include="Harmony\PrefabFeatures\BlockCanPlaceBlockAt.cs" />
     <Compile Include="Harmony\PrefabFeatures\DynamicPrefabDecorator.cs" />
     <Compile Include="Harmony\PrefabFeatures\RemoveTraderProtection.cs" />
+    <Compile Include="Harmony\PrefabFeatures\WorldCanPlaceBlockAt.cs" />
+    <Compile Include="Harmony\PrefabFeatures\WorldIsWithinTraderArea.cs" />
     <Compile Include="Harmony\Progression\EntityAliveSDXProgressionHooks.cs" />
     <Compile Include="Harmony\Progression\Progression.cs" />
     <Compile Include="Harmony\Quests\QuestEventManager.cs" />

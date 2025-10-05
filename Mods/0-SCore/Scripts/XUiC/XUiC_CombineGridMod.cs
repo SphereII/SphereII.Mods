@@ -58,10 +58,10 @@ public class XUiC_CombineGridMod : XUiC_ItemStackGrid
         var iv2 = stack2.ItemStack.itemValue;
 
         int inputMaxQuality = Math.Max(iv1.Quality, iv2.Quality);
-        int maxAllowedQuality = 500;
+        int maxAllowedQuality = QualityUtils.GetMaxQuality();
 
         // Allow combining up to input max quality if >=6, else max 5
-        int maxQuality = (inputMaxQuality >= 600) ? inputMaxQuality : maxAllowedQuality;
+        int maxQuality = (inputMaxQuality >=  QualityUtils.GetMaxQuality()) ? inputMaxQuality : maxAllowedQuality;
 
         int baseQuality = inputMaxQuality;
 

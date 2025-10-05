@@ -22,18 +22,13 @@ namespace Challenges {
         public override void HandleAddHooks()
         {
             if (FireManager.Instance == null || FireManager.Instance.Enabled == false) return;
-            FireManager.Instance.Events.OnBlockDestroyed += Check_Block;
+            FireManager.Instance.Events.OnBlockDestroyedCount += Check_Block;
         }
 
         
         public override void HandleRemoveHooks() {
             if (FireManager.Instance == null || FireManager.Instance.Enabled == false) return;
-            FireManager.Instance.Events.OnBlockDestroyed -= Check_Block;
-        }
-
-        private void Check_Block(Vector3i position, BlockValue blockValue)
-        {
-            Check_Block(1);
+            FireManager.Instance.Events.OnBlockDestroyedCount -= Check_Block;
         }
 
         private void Check_Block(int count) {

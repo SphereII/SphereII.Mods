@@ -131,8 +131,7 @@ public static class BlockUtilitiesSDX
             }
         }
         
-        if (GameManager.Instance.HasBlockParticleEffect(position)) 
-            return;
+        if (GameManager.Instance.HasBlockParticleEffect(position)) return;
 
         if (GameManager.IsDedicatedServer) return;
         
@@ -146,7 +145,38 @@ public static class BlockUtilitiesSDX
         GameManager.Instance.SpawnBlockParticleEffect(position, particle);
     }
     
-   
+    public static void addParticlesCenteredServer(string strParticleName, Vector3i position)
+    {
+        if (string.IsNullOrEmpty(strParticleName))
+            strParticleName = "#@modfolder(0-SCore_sphereii):Resources/PathSmoke.unity3d?P_PathSmoke_X";
+
+        if (strParticleName == "NoParticle")
+            return;
+        
+        if (!ParticleEffect.IsAvailable(strParticleName))
+        {
+            Log.Out($"PArticle not available: {strParticleName}");
+            if (ThreadManager.IsMainThread())
+            {
+                ParticleEffect.LoadAsset(strParticleName);
+            }
+            else
+            {
+                Log.Out($"Trying to load {strParticleName} but the call is not on the main thread: {Environment.StackTrace}. Failing.");
+                return;
+            }
+        }
+        
+       // if (GameManager.Instance.HasBlockParticleEffect(position)) return;
+        
+        var centerPosition = EntityUtilities.CenterPosition(position);
+        var blockValue = GameManager.Instance.World.GetBlock(position);
+        var rotation = Quaternion.identity;
+        //rotation = blockValue.Block.shape.GetRotation(blockValue);
+        var particle = new ParticleEffect(strParticleName, centerPosition, rotation, 1f, Color.white);
+        GameManager.Instance.SpawnParticleEffectServer(particle, -1);
+    }
+    
    
     public static void removeParticles(Vector3i position)
     {

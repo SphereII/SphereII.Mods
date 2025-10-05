@@ -102,7 +102,7 @@ public class FireManager : MonoBehaviour
             StartCoroutine(UpdateSystemsRoutine());
         }
     }
-
+  
     // This coroutine now encapsulates the entire update cycle.
     private IEnumerator UpdateSystemsRoutine()
     {
@@ -158,7 +158,7 @@ public class FireManager : MonoBehaviour
             _networkManager.SyncRemoveFireBatch(removal);
         }
   
-        _fireHandler.FinalizeBatchProcessing();
+        //_fireHandler.FinalizeBatchProcessing();
         _updateFires = null;
     }
 

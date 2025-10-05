@@ -129,7 +129,6 @@ namespace SCore.Features.ItemDegradation.Utils
                 {
                     if ( player != null)
                         Manager.BroadcastPlay(player, "itembreak");
-                    Debug.Log($"Item Break! {mod.ItemClass.GetItemName()}");
                     mod = ItemValue.None;
                 }
 
@@ -168,6 +167,7 @@ namespace SCore.Features.ItemDegradation.Utils
                 if (items[i]?.ItemClass == null) continue;
                 //CheckModification(items[i], player);
                 CheckModsForDegradation(items[i], player);
+             
             }
         }
         

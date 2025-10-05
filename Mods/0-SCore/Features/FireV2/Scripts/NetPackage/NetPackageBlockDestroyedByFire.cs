@@ -38,6 +38,7 @@ public class NetPackageBlockDestroyedByFire : NetPackage
         {
             return;
         } 
+        
         FireManager.Instance.InvokeOnBlockDestroyed(_count);
     }
    

@@ -54,8 +54,17 @@ namespace Harmony.PrefabFeatures
         })]
         public class WorldIsWithinTraderArea
         {
-            public static bool Prefix(ref bool __result)
+            private static FastTags<TagGroup.Global> tags = FastTags<TagGroup.Global>.Parse("traderPlaceable");
+
+            public static bool Prefix(ref bool __result, World __instance, Vector3i _worldBlockPos)
             {
+                var block = __instance.GetBlock(_worldBlockPos);
+                if ( block.Block.HasAnyFastTags(tags))
+                {
+                    __result = false;
+                    return false;
+                }
+
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
@@ -86,7 +95,8 @@ namespace Harmony.PrefabFeatures
                 return false;
             }
         }
-
+        
+   
         // Allows placing of blocks in the trader area using a bounds check
         [HarmonyPatch(typeof(World))]
         [HarmonyPatch("IsWithinTraderPlacingProtection")]

@@ -15,6 +15,14 @@ public static class QualityUtils
         var range = StringParsers.ParseVector2i(qualityRange);
         return range.y;
     }
+    
+    public static int GetQualityStage()
+    {
+        var qualityStage = Configuration.GetPropertyValue(AdvFeatureClass, "QualityStages");
+        if (string.IsNullOrEmpty(qualityStage)) return 1;
+       
+        return StringParsers.ParseSInt32(qualityStage);
+    }
 
  
     public static int GetMinQuality()

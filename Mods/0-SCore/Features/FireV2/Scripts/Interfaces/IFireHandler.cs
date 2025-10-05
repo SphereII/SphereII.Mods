@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public interface IFireHandler
 {
+
+    Dictionary<Vector3i, FireBlockData> GetFireMap();
     void AddFire(Vector3i position, int entityId = -1);
     void RemoveFire(Vector3i position, int entityId = -1, bool showSmoke = true);
     void SpreadFire(Vector3i sourcePosition);

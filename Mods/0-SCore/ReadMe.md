@@ -32,6 +32,37 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.4.7.833
+	[ Challenges ]
+		- Fixed an issue with Clear Challenges not properly reporting on dedi
+		- Fixed an issue where blocks destroyed by fire was not properly reporting on dedi.
+
+	[ Fire Manager ]
+		- Added a different call to trigger an event for a block destroyed by fire ( for challenge support ).
+		- Fixed an issue where blocks were not being properly destroyed on dedi.
+		- Fixed an issue with fire particles not spreading on dedi.
+
+	[ MinEvent ]
+		- Updated MinEventActionReplaceMaterial to take a comma delimited list of replace_materials to randomize them.
+
+	[ Item Degradation ]
+		- Fixed an issue where worn equipment wasn't properly breaking.
+
+	[ Quality ]
+		- Added new entry to blocks.xml to control the increase/decrease tiers for quality, called "QualityStage".
+		- Default is set to 25.
+		- When using quality tiers, the quality selector will increment up and down based on that value.
+		- Fixed an issue where quality seemed random when crafting, and not the selected crafting.
+
+	[ Food Spoilage ]	
+		- Fixed an issue with quality colours when using the extended quality.
+
+	[ Trader Areas ]
+		- Added a new patch to allow properly tagged blocks to be placed within a trader area.
+		- If a block has the tag "traderPlaceable", you may place it within the trader area.
+		- Blocks with this tag can also be repaired, damaged, etc.
+		- This patch does not rely on trader protection being off, or on.
+
 Version: 2.4.2.1406
 	[ Fire Manager ]
 		- Fixed (again) the fire manager from not breaking blocks on a dedicated server.

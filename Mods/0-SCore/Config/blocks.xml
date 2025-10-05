@@ -121,6 +121,9 @@
                 
                 <property name="CustomQualityLevels" value="false" />
                 <property name="QualityLevels" value="0,700" />
+                <!-- To change the amount of decrease and increase for quality levels for crafting -->
+                <!-- ie, if you press the arrow to decrease the quality level to craft, it'll go down 25 points, instead of every point -->
+                <property name="QualityStages" value="25" />
             </property>
 
             <property class="AdvancedPlayerFeatures">

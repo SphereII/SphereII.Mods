@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Xml.Linq;
+using Audio;
 using SCore.Features.ItemDegradation.Utils;
 using UnityEngine;
 
@@ -40,8 +41,15 @@ public class MinEventActionRoutineUpdate : MinEventActionTargetedBase
         // Equipment
         if (bEquipment)
         {
-            foreach (var item in _params.Self.equipment.GetItems())
+            for( var x =0; x < _params.Self.equipment.GetSlotCount(); x++ )
+            {
+                var item = _params.Self.equipment.GetSlotItem(x);
+                if ( ItemDegradationHelpers.IsDegraded(item)) continue;
                 CheckItemValue(item, null);
+                if (!ItemDegradationHelpers.IsDegraded(item) || !item.ItemClass.MaxUseTimesBreaksAfter.Value) continue;
+                Manager.BroadcastPlay(localPlayer, "itembreak");
+                _params.Self.equipment.SetSlotItem(x, ItemValue.None);
+            }
         }
 
         // Tool Belt.
