@@ -32,6 +32,19 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.4.8.1712
+	[ Item Actions ]
+		- Disabled adding additional actions to items.
+		- This was done in the past to allow NPCs to use more creative actions, but was never used.
+
+	[ Trader Placable ]
+		- Removed Debug statement.
+
+	[ Sleepers ]
+		- Fixed an issue with the Challenge for Clearing Sleepers that was also clearing quests.
+
+	
+
 Version: 2.4.7.833
 	[ Challenges ]
 		- Fixed an issue with Clear Challenges not properly reporting on dedi

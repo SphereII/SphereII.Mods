@@ -83,6 +83,7 @@
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveWearTags.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeRequirementManager.cs" />
     <Compile Include="Features\Challenges\Scripts\IChallengeObjective.cs" />
+    <Compile Include="Features\Challenges\Scripts\NetPackageSleeperVolumeCleared.cs" />
     <Compile Include="Features\Challenges\Scripts\SCoreChallengeUtils.cs" />
     <Compile Include="Features\Drones\Harmony\EntityDronePatches.cs" />
     <Compile Include="Features\DynamicBones\Harmony\SDCSMatchRigs.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Features\Quality\Harmony\QualityInfoGetQualityColorHex.cs" />
     <Compile Include="Features\Quality\Harmony\QualityInfoGetQualityLevelName.cs" />
     <Compile Include="Features\Quality\Harmony\QualityInfoGetTierColor.cs" />
+    <Compile Include="Features\Quality\Harmony\XUiCCombineGridMergeSlotChangedEvent.cs" />
     <Compile Include="Features\Quality\Harmony\XUiCCraftingInfoAddQualityButton_OnPress.cs" />
     <Compile Include="Features\Quality\Harmony\XUiCCraftingInfoSubtractQualityButton_OnPress.cs" />
     <Compile Include="Features\Quality\Harmony\XUiCRecipeStackSetRecipe.cs" />

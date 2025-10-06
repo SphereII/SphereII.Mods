@@ -9,6 +9,7 @@ namespace SCore.Harmony.Vehicles {
             {
                 var fuelType = __instance.Properties.GetString("fuelTank", "fuelType");
                 if (string.IsNullOrEmpty(fuelType)) return true;
+                
                 __result = fuelType;
                 return false;
 

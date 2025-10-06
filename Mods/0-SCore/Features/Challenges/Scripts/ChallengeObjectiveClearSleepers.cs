@@ -21,8 +21,8 @@ namespace Challenges {
         
         public override void HandleAddHooks()
         {
-           // EventOnSleeperVolumeClearedUpdate.OnSleeperVolumeClearedEvent += Current_SleepersCleared;
-            QuestEventManager.Current.SleepersCleared += this.Current_SleepersCleared; 
+            EventOnSleeperVolumeClearedUpdate.OnSleeperVolumeClearedEvent += Current_SleepersCleared;
+           // QuestEventManager.Current.SleepersCleared += this.Current_SleepersCleared; 
         }
 
         private void Current_SleeperVolumePositionRemove(Vector3 position)
@@ -72,8 +72,8 @@ namespace Challenges {
         }
 
         public override void HandleRemoveHooks() {
-            //EventOnSleeperVolumeClearedUpdate.OnSleeperVolumeClearedEvent -= Current_SleepersCleared;
-            QuestEventManager.Current.SleepersCleared -= this.Current_SleepersCleared;
+            EventOnSleeperVolumeClearedUpdate.OnSleeperVolumeClearedEvent -= Current_SleepersCleared;
+            //QuestEventManager.Current.SleepersCleared -= this.Current_SleepersCleared;
         }
 
         public override void ParseElement(XElement e) {

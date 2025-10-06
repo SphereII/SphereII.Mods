@@ -10,9 +10,13 @@ namespace SCore.Features.Quality.Harmony
     [HarmonyPatch(nameof(XUiM_Trader.GetBuyPrice))]
     public class XUiMTraderGetBuyPrice
     {
+        private static readonly string AdvFeatureClass = "AdvancedItemFeatures";
+        private static readonly string Feature = "CustomQualityLevels";
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var codes = new List<CodeInstruction>(instructions);
+            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return codes;
+
             for (int i = 0; i < codes.Count; i++)
             {
                 if (codes[i].opcode == OpCodes.Ldc_R4 && codes[i].operand is float floatValue && floatValue == 5f)
