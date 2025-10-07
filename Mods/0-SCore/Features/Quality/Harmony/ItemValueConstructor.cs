@@ -31,6 +31,7 @@ public class ItemValueConstructor3
     private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         var codes = new List<CodeInstruction>(instructions);
+        if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return codes;
         foreach (var t in codes)
         {
             if (t.opcode == OpCodes.Ldc_I4_6)

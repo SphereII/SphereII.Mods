@@ -32,6 +32,10 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.4.9.835
+	[ Quality ]
+		- Fixed an issue where some items would not have a quality when they should have, when not using the quality feature.
+
 Version: 2.4.8.1712
 	[ Item Actions ]
 		- Disabled adding additional actions to items.
