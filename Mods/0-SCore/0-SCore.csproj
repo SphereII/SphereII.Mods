@@ -646,6 +646,7 @@
     <Compile Include="Scripts\Quests\QuestActionReplaceEntitySDX.cs" />
     <Compile Include="Scripts\Quests\QuestActionSetRevengeTargetsSDX.cs" />
     <Compile Include="Scripts\Quests\QuestActionSpawnEntitySDX.cs" />
+    <Compile Include="Scripts\Quests\QuestActionTeleport.cs" />
     <Compile Include="Scripts\Quests\QuestUtils.cs" />
     <Compile Include="Scripts\Quests\RewardGiveBuff.cs" />
     <Compile Include="Scripts\Quests\RewardGiveCvarDMT.cs" />
