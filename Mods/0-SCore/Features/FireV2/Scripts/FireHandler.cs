@@ -232,6 +232,7 @@ public class FireHandler : IFireHandler
             fireBlockData.BlockValue.Block.SpawnDestroyFX(GameManager.Instance.World, fireBlockData.BlockValue, position,
                 fireBlockData.BlockValue.Block.tintColor, -1);
             _events.RaiseBlockDestroyed(position, fireBlockData.BlockValue);
+            _events.RaiseOnBlockDestroyedCount(1);
             _fireNetworkManager.SyncBlockDestroyedByFire(1);
             
             var blockValue2 = fireBlockData.DowngradeBlock;

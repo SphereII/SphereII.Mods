@@ -32,6 +32,19 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.4.15.809
+	[ Challenges ]
+		- Fixed an issue where block destroyed by fire was not registering in SP
+
+	[ Quest ]
+		- Removed a debug log from the QuestActionTeleport
+	
+	[ Quality ]
+		- Added a patch so that the Trader Template code in traders.xml is parsed correctly for higher qualities.
+
+	[ Dynamic Music ]
+		- Added a patch to log if trader ID exceeds maximum allowed.
+
 Version: 2.4.11.1222
 
 	[ Quest ]

@@ -28,6 +28,11 @@ namespace Harmony.NPCFeatures
                 var traderData = entityTrader.TileEntityTrader?.TraderData;
                 if (traderData == null) continue;
                 if ( traderData.TraderID == -1) continue;
+                if (TraderInfo.traderInfoList.Length < traderData.TraderID)
+                {
+                    Debug.Log($"Total Traders: {TraderInfo.traderInfoList.Length} < {traderData.TraderID}");
+                    continue;
+                }
                 if ( traderData.TraderInfo == null) continue;
                 if (!traderData.TraderInfo.IsOpen) continue;
                 isOpen = true;

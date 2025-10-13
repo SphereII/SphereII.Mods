@@ -84,7 +84,6 @@ public class QuestActionTeleport : BaseQuestAction
             position += posOffset;
         }
 
-        Debug.Log($"position: {position}");
         return true;
     }
 

@@ -97,7 +97,9 @@ public class FireNetworkManager : IFireNetworkManager
     public void SyncBlockDestroyedByFire(int count)
     {
         if (!_connectionManager.IsServer)
+        {
             return;
+        }
 
         _connectionManager.SendPackage(
             NetPackageManager.GetPackage<NetPackageBlockDestroyedByFire>().Setup(count));
