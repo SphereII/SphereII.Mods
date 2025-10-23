@@ -113,7 +113,14 @@ public class VersionCheck
 
     private static string GetGameVersion()
     {
-        return $"{Constants.cVersionMajor}.{Constants.cVersionMinor}.{Constants.cVersionBuild}";
+        // Using reflection due to inlining of const fields
+        var major = (int) typeof(Constants)
+            .GetField("cVersionMajor").GetRawConstantValue();
+        var minor = (int) typeof(Constants)
+            .GetField("cVersionMinor").GetRawConstantValue();  
+        var build = (int) typeof(Constants)
+            .GetField("cVersionBuild").GetRawConstantValue();  
+        return $"{major}.{minor}.{build}";
     }
 
     private static void DisplayVersionMismatchMessage(XUi xui, string gameVersion, string modVersion)
