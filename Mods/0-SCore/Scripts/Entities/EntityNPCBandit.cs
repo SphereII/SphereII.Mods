@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -35,6 +35,11 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
     // and not just 10.2 and 10.4. This helps smooth out the entity's walk. However, we do want
     // accurate patrol points, so we store the accurate patrol positions for the entity.
     private readonly List<Vector3> _tempList = new();
+    #endregion
+
+    #region Initialization Tracking
+    private bool _isFullyInitialized = false;
+    private int _initializationFrameCount = 0;
     #endregion
 
     /// <summary>
@@ -83,7 +88,7 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
         // So, make sure we call SetupStartingItems after calling the base class.
         SetupStartingItems();
 
-        
+
         // Does a quick local scan to see what pathing blocks, if any, are nearby.
         // If one is found nearby, then it'll use that code for pathing.
         SetupAutoPathingBlocks();
@@ -95,26 +100,99 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
     /// </summary>
     protected virtual void SetupStartingItems()
     {
+        // Safety check for inventory
+        if (inventory == null || itemsOnEnterGame == null)
+        {
+            return;
+        }
+
         for (var i = 0; i < itemsOnEnterGame.Count; i++)
         {
             var itemStack = itemsOnEnterGame[i];
 
+            // Safety check for null item stack
+            if (itemStack == null)
+            {
+                continue;
+            }
+
             var itemClass = ItemClass.GetForId(itemStack.itemValue.type);
+            if (itemClass == null)
+            {
+                continue;
+            }
+
             if (itemClass.HasQuality)
                 itemStack.itemValue = new ItemValue(itemStack.itemValue.type, 1, 6);
             else
                 itemStack.count = itemClass.Stacknumber.Value;
-            
+
             inventory.SetItem(i, itemStack);
-            if ( i == 0)
+            if (i == 0)
                 inventory.SetHoldingItemIdx(i);
         }
     }
 
     public override void OnUpdateLive()
     {
-        base.OnUpdateLive();
-    
+        // Comprehensive initialization checks to prevent collision system errors
+        // Check basic null references first
+        if (inventory == null || world == null)
+        {
+            return;
+        }
+
+        // Check player stats initialization
+        if (!bPlayerStatsChanged)
+        {
+            return;
+        }
+
+        // Check if entity is properly spawned
+        if (!IsSpawned())
+        {
+            return;
+        }
+
+        // Check physics components
+        if (PhysicsTransform == null || emodel == null)
+        {
+            return;
+        }
+
+        // Check if the entity's root transform is valid
+        if (RootTransform == null || !RootTransform.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
+        // Additional safety: wait a few frames after spawn to ensure full initialization
+        if (!_isFullyInitialized)
+        {
+            _initializationFrameCount++;
+            // Wait at least 3 frames for all systems to initialize
+            if (_initializationFrameCount < 3)
+            {
+                return;
+            }
+            _isFullyInitialized = true;
+        }
+
+        // Now safe to call base update which includes collision checks
+        try
+        {
+            base.OnUpdateLive();
+        }
+        catch (NullReferenceException ex)
+        {
+            // Log the error but don't crash - entity might still be initializing
+            Log.Warning($"EntityNPCBandit.OnUpdateLive NullRef for {entityName} ({entityId}): {ex.Message}");
+            // Reset initialization to try again next frame
+            _isFullyInitialized = false;
+            _initializationFrameCount = 0;
+            return;
+        }
+
         // Wake them up if they are sleeping, since the trigger sleeper makes them go idle again.
         if (!sleepingOrWakingUp && IsAlwaysAwake)
         {
@@ -123,28 +201,42 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
         }
 
         // Potential work around for NPC stuck for 3 seconds in crouch after being stunned
-        if (bodyDamage.CurrentStun is EnumEntityStunType.Getup or EnumEntityStunType.Prone) 
+        // bodyDamage is a struct so no null check needed
+        if (bodyDamage.CurrentStun is EnumEntityStunType.Getup or EnumEntityStunType.Prone)
         {
             SetHeight(this.physicsBaseHeight);
         }
     }
-    
+
     public override void OnAddedToWorld()
     {
         base.OnAddedToWorld();
+
+        // Reset initialization tracking when added to world
+        _isFullyInitialized = false;
+        _initializationFrameCount = 0;
 
         if (IsAlwaysAwake)
         {
             // Set in EntityAlive.TriggerSleeperPose() - resetting here
             IsSleeping = false;
         }
-        
-       // this.inventory.SetRightHandAsModel();
-        this.ShowHoldingItem(true);
+
+        // Safety check before showing holding item
+        if (inventory != null)
+        {
+            this.ShowHoldingItem(true);
+        }
     }
 
     public override bool IsSavedToFile()
     {
+        // Safety check for Buffs
+        if (Buffs == null)
+        {
+            return base.IsSavedToFile();
+        }
+
         // Has a leader cvar set, good enough, as the leader may already be disconnected,
         // so we'll fail a GetLeaderOrOwner()
         if (Buffs.HasCustomVar("Leader"))
@@ -162,13 +254,20 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
         base.CopyPropertiesFromEntityClass();
 
         var entityClass = EntityClass.list[base.entityClass];
+        if (entityClass == null)
+        {
+            return;
+        }
 
         IsAlwaysAwake = false;
-        if (entityClass.Properties.Values.ContainsKey("SleeperInstantAwake"))
-            IsAlwaysAwake = StringParsers.ParseBool(entityClass.Properties.Values["SleeperInstantAwake"]);
+        if (entityClass.Properties?.Values != null)
+        {
+            if (entityClass.Properties.Values.ContainsKey("SleeperInstantAwake"))
+                IsAlwaysAwake = StringParsers.ParseBool(entityClass.Properties.Values["SleeperInstantAwake"]);
 
-        if (entityClass.Properties.Values.ContainsKey("IsAlwaysAwake"))
-            IsAlwaysAwake = StringParsers.ParseBool(entityClass.Properties.Values["IsAlwaysAwake"]);
+            if (entityClass.Properties.Values.ContainsKey("IsAlwaysAwake"))
+                IsAlwaysAwake = StringParsers.ParseBool(entityClass.Properties.Values["IsAlwaysAwake"]);
+        }
     }
 
     public override void Read(byte _version, BinaryReader _br)
@@ -179,17 +278,27 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
             var strPatrol = _br.ReadString();
             _patrolCoordinates.Clear();
             _tempList.Clear();
-            foreach (var strPatrolPoint in strPatrol.Split(';'))
+
+            if (!string.IsNullOrEmpty(strPatrol))
             {
-                var position = ModGeneralUtilities.StringToVector3(strPatrolPoint);
-                if (position != Vector3.zero)
-                    UpdatePatrolPoints(position); // this method also updates _tempList
+                foreach (var strPatrolPoint in strPatrol.Split(';'))
+                {
+                    if (string.IsNullOrEmpty(strPatrolPoint))
+                        continue;
+
+                    var position = ModGeneralUtilities.StringToVector3(strPatrolPoint);
+                    if (position != Vector3.zero)
+                        UpdatePatrolPoints(position); // this method also updates _tempList
+                }
             }
 
             _guardPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());
             _guardLookPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());
 
-            Buffs.Read(_br);
+            if (Buffs != null)
+            {
+                Buffs.Read(_br);
+            }
         }
         catch (Exception ex)
         {
@@ -210,7 +319,10 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
             _bw.Write(_guardPosition.ToString());
             _bw.Write(_guardLookPosition.ToString());
 
-            Buffs.Write(_bw);
+            if (Buffs != null)
+            {
+                Buffs.Write(_bw);
+            }
         }
         catch (Exception ex)
         {
@@ -221,6 +333,12 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
     /// <inheritdoc/>
     public void SetupAutoPathingBlocks()
     {
+        // Safety check for Buffs
+        if (Buffs == null)
+        {
+            return;
+        }
+
         // If we already have a pathing code, don't re-scan.
         if (Buffs.HasCustomVar("PathingCode") &&
             (Buffs.GetCustomVar("PathingCode") < 0 || Buffs.GetCustomVar("PathingCode") > 0))
@@ -228,7 +346,7 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
 
         // Check if pathing blocks are defined.
         var blocks = EntityUtilities.ConfigureEntityClass(entityId, "PathingBlocks");
-        if (blocks.Count == 0)
+        if (blocks == null || blocks.Count == 0)
             blocks = new List<string> { "PathingCube", "PathingCube2" };
 
         // Scan for the blocks in the area
@@ -238,11 +356,28 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
 
         // Find the nearest block, and if its a sign, read its code.
         var target = ModGeneralUtilities.FindNearestBlock(position, pathingVectors);
+
+        // Safety check for GameManager and World
+        if (GameManager.Instance?.World == null)
+        {
+            return;
+        }
+
         if (GameManager.Instance.World.GetTileEntity(0, new Vector3i(target))
             is not TileEntitySign tileEntitySign)
             return;
 
+        // Safety check for sign text
+        if (tileEntitySign.signText == null)
+        {
+            return;
+        }
+
         var text = tileEntitySign.signText.Text;
+        if (string.IsNullOrEmpty(text))
+        {
+            return;
+        }
 
         // We need to apply the buffs during this scan,
         // as the creation of the entity + adding buffs is not really MP safe.
@@ -270,19 +405,24 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
         }
 
         var buffs = PathingCubeParser.GetValue(text, "buff");
-        foreach (var b in buffs.Split(','))
+        if (!string.IsNullOrEmpty(buffs))
         {
-            var buff = b.Trim();
-            if (!string.IsNullOrEmpty(buff))
-                Buffs.AddBuff(buff, -1, false);
+            foreach (var b in buffs.Split(','))
+            {
+                var buff = b.Trim();
+                if (!string.IsNullOrEmpty(buff))
+                    Buffs.AddBuff(buff, -1, false);
+            }
         }
 
         // Set up the pathing code.
         Buffs.SetCustomVar("PathingCode", -1f);
 
         var pc = PathingCubeParser.GetValue(text, "pc");
-        if (StringParsers.TryParseFloat(pc, out var pathingCode))
+        if (!string.IsNullOrEmpty(pc) && StringParsers.TryParseFloat(pc, out var pathingCode))
+        {
             Buffs.SetCustomVar("PathingCode", pathingCode);
+        }
     }
 
     /// <inheritdoc/>
@@ -298,5 +438,4 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
                 _patrolCoordinates.Add(position);
         }
     }
-
 }
