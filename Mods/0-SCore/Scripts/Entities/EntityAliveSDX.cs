@@ -48,13 +48,15 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     public List<Vector3> PatrolCoordinates => patrolCoordinates;
 
     /// <inheritdoc/>
-    public Vector3 GuardPosition {
+    public Vector3 GuardPosition
+    {
         get => guardPosition;
         set => guardPosition = value;
     }
 
     /// <inheritdoc/>
-    public Vector3 GuardLookPosition {
+    public Vector3 GuardLookPosition
+    {
         get => guardLookPosition;
         set => guardLookPosition = value;
     }
@@ -124,16 +126,20 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     // Toggle gravity on and off depending on if the chunk is visible.
     private ChunkCluster.OnChunkVisibleDelegate chunkClusterVisibleDelegate;
 
-    public string Title {
+    public string Title
+    {
         get { return Localization.Get(_strTitle); }
     }
 
-    public string FirstName {
+    public string FirstName
+    {
         get { return Localization.Get(_strMyName); }
     }
 
-    public override string EntityName {
-        get {
+    public override string EntityName
+    {
+        get
+        {
             // No configured name? return the default.
             if (string.IsNullOrEmpty(_strMyName))
                 return entityName;
@@ -459,7 +465,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         // Don't allow you to interact with it when its dead.
         if (IsDead() || NPCInfo == null)
         {
-            return new[] {
+            return new[]
+            {
                 new EntityActivationCommand("Search", "search", true)
             };
         }
@@ -475,7 +482,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return new EntityActivationCommand[0];
 
 
-        return new[] {
+        return new[]
+        {
             new EntityActivationCommand("Greet " + EntityName, "talk", true)
         };
     }
@@ -528,7 +536,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         uiforPlayer.xui.Dialog.Respondent = this;
 
         return base.OnEntityActivated(indexInBlockActivationCommands, tePos, entityFocusing);
-        
+
         // We don't want the quest system to consider this NPC as interacted with
         if (Buffs.HasCustomVar("NPCInteractedFlag") && Buffs.GetCustomVar("NPCInteractedFlag") == 1)
         {
@@ -684,13 +692,17 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             patrolCoordinates.Add(position);
     }
 
-    // Reads the buff and quest information
     public override void Read(byte _version, BinaryReader _br)
     {
+        // This reads the base Entity, EntityAlive, and EntityNPC (Bag) data
+        // It works now because we pass _version = 60
         base.Read(_version, _br);
+
         _strMyName = _br.ReadString();
+    
         questJournal = new QuestJournal();
         questJournal.Read(_br as PooledBinaryReader);
+    
         patrolCoordinates.Clear();
         var strPatrol = _br.ReadString();
         foreach (var strPatrolPoint in strPatrol.Split(';'))
@@ -704,25 +716,45 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         guardPosition = ModGeneralUtilities.StringToVector3(strGuardPosition);
         factionId = _br.ReadByte();
         guardLookPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());
+    
         try
         {
             Buffs.Read(_br);
-
-            // Disabled due to Potential Performance issues
             if (Progression != null)
                 Progression.Read(_br, this);
         }
-        catch (Exception)
-        {
-            //  fail safe to protect game saves
-        }
+        catch (Exception) { }
 
+        // --- MATCHING YOUR WRITE METHOD ---
+
+        // 1. Read Weapon String
         _currentWeapon = _br.ReadString();
         UpdateWeapon(_currentWeapon);
 
-        ReadSyncData(_br, 1, -1);
-    }
+        // 2. Read Inventory
+        inventory.SetSlots(GameUtils.ReadItemStack(_br));
 
+        // 3. Read Loot Container
+        // We handle the null case just like in Write
+        ItemStack[] lootItems = GameUtils.ReadItemStack(_br);
+        
+        if (lootContainer == null)
+        {
+            Chunk chunk = null;
+            lootContainer = new TileEntityLootContainer(chunk);
+            lootContainer.entityId = this.entityId;
+            lootContainer.SetContainerSize(LootContainer.GetLootContainer(GetLootList()).size);
+        }
+        if (lootItems != null)
+        {
+            lootContainer.items = lootItems;
+        }
+
+        // 4. Read Bag
+        // Note: This reads the bag *again* (overwriting what base.Read did), 
+        // but this is required to stay aligned with your Write method.
+        bag.SetSlots(GameUtils.ReadItemStack(_br));
+    }
     public ushort GetSyncFlagsReplicated(ushort syncFlags)
     {
         return syncFlags;
@@ -835,19 +867,22 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         //}
     }
 
-    // Saves the buff and quest information
+
     public override void Write(BinaryWriter _bw, bool bNetworkWrite)
     {
         base.Write(_bw, bNetworkWrite);
         _bw.Write(_strMyName);
         questJournal.Write(_bw as PooledBinaryWriter);
+    
         var strPatrolCoordinates = "";
-        foreach (var temp in patrolCoordinates) strPatrolCoordinates += ";" + temp;
+        foreach (var temp in patrolCoordinates) 
+            strPatrolCoordinates += ";" + temp;
 
         _bw.Write(strPatrolCoordinates);
         _bw.Write(guardPosition.ToString());
         _bw.Write(factionId);
         _bw.Write(guardLookPosition.ToString());
+    
         try
         {
             Buffs.Write(_bw);
@@ -859,9 +894,25 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             // fail safe to protect game saves
         }
 
+        // 1. Write Weapon String
         _bw.Write(inventory.holdingItem.GetItemName());
 
-        WriteSyncData(_bw, 1);
+        // 2. Write Inventory
+        GameUtils.WriteItemStack(_bw, inventory.GetSlots());
+    
+        // 3. Write Loot Container (Handle Null)
+        if (lootContainer != null)
+        {
+            GameUtils.WriteItemStack(_bw, lootContainer.GetItems());
+        }
+        else
+        {
+            // Write an empty array if container is missing
+            GameUtils.WriteItemStack(_bw, new ItemStack[0]);
+        }
+
+        // 4. Write Bag
+        GameUtils.WriteItemStack(_bw, bag.GetSlots());
     }
 
     public void WriteSyncData(BinaryWriter _bw, ushort syncFlags)
@@ -1155,7 +1206,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
     public void CheckLeaderProximity()
     {
-        List<Entity> entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(this.position, Vector3.one * 2f));
+        List<Entity> entitiesInBounds =
+            GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(this.position, Vector3.one * 2f));
         if (entitiesInBounds.Count > 0)
         {
             foreach (var t in entitiesInBounds)
@@ -1437,8 +1489,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         base.ProcessDamageResponse(_dmResponse);
     }
 
-    public override bool IsImmuneToLegDamage {
-        get {
+    public override bool IsImmuneToLegDamage
+    {
+        get
+        {
             if (IsOnMission()) return true;
             return base.IsImmuneToLegDamage;
         }
@@ -1526,7 +1580,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
                     var entityBackpack = EntityFactory.CreateEntity(className.GetHashCode(), bagPosition) as EntityItem;
 
-                    var entityCreationData = new EntityCreationData(entityBackpack) {
+                    var entityCreationData = new EntityCreationData(entityBackpack)
+                    {
                         entityName = Localization.Get(this.EntityName),
                         id = -1,
                         lootContainer = lootContainer
@@ -2022,23 +2077,88 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     {
         var entityPlayerLocal = world.GetEntity(_playerId) as EntityPlayerLocal;
         if (entityPlayerLocal == null) return;
-        var uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
-        var itemStack = new ItemStack(GetItemValue(), 1);
-        // foreach (var meta in itemStack.itemValue.Metadata)
-        // {
-        //     Debug.Log($"Key: {meta.Key}");
-        //     Debug.Log($"Value: {meta.Value.GetValue()}");
-        // }
 
+        // 1. Persist the Entity using the Manager
+        // This saves the full binary state to the SCoreNPCManager cache/file
+        long uniqueID = SCoreNPCManager.Instance.SaveNPC(this);
+        if (uniqueID == -1)
+        {
+            Log.Error($"[0-SCore] Failed to save NPC {EntityName} to Manager. Aborting collection.");
+            return;
+        }
+
+        // 2. Determine the Item Class
+        string targetItemClass = "spherePickUpNPC";
+        EntityClass currentEntityClass = EntityClass.list[entityClass];
+        if (currentEntityClass.Properties.Values.ContainsKey("PickUpItem"))
+        {
+            targetItemClass = currentEntityClass.Properties.Values["PickUpItem"];
+        }
+
+        ItemClass itemClass = ItemClass.GetItemClass(targetItemClass, true);
+        if (itemClass == null)
+        {
+            Log.Out($"Invalid PickUpItem: {targetItemClass}");
+            return;
+        }
+
+        // 3. Create the Item
+        ItemStack itemStack = new ItemStack(new ItemValue(itemClass.Id), 1);
+
+        // 4. Initialize Metadata correctly
+        itemStack.itemValue.Metadata = new Dictionary<string, TypedMetadataValue>();
+
+        // 5. Write Metadata
+        // A. NPCID: The link to the binary data. Stored as String to safely handle long ticks.
+        itemStack.itemValue.SetMetadata("NPCID", uniqueID.ToString(), TypedMetadataValue.TypeTag.String);
+
+        // B. EntityClassId: REQUIRED for ItemActionDeployNPCSDX to know which prefab to spawn.
+        itemStack.itemValue.SetMetadata("EntityClassId", this.entityClass, TypedMetadataValue.TypeTag.Integer);
+
+        // C. NPCName: For the tooltip/display.
+        itemStack.itemValue.SetMetadata("NPCName", this.EntityName, TypedMetadataValue.TypeTag.String);
+
+        // 6. Give item to player
+        LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
         if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack))
         {
+            // Inventory full: Drop the item on the ground
             GameManager.Instance.ItemDropServer(itemStack, entityPlayerLocal.GetPosition(), Vector3.zero, _playerId,
                 60f, false);
         }
+
+        // Unload logic is handled externally.
     }
 
     public void SetItemValue(ItemValue itemValue)
     {
+        if (itemValue == null) return;
+
+        // -------------------------------------------------------
+        // PATH A: The New System (Binary Persistence)
+        // -------------------------------------------------------
+        object npcIDObj = itemValue.GetMetadata("NPCID");
+
+        // We check if the object is a string, then try to parse it back to a long
+        if (npcIDObj is string npcIDString && long.TryParse(npcIDString, out long npcID))
+        {
+            // 1. Restore Full State from Manager
+            SCoreNPCManager.Instance.ApplyDataToEntity(npcID, this);
+
+            // 2. Update Visuals
+            if (inventory.holdingItemItemValue != null)
+            {
+                UpdateWeapon(inventory.holdingItemItemValue, true);
+            }
+
+            // Exit new path
+            return;
+        }
+
+        // -------------------------------------------------------
+        // PATH B: The Legacy System (Original Logic)
+        // -------------------------------------------------------
+
         var entityName = itemValue.GetMetadata("NPCName") as string;
         SetEntityName(entityName);
 
@@ -2050,12 +2170,20 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (!string.IsNullOrEmpty(myTitle))
             _strTitle = myTitle;
 
-        belongsPlayerId = (int)itemValue.GetMetadata("BelongsToPlayer");
-        Health = (int)itemValue.GetMetadata("health");
-        var leaderID = (int)itemValue.GetMetadata("Leader");
-        EntityUtilities.SetLeaderAndOwner(entityId, leaderID);
+        // Safe casts for Integers
+        if (itemValue.GetMetadata("BelongsToPlayer") is int pId)
+            belongsPlayerId = pId;
+
+        if (itemValue.GetMetadata("health") is int hp)
+            Health = hp;
+
+        if (itemValue.GetMetadata("Leader") is int lId)
+            EntityUtilities.SetLeaderAndOwner(entityId, lId);
+
         lootContainer.entityId = entityId;
         lootContainer.lootListName = itemValue.GetMetadata("LootListName") as string;
+
+        // Restore Loot Container
         var slots = lootContainer.items;
         for (var i = 0; i < slots.Length; i++)
         {
@@ -2063,13 +2191,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             var storage = itemValue.GetMetadata(key)?.ToString();
             if (string.IsNullOrEmpty(storage)) continue;
 
-            var itemId = storage.Split(',')[0];
-            var quality = StringParsers.ParseUInt16(storage.Split(',')[1]);
-            var itemCount = StringParsers.ParseSInt32(storage.Split(',')[2]);
+            var split = storage.Split(',');
+            var itemId = split[0];
+            var quality = StringParsers.ParseUInt16(split[1]);
+            var itemCount = StringParsers.ParseSInt32(split[2]);
             var createItem = ItemClass.GetItem(itemId);
-            if (storage.Split(',').Length > 3)
+            if (split.Length > 3)
             {
-                var useTime = StringParsers.ParseFloat(storage.Split(',')[3]);
+                var useTime = StringParsers.ParseFloat(split[3]);
                 createItem.UseTimes = useTime;
             }
 
@@ -2078,8 +2207,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             lootContainer.AddItem(stack);
         }
 
-
-        // Tool belt
+        // Restore Tool Belt
         slots = inventory.GetSlots();
         for (var i = 0; i < slots.Length; i++)
         {
@@ -2087,40 +2215,61 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             var storage = itemValue.GetMetadata(key)?.ToString();
             if (string.IsNullOrEmpty(storage)) continue;
 
-            var itemId = storage.Split(',')[0];
-            var quality = StringParsers.ParseUInt16(storage.Split(',')[1]);
-            var itemCount = StringParsers.ParseSInt32(storage.Split(',')[2]);
+            var split = storage.Split(',');
+            var itemId = split[0];
+            var quality = StringParsers.ParseUInt16(split[1]);
+            var itemCount = StringParsers.ParseSInt32(split[2]);
             var createItem = ItemClass.GetItem(itemId);
             createItem.Quality = quality;
             var stack = new ItemStack(createItem, itemCount);
             inventory.SetItem(i, stack);
         }
 
+        // Restore Buffs
+        // Safely cast object to int using 'as' or 'is' pattern matching to prevent casting errors
+        int totalBuffs = 0;
+        object buffObj = itemValue.GetMetadata("TotalBuff");
+        if (buffObj is int bCount) totalBuffs = bCount;
 
-        var x = (int)itemValue.GetMetadata("TotalBuff");
-        for (var i = 0; i < x; i++)
+        for (var i = 0; i < totalBuffs; i++)
         {
             var buffName = itemValue.GetMetadata($"Buff-{i}")?.ToString();
-            Buffs.AddBuff(buffName);
+            if (!string.IsNullOrEmpty(buffName))
+                Buffs.AddBuff(buffName);
         }
 
-        x = (int)itemValue.GetMetadata("TotalCVar");
-        for (var i = 0; i < x; i++)
+        // Restore CVars
+        int totalCVars = 0;
+        object cvarObj = itemValue.GetMetadata("TotalCVar");
+        if (cvarObj is int cCount) totalCVars = cCount;
+
+        for (var i = 0; i < totalCVars; i++)
         {
             var cvarData = itemValue.GetMetadata($"CVar-{i}")?.ToString();
-            if (cvarData == null) continue;
+            if (string.IsNullOrEmpty(cvarData)) continue;
 
-            var cvarName = cvarData.Split(':')[0];
-            var cvarValue = cvarData.Split(':')[1];
-            Buffs.AddCustomVar(cvarName, StringParsers.ParseFloat(cvarValue));
+            var parts = cvarData.Split(':');
+            if (parts.Length == 2)
+            {
+                var cvarName = parts[0];
+                var cvarValue = StringParsers.ParseFloat(parts[1]);
+                Buffs.AddCustomVar(cvarName, cvarValue);
+            }
         }
 
-        var weaponType = itemValue.GetMetadata("CurrentWeapon").ToString();
-        _defaultWeapon = itemValue.GetMetadata("DefaultWeapon").ToString();
-        var item = ItemClass.GetItem(weaponType);
-        if (item != null)
+        // Restore Weapon
+        object weaponObj = itemValue.GetMetadata("CurrentWeapon");
+        if (weaponObj != null)
         {
-            UpdateWeapon(item, true);
+            var weaponType = weaponObj.ToString();
+            object defWeaponObj = itemValue.GetMetadata("DefaultWeapon");
+            if (defWeaponObj != null) _defaultWeapon = defWeaponObj.ToString();
+
+            var item = ItemClass.GetItem(weaponType);
+            if (item != null)
+            {
+                UpdateWeapon(item, true);
+            }
         }
 
         Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);

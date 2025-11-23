@@ -9,10 +9,8 @@
   </PropertyGroup>
   
   
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v18.0\TextTemplating\Microsoft.TextTemplating.targets" />
 
-  
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
-  
  	
 	<!-- Disables the extra step of copying all the reference DLLs to the build area. We never use them after the build, so we can skip this -->
 	<Target Name="ModifyCopyLocal" AfterTargets="BeforeBuild">

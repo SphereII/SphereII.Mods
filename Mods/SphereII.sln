@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z-SphereIIDebugging", "Z-Sp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blooms Family Farming", "Blooms Family Farming\Blooms Family Farming.csproj", "{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterBiomeEffects", "BetterBiomeEffects\BetterBiomeEffects.csproj", "{C6AFD252-2407-4925-9398-6FE0B33F0D58}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompoPackTweaks", "CompoPackTweaks\CompoPackTweaks.csproj", "{4674833F-887F-4849-A239-7FDDBC6B1C67}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Winter Project", "SphereII Winter Project\SphereII Winter Project.csproj", "{C2DC2D3C-23A3-4B5F-ACEE-39C77D5D10A2}"
@@ -35,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleProject", "SampleProj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Disable Sway", "SphereII Disable Sway\SphereII Disable Sway.csproj", "{8C6A0FC3-1A35-4EA3-AE07-186DD5E94900}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Challenges", "..\..\..\Users\kilpa\Documents\GitHub\SphereII.Mods\Mods\SphereII Challenges\SphereII Challenges.csproj", "{44065753-4709-4498-BD9E-CD3C16AC4C9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Challenges", "SphereII Challenges\SphereII Challenges.csproj", "{44065753-4709-4498-BD9E-CD3C16AC4C9C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Learn By Doing", "SphereII Learn By Doing\SphereII Learn By Doing.csproj", "{BBADFA39-7F84-47F7-B43D-92070FC91D05}"
 EndProject
@@ -76,10 +74,6 @@ Global
 		{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4674833F-887F-4849-A239-7FDDBC6B1C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4674833F-887F-4849-A239-7FDDBC6B1C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4674833F-887F-4849-A239-7FDDBC6B1C67}.Release|Any CPU.ActiveCfg = Release|Any CPU

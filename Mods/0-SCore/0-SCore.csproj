@@ -534,6 +534,7 @@
     <Compile Include="Scripts\Entities\IEntityOrderReceiverSDX.cs" />
     <Compile Include="Scripts\Entities\LegacyEntityClasses.cs" />
     <Compile Include="Scripts\Entities\ModGeneralUtilities.cs" />
+    <Compile Include="Scripts\Entities\SCoreNPCManager.cs" />
     <Compile Include="Scripts\Events\EventOnClientKill.cs" />
     <Compile Include="Scripts\Events\EventOnCVarAdded.cs" />
     <Compile Include="Scripts\Events\EventOnSleeperVolumeClearedUpdate.cs" />
@@ -1050,6 +1051,11 @@
       <HintPath>..\..\7DaysToDie_Data\Managed\LogLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.TextTemplating, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.VisualStudio.TextTemplating.17.10.40170\lib\net472\Microsoft.VisualStudio.TextTemplating.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard" />
 
     <Reference Include="System.Xml">
       <HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.dll</HintPath>
