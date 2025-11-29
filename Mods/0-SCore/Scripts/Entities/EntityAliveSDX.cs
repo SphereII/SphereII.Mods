@@ -81,7 +81,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     private BlockValue corpseBlockValue;
     private float corpseBlockChance;
 
-    private string _currentWeapon = "";
+    public string _currentWeapon = "";
     private string _defaultWeapon = "";
 
     // if the NPC isn't available, don't return a loot. This disables the "Press <E> to search..."
@@ -129,10 +129,12 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     public string Title
     {
         get { return Localization.Get(_strTitle); }
+        set => throw new NotImplementedException();
     }
 
     public string FirstName
     {
+        set => _strMyName = value;
         get { return Localization.Get(_strMyName); }
     }
 
@@ -476,12 +478,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         // If not a human, don't talk to them
         if (!EntityUtilities.IsHuman(entityId)) return new EntityActivationCommand[0];
-
         // do we have an attack or revenge target? don't have time to talk, bro
         var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
         if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return new EntityActivationCommand[0];
-
-
         return new[]
         {
             new EntityActivationCommand("Greet " + EntityName, "talk", true)
@@ -493,7 +492,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         EntityAlive entityFocusing)
     {
         var localPlayer = entityFocusing as EntityPlayerLocal;
-
         if (IsDead())
         {
             GameManager.Instance.TELockServer(0, tePos, this.entityId, entityFocusing.entityId, null);
@@ -503,29 +501,29 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         // Don't allow interaction with a Hated entity
         if (EntityTargetingUtilities.IsEnemy(this, entityFocusing))
         {
+            Debug.Log("4");
             if (localPlayer)
                 GameManager.ShowTooltip(localPlayer, Localization.Get("entityaliveSDXEnemy"));
             return false;
         }
 
         // do we have an attack or revenge target? don't have time to talk, bro
-//        var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
-//        if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return false;
         if (enemyDistanceToTalk > 0)
         {
             if (SCoreUtils.IsEnemyNearby(this, enemyDistanceToTalk))
             {
                 if (localPlayer)
                     GameManager.ShowTooltip(localPlayer, Localization.Get("entityaliveSDXEnemyNearby"));
-
                 return false;
             }
         }
+
 
         Buffs.SetCustomVar("Persist", 1);
 
         // Look at the entity that is talking to you.
         SetLookPosition(entityFocusing.getHeadPosition());
+
 
         // This is used by various dialog boxes to know which EntityID the player is talking too.
         entityFocusing.Buffs.SetCustomVar("CurrentNPC", entityId);
@@ -535,91 +533,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityFocusing as EntityPlayerLocal);
         uiforPlayer.xui.Dialog.Respondent = this;
 
+
         return base.OnEntityActivated(indexInBlockActivationCommands, tePos, entityFocusing);
 
-        // We don't want the quest system to consider this NPC as interacted with
-        if (Buffs.HasCustomVar("NPCInteractedFlag") && Buffs.GetCustomVar("NPCInteractedFlag") == 1)
-        {
-            return base.OnEntityActivated(indexInBlockActivationCommands, tePos, entityFocusing);
-        }
-
-        //if (!isQuestGiver)
-        //{
-        //    return base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
-        //}
-        Quest nextCompletedQuest =
-            (entityFocusing as EntityPlayerLocal)?.QuestJournal.GetNextCompletedQuest(null, this.entityId);
-        // If the quest giver is not defined, don't let them close out the quest. We only want them to close out their own.
-
-        if (nextCompletedQuest != null && nextCompletedQuest.QuestGiverID != entityId)
-            nextCompletedQuest = null;
-
-
-        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
-        {
-            if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty"
-                || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting"
-                || GamePrefs.GetString(EnumGamePrefs.GameMode) == "GameModeEditWorld")
-            {
-                Debug.Log("Skipping activating Quests in Playtesting.");
-            }
-            else
-            {
-                this.activeQuests = QuestEventManager.Current.GetQuestList(GameManager.Instance.World, this.entityId,
-                    entityFocusing.entityId);
-                if (this.activeQuests == null)
-                {
-                    this.activeQuests = this.PopulateActiveQuests(entityFocusing as EntityPlayer, -1);
-                    QuestEventManager.Current.SetupQuestList(this, entityFocusing.entityId, this.activeQuests);
-                }
-            }
-        }
-
-        if (indexInBlockActivationCommands != 0)
-        {
-            if (indexInBlockActivationCommands == 1)
-            {
-                uiforPlayer.xui.Trader.TraderEntity = this;
-                if (nextCompletedQuest == null)
-                {
-                    GameManager.Instance.TELockServer(0, tePos, this.TileEntityTrader.entityId, entityFocusing.entityId,
-                        null);
-                }
-                else
-                {
-                    if (nextCompletedQuest.QuestGiverID != -1)
-                    {
-                        QuestEventManager.Current.NPCInteracted(this);
-                        uiforPlayer.xui.Dialog.QuestTurnIn = nextCompletedQuest;
-                        uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
-                        uiforPlayer.xui.Trader.TraderEntity.PlayVoiceSetEntry("questcomplete", localPlayer);
-                        uiforPlayer.windowManager.Open("questTurnIn", true, false, true);
-                    }
-                }
-            }
-        }
-        else
-        {
-            uiforPlayer.xui.Dialog.Respondent = this;
-            if (nextCompletedQuest == null)
-            {
-                uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
-                uiforPlayer.windowManager.Open(DialogWindow, true, false, true);
-                return false;
-            }
-
-            if (nextCompletedQuest != null && nextCompletedQuest.QuestGiverID != -1)
-            {
-                QuestEventManager.Current.NPCInteracted(this);
-                uiforPlayer.xui.Dialog.QuestTurnIn = nextCompletedQuest;
-                uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
-                uiforPlayer.xui.Dialog.Respondent.PlayVoiceSetEntry("questcomplete", localPlayer);
-                uiforPlayer.windowManager.Open("questTurnIn", true, false, true);
-            }
-        }
-
-
-        return true;
     }
 
 
@@ -675,8 +591,30 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         SetSpawnerSource(EnumSpawnerSource.Biome);
         enemyDistanceToTalk =
             StringParsers.ParseFloat(Configuration.GetPropertyValue("AdvancedNPCFeatures", "EnemyDistanceToTalk"));
+        
+        SanitizeTraderData();
     }
 
+    private void SanitizeTraderData()
+    {
+        if (this.TileEntityTrader != null && this.TileEntityTrader.TraderData != null)
+        {
+            var inv = this.TileEntityTrader.TraderData.PrimaryInventory;
+            
+            // Heuristic: If the inventory is massive or null, it's corrupt data from a bad save.
+            // Vanilla traders usually have ~80 slots max. 
+            if (inv == null || inv.Count > 200) 
+            {
+                Log.Warning($"[0-SCore] Detected corrupt TraderData on {EntityName} (ID: {entityId}). Resetting Trader Data to prevent crash.");
+                
+                // Reset the TileEntityTrader to a clean state
+                Chunk chunk = null; // Entity TEs don't have chunks
+                this.TileEntityTrader = new TileEntityTrader(chunk);
+                this.TileEntityTrader.entityId = this.entityId;
+                this.TileEntityTrader.TraderData.TraderID = NPCInfo != null ? NPCInfo.TraderID : 1;
+            }
+        }
+    }
     /// <inheritdoc/>
     public virtual void UpdatePatrolPoints(Vector3 position)
     {
@@ -692,69 +630,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             patrolCoordinates.Add(position);
     }
 
-    public override void Read(byte _version, BinaryReader _br)
-    {
-        // This reads the base Entity, EntityAlive, and EntityNPC (Bag) data
-        // It works now because we pass _version = 60
-        base.Read(_version, _br);
-
-        _strMyName = _br.ReadString();
-    
-        questJournal = new QuestJournal();
-        questJournal.Read(_br as PooledBinaryReader);
-    
-        patrolCoordinates.Clear();
-        var strPatrol = _br.ReadString();
-        foreach (var strPatrolPoint in strPatrol.Split(';'))
-        {
-            var temp = ModGeneralUtilities.StringToVector3(strPatrolPoint);
-            if (temp != Vector3.zero)
-                patrolCoordinates.Add(temp);
-        }
-
-        var strGuardPosition = _br.ReadString();
-        guardPosition = ModGeneralUtilities.StringToVector3(strGuardPosition);
-        factionId = _br.ReadByte();
-        guardLookPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());
-    
-        try
-        {
-            Buffs.Read(_br);
-            if (Progression != null)
-                Progression.Read(_br, this);
-        }
-        catch (Exception) { }
-
-        // --- MATCHING YOUR WRITE METHOD ---
-
-        // 1. Read Weapon String
-        _currentWeapon = _br.ReadString();
-        UpdateWeapon(_currentWeapon);
-
-        // 2. Read Inventory
-        inventory.SetSlots(GameUtils.ReadItemStack(_br));
-
-        // 3. Read Loot Container
-        // We handle the null case just like in Write
-        ItemStack[] lootItems = GameUtils.ReadItemStack(_br);
-        
-        if (lootContainer == null)
-        {
-            Chunk chunk = null;
-            lootContainer = new TileEntityLootContainer(chunk);
-            lootContainer.entityId = this.entityId;
-            lootContainer.SetContainerSize(LootContainer.GetLootContainer(GetLootList()).size);
-        }
-        if (lootItems != null)
-        {
-            lootContainer.items = lootItems;
-        }
-
-        // 4. Read Bag
-        // Note: This reads the bag *again* (overwriting what base.Read did), 
-        // but this is required to stay aligned with your Write method.
-        bag.SetSlots(GameUtils.ReadItemStack(_br));
-    }
+  
     public ushort GetSyncFlagsReplicated(ushort syncFlags)
     {
         return syncFlags;
@@ -800,6 +676,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         lootContainer.bPlayerStorage = true;
+        _currentWeapon = _br.ReadString();
+        var _entityName = _br.ReadString();
+        SetEntityName(_entityName);
+        UpdateWeapon(_currentWeapon);
     }
 
     /// <inheritdoc/>
@@ -868,53 +748,128 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     }
 
 
+  // -------------------------------------------------------------------------
+    // PERSISTENCE (SAVE / LOAD)
+    // -------------------------------------------------------------------------
+
     public override void Write(BinaryWriter _bw, bool bNetworkWrite)
     {
+        // 1. Base Class Data (Health, Inventory, Bag, Position, Rotation)
         base.Write(_bw, bNetworkWrite);
-        _bw.Write(_strMyName);
-        questJournal.Write(_bw as PooledBinaryWriter);
-    
-        var strPatrolCoordinates = "";
-        foreach (var temp in patrolCoordinates) 
-            strPatrolCoordinates += ";" + temp;
 
-        _bw.Write(strPatrolCoordinates);
+        // 2. SDX Specific Data
+        _bw.Write(_strMyName);
         _bw.Write(guardPosition.ToString());
         _bw.Write(factionId);
         _bw.Write(guardLookPosition.ToString());
-    
+        
+        // 3. Quest Journal
+        questJournal.Write(_bw as PooledBinaryWriter);
+
+        // 4. Patrol Coordinates
+        string strPatrolCoordinates = "";
+        for (int i = 0; i < patrolCoordinates.Count; i++)
+        {
+            if (i > 0) strPatrolCoordinates += ";";
+            strPatrolCoordinates += patrolCoordinates[i].ToString();
+        }
+        _bw.Write(strPatrolCoordinates);
+
+        // 5. Buffs & Progression
         try
         {
             Buffs.Write(_bw);
-            // Disabled due to Potential Performance issues
-            Progression?.Write(_bw);
+            if (Progression != null) Progression.Write(_bw);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            // fail safe to protect game saves
+            Log.Error($"EntityAliveSDX.Write Failed to save Buffs/Progression: {ex.Message}");
         }
 
-        // 1. Write Weapon String
-        _bw.Write(inventory.holdingItem.GetItemName());
+        // 6. Visuals (Current Weapon)
+        // We save this string so we can restore the visual model immediately on load
+        string holdingItemName = inventory.holdingItem != null ? inventory.holdingItem.GetItemName() : "";
+        _bw.Write(holdingItemName);
 
-        // 2. Write Inventory
-        GameUtils.WriteItemStack(_bw, inventory.GetSlots());
-    
-        // 3. Write Loot Container (Handle Null)
+        // 7. Loot Container (The "Backpack" Storage)
+        // This is unique to SDX, so we must save it manually.
+        // We do NOT save 'inventory' or 'bag' here because base.Write already did it.
         if (lootContainer != null)
         {
+            _bw.Write(true); // Flag: Has Container
             GameUtils.WriteItemStack(_bw, lootContainer.GetItems());
         }
         else
         {
-            // Write an empty array if container is missing
-            GameUtils.WriteItemStack(_bw, new ItemStack[0]);
+            _bw.Write(false); // Flag: No Container
         }
-
-        // 4. Write Bag
-        GameUtils.WriteItemStack(_bw, bag.GetSlots());
     }
 
+    public override void Read(byte _version, BinaryReader _br)
+    {
+        // 1. Base Class Data (Reads Inventory, Bag, etc.)
+        base.Read(_version, _br);
+
+        // 2. SDX Specific Data
+        _strMyName = _br.ReadString();
+        guardPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());
+        factionId = _br.ReadByte();
+        guardLookPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());
+
+        // 3. Quest Journal
+        questJournal = new QuestJournal();
+        questJournal.Read(_br as PooledBinaryReader);
+
+        // 4. Patrol Coordinates
+        patrolCoordinates.Clear();
+        string strPatrol = _br.ReadString();
+        if (!string.IsNullOrEmpty(strPatrol))
+        {
+            foreach (var strPatrolPoint in strPatrol.Split(';'))
+            {
+                Vector3 temp = ModGeneralUtilities.StringToVector3(strPatrolPoint);
+                if (temp != Vector3.zero) patrolCoordinates.Add(temp);
+            }
+        }
+
+        // 5. Buffs & Progression
+        try
+        {
+            Buffs.Read(_br);
+            if (Progression != null) Progression.Read(_br, this);
+        }
+        catch (Exception) { }
+
+        // 6. Visuals
+        _currentWeapon = _br.ReadString();
+        if (!string.IsNullOrEmpty(_currentWeapon))
+        {
+            UpdateWeapon(_currentWeapon);
+        }
+
+        // 7. Loot Container
+        // Read the flag first
+        bool hasLootContainer = _br.ReadBoolean();
+        if (hasLootContainer)
+        {
+            ItemStack[] lootItems = GameUtils.ReadItemStack(_br);
+            
+            // Ensure container exists
+            if (lootContainer == null)
+            {
+                Chunk chunk= null;
+                lootContainer = new TileEntityLootContainer(chunk);
+                lootContainer.entityId = this.entityId;
+                // Default size if we can't find the class-specific one yet
+                lootContainer.SetContainerSize(new Vector2i(8, 6)); 
+            }
+            
+            if (lootItems != null)
+            {
+                lootContainer.items = lootItems;
+            }
+        }
+    }
     public void WriteSyncData(BinaryWriter _bw, ushort syncFlags)
     {
         // Inventory
@@ -928,6 +883,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         _bw.Write(_currentWeapon);
+        _bw.Write(EntityName);
     }
 
     public void GiveQuest(string strQuest)
@@ -2073,300 +2029,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         base.AwardKill(killer);
     }
 
-    public void Collect(int _playerId)
-    {
-        var entityPlayerLocal = world.GetEntity(_playerId) as EntityPlayerLocal;
-        if (entityPlayerLocal == null) return;
-
-        // 1. Persist the Entity using the Manager
-        // This saves the full binary state to the SCoreNPCManager cache/file
-        long uniqueID = SCoreNPCManager.Instance.SaveNPC(this);
-        if (uniqueID == -1)
-        {
-            Log.Error($"[0-SCore] Failed to save NPC {EntityName} to Manager. Aborting collection.");
-            return;
-        }
-
-        // 2. Determine the Item Class
-        string targetItemClass = "spherePickUpNPC";
-        EntityClass currentEntityClass = EntityClass.list[entityClass];
-        if (currentEntityClass.Properties.Values.ContainsKey("PickUpItem"))
-        {
-            targetItemClass = currentEntityClass.Properties.Values["PickUpItem"];
-        }
-
-        ItemClass itemClass = ItemClass.GetItemClass(targetItemClass, true);
-        if (itemClass == null)
-        {
-            Log.Out($"Invalid PickUpItem: {targetItemClass}");
-            return;
-        }
-
-        // 3. Create the Item
-        ItemStack itemStack = new ItemStack(new ItemValue(itemClass.Id), 1);
-
-        // 4. Initialize Metadata correctly
-        itemStack.itemValue.Metadata = new Dictionary<string, TypedMetadataValue>();
-
-        // 5. Write Metadata
-        // A. NPCID: The link to the binary data. Stored as String to safely handle long ticks.
-        itemStack.itemValue.SetMetadata("NPCID", uniqueID.ToString(), TypedMetadataValue.TypeTag.String);
-
-        // B. EntityClassId: REQUIRED for ItemActionDeployNPCSDX to know which prefab to spawn.
-        itemStack.itemValue.SetMetadata("EntityClassId", this.entityClass, TypedMetadataValue.TypeTag.Integer);
-
-        // C. NPCName: For the tooltip/display.
-        itemStack.itemValue.SetMetadata("NPCName", this.EntityName, TypedMetadataValue.TypeTag.String);
-
-        // 6. Give item to player
-        LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
-        if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack))
-        {
-            // Inventory full: Drop the item on the ground
-            GameManager.Instance.ItemDropServer(itemStack, entityPlayerLocal.GetPosition(), Vector3.zero, _playerId,
-                60f, false);
-        }
-
-        // Unload logic is handled externally.
-    }
-
-    public void SetItemValue(ItemValue itemValue)
-    {
-        if (itemValue == null) return;
-
-        // -------------------------------------------------------
-        // PATH A: The New System (Binary Persistence)
-        // -------------------------------------------------------
-        object npcIDObj = itemValue.GetMetadata("NPCID");
-
-        // We check if the object is a string, then try to parse it back to a long
-        if (npcIDObj is string npcIDString && long.TryParse(npcIDString, out long npcID))
-        {
-            // 1. Restore Full State from Manager
-            SCoreNPCManager.Instance.ApplyDataToEntity(npcID, this);
-
-            // 2. Update Visuals
-            if (inventory.holdingItemItemValue != null)
-            {
-                UpdateWeapon(inventory.holdingItemItemValue, true);
-            }
-
-            // Exit new path
-            return;
-        }
-
-        // -------------------------------------------------------
-        // PATH B: The Legacy System (Original Logic)
-        // -------------------------------------------------------
-
-        var entityName = itemValue.GetMetadata("NPCName") as string;
-        SetEntityName(entityName);
-
-        var myName = itemValue.GetMetadata("MyName") as string;
-        if (!string.IsNullOrEmpty(myName))
-            _strMyName = myName;
-
-        var myTitle = itemValue.GetMetadata("MyTitle") as string;
-        if (!string.IsNullOrEmpty(myTitle))
-            _strTitle = myTitle;
-
-        // Safe casts for Integers
-        if (itemValue.GetMetadata("BelongsToPlayer") is int pId)
-            belongsPlayerId = pId;
-
-        if (itemValue.GetMetadata("health") is int hp)
-            Health = hp;
-
-        if (itemValue.GetMetadata("Leader") is int lId)
-            EntityUtilities.SetLeaderAndOwner(entityId, lId);
-
-        lootContainer.entityId = entityId;
-        lootContainer.lootListName = itemValue.GetMetadata("LootListName") as string;
-
-        // Restore Loot Container
-        var slots = lootContainer.items;
-        for (var i = 0; i < slots.Length; i++)
-        {
-            var key = $"LootContainer-{i}";
-            var storage = itemValue.GetMetadata(key)?.ToString();
-            if (string.IsNullOrEmpty(storage)) continue;
-
-            var split = storage.Split(',');
-            var itemId = split[0];
-            var quality = StringParsers.ParseUInt16(split[1]);
-            var itemCount = StringParsers.ParseSInt32(split[2]);
-            var createItem = ItemClass.GetItem(itemId);
-            if (split.Length > 3)
-            {
-                var useTime = StringParsers.ParseFloat(split[3]);
-                createItem.UseTimes = useTime;
-            }
-
-            createItem.Quality = quality;
-            var stack = new ItemStack(createItem, itemCount);
-            lootContainer.AddItem(stack);
-        }
-
-        // Restore Tool Belt
-        slots = inventory.GetSlots();
-        for (var i = 0; i < slots.Length; i++)
-        {
-            var key = $"InventorySlot-{i}";
-            var storage = itemValue.GetMetadata(key)?.ToString();
-            if (string.IsNullOrEmpty(storage)) continue;
-
-            var split = storage.Split(',');
-            var itemId = split[0];
-            var quality = StringParsers.ParseUInt16(split[1]);
-            var itemCount = StringParsers.ParseSInt32(split[2]);
-            var createItem = ItemClass.GetItem(itemId);
-            createItem.Quality = quality;
-            var stack = new ItemStack(createItem, itemCount);
-            inventory.SetItem(i, stack);
-        }
-
-        // Restore Buffs
-        // Safely cast object to int using 'as' or 'is' pattern matching to prevent casting errors
-        int totalBuffs = 0;
-        object buffObj = itemValue.GetMetadata("TotalBuff");
-        if (buffObj is int bCount) totalBuffs = bCount;
-
-        for (var i = 0; i < totalBuffs; i++)
-        {
-            var buffName = itemValue.GetMetadata($"Buff-{i}")?.ToString();
-            if (!string.IsNullOrEmpty(buffName))
-                Buffs.AddBuff(buffName);
-        }
-
-        // Restore CVars
-        int totalCVars = 0;
-        object cvarObj = itemValue.GetMetadata("TotalCVar");
-        if (cvarObj is int cCount) totalCVars = cCount;
-
-        for (var i = 0; i < totalCVars; i++)
-        {
-            var cvarData = itemValue.GetMetadata($"CVar-{i}")?.ToString();
-            if (string.IsNullOrEmpty(cvarData)) continue;
-
-            var parts = cvarData.Split(':');
-            if (parts.Length == 2)
-            {
-                var cvarName = parts[0];
-                var cvarValue = StringParsers.ParseFloat(parts[1]);
-                Buffs.AddCustomVar(cvarName, cvarValue);
-            }
-        }
-
-        // Restore Weapon
-        object weaponObj = itemValue.GetMetadata("CurrentWeapon");
-        if (weaponObj != null)
-        {
-            var weaponType = weaponObj.ToString();
-            object defWeaponObj = itemValue.GetMetadata("DefaultWeapon");
-            if (defWeaponObj != null) _defaultWeapon = defWeaponObj.ToString();
-
-            var item = ItemClass.GetItem(weaponType);
-            if (item != null)
-            {
-                UpdateWeapon(item, true);
-            }
-        }
-
-        Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);
-    }
-
-    public ItemValue GetItemValue()
-    {
-        var type = 0;
-
-        var targetItemClass = "spherePickUpNPC";
-        var currentEntityClass = EntityClass.list[entityClass];
-        if (currentEntityClass.Properties.Values.ContainsKey("PickUpItem"))
-        {
-            targetItemClass = currentEntityClass.Properties.Values["PickUpItem"];
-        }
-
-        var itemClass = ItemClass.GetItemClass(targetItemClass, true);
-        if (itemClass != null)
-            type = itemClass.Id;
-        else
-        {
-            Log.Out($"Invalid PickUpItem: {targetItemClass}");
-            return ItemValue.None;
-        }
-
-        var itemValue = new ItemValue(type, false);
-        itemValue.SetMetadata("NPCName", EntityName, TypedMetadataValue.TypeTag.String);
-        if (!string.IsNullOrEmpty(_strMyName))
-            itemValue.SetMetadata("MyName", _strMyName, TypedMetadataValue.TypeTag.String);
-        if (!string.IsNullOrEmpty(_strTitle))
-            itemValue.SetMetadata("MyTitle", _strTitle, TypedMetadataValue.TypeTag.String);
-        itemValue.SetMetadata("EntityClassId", entityClass, TypedMetadataValue.TypeTag.Integer);
-        itemValue.SetMetadata("BelongsToPlayer", belongsPlayerId, TypedMetadataValue.TypeTag.Integer);
-        itemValue.SetMetadata("health", Health, TypedMetadataValue.TypeTag.Integer);
-        var leader = EntityUtilities.GetLeaderOrOwner(entityId);
-        if (leader)
-            itemValue.SetMetadata("Leader", leader.entityId, TypedMetadataValue.TypeTag.Integer);
-        itemValue.SetMetadata("CurrentWeapon", inventory.holdingItem.GetItemName(), TypedMetadataValue.TypeTag.String);
-        itemValue.SetMetadata("DefaultWeapon", _defaultWeapon, TypedMetadataValue.TypeTag.String);
-        itemValue.SetMetadata("RightHandJointName", inventory.holdingItem.Properties.GetString("RightHandJointName"),
-            TypedMetadataValue.TypeTag.String);
-
-        itemValue.SetMetadata("NoStorage", 0, TypedMetadataValue.TypeTag.Integer);
-        if (currentEntityClass.Properties.Values.ContainsKey("NoStorage"))
-        {
-            var noStorage = currentEntityClass.Properties.GetBool("NoStorage");
-            itemValue.SetMetadata("NoStorage", noStorage ? 1 : 0, TypedMetadataValue.TypeTag.Integer);
-        }
-
-        if (lootContainer == null) return itemValue;
-
-        if (!string.IsNullOrEmpty(lootContainer.lootListName))
-            itemValue.SetMetadata("LootListName", lootContainer.lootListName, TypedMetadataValue.TypeTag.String);
-        var slots = lootContainer.items;
-        for (var i = 0; i < slots.Length; i++)
-        {
-            if (slots[i].IsEmpty()) continue;
-            var itemId = slots[i].itemValue.ItemClass.GetItemName();
-            var quality = slots[i].itemValue.Quality;
-            var itemCount = slots[i].count;
-            var itemUse = slots[i].itemValue.UseTimes;
-            var storage = $"{itemId},{quality},{itemCount},{itemUse}";
-            itemValue.SetMetadata($"LootContainer-{i}", storage, TypedMetadataValue.TypeTag.String);
-        }
-
-        // Tool belt
-        slots = inventory.GetSlots();
-        for (var i = 0; i < slots.Length; i++)
-        {
-            if (slots[i].IsEmpty()) continue;
-            var itemId = slots[i].itemValue.ItemClass.GetItemName();
-            var quality = slots[i].itemValue.Quality;
-            var itemCount = slots[i].count;
-            var itemUse = slots[i].itemValue.UseTimes;
-            var storage = $"{itemId},{quality},{itemCount},{itemUse}";
-            itemValue.SetMetadata($"InventorySlot-{i}", storage, TypedMetadataValue.TypeTag.String);
-        }
-
-        var x = 0;
-        itemValue.SetMetadata($"TotalBuff", Buffs.ActiveBuffs.Count, TypedMetadataValue.TypeTag.Integer);
-        foreach (var buff in Buffs.ActiveBuffs)
-        {
-            itemValue.SetMetadata($"Buff-{x}", buff.BuffName, TypedMetadataValue.TypeTag.String);
-            x++;
-        }
-
-        x = 0;
-        itemValue.SetMetadata($"TotalCVar", Buffs.CVars.Count, TypedMetadataValue.TypeTag.Integer);
-        foreach (var cvar in Buffs.CVars)
-        {
-            var value = $"{cvar.Key}:{cvar.Value}";
-            itemValue.SetMetadata($"CVar-{x}", value, TypedMetadataValue.TypeTag.String);
-            x++;
-        }
-
-        return itemValue;
-    }
+  
 
     public bool FindWeapon(string weapon)
     {

@@ -45,7 +45,8 @@ public class NetPackagePlaceNPCSDX : global::NetPackage
         }
         var entityAliveSdx = (EntityAliveSDX)EntityFactory.CreateEntity(_entityType, _pos, _rot);
         entityAliveSdx.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
-        entityAliveSdx.SetItemValue(_itemValue.Clone());
+        EntitySyncUtils.SetNPCItemValue(entityAliveSdx, _itemValue);
+        //entityAliveSdx.SetItemValue(_itemValue.Clone());
         world.SpawnEntityInWorld(entityAliveSdx);
     }
 

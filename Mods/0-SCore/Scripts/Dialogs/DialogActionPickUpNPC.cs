@@ -16,11 +16,17 @@ public class DialogActionPickUpNPC : BaseDialogAction
                 return;
             }
         }
-        var itemValue = myEntity.GetItemValue();
+        //var itemValue = myEntity.GetItemValue();
+        var itemValue = EntitySyncUtils.GetNPCItemValue(myEntity);
         var itemStack = new ItemStack(itemValue, 1);
         if (player.inventory.CanTakeItem(itemStack) || player.bag.CanTakeItem(itemStack))
         {
-            EntityUtilities.CollectEntityServer(myEntity.entityId, player.entityId);
+            // Close UI to prevent packet spam/errors
+          //  playerUI.windowManager.CloseAllOpenWindows(null, false);
+          //            playerUI.xui.Dialog.Respondent = null;
+            //myEntity.Collect(player.entityId);
+            EntitySyncUtils.Collect(myEntity, player.entityId); 
+            
         }
         else
         {

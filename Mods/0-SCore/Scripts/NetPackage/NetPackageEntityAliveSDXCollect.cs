@@ -26,7 +26,8 @@
             {
                 var myEntity = GameManager.Instance.World.GetEntity(_entityId) as EntityAliveSDX;
                 if (myEntity == null) return;
-                myEntity.Collect(_playerId);
+                //myEntity.Collect(_playerId);
+                EntitySyncUtils.Collect(myEntity, _playerId);
             }
             else
             {

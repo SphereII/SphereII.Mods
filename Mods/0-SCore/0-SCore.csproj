@@ -337,6 +337,7 @@
     <Compile Include="Harmony\NPCFeatures\EntityNPCSpeedFix.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityStatsInit.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityTraderEModalSetLookAt.cs" />
+    <Compile Include="Harmony\NPCFeatures\NetPackageNPCQuestList.cs" />
     <Compile Include="Harmony\PlayerFeatures\AutoRedeemChallenges.cs" />
     <Compile Include="Harmony\PlayerFeatures\Encumbrance.cs" />
     <Compile Include="Harmony\PlayerFeatures\EntityStats.cs" />
@@ -531,10 +532,10 @@
     <Compile Include="Scripts\Entities\EntityUtilities.cs" />
     <Compile Include="Scripts\Entities\EntityZombieFlockSDX.cs" />
     <Compile Include="Scripts\Entities\EntityZombieFlyingSDX.cs" />
+    <Compile Include="Scripts\Entities\EntitySyncUtils.cs" />
     <Compile Include="Scripts\Entities\IEntityOrderReceiverSDX.cs" />
     <Compile Include="Scripts\Entities\LegacyEntityClasses.cs" />
     <Compile Include="Scripts\Entities\ModGeneralUtilities.cs" />
-    <Compile Include="Scripts\Entities\SCoreNPCManager.cs" />
     <Compile Include="Scripts\Events\EventOnClientKill.cs" />
     <Compile Include="Scripts\Events\EventOnCVarAdded.cs" />
     <Compile Include="Scripts\Events\EventOnSleeperVolumeClearedUpdate.cs" />
@@ -625,7 +626,6 @@
     <Compile Include="Scripts\NetPackage\NetPackageDeployNPCSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageEntityAliveSDXCollect.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageEntityAliveSDXDataSync.cs" />
-    <Compile Include="Scripts\NetPackage\NetPackagePickUpNPCSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackagePlaceNPCSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageQuestBlockDestroyedSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageRemoveBroadcastPosition.cs" />
