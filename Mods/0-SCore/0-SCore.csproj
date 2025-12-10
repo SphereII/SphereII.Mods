@@ -93,6 +93,7 @@
     <Compile Include="Features\DynamicBones\Scripts\DynamicBonePlaneCollider.cs" />
     <Compile Include="Features\EntityPooling\Harmony\EntityFactoryPatch.cs" />
     <Compile Include="Features\EntityPooling\Scripts\EntityFactoryPool.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\EntityGroupsIsEnemyGroup.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\TileEntityCopyFrom.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\TraderDataReadInventoryData.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\BlockCropControlPanel.cs" />

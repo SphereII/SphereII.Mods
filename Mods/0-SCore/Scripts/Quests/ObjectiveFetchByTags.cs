@@ -22,6 +22,7 @@ public class ObjectiveFetchByTags :  ObjectiveFetch
         this.CopyValues(objectiveFetch);
         objectiveFetch.KeepItems = true;
         objectiveFetch.tags = tags;
+        objectiveFetch.localizationDesc = localizationDesc;
         return objectiveFetch;
     }
 

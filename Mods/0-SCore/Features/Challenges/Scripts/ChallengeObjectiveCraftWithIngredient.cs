@@ -27,7 +27,7 @@ namespace Challenges {
             get {
                 if (string.IsNullOrEmpty(_descriptionOverride))
                 {
-                    return Localization.Get($"{LocalizationKey}") + ingredientString;
+                    return $"{Localization.Get(LocalizationKey)} {Localization.Get(ingredientString)}";
                 }
 
                 return Localization.Get(_descriptionOverride);

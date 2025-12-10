@@ -21,7 +21,7 @@ namespace Challenges {
         }
 
         public static string GenerateString(string value) {
-            return string.IsNullOrEmpty(value) ? "" : $"{value} ";
+            return string.IsNullOrEmpty(value) ? "" : $"{Localization.Get(value)} ";
         }
         public static string GetWithString() {
             return Localization.Get("challengeObjectiveWith");

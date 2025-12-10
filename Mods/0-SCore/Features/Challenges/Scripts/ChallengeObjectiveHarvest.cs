@@ -52,8 +52,15 @@ namespace Challenges {
         }
 
         public virtual void Current_HarvestItem(ItemValue held, ItemStack stack, BlockValue bv) {
-            if ( !string.IsNullOrEmpty(held_tags))
-                if (!SCoreChallengeUtils.IsHoldingItemHasTag(held_tags)) return;
+
+            if (!string.IsNullOrEmpty(held_tags))
+            {
+                if (!SCoreChallengeUtils.IsHoldingItemHasTag(held_tags))
+                {
+
+                    return;
+                }
+            }
 
             if (!string.IsNullOrEmpty(itemClass))
             {
@@ -66,13 +73,25 @@ namespace Challenges {
                     break;
                 }
 
-                if (!result) return;
+                if (!result)
+                {
+            
+
+                    return;
+                }
             }
+
+            
 
             if (!string.IsNullOrEmpty(itemTag))
             {
                 var tag = FastTags<TagGroup.Global>.Parse(itemTag);
-                if (!stack.itemValue.ItemClass.HasAnyTags(tag)) return;
+                if (!stack.itemValue.ItemClass.HasAnyTags(tag))
+                {
+                    
+
+                    return;
+                }
             }
 
             if (!CheckBiome()) return;
