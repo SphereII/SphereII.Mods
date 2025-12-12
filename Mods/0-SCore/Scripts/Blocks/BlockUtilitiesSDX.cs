@@ -40,12 +40,12 @@ public static class BlockUtilitiesSDX
                 var item = default(BlockRadiusEffect);
                 if (num12 != -1 && num13 != -1 && num13 > num12 + 1)
                 {
-                    item.radius = StringParsers.ParseFloat(text4.Substring(num12 + 1, num13 - num12 - 1));
+                    item.radiusSq = StringParsers.ParseFloat(text4.Substring(num12 + 1, num13 - num12 - 1));
                     item.variable = text4.Substring(0, num12);
                 }
                 else
                 {
-                    item.radius = 1f;
+                    item.radiusSq = 1f;
                     item.variable = text4;
                 }
 
@@ -77,12 +77,12 @@ public static class BlockUtilitiesSDX
                 var item = default(BlockRadiusEffect);
                 if (num12 != -1 && num13 != -1 && num13 > num12 + 1)
                 {
-                    item.radius = StringParsers.ParseFloat(text4.Substring(num12 + 1, num13 - num12 - 1));
+                    item.radiusSq = StringParsers.ParseFloat(text4.Substring(num12 + 1, num13 - num12 - 1));
                     item.variable = text4.Substring(0, num12);
                 }
                 else
                 {
-                    item.radius = 1f;
+                    item.radiusSq = 1f;
                     item.variable = text4;
                 }
 

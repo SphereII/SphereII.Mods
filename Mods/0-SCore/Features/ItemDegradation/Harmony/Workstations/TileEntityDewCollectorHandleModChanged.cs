@@ -3,13 +3,13 @@ using SCore.Features.ItemDegradation.Utils;
 
 namespace SCore.Features.ItemDegradation.Harmony.Workstations
 {
-    [HarmonyPatch(typeof(TileEntityDewCollector))]
-    [HarmonyPatch(nameof(TileEntityDewCollector.HandleModChanged))]
+    [HarmonyPatch(typeof(TileEntityCollector))]
+    [HarmonyPatch(nameof(TileEntityCollector.HandleModChanged))]
     public class TileEntityDewCollectorHandleModChanged
     {
-        public static void Postfix(TileEntityDewCollector __instance)
+        public static void Postfix(TileEntityCollector __instance)
         {
-            var blockDewCollector = (BlockDewCollector)__instance.blockValue.Block;
+            var blockDewCollector = (BlockCollector)__instance.blockValue.Block;
             for (int i = 0; i < __instance.modSlots.Length; i++)
             {
                 var mod = __instance.modSlots[i];
@@ -25,13 +25,13 @@ namespace SCore.Features.ItemDegradation.Harmony.Workstations
 
                 switch (blockDewCollector.ModTypes[i])
                 {
-                    case BlockDewCollector.ModEffectTypes.Type:
+                    case BlockCollector.ModEffectTypes.Type:
                         __instance.IsModdedConvertItem = false;
                         break;
-                    case BlockDewCollector.ModEffectTypes.Speed:
+                    case BlockCollector.ModEffectTypes.Speed:
                         __instance.CurrentConvertSpeed = 1f;
                         break;
-                    case BlockDewCollector.ModEffectTypes.Count:
+                    case BlockCollector.ModEffectTypes.Count:
                         __instance.CurrentConvertCount = 1;
                         break;
                 }

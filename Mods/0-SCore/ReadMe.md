@@ -32,6 +32,15 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.5.2.1743 ( Experimental )
+
+	[ Update ]
+		- Updated calls to radius to radiussq() for buff radius
+		- Updated SCore's Requirement Challenge groups
+		- Changed TileEntityDewCollectors to target TileEntityCollector
+		- Updated tooltip for Advanced Item Repairs, which were using labels no longer available.
+
+
 Version: 2.4.73.2102
 	[ Troubleshooting ]
 		- Added a patch to EntityGroup.IsEnemyGroup to add more error checking, in case an entity group or entity isn't valid.

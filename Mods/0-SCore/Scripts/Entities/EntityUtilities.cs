@@ -2011,7 +2011,7 @@ public static class EntityUtilities
                     for (var l = 0; l < block2.RadiusEffects.Length; l++)
                     {
                         var blockRadiusEffect = block2.RadiusEffects[l];
-                        if (distanceSq <= blockRadiusEffect.radius * blockRadiusEffect.radius &&
+                        if (distanceSq <= blockRadiusEffect.radiusSq &&
                             !entityAlive.Buffs.HasBuff(blockRadiusEffect.variable))
                             entityAlive.Buffs.AddBuff(blockRadiusEffect.variable);
                     }

@@ -13,26 +13,26 @@ public static class ChallengeRequirementManager
         if (string.IsNullOrEmpty(id)) return;
 
         MinEffectGroup minEffectGroup = new MinEffectGroup();
-        minEffectGroup.Requirements = new List<IRequirement>();
+        minEffectGroup.Requirements = RequirementBase.ParseRequirementGroup(_element);
+if ( minEffectGroup.Requirements?.groups == null) return;
+        // foreach (XElement childElement in _element.Elements())
+        // {
+        //     if (childElement.Name.LocalName.EqualsCaseInsensitive("requirements"))
+        //     {
+        //         if (childElement.HasAttribute("compare_type"))
+        //         {
+        //             minEffectGroup.OrCompareRequirements = childElement.GetAttribute("compare_type").EqualsCaseInsensitive("or");
+        //         }
+        //
+        //         minEffectGroup.Requirements.AddRange(RequirementBase.ParseRequirements(childElement));
+        //     }
+        //     else if (childElement.Name.LocalName.EqualsCaseInsensitive("requirement"))
+        //     {
+        //         minEffectGroup.Requirements.Add(RequirementBase.ParseRequirement(childElement));
+        //     }
+        // }
 
-        foreach (XElement childElement in _element.Elements())
-        {
-            if (childElement.Name.LocalName.EqualsCaseInsensitive("requirements"))
-            {
-                if (childElement.HasAttribute("compare_type"))
-                {
-                    minEffectGroup.OrCompareRequirements = childElement.GetAttribute("compare_type").EqualsCaseInsensitive("or");
-                }
-
-                minEffectGroup.Requirements.AddRange(RequirementBase.ParseRequirements(childElement));
-            }
-            else if (childElement.Name.LocalName.EqualsCaseInsensitive("requirement"))
-            {
-                minEffectGroup.Requirements.Add(RequirementBase.ParseRequirement(childElement));
-            }
-        }
-
-        if (minEffectGroup.Requirements.Count > 0)
+        if (minEffectGroup.Requirements.groups.Count > 0)
         {
             ChallengeRequirements.TryAdd(id.ToLower(), minEffectGroup);
         }
@@ -57,28 +57,30 @@ public static class ChallengeRequirementManager
 
     private static bool canRun(MinEffectGroup minEffectGroup, MinEventParams pParams)
     {
+        
         if (minEffectGroup.Requirements == null) return true;
-        if (minEffectGroup.OrCompareRequirements)
-        {
-            foreach (var t in minEffectGroup.Requirements)
-            {
-                if (t.IsValid(pParams))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        for (var j = 0; j < minEffectGroup.Requirements.Count; j++)
-        {
-            if (!minEffectGroup.Requirements[j].IsValid(pParams))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return minEffectGroup.Requirements.IsValid(pParams);
+        // if (minEffectGroup.OrCompareRequirements)
+        // {
+        //     foreach (var t in minEffectGroup.Requirements)
+        //     {
+        //         if (t.IsValid(pParams))
+        //         {
+        //             return true;
+        //         }
+        //     }
+        //
+        //     return false;
+        // }
+        //
+        // for (var j = 0; j < minEffectGroup.Requirements.Count; j++)
+        // {
+        //     if (!minEffectGroup.Requirements[j].IsValid(pParams))
+        //     {
+        //         return false;
+        //     }
+        // }
+        //
+        // return true;
     }
 }

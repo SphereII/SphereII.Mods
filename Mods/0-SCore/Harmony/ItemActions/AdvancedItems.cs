@@ -127,10 +127,10 @@ namespace Harmony.ItemActions
                 switch (__instance.state)
                 {
                     case ItemActionEntryRepair.StateTypes.RecipeLocked:
-                        GameManager.ShowTooltip(__instance.ItemController.xui.playerUI.entityPlayer, __instance.lblReadBook);
+                            GameManager.ShowTooltip(__instance.ItemController.xui.playerUI.entityPlayer, Localization.Get("xuiRepairMustReadBook"));
                         return false;
                     case ItemActionEntryRepair.StateTypes.NotEnoughMaterials:
-                        GameManager.ShowTooltip(__instance.ItemController.xui.playerUI.entityPlayer, __instance.lblNeedMaterials);
+                        GameManager.ShowTooltip(__instance.ItemController.xui.playerUI.entityPlayer, Localization.Get("xuiRepairMissingMats"));
                         break;
                     case ItemActionEntryRepair.StateTypes.Normal:
                         break;
