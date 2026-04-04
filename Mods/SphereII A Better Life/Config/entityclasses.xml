@@ -1,7 +1,8 @@
 <configs>
 	<append xpath="/entity_classes">
-		<entity_class name="PassiveFish">
-			<property name="Mesh" value="Animals/Stag/STAG" />
+		<entity_class name="fishPassiveTemplate">
+			<property name="UserSpawnType" value="None"/>
+			<property name="Mesh" value="@:Entities/Animals/Deer/animalDeerStag.prefab" />
 			<property name="EntityFlags" value="animal"/>
 			<property name="Prefab" value="NPC"/>
 			<property name="PrefabCombined" value="false"/>
@@ -83,7 +84,8 @@
 			</effect_group>
 		</entity_class>
 		
-		<entity_class name="AggressiveFish"   extends="PassiveFish">
+		<entity_class name="fishAggressiveTemplate"   extends="fishPassiveTemplate">
+			<property name="UserSpawnType" value="None"/>
 			<property name="IsEnemyEntity" value="true"/> <!-- Set this if you want this entity to be spawned when user chooses 'enemy entities off' -->
 			<conditional>
 				<if cond="mod_loaded('0-XNPCCore')">
@@ -107,7 +109,8 @@
 			<property name="AITarget-5" value=""/>
 		</entity_class>
 
-		<entity_class name="fishStingRay" extends="PassiveFish" >
+		<entity_class name="fishStingRay" extends="fishPassiveTemplate" >
+			<property name="UserSpawnType" value="Menu"/>
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Stingray_X" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/>
@@ -116,7 +119,8 @@
 			<property name="Faction" value="animals"/>
 		</entity_class>
 
-		<entity_class name="fishTurtle" extends="PassiveFish" >
+		<entity_class name="fishTurtle" extends="fishPassiveTemplate" >
+			<property name="UserSpawnType" value="Menu"/>
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Turtle_X" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/>
@@ -125,7 +129,8 @@
 			<property name="Faction" value="animals"/>
 		</entity_class>
 		
-		<entity_class name="fishSardine" extends="PassiveFish" >
+		<entity_class name="fishSardine" extends="fishPassiveTemplate" >
+			<property name="UserSpawnType" value="Menu"/>
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Sardine_X" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
@@ -133,7 +138,8 @@
 			<property name="Faction" value="animals"/>
 		</entity_class>
 
-		<entity_class name="fishClownfish" extends="PassiveFish" >
+		<entity_class name="fishClownfish" extends="fishPassiveTemplate" >
+			<property name="UserSpawnType" value="Menu"/>
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Clownfish_X" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
@@ -141,7 +147,8 @@
 			<property name="Faction" value="animals"/>
 		</entity_class>
 		
-		<entity_class name="fishSalmon" extends="PassiveFish" >
+		<entity_class name="fishSalmon" extends="fishPassiveTemplate" >
+			<property name="UserSpawnType" value="Menu"/>
 			<property name="Class" value="EntitySwimingSDX, SCore" />
 			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Salmon" />
 			<property name="AttackAnimations" value="Attack0" />
@@ -150,7 +157,9 @@
 			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="Faction" value="animals"/>
 		</entity_class>
-		<entity_class name="fishOctopus" extends="AggressiveFish" >
+
+		<entity_class name="fishOctopus" extends="fishAggressiveTemplate" >
+			<property name="UserSpawnType" value="Menu"/>
 			<property name="Class" value="EntitySwimingSDX, SCore" />
 			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Octopus" />
 			<property name="AttackAnimations" value="Attack0" />
@@ -166,7 +175,9 @@
 				</else>
 			</conditional>
 		</entity_class>
-		<entity_class name="fishPerch" extends="PassiveFish" >
+		
+		<entity_class name="fishPerch" extends="fishPassiveTemplate" >
+			<property name="UserSpawnType" value="Menu"/>
 			<property name="Class" value="EntitySwimingSDX, SCore" />
 			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Perch" />
 			<property name="AttackAnimations" value="Attack0" />
@@ -175,7 +186,9 @@
 			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="Faction" value="animals"/>
 		</entity_class>
-		<entity_class name="fishPike" extends="AggressiveFish" >
+
+		<entity_class name="fishPike" extends="fishAggressiveTemplate" >
+			<property name="UserSpawnType" value="Menu"/>
 			<property name="Class" value="EntitySwimingSDX, SCore" />
 			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Pike" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
@@ -189,8 +202,10 @@
 					<property name="Faction" value="animals"/>
 				</else>
 			</conditional>
-		</entity_class>		
-		<entity_class name="fishBabyShark" extends="AggressiveFish" >
+		</entity_class>
+
+		<entity_class name="fishBabyShark" extends="fishAggressiveTemplate" >
+			<property name="UserSpawnType" value="Menu"/>
 			<property name="Class" value="EntitySwimingSDX, SCore" />
 			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Shark" />
 			<property name="SizeScale" value=".5" />
@@ -205,9 +220,7 @@
 					<property name="Faction" value="animals"/>
 				</else>
 			</conditional>
-		</entity_class>	
-		
+		</entity_class>		
 		
 	</append>
-
 </configs>

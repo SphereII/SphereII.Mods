@@ -6,10 +6,10 @@
 
 using System.Reflection;
 
-[assembly: AssemblyVersion("20.0.<#= this.RevisionNumber #>.<#= this.BuildNumberHour #><#= this.BuildNumberMinute #>")]
-[assembly: AssemblyFileVersion("20.0.<#= this.RevisionNumber #>.<#= this.BuildNumberHour #><#= this.BuildNumberMinute #>")]
+[assembly: AssemblyVersion("2.6.<#= this.RevisionNumber #>.<#= this.BuildNumberHour #><#= this.BuildNumberMinute #>")]
+[assembly: AssemblyFileVersion("2.6.<#= this.RevisionNumber #>.<#= this.BuildNumberHour #><#= this.BuildNumberMinute #>")]
 <#+
-    int RevisionNumber = (int)(DateTime.UtcNow - new DateTime(2022,1,1)).TotalDays;
+    int RevisionNumber = (int)(DateTime.UtcNow - new DateTime(2026,03,23)).TotalDays;
     int BuildNumberHour = (int)DateTime.Now.Hour;
     int BuildNumberMinute = (int)DateTime.Now.Minute;
 #>

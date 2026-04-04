@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
+
 // Re-enables Legacy Distant Terrain for low end machines.
 class SphereII_LegacyDistantTerrain
 {
@@ -10,10 +11,6 @@ class SphereII_LegacyDistantTerrain
         public void InitMod(Mod _modInstance)
         {
             Log.Out(" Loading Patch: " + GetType());
-
-            // Reduce extra logging stuff
-            Application.SetStackTraceLogType(UnityEngine.LogType.Log, StackTraceLogType.None);
-            Application.SetStackTraceLogType(UnityEngine.LogType.Warning, StackTraceLogType.None);
 
             var harmony = new HarmonyLib.Harmony(GetType().ToString());
             harmony.PatchAll(Assembly.GetExecutingAssembly());
@@ -33,9 +30,9 @@ class SphereII_LegacyDistantTerrain
             Shader.EnableKeyword("_MAX2LAYER");
 
             return false;
-
         }
     }
+
     [HarmonyPatch(typeof(GameManager))]
     [HarmonyPatch("IsSplatMapAvailable")]
     public class SphereII_GameManager_SplatMap
@@ -48,7 +45,7 @@ class SphereII_LegacyDistantTerrain
     }
 
 
-    // IsOUtsideDistantTerrain patches add in the distant prefab meshes.
+    // IsOutsideDistantTerrain patches keep distant prefab meshes visible.
     [HarmonyPatch(typeof(DynamicMeshManager))]
     [HarmonyPatch("IsOutsideDistantTerrain")]
     [HarmonyPatch(new[] { typeof(DynamicMeshRegion) })]
@@ -60,7 +57,6 @@ class SphereII_LegacyDistantTerrain
         }
     }
 
-    // IsOUtsideDistantTerrain patches add in the distant prefab meshes.
     [HarmonyPatch(typeof(DynamicMeshManager))]
     [HarmonyPatch("IsOutsideDistantTerrain")]
     [HarmonyPatch(new[] { typeof(float), typeof(float), typeof(float), typeof(float) })]
@@ -72,8 +68,8 @@ class SphereII_LegacyDistantTerrain
         }
     }
 
-    // The materialDistant is null here; possibly because a shader is not available or intentionally nulled. This will set the distant terrain
-    // to use the same material as the regular terrain.
+    // materialDistant is null when the legacy distant terrain shader is unavailable.
+    // Synthesise one from the standard terrain material so ApplyMaterials has something to work with.
     [HarmonyPatch(typeof(VoxelMeshTerrain))]
     [HarmonyPatch("ApplyMaterials")]
     public class SphereII_VoxelMeshTerrain_ApplyMaterials
@@ -95,7 +91,6 @@ class SphereII_LegacyDistantTerrain
     [HarmonyPatch("Cleanup")]
     public class SphereII_WorldEnvironment_Cleanup
     {
-
         public static void Postfix(WorldEnvironment __instance, ChunkCluster.OnChunkVisibleDelegate ___chunkClusterVisibleDelegate)
         {
             if (DistantTerrain.Instance != null && !GameManager.IsSplatMapAvailable())
@@ -106,15 +101,14 @@ class SphereII_LegacyDistantTerrain
             }
         }
     }
-    //Missing Code from A17.4, brought forward for A18.
+
+    // Missing Code from A17.4, brought forward for A18.
     [HarmonyPatch(typeof(WorldEnvironment))]
     [HarmonyPatch("OnChunkDisplayed")]
     public class SphereII_WorldEnvironment_OnChunkDisplayed
     {
-
         public static bool Prefix(long _key, bool _bDisplayed)
         {
- 
             if (DistantTerrain.Instance == null)
                 return true;
 
@@ -134,10 +128,11 @@ class SphereII_LegacyDistantTerrain
             return true;
         }
     }
-    // Missing Code from A17.4, brought forward for A18. 
+
+    // Missing Code from A17.4, brought forward for A18.
     [HarmonyPatch(typeof(WorldEnvironment))]
     [HarmonyPatch("Update")]
-    public class SphereII_VoxelMeshTerrain_Update
+    public class SphereII_WorldEnvironment_Update
     {
         public static bool Prefix(WorldEnvironment __instance, ref bool ___bTerrainActived, EntityPlayer ___localPlayer)
         {
@@ -179,18 +174,22 @@ class SphereII_LegacyDistantTerrain
         {
             float poiheightOverride = GameManager.Instance.World.ChunkCache.ChunkProvider.GetPOIHeightOverride((int)x, (int)z);
             if (poiheightOverride != 0f)
-            {
                 return poiheightOverride - 0.5f;
+
+            var generator = GameManager.Instance.World.ChunkCache.ChunkProvider.GetTerrainGenerator();
+            if (generator == null)
+            {
+                // No terrain generator available; return sea level (0) so distant tiles
+                // render flat rather than using uninitialised height data.
+                return 0f;
             }
-            if (GameManager.Instance.World.ChunkCache.ChunkProvider.GetTerrainGenerator() == null)
-                return poiheightOverride;
-            return GameManager.Instance.World.ChunkCache.ChunkProvider.GetTerrainGenerator().GetTerrainHeightAt((int)x, (int)z);
+
+            return generator.GetTerrainHeightAt((int)x, (int)z);
         }
 
         public static void Postfix(WorldEnvironment __instance, World ___world)
         {
-
-            if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty" 
+            if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty"
                 || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting"
                 || GamePrefs.GetString(EnumGamePrefs.GameMode) == "GameModeEditWorld")
             {
@@ -202,6 +201,7 @@ class SphereII_LegacyDistantTerrain
                 }
                 return;
             }
+
             if (!GameManager.IsDedicatedServer && !GameManager.IsSplatMapAvailable())
             {
                 Debug.Log("Creating Legacy Distant Terrain");
@@ -211,14 +211,11 @@ class SphereII_LegacyDistantTerrain
                     DistantTerrain.Instance = new DistantTerrain();
                     DistantTerrain.Instance.Init();
                 }
+
                 DistantTerrainConstants.SeaLevel = 0f;
                 DistantTerrain.Instance.Configure(new DelegateGetTerrainHeight(terrainHeightFuncAllOtherWorlds), GameManager.Instance.World.wcd, 0f);
-                if (DistantTerrain.Instance != null)
-                {
-                    DistantTerrain.Instance.SetTerrainVisible(true);
-                }
+                DistantTerrain.Instance.SetTerrainVisible(true);
             }
         }
     }
 }
-

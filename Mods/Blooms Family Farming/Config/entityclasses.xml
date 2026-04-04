@@ -17,6 +17,23 @@
                               value="NPCModCore,NPCModNPCHired, NPCModNPCMeleeBasic,NPCModNPCRangedBasic,NPCFarming"/>
                 </entity_class>
 
+                <entity_class name="MyFarmerV4" extends="npcAdvancedEmptyHandTemplate">
+                    <property name="UserSpawnType" value="Menu"/>
+                    <property name="Class" value="EntityAliveSDXV4, SCore"/>
+
+                    <property name="Tags" value="entity,male,npc,melee,cp,DRMid,notrample"/>
+                    <property name="Faction" value="whiteriver"/>
+                    <property name="Names" value="Farmer Frankie"/>
+                    <property name="Mesh" value="#@modfolder(0-XNPCCore):Resources/XythNPCs.unity3d?Baker_X"/>
+<!--
+                    <property name="Mesh" value="#@modfolder:Resources/FarmerFrankie.unity3d?FarmerFrankie_X"/>
+ -->
+                    <property name="NPCID" value="NPCFrankieFarmer"/>
+                    <property name="dialogWindow" value="dialog"/>
+                    <property name="AIPackages"
+                              value="NPCFarmingGeneralV4,NPCModNPCHiredV4,NPCModNPCMeleeBasicV4,NPCModNPCRangedBasicV4,NPCFarmingV4"/>
+                </entity_class>
+
                 <entity_class name="MyPather" extends="npcAdvancedEmptyHandTemplate">
                     <property name="UserSpawnType" value="Menu"/>
 
@@ -27,6 +44,26 @@
                     <property name="AIPackages" value="Patrol"/>
                 </entity_class>
 
+                <entity_class name="npcBakerEmptyHand2" extends="npcAdvancedEmptyHandTemplate">
+                    <property name="Class" value="EntityAliveSDXV4, SCore"/>
+
+                    <property name="UserSpawnType" value="Menu"/>
+                    <property name="Tags" value="entity,male,npc,walker,melee,DRMid,Knife,Machete,ClubWood,BatWood,Axe,Spear,SMG,PipePistol,PipeShotgun,PipeRifle,PipeMG,M60,Pistol,DPistol,Ak47,TRifle,HRifle,SRifle,LBow,XBow,PShotgun,AShotgun,RocketL"/>
+                    <property name="Faction" value="whiteriver"/>
+                    <property name="Names" value="Bob,Billy,Beau,Ben,Brody,Byron,Brian,Bruce" />
+                    <property name="AIPackages" value="NPCModCoreV4,NPCModNPCHiredV4,NPCModNPCMeleeBasicV4,NPCModNPCRangedBasicV4"/>
+
+                    <property name="Mesh" value="#@modfolder(0-XNPCCore):Resources/XythNPCs.unity3d?Baker_X"/>
+                    <property name="PickUpItem" value="bakerPickUpNPC" />
+                    <effect_group name="HasBackpack"> <!-- This activates the backpack -->
+                        <triggered_effect trigger="onSelfFirstSpawn" action="AddBuff" target="self" buff="HasBackpack"/>
+                    </effect_group>
+                    <effect_group name="IsTimid"> <!-- This activates the Timid behavior -->
+                        <!--	<triggered_effect trigger="onSelfFirstSpawn" action="AddBuff" target="self" buff="Timid"/>		-->
+                    </effect_group>
+                    <!-- <property name="AltMats" value="@:Entities/Zombies/Zombies/Materials/HD_Arlene2.mat,@:Entities/Zombies/Zombies/Materials/HD_Arlene3.mat"/> -->
+
+                </entity_class>
             </if>
         </conditional>
 

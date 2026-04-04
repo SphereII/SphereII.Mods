@@ -43,11 +43,11 @@ public class NetPackagePlaceNPCSDX : global::NetPackage
         {
             return;
         }
-        var entityAliveSdx = (EntityAliveSDX)EntityFactory.CreateEntity(_entityType, _pos, _rot);
-        entityAliveSdx.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
-        EntitySyncUtils.SetNPCItemValue(entityAliveSdx, _itemValue);
-        //entityAliveSdx.SetItemValue(_itemValue.Clone());
-        world.SpawnEntityInWorld(entityAliveSdx);
+        var entityAlive = EntityFactory.CreateEntity(_entityType, _pos, _rot) as EntityAlive;
+        if (entityAlive == null || entityAlive is not IEntityAliveSDX) return;
+        entityAlive.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
+        EntitySyncUtils.SetNPCItemValue(entityAlive, _itemValue);
+        world.SpawnEntityInWorld(entityAlive);
     }
 
     public override int GetLength()

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
 
@@ -69,27 +68,26 @@ namespace Harmony.Animation
         [HarmonyPatch("Update")]
         public class AvatarControllerUpdate
         {
-            public static void Postfix(global::AvatarZombieController __instance,  global::EntityAlive ___entity)
+            public static void Postfix(global::AvatarZombieController __instance, global::EntityAlive ___entity)
             {
                 if ( ___entity == null) return;
-                if (___entity is not EntityAliveSDX && ___entity is not EntityEnemySDX) return;
+                if (___entity is not IEntityAliveSDX && ___entity is not EntityEnemySDX) return;
                 if (___entity.IsFlyMode.Value) return;
-                
-                
+
                 __instance.TryGetFloat(AvatarController.forwardHash, out var num);
                 __instance.TryGetFloat(AvatarController.strafeHash, out var num2);
 
-                if (num < 0.01)
+                if (Mathf.Abs(num) < 0.001f)
                 {
                     __instance.UpdateFloat(AvatarController.forwardHash, 0f, false);
                 }
 
-                if (num2 < 0.01)
+                if (Mathf.Abs(num2) < 0.001f)
                 {
                     __instance.UpdateFloat(AvatarController.strafeHash, 0f, false);
                 }
-                
-                if (num < 0.01f || num2 < 0.01f)
+
+                if (Mathf.Abs(num) < 0.001f && Mathf.Abs(num2) < 0.001f)
                 {
                     __instance.UpdateBool(AvatarController.isMovingHash, false, false);
                 }

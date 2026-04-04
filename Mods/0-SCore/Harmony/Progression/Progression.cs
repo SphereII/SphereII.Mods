@@ -64,7 +64,7 @@ namespace Harmony.ProgressionChanges
 
             private static void Postfix(global::Progression __instance, global::EntityAlive ___parent, ref FastTags<TagGroup.Global>[] ___xpFastTags, int _exp, string _cvarXPName = "_xpOther", XPTypes _xpType = XPTypes.Other, bool useBonus = true)
             {
-                if (___parent as EntityAliveSDX == null) return;
+                if (___parent as IEntityAliveSDX == null) return;
 
                 float num = (float)_exp;
                 if (useBonus)

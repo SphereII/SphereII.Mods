@@ -7,64 +7,47 @@ namespace UAI
     public class UAIConsiderationIsNearFarm : UAIConsiderationTargetType
     {
         private int distance = 50;
+
+        // Per-entity result cache: avoids running 6 FarmPlotManager queries every frame.
+        // Keyed by entity ID; value is (score, Time.time when cached).
+        // All AI ticks are main-thread so a static Dictionary is safe.
+        private static readonly Dictionary<int, (float score, float time)> _cache
+            = new Dictionary<int, (float, float)>();
+        private const float CacheTtl = 1f; // seconds
+
         public override void Init(Dictionary<string, string> parameters)
         {
             base.Init(parameters);
             if (parameters.ContainsKey("distance"))
                 StringParsers.TryParseSInt32(parameters["distance"], out distance, 0, -1, NumberStyles.Integer);
         }
+
         public override float GetScore(Context _context, object target)
         {
-            // If we have the crop manager running, and there is a block that is close by, go tend it.
-            var position = new Vector3i(_context.Self.position);
+            int entityId = _context.Self.entityId;
+            float now    = Time.time;
 
-            var farmPlot = FarmPlotManager.Instance.GetFarmPlotsNearby(position);
-            if (farmPlot != null)
-            {
-                return 1f;
-            }
+            if (_cache.TryGetValue(entityId, out var cached) && now - cached.time < CacheTtl)
+                return cached.score;
 
-            farmPlot = FarmPlotManager.Instance.GetClosesUnmaintained(position, distance);
-            if (farmPlot != null)
-            {
-                return 1f;
-            }
-
-
-            farmPlot = FarmPlotManager.Instance.GetFarmPlotsNearbyWithPlants(position);
-            if (farmPlot != null)
-            {
-                return 1f;
-            }
-
-
-            farmPlot = FarmPlotManager.Instance.GetClosesUnmaintainedWithPlants(position,distance);
-            if (farmPlot != null)
-            {
-                return 1f;
-            }
-
-
-            // If we don't have any at our feet, find another one that is close by.
-            var plants = FarmPlotManager.Instance.GetClosePositions(position, distance);
-            if (plants.Count > 0)
-            {
-                return 1f;
-            }
-
-
-            var wilted = FarmPlotManager.Instance.GetCloseFarmPlotsWilted(position, distance);
-            if (wilted.Count > 0)
-            {
-                return 1f;
-            }
-           
-            FarmPlotManager.Instance.ResetPlantsInRange(position, distance);
-
-            return 0f;
+            float score = EvaluateScore(_context);
+            _cache[entityId] = (score, now);
+            return score;
         }
 
-      
+        private float EvaluateScore(Context _context)
+        {
+            var position = new Vector3i(_context.Self.position);
 
+            if (FarmPlotManager.Instance.GetFarmPlotsNearby(position) != null)                          return 1f;
+            if (FarmPlotManager.Instance.GetClosesUnmaintained(position, distance) != null)              return 1f;
+            if (FarmPlotManager.Instance.GetFarmPlotsNearbyWithPlants(position) != null)                 return 1f;
+            if (FarmPlotManager.Instance.GetClosesUnmaintainedWithPlants(position, distance) != null)    return 1f;
+            if (FarmPlotManager.Instance.GetClosePositions(position, distance).Count > 0)               return 1f;
+            if (FarmPlotManager.Instance.GetCloseFarmPlotsWilted(position, distance).Count > 0)         return 1f;
+
+            FarmPlotManager.Instance.ResetPlantsInRange(position, distance);
+            return 0f;
+        }
     }
 }

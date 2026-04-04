@@ -17,6 +17,7 @@ public class NetPackagePortalRemovePosition : NetPackage
 
     public override void write(PooledBinaryWriter _bw)
     {
+        base.write(_bw);
         _bw.Write(_position.x);
         _bw.Write(_position.y);
         _bw.Write(_position.z);
@@ -24,12 +25,22 @@ public class NetPackagePortalRemovePosition : NetPackage
 
     public override void ProcessPackage(World _world, GameManager _gameManager)
     {
-        PortalManager.Instance.RemovePosition(_position);
+        var cm = SingletonMonoBehaviour<ConnectionManager>.Instance;
+
+        // Always update the local map directly — do NOT call RemovePosition, which routes
+        // back to the server on clients and creates an infinite packet loop.
+        PortalManager.Instance.RemoveEntry(_position);
+
+        if (cm.IsServer)
+        {
+            // Server received this from a client: broadcast to all clients and persist.
+            cm.SendPackage(NetPackageManager.GetPackage<NetPackagePortalRemovePosition>().Setup(_position));
+            PortalManager.Instance.Save();
+        }
     }
 
     public override int GetLength()
     {
         return 20;
     }
-
 }

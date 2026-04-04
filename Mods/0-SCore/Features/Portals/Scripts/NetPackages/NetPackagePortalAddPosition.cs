@@ -24,16 +24,27 @@ public class NetPackagePortalAddPosition : NetPackage
     public override void read(PooledBinaryReader _reader)
     {
         _position = new Vector3i(_reader.ReadInt32(), _reader.ReadInt32(), _reader.ReadInt32());
-        _name = _reader.ReadString();    }
+        _name = _reader.ReadString();
+    }
 
     public override void ProcessPackage(World _world, GameManager _gameManager)
     {
-        PortalManager.Instance.AddPosition(_position, _name); // true to indicate it came from the network
+        var cm = SingletonMonoBehaviour<ConnectionManager>.Instance;
+
+        // Always update the local map directly — do NOT call AddPosition, which routes
+        // back to the server on clients and creates an infinite packet loop.
+        PortalManager.Instance.AddEntry(_position, _name);
+
+        if (cm.IsServer)
+        {
+            // Server received this from a client: broadcast to all clients and persist.
+            cm.SendPackage(NetPackageManager.GetPackage<NetPackagePortalAddPosition>().Setup(_position, _name));
+            PortalManager.Instance.Save();
+        }
     }
 
     public override int GetLength()
     {
         return 20;
     }
-
 }

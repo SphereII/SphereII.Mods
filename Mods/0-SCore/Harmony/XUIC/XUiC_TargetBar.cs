@@ -36,7 +36,7 @@ namespace Harmony.XUiC
                     return;
 
                 if (bindingName != "name" || __instance.Target == null) return;
-                if (__instance.Target is EntityAliveSDX entityAliveSdx )
+                if (__instance.Target is IEntityAliveSDX entityAliveSdx)
                     value = entityAliveSdx.EntityName;
             }
         }

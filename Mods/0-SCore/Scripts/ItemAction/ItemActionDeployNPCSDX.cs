@@ -74,21 +74,29 @@ public class ItemActionDeployNPCSDX : ItemActionSpawnVehicle
             // SERVER (or Single Player): Perform the spawn
             Vector3 rotation = new Vector3(0f, entityPlayerLocal.rotation.y + 90f, 0f);
             Entity entity = EntityFactory.CreateEntity(entityClassID, spawnVehicleData.Position + Vector3.up * 0.25f, rotation);
-            
-            EntityAliveSDX entityAlive = entity as EntityAliveSDX;
 
-            if (entityAlive != null)
+            var entityAlive = entity as EntityAlive;
+            var iEntity     = entityAlive as IEntityAliveSDX;
+
+            if (entityAlive != null && iEntity != null)
             {
-                // Prevent fresh inventory generation if restoring
+                // Set the guard BEFORE spawn so PostInit's AddToInventory/SetupStartingItems
+                // do not overwrite this entity with fresh XML items.
                 if (!isFreshSpawn)
-                {
                     entityAlive.Buffs.SetCustomVar("InitialInventory", 1);
-                }
 
-                // Hydrate Data (Pre-Spawn)
+                entityAlive.SetPosition(spawnVehicleData.Position + Vector3.up * 0.25f);
+                entityAlive.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
+
+                // Spawn first — EntityTrader.PostInit() (called inside SpawnEntityInWorld) creates
+                // a fresh TileEntityTrader and assigns it to lootContainer.  Any loot data we set
+                // before spawn would be wiped.  We hydrate AFTER spawn so we overwrite the
+                // now-initialized containers instead.
+                GameManager.Instance.World.SpawnEntityInWorld(entityAlive);
+
                 EntitySyncUtils.SetNPCItemValue(entityAlive, holdingItemItemValue);
 
-                // Fix Position (in case hydration overwrote it)
+                // Re-pin position in case hydration moved the entity.
                 entityAlive.SetPosition(spawnVehicleData.Position + Vector3.up * 0.25f);
 
                 // Handle properties for fresh spawns
@@ -101,18 +109,10 @@ public class ItemActionDeployNPCSDX : ItemActionSpawnVehicle
                     if (holdingItemItemValue.ItemClass.Properties.GetBool("AutoHire"))
                         EntityUtilities.Hire(entityAlive.entityId, entityPlayerLocal);
                 }
-                
-                // Finalize Spawn
 
-                entityAlive.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
-                GameManager.Instance.World.SpawnEntityInWorld(entityAlive);
                 EntityUtilities.SetLeaderAndOwner(entityAlive.entityId, entityPlayerLocal.entityId);
 
-                entityAlive.SendSyncData();
-
-               // EntitySyncUtils.SetNPCItemValue(entityAlive, holdingItemItemValue);
-
-
+                iEntity.SendSyncData();
             }
         }
 

@@ -174,9 +174,10 @@ public static class EntityUtilities
         if (entitiesInBounds.Count > 0)
             for (var i = 0; i < entitiesInBounds.Count; i++)
             {
-                var entity = entitiesInBounds[i] as EntityAliveSDX;
-                if (entity != null)
-                    entity.questJournal.AddQuest(QuestClass.CreateQuest(strQuest));
+                QuestJournal questJournal = null;
+                if (entitiesInBounds[i] is EntityAliveSDX v3) questJournal = v3.questJournal;
+                else if (entitiesInBounds[i] is EntityAliveSDXV4 v4) questJournal = v4.questJournal;
+                questJournal?.AddQuest(QuestClass.CreateQuest(strQuest));
 
                 var player = entitiesInBounds[i] as EntityPlayerLocal;
                 if (player != null)
@@ -439,11 +440,6 @@ public static class EntityUtilities
 
     private static bool CheckItemStack(ItemStack stack, Type findAction)
     {
-        if (Equals(stack, ItemStack.Empty))
-            return false;
-        if (stack.itemValue == null)
-            return false;
-
         if (Equals(stack, ItemStack.Empty))
             return false;
         if (stack.itemValue?.ItemClass?.Actions == null)
@@ -726,7 +722,7 @@ public static class EntityUtilities
     public static bool Hire(int EntityID, EntityPlayerLocal _player)
     {
         var result = false;
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as IEntityAliveSDX;
         if (myEntity == null)
             return result;
 
@@ -977,8 +973,6 @@ public static class EntityUtilities
         var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityPlayer;
         if (leader == null) return;
 
-        
-
         var removeList = new List<string>();
         foreach (var cvar in leader.Buffs.CVars)
         {
@@ -1003,7 +997,13 @@ public static class EntityUtilities
                     {
                         continue;
                     }
-                    
+
+                    if (entity.addedToChunk)
+                    {
+                        Chunk chunk = (Chunk)GameManager.Instance.World.GetChunkSync(entity.chunkPosAddedEntityTo.x,
+                            entity.chunkPosAddedEntityTo.z);
+                        chunk?.RemoveEntityFromChunk(entity);
+                    }
 
                     entity.TeleportToPlayer(leader, true);
                 }
@@ -1223,15 +1223,18 @@ public static class EntityUtilities
         var strDisplay = "ExecuteCMD( " + strCommand + " ) to " + EntityID + " From " + player.DebugNameInfo;
         AdvLogging.DisplayLog(AdvFeatureClass, strDisplay);
 
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        // Accept both EntityAliveSDX (V3) and EntityAliveSDXV4 (V4) via shared interfaces.
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as IEntityAliveSDX;
         if (myEntity == null)
             return false;
 
+        var orderReceiver = myEntity as IEntityOrderReceiverSDX; // guard/patrol positions
+        var entityAlive   = myEntity as EntityAlive;              // moveSpeed, moveHelper, lootContainer, Buffs, etc.
+
         var uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
+        var position = entityAlive.position;
 
-        var position = myEntity.position;
-
-        // Restore it's walk speed to default.
+        // Restore walk speed to default.
         myEntity.RestoreSpeed();
 
         switch (strCommand)
@@ -1239,140 +1242,168 @@ public static class EntityUtilities
             case "TellMe":
                 GameManager.ShowTooltip(player as EntityPlayerLocal, myEntity + "\n\n\n\n\n", "ui_denied");
                 AdvLogging.DisplayLog(AdvFeatureClass, "\n\nBuffs:");
-                foreach (var Buff in myEntity.Buffs.ActiveBuffs)
+                foreach (var Buff in entityAlive.Buffs.ActiveBuffs)
                 {
                     Debug.Log("Buff: " + Buff.BuffName + " ");
                     AdvLogging.DisplayLog(AdvFeatureClass, "\t" + Buff.BuffName);
                 }
 
                 var wvar = 0;
-                myEntity.emodel.avatarController.TryGetInt("WVar", out wvar);
+                entityAlive.emodel.avatarController.TryGetInt("WVar", out wvar);
                 Debug.Log("WVar: " + wvar);
-                Debug.Log("CVar Human Walk Types: " + myEntity.Buffs.GetCustomVar("HumanWalkTypes"));
-                myEntity.emodel.avatarController.TryGetInt("IsHuman", out wvar);
+                Debug.Log("CVar Human Walk Types: " + entityAlive.Buffs.GetCustomVar("HumanWalkTypes"));
+                entityAlive.emodel.avatarController.TryGetInt("IsHuman", out wvar);
                 Debug.Log("IsHuman: " + wvar);
 
                 var temp = 0f;
-                myEntity.emodel.avatarController.TryGetFloat("IVar", out temp);
+                entityAlive.emodel.avatarController.TryGetFloat("IVar", out temp);
                 Debug.Log("Ivar: " + temp);
                 AdvLogging.DisplayLog(AdvFeatureClass, myEntity.ToString());
-                AdvLogging.DisplayLog(AdvFeatureClass, "Body Damage: ");
-                AdvLogging.DisplayLog(AdvFeatureClass, "\t Has Right Leg? " + myEntity.bodyDamage.HasRightLeg);
-                AdvLogging.DisplayLog(AdvFeatureClass, "\t Has Left Leg? " + myEntity.bodyDamage.HasLeftLeg);
-                AdvLogging.DisplayLog(AdvFeatureClass, "\t Has Limbs? " + myEntity.bodyDamage.HasLimbs);
-                AdvLogging.DisplayLog(AdvFeatureClass,
-                    "\t Arm or Leg missing? " + myEntity.bodyDamage.IsAnyArmOrLegMissing);
-                AdvLogging.DisplayLog(AdvFeatureClass,
-                    "\t Has any leg missing? " + myEntity.bodyDamage.IsAnyLegMissing);
-                var LegDamageTrigger = false;
-                myEntity.emodel.avatarController.TryGetTrigger("LegDamageTrigger", out LegDamageTrigger);
-                AdvLogging.DisplayLog(AdvFeatureClass, "\t Leg Damage Trigger? " + LegDamageTrigger);
+
+                // bodyDamage is V3-only — skip gracefully on V4.
+                var v3Entity = myEntity as EntityAliveSDX;
+                if (v3Entity != null)
+                {
+                    AdvLogging.DisplayLog(AdvFeatureClass, "Body Damage: ");
+                    AdvLogging.DisplayLog(AdvFeatureClass, "\t Has Right Leg? " + v3Entity.bodyDamage.HasRightLeg);
+                    AdvLogging.DisplayLog(AdvFeatureClass, "\t Has Left Leg? " + v3Entity.bodyDamage.HasLeftLeg);
+                    AdvLogging.DisplayLog(AdvFeatureClass, "\t Has Limbs? " + v3Entity.bodyDamage.HasLimbs);
+                    AdvLogging.DisplayLog(AdvFeatureClass, "\t Arm or Leg missing? " + v3Entity.bodyDamage.IsAnyArmOrLegMissing);
+                    AdvLogging.DisplayLog(AdvFeatureClass, "\t Has any leg missing? " + v3Entity.bodyDamage.IsAnyLegMissing);
+                    var LegDamageTrigger = false;
+                    v3Entity.emodel.avatarController.TryGetTrigger("LegDamageTrigger", out LegDamageTrigger);
+                    AdvLogging.DisplayLog(AdvFeatureClass, "\t Leg Damage Trigger? " + LegDamageTrigger);
+                }
                 break;
+
             case "ShowAffection":
                 GameManager.ShowTooltip(player as EntityPlayerLocal,
                     "You gentle scratch and stroke the side of the animal.", "");
                 break;
+
             case "FollowMe":
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Leader");
                 SetLeader(EntityID, player.entityId);
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order");
                 SetCurrentOrder(EntityID, Orders.Follow);
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Adjusting Speeds");
-                myEntity.moveSpeed = player.moveSpeed;
-                myEntity.moveSpeedAggro = player.moveSpeedAggro;
+                entityAlive.moveSpeed = player.moveSpeed;
+                entityAlive.moveSpeedAggro = player.moveSpeedAggro;
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
                 break;
+
             case "StayHere":
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order");
                 SetCurrentOrder(EntityID, Orders.Stay);
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Position");
-                myEntity.guardPosition = position;
+                if (orderReceiver != null) orderReceiver.GuardPosition = position;
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Stopping Move Helper()");
-                if (myEntity.moveHelper != null) // No move helper on the client when on Dedi
-                    myEntity.moveHelper.Stop();
+                if (entityAlive.moveHelper != null) // No move helper on the client when on Dedi
+                    entityAlive.moveHelper.Stop();
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
-
                 break;
+
             case "GuardHere":
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order");
                 SetCurrentOrder(EntityID, Orders.Stay);
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Look Direction");
-
-                myEntity.SetLookPosition(player.GetLookVector());
+                entityAlive.SetLookPosition(player.GetLookVector());
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Position");
-
-                myEntity.guardPosition = position;
-                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Stopping Move Helper()");
-
-                if (myEntity.moveHelper != null) // No move helper on the client when on Dedi
-                    myEntity.moveHelper.Stop();
-                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Guard Look");
-                myEntity.guardLookPosition = player.GetLookVector();
+                if (orderReceiver != null)
+                {
+                    orderReceiver.GuardPosition = position;
+                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Stopping Move Helper()");
+                    if (entityAlive.moveHelper != null) // No move helper on the client when on Dedi
+                        entityAlive.moveHelper.Stop();
+                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Guard Look");
+                    orderReceiver.GuardLookPosition = player.GetLookVector();
+                }
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
-
                 break;
+
             case "Wander":
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order");
                 SetCurrentOrder(EntityID, Orders.Wander);
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
-
                 break;
+
             case "SetPatrol":
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order");
                 SetLeader(EntityID, player.entityId);
                 SetCurrentOrder(EntityID, Orders.SetPatrolPoint);
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Move Speed");
-                myEntity.moveSpeed = player.moveSpeed;
-                myEntity.moveSpeedAggro = player.moveSpeedAggro;
+                entityAlive.moveSpeed = player.moveSpeed;
+                entityAlive.moveSpeedAggro = player.moveSpeedAggro;
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Resetting Patrol Points");
-
-                myEntity.patrolCoordinates.Clear(); // Clear the existing point
+                orderReceiver?.PatrolCoordinates.Clear();
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
-
                 break;
+
             case "Patrol":
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order");
                 SetCurrentOrder(EntityID, Orders.Patrol);
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
-
                 break;
-
 
             case "Hire":
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Opening Hire ");
-                var result = Hire(EntityID, player as EntityPlayerLocal);
+                Hire(EntityID, player as EntityPlayerLocal);
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Hire");
-
                 break;
+
             case "OpenInventory":
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order Open Inventory");
-
-                if (myEntity.lootContainer == null)
+                if (entityAlive is EntityTrader)
+                {
+                    // Trader-type entities (e.g. EntityAliveSDXV4) store harvested crops in
+                    // HarvestManager — a plain TileEntityLootContainer that is never attached to
+                    // the world TES, so SetModified() is never called during harvest and
+                    // TraderData serialisation is never corrupted.
+                    //
+                    // On a listen server the HarvestManager dictionary is local, so we can open
+                    // the container directly. On a dedicated server the dictionary lives on the
+                    // server process while this dialog action runs on the client, so we send a
+                    // request packet and let the server respond with the item data.
+                    if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+                    {
+                        AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Opening HarvestManager container (listen server)");
+                        var harvestContainer = HarvestManager.GetOrCreate(entityAlive.entityId);
+                        OpenContainer(player as EntityPlayerLocal, harvestContainer);
+                    }
+                    else
+                    {
+                        AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Requesting HarvestManager container from server (dedicated server)");
+                        SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
+                            NetPackageManager.GetPackage<NetPackageHarvestInventoryRequest>()
+                                .Setup(entityAlive.entityId, player.entityId));
+                    }
+                }
+                else if (entityAlive.lootContainer == null)
                 {
                     AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Loot Container is null");
                 }
                 else
                 {
-                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Loot Container: " + myEntity.lootContainer);
-                    if (string.IsNullOrEmpty(myEntity.lootContainer.lootListName))
-                        myEntity.lootContainer.lootListName = "traderNPC";
-
+                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Loot Container: " + entityAlive.lootContainer);
+                    if (string.IsNullOrEmpty(entityAlive.lootContainer.lootListName))
+                        entityAlive.lootContainer.lootListName = "traderNPC";
                     AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Opening Loot Container");
-                    lootContainerOpened(myEntity.lootContainer, uiforPlayer, player.entityId);
+                    lootContainerOpened(entityAlive.lootContainer, uiforPlayer, player.entityId);
                 }
-
                 break;
+
             case "Loot":
                 SetCurrentOrder(EntityID, Orders.Loot);
-                myEntity.Buffs.RemoveCustomVar("Leader");
+                entityAlive.Buffs.RemoveCustomVar("Leader");
                 break;
+
             case "Dismiss":
                 SetCurrentOrder(EntityID, Orders.Wander);
-                myEntity.Buffs.SetCustomVar("Leader", 0f);
-                myEntity.Buffs.SetCustomVar("Owner", 0f);
+                entityAlive.Buffs.SetCustomVar("Leader", 0f);
+                entityAlive.Buffs.SetCustomVar("Owner", 0f);
                 // flag to disable respawning on server reload.
-                myEntity.Buffs.SetCustomVar("Persist", 0f);
-                player.Companions?.Remove(myEntity);
+                entityAlive.Buffs.SetCustomVar("Persist", 0f);
+                player.Companions?.Remove(entityAlive);
                 player.Buffs.SetCustomVar($"hired_{EntityID}", 0f);
                 CheckForDanglingHires(player.entityId);
                 break;
@@ -1383,8 +1414,8 @@ public static class EntityUtilities
 
     public static bool TeleportNow(int EntityID, EntityAlive target, int maxRange = 50)
     {
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
-        if (myEntity == null) return false;
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null || !(myEntity is IEntityAliveSDX)) return false;
         var magnitude = (myEntity.GetPosition() - target.GetPosition()).magnitude;
         if (magnitude > maxRange ) return false;
 
@@ -2015,6 +2046,8 @@ public static class EntityUtilities
             }
         }
     }
+    // TODO: NetPackageWeaponSwap.Setup currently requires EntityAliveSDX.
+    // Update that net package to accept IEntityAliveSDX so V4 entities are supported.
     public static void UpdateHandItem(int entityId, string item)
     {
         var entity = GameManager.Instance.World.GetEntity(entityId) as EntityAliveSDX;

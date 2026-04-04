@@ -8,10 +8,15 @@ public class LightManager : ILightManager
     private const float FadeOutSpeed = 1.0f;
     private const float DefaultIntensity = 2.0f;
     private const float DefaultRange = 10f;
-    
+
     private readonly HashSet<Light> _activeLights = new HashSet<Light>();
     private readonly HashSet<Light> _fadingLights = new HashSet<Light>();
     private readonly Dictionary<Vector3i, Light> _lightPositions = new Dictionary<Vector3i, Light>();
+
+    // Reusable buffers to avoid per-frame allocations.
+    private readonly List<Vector3i> _invalidPositionBuffer = new List<Vector3i>();
+    private readonly List<Light> _completedFadeBuffer = new List<Light>();
+    private readonly List<Vector3i> _lightCullBuffer = new List<Vector3i>();
 
     public void UpdateLights()
     {
@@ -65,36 +70,32 @@ public class LightManager : ILightManager
     {
         _activeLights.RemoveWhere(light => light == null);
         _fadingLights.RemoveWhere(light => light == null);
-        
-        var invalidPositions = _lightPositions
-            .Where(kvp => kvp.Value == null)
-            .Select(kvp => kvp.Key)
-            .ToList();
-        
-        foreach (var pos in invalidPositions)
+
+        _invalidPositionBuffer.Clear();
+        foreach (var kvp in _lightPositions)
         {
-            _lightPositions.Remove(pos);
+            if (kvp.Value == null)
+                _invalidPositionBuffer.Add(kvp.Key);
         }
+        foreach (var pos in _invalidPositionBuffer)
+            _lightPositions.Remove(pos);
     }
 
     private void UpdateFadingLights()
     {
-        var completedLights = new HashSet<Light>();
-
+        _completedFadeBuffer.Clear();
         foreach (var light in _fadingLights)
         {
             if (light == null) continue;
-
             light.intensity -= Time.deltaTime * FadeOutSpeed;
-
             if (light.intensity <= 0f)
             {
-                completedLights.Add(light);
+                _completedFadeBuffer.Add(light);
                 Object.Destroy(light.gameObject);
             }
         }
-
-        _fadingLights.ExceptWith(completedLights);
+        foreach (var light in _completedFadeBuffer)
+            _fadingLights.Remove(light);
     }
 
     private void ManageLightLimit()
@@ -102,24 +103,19 @@ public class LightManager : ILightManager
         if (_activeLights.Count <= MaxLights)
             return;
 
-        var lightsToRemove = _activeLights
-            .OrderBy(l => Random.value)
-            .Take(_activeLights.Count - MaxLights)
-            .ToList();
-
-        foreach (var light in lightsToRemove)
+        var excess = _activeLights.Count - MaxLights;
+        _lightCullBuffer.Clear();
+        foreach (var kvp in _lightPositions)
         {
+            if (_lightCullBuffer.Count >= excess) break;
+            _lightCullBuffer.Add(kvp.Key);
+        }
+        foreach (var pos in _lightCullBuffer)
+        {
+            if (!_lightPositions.TryGetValue(pos, out var light)) continue;
+            _lightPositions.Remove(pos);
             _activeLights.Remove(light);
             _fadingLights.Add(light);
-            
-            // Remove from positions dictionary
-            var positionKey = _lightPositions
-                .FirstOrDefault(kvp => kvp.Value == light).Key;
-            
-            if (positionKey != default)
-            {
-                _lightPositions.Remove(positionKey);
-            }
         }
     }
 

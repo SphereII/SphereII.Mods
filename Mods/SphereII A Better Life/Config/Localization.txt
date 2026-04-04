@@ -1,7 +1,29 @@
-Key,Source,Context,Changes,English,French,German,Klingon,Spanish
-Raw Fish,items,Item Food,KgNone,Raw Fish,,,,
-rawFishDesc,items,Item Food,KgNone,"Fish can be eaten raw but is better when charred, grilled, boiled or made into stews at a campfire. Can attract zombies if carried.",,,,
-Grilled Fish,items,Item Food,KgNone,Grilled Fish,,,,
-Boiled Fish,items,Item Food,KgNone,Boiled Fish,,,,
-Charred Fish,items,Item Food,KgNone,Charred Fish,,,,
-fishBabyShark,,,,Baby Shark Doo Doo Doo,,,,
+Key,english
+
+Raw Fish,Raw Fish
+rawFishDesc,"Fish can be eaten raw but is better when charred, grilled, boiled or made into stews at a campfire. Can attract zombies if carried."
+Grilled Fish,Grilled Fish
+Boiled Fish,Boiled Fish
+Charred Fish,Charred Fish
+
+PondWeed,Pond Weed
+Starfish,Starfish
+TubeSponge,Tube Sponge
+Broadleafplantain,Broadleaf Plantain
+Cosmos1,Orange Cosmos
+Cosmos2,Pink Cosmos
+LotusFlower,Lotus Flower
+PampasGrass,Pampas Grass
+VioletEtsorrel,Violet Sorrel
+Waterlily,Water Lily
+Woodsorrel,Wood Sorrel
+
+fishStingRay,Sting Ray
+fishTurtle,Turtle
+fishSardine,Sardine
+fishClownfish,Clownfish
+fishSalmon,Salmon
+fishOctopus,Octopus
+fishPerch,Perch
+fishPike,Pike
+fishBabyShark,Baby Shark Doo Doo Doo

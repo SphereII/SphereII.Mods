@@ -25,7 +25,7 @@ using UnityEngine.Serialization;
 using Debug = UnityEngine.Debug;
 
 // ReSharper disable once CheckNamespace
-public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
+public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliveSDX
 {
     public List<string> lstQuests = new List<string>();
     public bool isAlwaysAwake;
@@ -71,6 +71,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     public bool isTeleporting = false;
 
     public bool isHirable = true;
+    public bool IsHirable => isHirable;   // IEntityAliveSDX
+    public bool IsSleeping { get; set; }
     public bool isQuestGiver = true;
 
     // Read the configuration to see if the hired NPCs should join the player's group.
@@ -794,16 +796,21 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         _bw.Write(holdingItemName);
 
         // 7. Loot Container (The "Backpack" Storage)
-        // This is unique to SDX, so we must save it manually.
-        // We do NOT save 'inventory' or 'bag' here because base.Write already did it.
-        if (lootContainer != null)
+        // For EntityTrader-based entities the player-accessible bag lives in HarvestManager.
+        // Prefer that when present; fall back to lootContainer for any non-trader subclass.
+        if (HarvestManager.Has(entityId))
         {
-            _bw.Write(true); // Flag: Has Container
+            _bw.Write(true);
+            GameUtils.WriteItemStack(_bw, HarvestManager.GetOrCreate(entityId).GetItems());
+        }
+        else if (lootContainer != null)
+        {
+            _bw.Write(true);
             GameUtils.WriteItemStack(_bw, lootContainer.GetItems());
         }
         else
         {
-            _bw.Write(false); // Flag: No Container
+            _bw.Write(false);
         }
     }
 
@@ -850,25 +857,17 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         // 7. Loot Container
-        // Read the flag first
+        // Items are restored into HarvestManager so that OpenInventory finds them under
+        // the entity's ID.  PostInit will set up lootContainer separately.
         bool hasLootContainer = _br.ReadBoolean();
         if (hasLootContainer)
         {
             ItemStack[] lootItems = GameUtils.ReadItemStack(_br);
-            
-            // Ensure container exists
-            if (lootContainer == null)
-            {
-                Chunk chunk= null;
-                lootContainer = new TileEntityLootContainer(chunk);
-                lootContainer.entityId = this.entityId;
-                // Default size if we can't find the class-specific one yet
-                lootContainer.SetContainerSize(new Vector2i(8, 6)); 
-            }
-            
             if (lootItems != null)
             {
-                lootContainer.items = lootItems;
+                var hc = HarvestManager.GetOrCreate(entityId);
+                for (int i = 0; i < lootItems.Length && i < hc.items.Length; i++)
+                    hc.items[i] = lootItems[i];
             }
         }
     }
@@ -1684,8 +1683,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 myPosition = RandomPositionGenerator.CalcPositionInDirection(target, target.position, dirV, 5, 80f);
             }
 
-            //// Find the ground.
-            myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 1;
+            // Find the actual surface, including player-placed blocks (e.g. farm plots).
+            myPosition.y = GetSurfaceY(myPosition.x, myPosition.z);
         }
 
         motion = Vector3.zero;
@@ -1694,6 +1693,25 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         this.SetPosition(myPosition, true);
         StartCoroutine(validateTeleport(target, randomPosition));
+    }
+
+    /// <summary>
+    /// Returns the Y coordinate one block above the highest solid block at (x, z),
+    /// scanning upward from terrain height through any player-placed blocks (e.g. farm plots).
+    /// Unlike GetHeightAt, this accounts for structures built on top of terrain.
+    /// </summary>
+    private static int GetSurfaceY(float x, float z)
+    {
+        var world = GameManager.Instance.World;
+        int y = (int)world.GetHeightAt(x, z);
+        int bx = (int)x;
+        int bz = (int)z;
+        // Scan upward past any continuous solid blocks placed above terrain (capped at +20 to
+        // avoid climbing through entire buildings).
+        int cap = y + 20;
+        while (y < cap && world.GetBlock(bx, y + 1, bz).Block.shape.IsSolidSpace)
+            y++;
+        return y + 1;
     }
 
     private float getAltitude(Vector3 pos)
@@ -1710,7 +1728,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     private IEnumerator validateTeleport(EntityAlive target, bool randomPosition = false)
     {
         yield return new WaitForSeconds(1f);
-        var y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z);
+        var y = GetSurfaceY(position.x, position.z);
         if (position.y < y)
         {
             var myPosition = position;
@@ -1725,8 +1743,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 myPosition = RandomPositionGenerator.CalcPositionInDirection(target, target.position, dirV, 5, 80f);
             }
 
-            //// Find the ground.
-            myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 2;
+            // Find the actual surface, including player-placed blocks (e.g. farm plots).
+            myPosition.y = GetSurfaceY(myPosition.x, myPosition.z) + 1;
 
             // var myPosition = RandomPositionGenerator.CalcTowards(Owner, 5, 20, 2, Owner.position);
 
@@ -1990,6 +2008,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
     public override void SetupStartingItems()
     {
+        // If InitialInventory is already set, this is a restored NPC (picked up and re-placed).
+        // Skip overwriting their inventory with the default XML starting items.
+        if (Buffs.GetCustomVar("InitialInventory") > 0) return;
+
         for (var i = 0; i < this.itemsOnEnterGame.Count; i++)
         {
             var itemStack = this.itemsOnEnterGame[i];

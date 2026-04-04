@@ -13,24 +13,35 @@ public static class EventOnSleeperVolumeClearedUpdate {
     [HarmonyPatch(typeof(SleeperVolume), "ClearedUpdate")]
     public class SleeperVolume_ClearedUpdate_Patch
     {
-        public static void Postfix(SleeperVolume __instance, bool __state)
+        public static void Postfix(SleeperVolume __instance)
         {
-            if (__instance.wasCleared)
+            // 1. Basic null and state check
+            if (__instance == null || !__instance.wasCleared) return;
+
+            // 2. Get the POI instance directly from the SleeperVolume
+            // In 7DTD, SleeperVolumes usually have a reference to their parent prefab
+            var poiInstance = __instance.prefabInstance;
+            if (poiInstance == null) return;
+
+            var position = poiInstance.boundingBoxPosition;
+            var playerId = __instance.GetPlayerTouchedToUpdateId();
+            var entity = GameManager.Instance.World.GetEntity(playerId);
+
+            // 3. Handle Local Player logic
+            if (entity is EntityPlayerLocal localPlayer)
             {
-                var playerId = __instance.GetPlayerTouchedToUpdateId();
-                var player = GameManager.Instance.World.GetEntity(playerId) as EntityPlayer;
-                if (__instance?.prefabInstance == null) return;
-                var position = __instance.PrefabInstance.boundingBoxPosition;
-                if (player is EntityPlayerLocal localPlayer)
-                {
-                    if ( localPlayer.prefab.id != __instance.prefabInstance.id) return;
-                    
-                    SleeperVolumeCleared(position);
-                    return;
-                }
-                
-                SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageSleeperVolumeCleared>().Setup(position,playerId ));
-              
+                // Instead of checking localPlayer.prefab (which is null if they stepped out),
+                // we just trigger the event because the volume itself was cleared.
+                SleeperVolumeCleared(position);
+                return;
+            }
+
+            // 4. Handle Multiplayer/Server logic
+            if (SingletonMonoBehaviour<ConnectionManager>.Instance != null)
+            {
+                SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+                    NetPackageManager.GetPackage<NetPackageSleeperVolumeCleared>().Setup(position, playerId)
+                );
             }
         }
     }

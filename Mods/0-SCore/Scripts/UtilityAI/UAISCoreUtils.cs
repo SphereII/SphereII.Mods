@@ -252,8 +252,8 @@ namespace UAI
                 return;
             }
 
-            // If we are on a mission, don't execute this teleport; let the one on entityaliveSDX handle it.
-            var entityAlive = _context.Self as EntityAliveSDX;
+            // If we are on a mission, don't execute this teleport; let the entity handle it.
+            var entityAlive = _context.Self as IEntityAliveSDX;
             if (entityAlive != null)
             {
                 if (!entityAlive.IsOnMission())
@@ -506,6 +506,12 @@ namespace UAI
             return IsEnemyNearby(_context.Self, distance);
         }
 
+        /// <summary>
+        /// Pooled buffer for IsEnemyNearby entity queries — eliminates a List allocation
+        /// on every call.  Safe because all AI updates run on the main thread.
+        /// </summary>
+        private static readonly List<Entity> _enemySearchBuffer = new List<Entity>();
+
         public static bool IsEnemyNearby(EntityAlive self, float distance = 20f)
         {
             // Do we have a revenge target at any distance? If so, stay paranoid.
@@ -513,15 +519,14 @@ namespace UAI
             if (revengeTarget && !EntityTargetingUtilities.ShouldForgiveDamage(self, revengeTarget))
                 return true;
 
-            var nearbyEntities = new List<Entity>();
-
-            // Search in the bounds are to try to find the most appealing entity to follow.
+            // Search in the bounds area to find hostile entities.
             var bb = new Bounds(self.position, new Vector3(distance, distance, distance));
 
-            self.world.GetEntitiesInBounds(typeof(EntityAlive), bb, nearbyEntities);
-            for (var i = nearbyEntities.Count - 1; i >= 0; i--)
+            _enemySearchBuffer.Clear();
+            self.world.GetEntitiesInBounds(typeof(EntityAlive), bb, _enemySearchBuffer);
+            for (var i = _enemySearchBuffer.Count - 1; i >= 0; i--)
             {
-                var x = nearbyEntities[i] as EntityAlive;
+                var x = _enemySearchBuffer[i] as EntityAlive;
                 if (x == null) continue;
                 if (x == self) continue;
                 if (x.IsDead()) continue;

@@ -16,6 +16,8 @@ public class FireManager : MonoBehaviour
     private FireEvents _events;
     private Coroutine _updateFires;
     private bool _isUpdateCycleRunning; // New flag to track if a cycle is in progress
+    private readonly Stopwatch _stopwatch = new Stopwatch();
+    private string _fireSoundLower;
 
     public FireEvents Events
     {
@@ -34,11 +36,11 @@ public class FireManager : MonoBehaviour
             return;
         }
 
+        _fireSoundLower = _config.FireSound.ToLower();
         _events = new FireEvents();
-        _fireHandler = new FireHandler(_events, _config);
-        _smokeHandler = new SmokeHandler(_events, _config);
-
         _networkManager = new FireNetworkManager();
+        _fireHandler = new FireHandler(_events, _config, _networkManager);
+        _smokeHandler = new SmokeHandler(_events, _config);
         _lightManager = new LightManager();
         InitializeSystem();
     }
@@ -74,6 +76,9 @@ public class FireManager : MonoBehaviour
         // Subscribe to events
         _events.OnFireStarted += HandleFireStarted;
         _events.OnFireExtinguished += HandleFireExtinguished;
+        
+        if ( _config.FirePersists)
+            Load();
     }
 
     private void OnDestroy()
@@ -107,8 +112,7 @@ public class FireManager : MonoBehaviour
     private IEnumerator UpdateSystemsRoutine()
     {
         _isUpdateCycleRunning = true;
-        var stopwatch = new Stopwatch();
-        stopwatch.Restart();
+        _stopwatch.Restart();
 
         // Perform the updates for smoke and lights first.
         _smokeHandler.CheckSmokePositions();
@@ -121,10 +125,10 @@ public class FireManager : MonoBehaviour
             yield return _updateFires; // Wait for the fire processing to fully complete.
         }
 
-        stopwatch.Stop();
+        _stopwatch.Stop();
 
         // Log the time taken for the whole process.
-        _fireHandler.DisplayStatus(stopwatch.Elapsed.TotalSeconds);
+        _fireHandler.DisplayStatus(_stopwatch.Elapsed.TotalSeconds);
 
         // Reset the running flag and schedule the next cycle.
         _isUpdateCycleRunning = false;
@@ -182,7 +186,7 @@ public class FireManager : MonoBehaviour
             return;
         }
 
-        var fireSound = _config.FireSound.ToLower();
+        var fireSound = _fireSoundLower;
 
         // Let the Manager handle if it's a new play or an update to an existing one.
         Manager.BroadcastPlay(position, fireSound, player.entityId);
@@ -196,7 +200,7 @@ public class FireManager : MonoBehaviour
 
     private void StopSoundAtPosition(Entity player, Vector3i checkPosition)
     {
-        var fireSound = _config.FireSound.ToLower();
+        var fireSound = _fireSoundLower;
         if (!playerSoundPositions.TryGetValue(player.entityId, out var oldSoundPosition)) return;
 
         if (checkPosition == oldSoundPosition) return;

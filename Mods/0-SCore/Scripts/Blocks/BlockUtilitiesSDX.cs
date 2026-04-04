@@ -111,13 +111,14 @@ public static class BlockUtilitiesSDX
 
     public static void addParticlesCentered(string strParticleName, Vector3i position)
     {
+        if (GameManager.IsDedicatedServer) return;
+
         if (string.IsNullOrEmpty(strParticleName))
             strParticleName = "#@modfolder(0-SCore_sphereii):Resources/PathSmoke.unity3d?P_PathSmoke_X";
 
         if (strParticleName == "NoParticle")
             return;
 
-        
         if (!ParticleEffect.IsAvailable(strParticleName))
         {
             if (ThreadManager.IsMainThread())
@@ -130,10 +131,8 @@ public static class BlockUtilitiesSDX
                 return;
             }
         }
-        
-        if (GameManager.Instance.HasBlockParticleEffect(position)) return;
 
-        if (GameManager.IsDedicatedServer) return;
+        if (GameManager.Instance.HasBlockParticleEffect(position)) return;
         
         var centerPosition = EntityUtilities.CenterPosition(position);
         var blockValue = GameManager.Instance.World.GetBlock(position);
@@ -145,6 +144,14 @@ public static class BlockUtilitiesSDX
         GameManager.Instance.SpawnBlockParticleEffect(position, particle);
     }
     
+    /// <summary>
+    /// Spawns a centered particle effect that is visible to all clients, including on dedicated servers.
+    /// On a dedicated server, broadcasts NetPackageAddBlockParticleEffect so each client calls
+    /// SpawnBlockParticleEffect directly — this registers the particle in m_BlockParticles, making
+    /// it removable later via removeParticlesCenteredServer / NetPackageRemoveBlockParticleEffect.
+    /// SpawnParticleEffectServer was not used here because it does not register in m_BlockParticles.
+    /// On a listen server or single player, falls back to the local addParticlesCentered path.
+    /// </summary>
     public static void addParticlesCenteredServer(string strParticleName, Vector3i position)
     {
         if (string.IsNullOrEmpty(strParticleName))
@@ -152,29 +159,19 @@ public static class BlockUtilitiesSDX
 
         if (strParticleName == "NoParticle")
             return;
-        
-        if (!ParticleEffect.IsAvailable(strParticleName))
+
+        if (GameManager.IsDedicatedServer)
         {
-            Log.Out($"PArticle not available: {strParticleName}");
-            if (ThreadManager.IsMainThread())
-            {
-                ParticleEffect.LoadAsset(strParticleName);
-            }
-            else
-            {
-                Log.Out($"Trying to load {strParticleName} but the call is not on the main thread: {Environment.StackTrace}. Failing.");
-                return;
-            }
+            // DS has no renderer — broadcast to clients so each one spawns the particle locally
+            // via SpawnBlockParticleEffect, which registers it in m_BlockParticles.
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+                NetPackageManager.GetPackage<NetPackageAddBlockParticleEffect>()
+                    .Setup(position, strParticleName));
+            return;
         }
-        
-       // if (GameManager.Instance.HasBlockParticleEffect(position)) return;
-        
-        var centerPosition = EntityUtilities.CenterPosition(position);
-        var blockValue = GameManager.Instance.World.GetBlock(position);
-        var rotation = Quaternion.identity;
-        //rotation = blockValue.Block.shape.GetRotation(blockValue);
-        var particle = new ParticleEffect(strParticleName, centerPosition, rotation, 1f, Color.white);
-        GameManager.Instance.SpawnParticleEffectServer(particle, -1);
+
+        // Listen server / singleplayer: spawn locally (also replicates to clients via vanilla path).
+        addParticlesCentered(strParticleName, position);
     }
     
    
@@ -182,5 +179,25 @@ public static class BlockUtilitiesSDX
     {
         if (GameManager.IsDedicatedServer) return;
         GameManager.Instance.World.GetGameManager().RemoveBlockParticleEffect(position);
+    }
+
+    /// <summary>
+    /// Removes a particle effect that is visible to all clients, including on dedicated servers.
+    /// On a dedicated server, broadcasts NetPackageRemoveBlockParticleEffect so every client
+    /// calls RemoveBlockParticleEffect locally. This is the matching counterpart to
+    /// addParticlesCenteredServer.
+    /// On a listen server or single player, falls back to the local removeParticles path.
+    /// </summary>
+    public static void removeParticlesCenteredServer(Vector3i position)
+    {
+        if (GameManager.IsDedicatedServer)
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+                NetPackageManager.GetPackage<NetPackageRemoveBlockParticleEffect>()
+                    .Setup(position));
+            return;
+        }
+
+        removeParticles(position);
     }
 }

@@ -15,14 +15,14 @@ namespace Harmony.Animation
         public static bool Prefix(EModelBase __instance, Entity ___entity, Transform ___neckParentTransform, Transform ___headTransform, ref Vector3 ___lookAtPos, float ___lookAtMaxAngle,
             ref Quaternion ___lookAtRot, Transform ___neckTransform, ref float ___lookAtBlendPer, ref float ___lookAtBlendPerTarget, bool ___lookAtIsPos)
         {
-            var entityAlive = ___entity as EntityAliveSDX;
-            if (entityAlive == null)
+            var entityAlive = ___entity as global::EntityAlive;
+            if (entityAlive == null || ___entity is not IEntityAliveSDX)
                 return true;
 
             // Disable this check for any entity that has UMA2 as a tag
             if (entityAlive.HasAnyTags(FastTags<TagGroup.Global>.Parse("UMA2")))
                 return true;
-                
+
             var currentStun = entityAlive.bodyDamage.CurrentStun;
             var deltaTime = Time.deltaTime;
             if (entityAlive.IsDead() || currentStun != EnumEntityStunType.None && currentStun != EnumEntityStunType.Getup) ___lookAtBlendPerTarget = 0f;

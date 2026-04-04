@@ -10,9 +10,10 @@ public class DialogRequirementHasQuestSDX : BaseDialogRequirement
         if (entityID == 0)
             return false;
 
-        var myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
+        var myEntity = player.world.GetEntity(entityID) as IEntityAliveSDX;
         if (myEntity == null) return false;
-        if (myEntity?.NPCInfo?.Quests?.Count <= 0) return false;
+        var entityAlive = myEntity as EntityTrader;
+        if (entityAlive?.NPCInfo?.Quests?.Count <= 0) return false;
         return true;
     }
 }

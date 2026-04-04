@@ -30,9 +30,8 @@ public class NetPackagePortalMapSync : NetPackage
 
     public override void write(PooledBinaryWriter bw)
     {
-        var count = _portalMap.Count;
-        bw.Write(count);
-        
+        base.write(bw);
+        bw.Write(_portalMap.Count);
         foreach (var entry in _portalMap)
         {
             StreamUtils.Write(bw, entry.Key);

@@ -149,7 +149,7 @@ namespace UAI
             }
 
             //var num = UAIUtils.DistanceSqr(_context.Self.position, position);
-            var entityAliveSdx = _context.Self as EntityAliveSDX;
+            var entityAliveSdx = _context.Self as IEntityAliveSDX;
 
             // Check the range on the item action
             ItemActionRanged.ItemActionDataRanged itemActionData = null;
@@ -201,7 +201,7 @@ namespace UAI
                     _context.Self.UseHoldingItem(_actionIndex, true);
                     break;
                 default:
-                    if (entityAliveSdx)
+                    //if (entityAliveSdx)
                     {
                         if (!entityAliveSdx.ExecuteAction(false, _actionIndex)) return;
                         entityAliveSdx.ExecuteAction(true, _actionIndex);

@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Learn By Doing", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Item Mod Degradation", "SphereII Item Mod Degradation\SphereII Item Mod Degradation.csproj", "{C442AE84-C437-491B-AE37-5A19C745EFF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII NPC Add On", "SphereII NPC Add On\SphereII NPC Add On.csproj", "{15DFFD51-5FF5-44D6-8EA1-D2C5EB20A29E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +112,10 @@ Global
 		{C442AE84-C437-491B-AE37-5A19C745EFF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C442AE84-C437-491B-AE37-5A19C745EFF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C442AE84-C437-491B-AE37-5A19C745EFF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15DFFD51-5FF5-44D6-8EA1-D2C5EB20A29E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15DFFD51-5FF5-44D6-8EA1-D2C5EB20A29E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15DFFD51-5FF5-44D6-8EA1-D2C5EB20A29E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15DFFD51-5FF5-44D6-8EA1-D2C5EB20A29E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

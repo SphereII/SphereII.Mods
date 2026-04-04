@@ -131,8 +131,8 @@ namespace Harmony.NPCFeatures
                     return true;
 
                 // If a door is found, try to open it. If it returns false, start attacking it.
-                var myEntity = __instance as EntityAliveSDX;
-                if (myEntity)
+                var myEntity = __instance as IEntityAliveSDX;
+                if (myEntity != null)
                     myEntity.RestoreSpeed();
                 return true;
             }
@@ -153,7 +153,7 @@ namespace Harmony.NPCFeatures
                 if (__instance == null || __instance.parent == null)
                     return false;
 
-                if (!(__instance.parent is EntityAliveSDX)) return true;
+                if (!(__instance.parent is IEntityAliveSDX)) return true;
                 return !__instance.parent.IsDead();
             }
         }

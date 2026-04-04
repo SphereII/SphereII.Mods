@@ -13,6 +13,7 @@ public static class EventOnBuffAdded {
     [HarmonyPatch(new Type[] { typeof(string), typeof(Vector3i), typeof(int), typeof(bool), typeof(bool), typeof(float) })]
     public class BuffManagerAddBuff {
         private static void Prefix(string _name) {
+            if (string.IsNullOrEmpty(_name)) return;
             foreach (var buffName in _name.Split(','))
             {
                 var buff = BuffManager.GetBuff(buffName);

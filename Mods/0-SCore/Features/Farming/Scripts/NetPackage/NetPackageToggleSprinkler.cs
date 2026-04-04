@@ -1,3 +1,6 @@
+using JetBrains.Annotations;
+
+[UsedImplicitly]
 public class NetPackageToggleSprinkler : NetPackage {
     private Vector3i _position;
     private bool _isEnabled;
@@ -27,10 +30,7 @@ public class NetPackageToggleSprinkler : NetPackage {
 
     public override void ProcessPackage(World world, GameManager callbacks) {
         if (world == null) return;
-        var block = world.GetBlock(_position);
-        if (block.Block is BlockWaterSourceSDX waterSourceSdx)
-        {
-            waterSourceSdx.ToggleSprinkler(_position, _isEnabled);
-        }
+        if (world.GetBlock(_position).Block is BlockWaterSourceSDX waterSourceSdx)
+            waterSourceSdx.ToggleSprinkler(_position, _isEnabled, world);
     }
 }

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class SmokeHandler : ISmokeHandler
 {
-    private readonly Dictionary<Vector3i, float> _smokeTimers = new Dictionary<Vector3i, float>();
+    private readonly Dictionary<Vector3i, ulong> _smokeTimers = new Dictionary<Vector3i, ulong>();
+    private readonly List<Vector3i> _expiredBuffer = new List<Vector3i>();
     private readonly FireEvents _events;
     private readonly FireConfig _config;
 
@@ -24,7 +24,7 @@ public class SmokeHandler : ISmokeHandler
         if (block.isair)
             return;
 
-        _smokeTimers[position] = Time.time + _config.SmokeTime;
+        _smokeTimers[position] = GameManager.Instance.World.GetWorldTime() + (ulong)_config.SmokeTime;
         
         // Get the appropriate smoke particle
         var smokeParticle = GetSmokeParticle(position);
@@ -50,16 +50,15 @@ public class SmokeHandler : ISmokeHandler
 
     public void CheckSmokePositions()
     {
-        var currentTime = Time.time;
-        var expiredPositions = _smokeTimers
-            .Where(kv => currentTime > kv.Value)
-            .Select(kv => kv.Key)
-            .ToList();
-
-        foreach (var position in expiredPositions)
+        var currentTime = GameManager.Instance.World.GetWorldTime();
+        _expiredBuffer.Clear();
+        foreach (var kv in _smokeTimers)
         {
-            RemoveSmoke(position);
+            if (currentTime > kv.Value)
+                _expiredBuffer.Add(kv.Key);
         }
+        foreach (var position in _expiredBuffer)
+            RemoveSmoke(position);
     }
 
     public bool HasSmoke(Vector3i position)
@@ -108,24 +107,15 @@ public class SmokeHandler : ISmokeHandler
 
     public void LoadState()
     {
-        // Implementation depends on your save system
-        // Example:
         _smokeTimers.Clear();
-        
-        // Load from disk or network and populate the dictionary
-        // Restart particle effects for existing smoke positions
-        foreach (var position in _smokeTimers.Keys)
-        {
-            BlockUtilitiesSDX.addParticlesCentered(GetSmokeParticle(position), position);
-        }
     }
 
     public void Clear()
     {
-        foreach (var position in _smokeTimers.Keys.ToList())
-        {
+        _expiredBuffer.Clear();
+        _expiredBuffer.AddRange(_smokeTimers.Keys);
+        foreach (var position in _expiredBuffer)
             RemoveSmoke(position);
-        }
         _smokeTimers.Clear();
     }
 }

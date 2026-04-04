@@ -209,6 +209,10 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 		}
 		signText.Update(_text, _signingPlayer);
 		GeneratedTextManager.GetDisplayText(signText, new Action<string>(this.RefreshTextMesh), true, true);
+		// Register (or update) this portal in PortalManager whenever the sign text changes.
+		// This covers player-configurable portals where no Location property is set.
+		if (!string.IsNullOrEmpty(_text))
+			PortalManager.Instance.AddPosition(ToWorldPos(), _text);
 		if (_syncData)
 		{
 			setModified();

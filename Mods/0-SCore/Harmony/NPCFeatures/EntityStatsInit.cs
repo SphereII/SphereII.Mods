@@ -12,7 +12,7 @@ namespace Harmony.NPCFeatures
         {
             private static void Postfix(EntityStats __instance)
             {
-                if (__instance.m_entity is not EntityAliveSDX) return;
+                if (__instance.m_entity is not IEntityAliveSDX) return;
                 var num2 = (int)EffectManager.GetValue(PassiveEffects.StaminaMax, null, 100f, __instance.m_entity);
                 __instance.Stamina = new Stat(Stat.StatTypes.Stamina, __instance.m_entity, (float)num2, (float)num2)
                 {

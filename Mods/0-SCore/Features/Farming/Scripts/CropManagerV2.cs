@@ -234,13 +234,40 @@ public class CropManager
     /// </summary>
     public bool IsNearWater(Vector3i _blockPos, float waterRange)
     {
-        // Creates a temporary PlantData which runs IsNearWater in its constructor.
-        // This checks properties and performs the necessary water lookups via WaterPipeManager.
-        var tempPlantData = new PlantData(_blockPos);
-        // Check the result of the water check performed during construction / first call.
-        // The range passed here might be redundant if PlantData only uses its configured range.
-        // return tempPlantData.IsNearWater(waterRange); // Re-calling might be redundant/inefficient
-        return tempPlantData.WaterPos != Vector3i.zero; // Check if the constructor found water
+        // Do NOT use a temp PlantData here — the position is air at placement time so the
+        // block has no WaterRange/RequireWater properties, causing the constructor to fall
+        // back to defaults (range=5) and ignore the caller's waterRange parameter entirely.
+
+        // 1. Check active sprinklers within range
+        foreach (var sprinklerPos in WaterPipeManager.Instance.GetWaterValves())
+        {
+            var bv = GameManager.Instance.World.GetBlock(sprinklerPos);
+            if (bv.Block is not BlockWaterSourceSDX sprinkler) continue;
+
+            float sprinklerRangeSq = sprinkler.GetWaterRange() * sprinkler.GetWaterRange();
+            if (Vector3.SqrMagnitude(_blockPos - sprinklerPos) > sprinklerRangeSq) continue;
+
+            if (sprinkler.IsWaterSourceUnlimited() ||
+                WaterPipeManager.Instance.GetWaterForPosition(sprinklerPos) != Vector3i.zero)
+                return true;
+        }
+
+        // 2. Scan for direct water sources within the specified range
+        int intRange = Mathf.Clamp(Mathf.CeilToInt(waterRange), 1, 10);
+        for (int x = -intRange; x <= intRange; x++)
+        {
+            for (int z = -intRange; z <= intRange; z++)
+            {
+                for (int y = _blockPos.y - intRange; y <= _blockPos.y + intRange; y++)
+                {
+                    var checkPos = new Vector3i(_blockPos.x + x, y, _blockPos.z + z);
+                    if (WaterPipeManager.Instance.IsDirectWaterSource(checkPos))
+                        return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 

@@ -13,7 +13,7 @@ namespace Harmony.Dialog
         {
             if (!__instance.xui.playerUI.entityPlayer.Buffs.HasCustomVar("CurrentNPC")) return true;
             var entityID = (int)__instance.xui.playerUI.entityPlayer.Buffs.GetCustomVar("CurrentNPC");
-            var myEntity = __instance.xui.playerUI.entityPlayer.world.GetEntity(entityID) as global::EntityAliveSDX;
+            var myEntity = __instance.xui.playerUI.entityPlayer.world.GetEntity(entityID) as IEntityAliveSDX;
             if (myEntity == null) return true;
             myEntity.UpdateWeapon();
             if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)

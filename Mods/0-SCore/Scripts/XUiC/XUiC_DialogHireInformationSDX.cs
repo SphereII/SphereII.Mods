@@ -11,7 +11,7 @@
         if (entityID == 0)
             return;
 
-        var myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
+        var myEntity = player.world.GetEntity(entityID) as IEntityAliveSDX;;
         if (myEntity != null)
             if (EntityUtilities.isTame(entityID, xui.playerUI.entityPlayer))
                 return;

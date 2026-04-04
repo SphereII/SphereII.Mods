@@ -60,27 +60,29 @@ public class NetPackageDeployNPCSDX : NetPackage
         {
             // 1. Create the Entity (In Memory)
             Entity entity = EntityFactory.CreateEntity(this.entityClassId, this.pos, this.rot);
-            EntityAliveSDX entityAlive = entity as EntityAliveSDX;
+            var entityAlive = entity as EntityAlive;
+            var iEntity     = entityAlive as IEntityAliveSDX;
 
-            if (entityAlive != null)
+            if (entityAlive != null && iEntity != null)
             {
                 // 2. Persistence Setup
-                // Set to StaticSpawner so the game saves it to region files and doesn't despawn it like a biome zombie
                 entityAlive.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
 
-                // 3. Hydrate Data
-                // Use the Utility to unpack the ItemValue Metadata (Strings) into the Entity.
-                // This restores Health, Buffs, CVars, Inventory, and Name.
-                EntitySyncUtils.SetNPCItemValue(entityAlive, this.itemValue);
+                // Block fresh-item generation during PostInit for restored NPCs.
+                bool isFreshSpawn = !this.itemValue.HasMetadata("EntityClassId");
+                if (!isFreshSpawn)
+                    entityAlive.Buffs.SetCustomVar("InitialInventory", 1);
 
-             
-                // 5. Spawn
+                // 3. Spawn first — EntityTrader.PostInit() (called inside SpawnEntityInWorld) creates
+                // a fresh TileEntityTrader and assigns it to lootContainer.  Hydrating before spawn
+                // would be overwritten.  We hydrate AFTER so we write into the initialized containers.
                 _world.SpawnEntityInWorld(entityAlive);
 
-                // 6. Force Sync
-                // CRITICAL: Broadcast the SDX-specific data (Name, Title, Weapon) to all clients immediately.
-                // Vanilla spawn packets do NOT carry this data, so without this, the NPC looks generic until restart.
-                entityAlive.SendSyncData();
+                // 4. Hydrate Data — unpack ItemValue metadata into the entity.
+                EntitySyncUtils.SetNPCItemValue(entityAlive, this.itemValue);
+
+                // 5. Force Sync — vanilla spawn packets don't carry SDX-specific data (name, title, weapon).
+                iEntity.SendSyncData();
             }
         }
     }

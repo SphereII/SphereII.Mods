@@ -8,6 +8,9 @@ namespace Harmony.UtilityAI
 {
     public class UAIBasePatches
     {
+        // Tracks package names we've already warned about — prevents log spam.
+        private static readonly HashSet<string> _warnedMissingPackages = new HashSet<string>();
+
         private static readonly string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
         private static readonly string Feature = "UtilityAILogging";
 
@@ -107,13 +110,14 @@ namespace Harmony.UtilityAI
 
                 context.ConsiderationData.WaypointTargets.Clear();
 
+                // Waypoints are populated by tasks/pathing code before this call.
+                // Sort only if there are multiple entries to order.
                 if (context.ConsiderationData.WaypointTargets.Count > 1)
                 {
                     context.ConsiderationData.WaypointTargets.Sort(new UAIUtils.NearestWaypointSorter(context.Self));
                 }
 
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Scanned WayPoints {context.ConsiderationData.WaypointTargets.Count}");
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Scanning WayPoints...");
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Scanning WayPoints... count: {context.ConsiderationData.WaypointTargets.Count}");
             }
 
             public static bool Prefix(Context _context)
@@ -122,19 +126,27 @@ namespace Harmony.UtilityAI
                 AddEntityTargetsToConsider(_context);
                 AddWaypointTargetsToConsider(_context);
 
+                if (_context.AIPackages.Count == 0)
+                {
+                    Log.Warning($"[SCore] {_context.Self.EntityName} ({_context.Self.entityId}) has no AIPackages – UAI will never run. Check entityclasses.xml for a missing AIPackages property or UseAIPackages=true.");
+                    return false;
+                }
+
                 UAIAction chosenAction = null;
                 object chosenTarget = null;
                 for (int i = 0; i < _context.AIPackages.Count; i++)
                 {
                     string pkg = _context.AIPackages[i];
 
-                    if (!UAIBase.AIPackages.ContainsKey(pkg))
+                    if (!UAIBase.AIPackages.TryGetValue(pkg, out var package))
+                    {
+                        if (_warnedMissingPackages.Add(pkg))
+                            Log.Warning($"[SCore] {_context.Self.EntityName} ({_context.Self.entityId}): AIPackage '{pkg}' not found in UAIBase.AIPackages. Check utilityai.xml – is the package defined and loaded?");
                         continue;
+                    }
 
-                    var score = UAIBase.AIPackages[pkg].DecideAction(
-                        _context,
-                        out var action,
-                        out var target) * UAIBase.AIPackages[pkg].Weight;
+                    var score = package.DecideAction(_context, out var action, out var target)
+                                * package.Weight;
 
                     // If two actions' scores are equal, the last action wins.
                     // Changing the test to <= would mean the first action wins.

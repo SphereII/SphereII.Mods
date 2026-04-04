@@ -32,6 +32,399 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+
+Version: 2.6.21.1125 
+	[ NPC Pickup / PickUpNPC ]
+		- Fixed NPC inventory being lost when picked up via DialogActionPickUpNPC and placed back
+		  down with ItemActionDeployNPCSDX.
+		- Fixed NPC inventory not persisting across game restarts for both EntityAliveSDX and
+		  EntityAliveSDXV4.
+		- Root cause: both entity classes extend EntityTrader, so the OpenInventory dialog command
+		  always routes the player-accessible bag through HarvestManager — but GetNPCItemValue was
+		  serializing npc.lootContainer.items (a different, empty object) instead.
+		- GetNPCItemValue now reads from the HarvestManager container when one exists for the entity,
+		  falling back to lootContainer for non-trader entities.
+		- SetNPCItemValue now restores bag items into HarvestManager.GetOrCreate(entityId) for
+		  EntityTrader-based entities, so the new entity's inventory is populated before the player
+		  opens it.
+		- EntityAliveSDX and EntityAliveSDXV4 Write() now saves the HarvestManager container (when
+		  present) into the entity's own binary stream instead of lootContainer, and Read() restores
+		  it back into HarvestManager — tying inventory to the entity save data rather than a
+		  separate file keyed by entity ID.
+		- HarvestManager.Save() is now called on GameShutdown as an additional safety net.
+		- Fixed SetupStartingItems() not checking the InitialInventory guard, causing the NPC's
+		  hand-inventory slots to be overwritten with default XML items on every spawn/re-place.
+
+Version: 2.6.14.638  [ Experimental ]
+	[ Remote Crafting ]
+		- Fixed a bug where `disablesender` with `Invertdisable` set to `true` would stop scanning containers
+		  entirely as soon as a non-allowed container was encountered (`break` instead of `continue`).
+		- To restrict remote crafting to only a specific container, set `disablesender` to the container's
+		  loot list name and set `Invertdisable` to `true`:
+
+			<!-- Only allow remote crafting from containers using the loot list "mySpecialStorage" -->
+			<property class="AdvancedRecipes">
+				<property name="ReadFromContainers" value="true"/>
+				<property name="disablesender" value="mySpecialStorage"/>
+				<property name="Invertdisable" value="true"/>
+			</property>
+
+		  Multiple containers can be allowed by providing a comma-separated list:
+			<property name="disablesender" value="mySpecialStorage,myOtherStorage"/>
+
+Version: 2.6.12.720  [ Experimental ]
+	[ UAI Farming - Dedicated Server ]
+		- Fixed harvest inventory (HarvestManager) not persisting across server restarts. Data is now
+		  saved to HarvestManager.bin in the save directory after each harvest cycle and when the player
+		  closes the loot window, and reloaded on GameStartDone.
+		- Fixed maintenance particles never being removed on dedicated servers. SpawnParticleEffectServer
+		  does not register particles in m_BlockParticles, so RemoveBlockParticleEffect was a no-op.
+		  addParticlesCenteredServer now broadcasts NetPackageAddBlockParticleEffect so each client calls
+		  SpawnBlockParticleEffect (which does register), and removeParticlesCenteredServer broadcasts
+		  NetPackageRemoveBlockParticleEffect so clients can clean them up correctly.
+	[ NPC Teleport - Farm Plot Height ]
+		- Fixed hired NPCs spawning one block inside farm plots (or other player-placed blocks) after
+		  player relog. TeleportToPlayer used World.GetHeightAt which returns terrain height only.
+		  Replaced with GetSurfaceY() in both EntityAliveSDX and EntityAliveSDXV4, which scans upward
+		  from terrain through any solid placed blocks to find the true walkable surface. Applied to
+		  both the initial teleport position and the validateTeleport safety coroutine.
+
+	[ SphreII NPC Add On ]
+		- Added new modlet to support the EntityAliveSDXV4's utilityai.xml
+
+Version: 2.6.11.839  [ Experimental ]
+	[ UAI Farming - Dedicated Server ]
+		- Fixed farming UAI tasks not executing on dedicated servers (addParticlesCentered DS guard).
+		- Fixed EndOfStreamException in TraderData when trader-type NPCs (EntityAliveSDXV4) harvest
+		  crops. Introduced HarvestManager — a per-entity TileEntityLootContainer stored separately
+		  from the trader's lootContainer, bypassing TraderData serialisation entirely.
+		- Fixed NullReferenceException when opening a trader NPC's harvest inventory (chunk + entityId
+		  setup on the HarvestManager container).
+		- Fixed harvest items not appearing for dedicated server clients. Added
+		  NetPackageHarvestInventoryRequest (client→server) and NetPackageHarvestInventoryData
+		  (server→client) so the server serialises and delivers the harvest container contents to
+		  the requesting client, who opens them in a local loot window.
+
+	[ EntitySwimingSDX ]
+		- Replaced List<Vector3i> with a HashSet + List pair for O(1) Contains and O(1) random
+		  access respectively, eliminating per-tick O(n) scans.
+		- Added periodic water-block refresh (every ~15 s) so fish track their current position
+		  instead of chasing stale spawn-time waypoints.
+
+	[ SphereII A Better Life ]
+		- Fixed terrWaterSpawner not spawning fish (entity group name mismatch: AnimalSwimming →
+		  SABLAnimalSwimming).
+		- Stripped unused language columns from Localization.txt, leaving Key and english only.
+		- Documented arramus's V2 compliance contributions: localization, fish prefix/template
+		  naming, UserSpawnType menu control, and underwater biome plant decorations.
+
+	[ SphereII Legacy Distant Terrain ]
+		- Removed global stack trace silencing from InitMod that affected all mods session-wide.
+		- Fixed misleading patch class name (SphereII_VoxelMeshTerrain_Update →
+		  SphereII_WorldEnvironment_Update).
+		- Removed unreachable null check in createDistantTerrain Postfix.
+		- Clarified null terrain generator fallback in terrainHeightFuncAllOtherWorlds.
+
+Version: 2.6.10.1108  [ Experimental ]
+	[ NPCv4 / IEntityAliveSDX - V4 Entity Support ]
+		NPCv4 (EntityAliveSDXV4) is a ground-up rewrite of the NPC entity that extends EntityTrader
+		instead of EntityAlive, using a component-based architecture (NPCLeaderComponent,
+		NPCPatrolComponent, NPCCombatComponent, NPCEffectsComponent) to replace the monolithic
+		EntityAliveSDX class. The goal is cleaner separation of concerns, better compatibility with
+		vanilla trader systems, and a more maintainable foundation for future NPC features.
+		The IEntityAliveSDX interface bridges V3 and V4, allowing shared code (UAI tasks, dialog
+		scripts, utility methods) to work with either entity type without hard casts.
+
+		- Updated EntityUtilities.ExecuteCMD to support EntityAliveSDXV4 via IEntityAliveSDX and
+		  IEntityOrderReceiverSDX interfaces. V3-exclusive fields (bodyDamage) remain gated behind
+		  a conditional EntityAliveSDX cast; all other operations now work for both V3 and V4.
+		- Updated EntityUtilities.TeleportNow to use IEntityAliveSDX type guard instead of a hard
+		  EntityAliveSDX cast, allowing V4 entities to be teleported.
+		- Updated EntityUtilities.AddQuestToRadius to detect both EntityAliveSDX (V3) and
+		  EntityAliveSDXV4 (V4) when adding quests to nearby NPCs.
+		- Updated DialogActionAnimatorSet to cast via IEntityAliveSDX instead of EntityAliveSDX,
+		  allowing V4 entities to receive animator commands from dialogs.
+		- Updated DialogActionDisplayInfo to cast via IEntityAliveSDX, allowing V4 entities to
+		  display info dialogs.
+		- Updated DialogActionRemoveBuffNPCSDX to cast via IEntityAliveSDX, allowing V4 entities
+		  to have buffs removed through dialogs.
+		- Updated DialogActionSwapWeapon to cast via IEntityAliveSDX, using the interface's
+		  UpdateWeapon() method so V4 entities can swap weapons through dialogs.
+		- Updated DialogRequirementHasQuestSDX to cast via IEntityAliveSDX; NPCInfo accessed via
+		  EntityTrader cast, supporting V4 quest requirements.
+		- Updated DialogRequirementNPCHasItemSDX to cast via IEntityAliveSDX with null-safe loot
+		  container checks, supporting V4 inventory requirements.
+		- Updated DialogActionPickUpNPC to cast via EntityAlive + IEntityAliveSDX, enabling V4
+		  entity pickup. EntitySyncUtils.GetNPCItemValue, SetNPCItemValue, Collect, and
+		  CollectClient now accept EntityAlive and use IEntityAliveSDX for name, title, and
+		  weapon access; V3-specific fields (belongsPlayerId, _currentWeapon) use conditional
+		  casts. IEntityAliveSDX gains FirstName and Title members. EntityAliveSDXV4.Title.set
+		  was fixed (previously threw NotImplementedException). All deploy/place net packages
+		  and ItemActionDeployNPCSDX updated to cast via EntityAlive rather than EntityAliveSDX.
+
+	[ UAI Troubleshooting / Diagnostics ]
+		- Added per-entity AIPackage diagnostics to EntityAliveSDXV4.PostInit via new
+		  LogMissingAIPackages() method. On spawn, logs which packages were found vs. missing
+		  from UAIBase.AIPackages, making load-order conflicts immediately visible in the log.
+		- Added empty-AIPackages-list warning in UAIBase.chooseAction Prefix: if an entity has
+		  no AI packages, a single warning is logged explaining what to check.
+		- Added per-package missing-package warning in UAIBase.chooseAction Prefix using a
+		  HashSet deduplication guard, preventing log spam while still surfacing undefined
+		  package names on first encounter.
+
+	[ UAI Performance / Bug Fixes ]
+		- Replaced triple dictionary lookup (ContainsKey + two indexed accesses) in
+		  UAIBase.chooseAction with a single TryGetValue call, reducing redundant hash lookups
+		  per AI evaluation cycle.
+		- Removed dead-code sort in AddWaypointTargetsToConsider: the sort was applied to the
+		  WaypointTargets list immediately after Clear(), so it operated on an empty list every
+		  time and had no effect.
+		- Fixed incorrect log-line order in AddWaypointTargetsToConsider: the count was logged
+		  before waypoints were gathered, reporting 0 every time.
+
+	[ UAI Farming ]
+		- Fixed two farmer NPCs targeting the same crop simultaneously. Added a shared static
+		  HashSet<Vector3i> claim registry to UAITaskFarming and UAITaskFarmingV4. A plot is
+		  claimed in Start() immediately after selection and released in Stop(), covering both
+		  normal task completion and interruption. FindTargetFarmPlot() skips any plot already
+		  in the registry, so each farmer always works a unique plot.
+		- Fixed harvested items not being added to the NPC's inventory. Three silent failure
+		  modes were patched in HandleHarvestingAndCleanup for both UAITaskFarming and
+		  UAITaskFarmingV4:
+		    * FastMax(0, minCount) could produce a 0-count ItemStack that AddItem silently rejects;
+		      clamped to FastMax(1, minCount).
+		    * item.prob was never checked; items now roll against their drop probability.
+		    * ItemClass.GetItem result was not validated; unknown item names now log a warning
+		      and are skipped instead of producing an invalid ItemValue.None stack.
+		- Fixed NPC farmer not harvesting fully-grown crops whose block type does not extend
+		  BlockPlant (e.g. BlockPickUpAndReplace-based final stages such as plantedCoffee3HarvestPlayer).
+		  FarmPlotData.Manage() previously checked IsDeadPlant() before checking harvest drops,
+		  so any non-BlockPlant block was cleared as a "dead plant" with no items returned.
+		  The branch order is now: HasItemsToDropForEvent(Harvest) first (harvest), then
+		  IsDeadPlant() (clear), then growing-plant skip, then empty-plot replant.
+		- Fixed NPC farmer not replanting immediately after harvesting. Two causes:
+		    * CanPlaceBlockAt was checked against the live world while the harvested block was
+		      still present, always returning false. The check is removed; placement validity is
+		      guaranteed by the block name resolving correctly.
+		    * SetBlocksRPC was called with two entries at the same position (air then seed).
+		      The intermediate air state triggered a physics/support check that caused the seed
+		      to fall through the world before it could stabilise. Replaced with a single-entry
+		      RPC that writes the seed directly over the harvested block.
+		- Fixed malformed drop table entries (empty item name, zero maxCount) from block
+		  itemsToDrop reaching the NPC inventory loop and producing unknown-item warnings.
+		  FarmPlotData.Manage() now strips these entries during harvest-item processing.
+		- Fixed FarmPlotData.Manage() mutating the block singleton's shared itemsToDrop lists.
+		  TryGetValue returns a direct reference to the block class's internal List; RemoveAt
+		  and AddRange on that reference permanently altered shared drop data for all future
+		  harvests. Drops are now copied into a pre-allocated local list via AddRange.
+		- Added Log.Out diagnostics throughout FarmPlotData.Manage() (block name, hasHarvestDrops,
+		  raw drop list, seed extraction result, replant path taken) to aid future field diagnosis.
+		- Fixed NPC farmer not watering corner (diagonally adjacent) farm plots.
+		  WaterPipeManager.GetWaterForPosition() only checked the 6 orthogonal neighbors for
+		  direct water adjacency, so plots diagonally adjacent to a water source returned no
+		  water and were skipped by the NPC despite being plantable by players. Added the 4
+		  horizontal diagonal neighbors to the scan so corner plots are correctly detected.
+		- Fixed UAI farming tasks not executing on dedicated servers. BlockUtilitiesSDX.addParticlesCentered
+		  had its dedicated-server early-return guard placed after ParticleEffect.IsAvailable() and
+		  ParticleEffect.LoadAsset() calls. On a dedicated server LoadAsset fails before the guard
+		  is reached, which prevented the subsequent AddBuff(_workBuff) call; without the buff,
+		  _hasWorkBuffApplied was never set and the state machine never reached HandleHarvestingAndCleanup.
+		  Fixed by moving the if (GameManager.IsDedicatedServer) return guard to the top of the method,
+		  matching the pattern already used in addParticles.
+		- Fixed EndOfStreamException in TraderData.ReadInventoryData when a trader-type NPC (EntityAliveSDXV4,
+		  which extends EntityTrader) harvested a crop. TileEntityLootContainer.AddItem() always calls
+		  SetModified() internally; on TileEntityTrader this triggers a network packet that serialises
+		  both items[] and TraderData in one stream. Any mismatch between the two stores causes an
+		  EndOfStreamException on the receiving client.
+		  Fix: Added HarvestManager — a static per-entity dictionary of plain TileEntityLootContainers
+		  that are never attached to the world tile-entity system. Items written directly to items[]
+		  without SetModified(), completely bypassing TraderData serialisation. UAITaskFarming and
+		  UAITaskFarmingV4 route harvest items to HarvestManager when the entity is EntityTrader;
+		  non-trader entities continue to use lootContainer.AddItem() as before.
+		- Fixed NullReferenceException in XUiC_LootWindowGroup.OnOpen() when a player opened a
+		  trader-type NPC's harvest inventory. TileEntity.get_blockValue() dereferences this.chunk;
+		  creating the HarvestManager container with a null chunk caused the exception. Fixed by
+		  looking up the entity's current chunk via World.GetChunkSync and passing it to the
+		  TileEntityLootContainer constructor, and setting container.entityId so OnOpen takes the
+		  entity loot-stage path (which does not cast blockValue.Block to BlockLoot).
+		- Fixed harvested items not appearing when a player opened a trader-type NPC's inventory
+		  on a dedicated server. The dialog action (DialogActionExecuteCommandSDX.PerformAction)
+		  runs client-side, while HarvestManager lives on the server process; the client's
+		  HarvestManager was always empty. Fixed with two new NetPackages:
+		    * NetPackageHarvestInventoryRequest (client → server): requests the NPC's harvest
+		      contents; server serialises the items, clears the server-side container, and sends
+		      the response.
+		    * NetPackageHarvestInventoryData (server → client): client deserialises the items,
+		      builds a local-only TileEntityLootContainer, and opens the loot window.
+		  On a listen server HarvestManager is local, so the loot window continues to be opened
+		  directly without a network round-trip. EntityUtilities.ExecuteCMD now branches on
+		  ConnectionManager.IsServer to choose the correct path.
+
+	[ EntitySwimingSDX ]
+		- Fixed per-tick O(n) Contains call in IsGoingToWater(). WaterBlocks was a List<Vector3i>;
+		  replaced with two parallel stores: a HashSet<Vector3i> (_waterBlockSet) for O(1) Contains
+		  used on every update tick, and a List<Vector3i> (_waterBlockList) for O(1) indexed random
+		  access used by GetRandomPosition().
+		- Fixed O(n) duplicate guard in RefreshWaterBlocks(). The old code called List.Contains before
+		  every Add during the scan loop. With HashSet, Add returns false for duplicates automatically,
+		  so no explicit guard is needed.
+		- Fixed fish waypoints becoming stale after the entity swam out of its initial spawn-time scan
+		  volume. RefreshWaterBlocks() was only called once in OnAddedToWorld(); fish that moved beyond
+		  the original 20x10x20 scan range would keep targeting old positions and eventually despawn.
+		  Added a _refreshCounter that triggers a full clear-and-rescan centred on the entity's current
+		  position every 300 ticks (~15 s at 20 ticks/s).
+
+	[ SphereII A Better Life ]
+		- Fixed terrWaterSpawner block not spawning any fish. The SpawnCubeRepeater Config had
+		  eg=AnimalSwimming but the entity group defined in entitygroups.xml is SABLAnimalSwimming.
+		  Corrected to eg=SABLAnimalSwimming so the world-decoration spawner blocks resolve the group.
+		- Cleaned up Config/Localization.txt: removed unused language columns (german, spanish, french,
+		  italian, japanese, koreana, polish, brazilian, russian, turkish, schinese, tchinese) and
+		  the File, Type, UsedInMainMenu, NoTranslate, and Context columns, leaving only Key and english.
+		[ Contributor: arramus ]
+		- Added localization entries for all fish entities and underwater plant blocks.
+		- Introduced fish prefix and template naming convention: fishPassiveTemplate and
+		  fishAggressiveTemplate serve as base templates; all concrete fish entities use the fish
+		  prefix (fishStingRay, fishTurtle, fishSardine, etc.) for consistent identification.
+		- Set UserSpawnType=None on both templates to suppress them from the spawn menu, and
+		  UserSpawnType=Menu on all concrete fish entities so only viable types are player-spawnable.
+		- Added all underwater plant blocks as biome decorations in the underwater biome, allowing
+		  them to appear in-world for environmental showcasing.
+
+	[ SphereII Legacy Distant Terrain ]
+		- Removed two Application.SetStackTraceLogType calls from InitMod that globally silenced
+		  Log and Warning stack traces for the entire session. This suppressed useful diagnostic
+		  output from all other mods and vanilla code, not just this mod's own logging.
+		- Renamed patch class SphereII_VoxelMeshTerrain_Update to SphereII_WorldEnvironment_Update
+		  to correctly reflect the type it patches (WorldEnvironment.Update, not VoxelMeshTerrain).
+		- Removed redundant null check in createDistantTerrain Postfix. DistantTerrain.Instance was
+		  assigned unconditionally inside an if (Instance == null) block and then immediately checked
+		  again before SetTerrainVisible. The second guard was unreachable on a successful assignment;
+		  SetTerrainVisible is now called directly after Configure.
+		- Clarified the null terrain generator fallback in terrainHeightFuncAllOtherWorlds. The
+		  implicit return of poiheightOverride (always 0 at that point) when GetTerrainGenerator()
+		  returns null has been made explicit with a local variable and a comment explaining that
+		  sea level (0) is intentionally returned so distant tiles render flat rather than using
+		  uninitialised height data.
+
+	[ Fire Manager ]
+		- Fixed fire particle left-behind after a burning block is destroyed by a player or
+		  explosion. ChunkSetBlock Harmony Postfix previously skipped all non-POI-reset block
+		  changes due to an inverted guard (if (!_fromReset) return). The fix restructures the
+		  check: POI resets always clear fire unconditionally; for other block changes, the patch
+		  now checks IsBurning() and immediately calls ClearFire() if the new block is air. This
+		  prevents the particle from lingering until the next UpdateFires cycle (up to
+		  CheckInterval seconds). IsBurning() is an O(1) dictionary lookup, so the overhead on
+		  every block change is negligible.
+
+	[ Utility / Code Quality ]
+		- Removed duplicate ItemStack.Empty guard in EntityUtilities.CheckItemStack(ItemStack, Type):
+		  the same Equals(stack, ItemStack.Empty) check was being evaluated twice with only a null
+		  check in between.
+
+Version: 2.6.8.1428  [ Experimental ]
+	[ Fire Manager ]
+		- Fixed fire state (active fires and smoke) not properly restoring on load. The Read() method now
+		  correctly rebuilds fire data, restarts particle/light effects, and re-raises smoke events.
+		- Fixed smoke timers using real time (Time.time) instead of world time, causing smoke to
+		  expire immediately on relog.
+		- Fixed loaded fires not being synced to clients after a server load.
+		- Fixed FireDamage property not being read from blocks due to an empty string check bug.
+		- Added FirePersists config option (default: false). When true, active fires and extinguished
+		  positions are saved and restored across server restarts.
+			<property name="FirePersists" value="true" />
+
+	[ Fire Manager - Performance ]
+		- Cached flammable/inflammable FastTags as static fields in FireHandler; previously parsed
+		  on every IsFlammable() call during fire spread.
+		- Replaced O(n²) string concatenation in FireHandler.Write() with string.Join; large fires
+		  caused severe save slowdowns.
+		- Replaced the new Queue allocation in FireHandler.UpdateFires() with a clear-and-refill
+		  on the existing queue to avoid per-cycle heap allocation.
+		- Replaced LINQ allocations in SmokeHandler.CheckSmokePositions() and Clear() with manual
+		  loops using a reusable buffer field.
+		- Fixed dead loop in SmokeHandler.LoadState() that iterated the smoke timer dictionary
+		  immediately after clearing it.
+		- Replaced LINQ allocations in LightManager.RemoveInvalidLights() with a manual loop
+		  using a reusable buffer field.
+		- Replaced per-call new HashSet allocation in LightManager.UpdateFadingLights() with a
+		  reusable List buffer field.
+		- Replaced O(n log n) OrderBy(Random.value) + O(n²) FirstOrDefault reverse-lookup in
+		  LightManager.ManageLightLimit() with a single O(n) pass over the position dictionary.
+		- Cached FireSound.ToLower() as a field in FireManager; previously allocated a new string
+		  per player per call in CheckForPlayer().
+		- Promoted the Stopwatch in FireManager.UpdateSystemsRoutine() from a per-cycle local
+		  variable to a reusable instance field.
+		- Added null guard on NetPackageAddExtinguishPositions.GetLength() to match the other
+		  batch fire packet classes.
+
+	[ Portals ]
+		- Fixed infinite packet loop: NetPackagePortalAddPosition and NetPackagePortalRemovePosition
+		  now call AddEntry/RemoveEntry directly instead of AddPosition/RemovePosition, which was
+		  routing back to the server and creating a loop.
+		- Fixed missing base.write() calls in NetPackagePortalRemovePosition and NetPackagePortalMapSync,
+		  which caused malformed packets.
+		- Fixed PortalManager.Init() registering handlers only when IsServer was true. Since Init is
+		  called during block registration (before ConnectionManager is ready), handlers were never
+		  registered and portals did not load on startup.
+		- Fixed portals not being registered on load: BlockPortal2.Init() now touches PortalManager.Instance
+		  early to ensure the GameStartDone handler is registered before the event fires.
+		- Fixed OnBlockRemoved and OnBlockLoaded calling the portal manager for child blocks,
+		  causing duplicate or incorrect entries.
+		- Fixed OnBlockAdded setting the sign text after calling AddPosition, so the portal was
+		  registered with an empty name. Text is now set first.
+		- Fixed GetActivationText calling AddPosition on every hover/focus event (side-effect removed).
+		- Fixed teleport resolving the destination inside a Task.Delay continuation on a background
+		  thread. Destination is now resolved on the main thread before the delay begins.
+		- Fixed players falling through terrain on arrival: a ChunkObserver is added at the
+		  destination before the delay and removed after teleport, forcing the chunk to load.
+		- Fixed player spawn position for multi-block portals: player now arrives at the center
+		  of the portal footprint rather than the corner parent position.
+		- Fixed ToggleAnimator with a null-safe chunk fetch to prevent errors when the chunk
+		  is not yet loaded.
+		- Fixed TileEntityPoweredPortal not registering the portal when a player types its name:
+		  AddPosition is now called in SetText so player-configured portals are tracked correctly.
+		- Added AddEntry/RemoveEntry methods to PortalManager for direct local-map updates,
+		  and added DestinationMap for pre-resolved source->destination links so GetDestination
+		  works without the destination chunk being loaded.
+
+Version: 2.6.8.837  [ Experimental ]
+	[ Farming ]
+		- Fixed water depletion not working: BlockLiquidv2 blocks are now drained via DoExchangeAction; A21+ voxel water is drained via chunk.GetWater/SetWater with chunk-local coordinates.
+		- Fixed pipe blocks being incorrectly identified as direct water sources (IsDirectWaterSource now excludes BlockWaterPipeSDX before checking world.IsWater).
+		- Fixed CropManager.IsNearWater ignoring the caller's waterRange parameter (was creating a temporary PlantData on an air block, falling back to default range of 5).
+		- Fixed NPC farming: seed loss and race condition on replant (now uses a single atomic SetBlocksRPC with [air, seed] entries).
+		- Fixed NPC farming: seed is now returned to harvest items or NPC inventory if CanPlaceBlockAt fails.
+		- Fixed NPC harvested items being silently lost when NPC inventory is full; items are now dropped on the ground instead.
+
+	[ Sprinklers ]
+		- Fixed sprinklers auto-activating when placed without a connected water source (CheckWaterConnection now always verifies actual water).
+		- Fixed RequirePipesForSprinklers config not being enforced: CanPlaceBlockAt now requires an adjacent pipe block when the setting is enabled.
+		- Simplified pipe block invalidation logic to use RefreshAllSprinklers.
+	** NOTE **:
+		- Due to the way water changes in 2.x and the crop manager, it's recommended if you are consuming water from a water source, that
+			you want to increase the amount of water it takes to 50 or so, instead of 1 or 2.
+
+	[ XUi ]
+		- Moved the broadcast button position to prevent overlap.
+
+	[ Drop Box ]
+		- Fixed an issue where using a drop box without a text field would throw an exception.
+
+
+Version: 2.6.4.713  [ Experimental ]
+	[ Fire Manager ]
+		- Fixed an issue where fire wasn't restarted on relog when enabled.
+
+	[ Challenges ]
+		- Removed an unneccesary safety check that was causing problems with null reference
+
+	[ Farming ]
+		- Refactored the Manage method for planting crops, and added a catch if inventory is full
+
+	[ NPCs ]
+		- Fixed an issue where NPCs could be duplicated when the player dies.
+
 Version: 2.5.53.911
 	[ NPCs ]
 		- Fixed an issue where an NPC would get run over while you were driving, and you'd pay the price.

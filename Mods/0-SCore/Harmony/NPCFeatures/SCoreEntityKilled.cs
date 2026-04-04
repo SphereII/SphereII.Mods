@@ -22,20 +22,40 @@ public class SCoreEntityKilled
 
         // 2. Filter for your Custom NPC Class
         // We cast to EntityAliveSDX to ensure this is one of your hired NPCs.
-        EntityAliveSDX npcKiller = killer as EntityAliveSDX;
-        if (npcKiller == null) return;
-
-        // 3. Give XP to the NPC (The Killer)
-        // Since the NPC did the work, we manually ensure they get the raw XP for the kill.
-        if (npcKiller.Progression != null)
+        var entityId = 1;
+        var npcKiller = killer as EntityAliveSDX;
+        if (npcKiller != null)
         {
-            int baseXP = EntityClass.list[victim.entityClass].ExperienceValue;
-            npcKiller.Progression.AddLevelExp(baseXP, "_xpFromKill", Progression.XPTypes.Kill, true);
+            entityId = npcKiller.entityId;
+            // 3. Give XP to the NPC (The Killer)
+            // Since the NPC did the work, we manually ensure they get the raw XP for the kill.
+            if (npcKiller.Progression != null)
+            {
+                int baseXP = EntityClass.list[victim.entityClass].ExperienceValue;
+                npcKiller.Progression.AddLevelExp(baseXP, "_xpFromKill", Progression.XPTypes.Kill, true);
+            }
         }
+        else
+        {
+            var npcKillerV4 = killer as EntityAliveSDXV4;
+            if (npcKillerV4 != null)
+            {
+                entityId = npcKillerV4.entityId;
+
+                // 3. Give XP to the NPC (The Killer)
+                // Since the NPC did the work, we manually ensure they get the raw XP for the kill.
+                if (npcKillerV4.Progression != null)
+                {
+                    int baseXP = EntityClass.list[victim.entityClass].ExperienceValue;
+                    npcKillerV4.Progression.AddLevelExp(baseXP, "_xpFromKill", Progression.XPTypes.Kill, true);
+                }
+            }
+        }
+
 
         // 4. Delegate to Leader
         // We find the leader and tell the game "The Leader killed this".
-        EntityPlayer leader = EntityUtilities.GetLeaderOrOwner(npcKiller.entityId) as EntityPlayer;
+        EntityPlayer leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayer;
         if (leader != null)
         {
             // By calling AddKillXP on the leader, we leverage the logic we fixed earlier:
@@ -45,6 +65,4 @@ public class SCoreEntityKilled
             leader.AddKillXP(victim);
         }
     }
-
-   
 }

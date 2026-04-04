@@ -84,73 +84,101 @@ public class WaterPipeManager
         return (value >= 0) ? value : 1;
     }
 
-    /// <summary>
-    /// Provides a summary string about water connection for tooltips/debugging.
-    /// </summary>
-    public string GetWaterSummary(Vector3i checkPos) // Changed param name for clarity
+    public string GetWaterSummary(Vector3i checkPos)
     {
-        Vector3i waterSourcePos = GetWaterForPosition(checkPos); // Use the main lookup function
+        // 1. Perform the actual connection search
+        // This now uses the neighbor-check + BFS logic we established
+        Vector3i waterSourcePos = GetWaterForPosition(checkPos);
 
-        var sourceBlockValue = GameManager.Instance.World.GetBlock(checkPos); // Block at the location being checked
-        string blockName = sourceBlockValue.Block?.GetLocalizedBlockName() ?? "Unknown Block";
+        var currentBlockValue = GameManager.Instance.World.GetBlock(checkPos);
+        string blockName = currentBlockValue.Block?.GetLocalizedBlockName() ?? "Unknown Block";
 
+        // 2. Handle the "No Water" case clearly
         if (waterSourcePos == Vector3i.zero)
         {
-            // Attempt a direct scan if pipe search failed initially (e.g., for plants not next to pipes)
-            // This uses PlantData's logic as a fallback check.
-             PlantData tempPlantCheck = new PlantData(checkPos);
-             bool directCheck = tempPlantCheck.IsNearWater(); // This might find water missed by pipe search
+            return $"Block: {blockName} at {checkPos}\nStatus: [NO WATER] - No path to a valid water source found.";
+        }
 
-             return $"Block: {blockName} at {checkPos} - Has Water: {directCheck} (Direct Scan)";
+        // 3. We found a source! Determine exactly what it is for the UI
+        var waterBlockValue = GameManager.Instance.World.GetBlock(waterSourcePos);
+        string waterBlockName = waterBlockValue.Block?.GetBlockName() ?? "Unknown Source";
+    
+        // A21+ voxel water — GetWaterPercent returns 0.0 (empty) to 1.0 (full).
+        float waterPercent = GameManager.Instance.World.GetWaterPercent(waterSourcePos);
+        string waterTypeInfo;
+
+        int sourceMaxHp = waterBlockValue.Block.MaxDamage;
+        int sourceHp    = sourceMaxHp > 0 ? Mathf.Max(0, sourceMaxHp - waterBlockValue.damage) : -1;
+        string hpSuffix = sourceHp >= 0 ? $"  Health: {sourceHp}/{sourceMaxHp}" : string.Empty;
+
+        if (waterPercent > 0.01f)
+        {
+            waterTypeInfo = $"Voxel Water Source ({waterPercent * 100:F0}%){hpSuffix}";
+        }
+        else if (waterBlockValue.Block is BlockLiquidv2)
+        {
+            // Legacy placed water block — damage field tracks depletion.
+            if (sourceMaxHp <= 0)
+                waterTypeInfo = $"Legacy Water Block '{waterBlockName}' (Unlimited)";
+            else
+            {
+                int remaining = sourceHp;
+                waterTypeInfo = $"Legacy Water Block '{waterBlockName}' (Water: {remaining}/{sourceMaxHp})";
+            }
         }
         else
         {
-            var waterBlockValue = GameManager.Instance.World.GetBlock(waterSourcePos);
-            string waterBlockName = waterBlockValue.Block?.GetBlockName() ?? "Unknown Source";
-            int damage = GetWaterDamage(waterSourcePos);
-            int durability = waterBlockValue.Block != null ? (waterBlockValue.Block.MaxDamage - waterBlockValue.damage) : 0;
-            int maxDurability = waterBlockValue.Block?.MaxDamage ?? 0;
-
-             // Check for A21+ water
-             float waterPercent = GameManager.Instance.World.GetWaterPercent(waterSourcePos);
-             string waterInfo;
-             if (waterPercent > 0.01f) {
-                 waterInfo = $"Modern Water ({waterPercent * 100:F0}%)";
-             } else if (maxDurability > 0) {
-                 waterInfo = $"Legacy Water Block '{waterBlockName}', Damage/Tick: {damage}, Durability: {durability} / {maxDurability}";
-             } else {
-                 waterInfo = $"Custom Source Block '{waterBlockName}'";
-             }
-
-            return $"Block: {blockName} at {checkPos} - Has Water: True - Source: {waterSourcePos} ({waterInfo})";
+            string hpInfo = sourceHp >= 0 ? $" (Health: {sourceHp}/{sourceMaxHp})" : " (Unlimited)";
+            waterTypeInfo = $"Source: '{waterBlockName}'{hpInfo}";
         }
+
+        // 4. Return the unified "Truth"
+        return $"Block: {blockName} at {checkPos}\nStatus: [CONNECTED] - Source found at {waterSourcePos}\nType: {waterTypeInfo}";
     }
 
-    /// <summary>
-    /// Gets the ultimate water source position connected to the given position via pipes.
-    /// Uses caching and the iterative pipe search.
-    /// </summary>
-    /// <param name="position">The position to check (e.g., a plant, a sprinkler, a pipe).</param>
-    /// <returns>The position of the water source, or Vector3i.zero if none found.</returns>
     public Vector3i GetWaterForPosition(Vector3i position)
     {
-        // 1. Check cache first
+        // 1. Check cache, but validate the cached result is still a live water source.
+        // If the source was removed the entry becomes stale; evict and re-search.
+        // Note: "no water" (zero) is never cached — see below.
         if (_waterSourceCache.TryGetValue(position, out Vector3i cachedSource))
         {
-            // Optional: Add a check here to verify if the cached source is STILL valid water?
-            // Could prevent issues if water block was removed without cache invalidation.
-            // e.g., if (cachedSource != Vector3i.zero && !IsDirectWaterSource(cachedSource)) { /* invalidate and continue */ }
-            return cachedSource;
+            if (IsWaterSource(cachedSource))
+                return cachedSource;
+            // Source no longer valid — evict and fall through to a fresh search.
+            _waterSourceCache.Remove(position);
         }
 
-        // 2. If not cached, perform the search
-        // Create a temporary PipeData instance to run the search
-        // Pass position for context, and maxPipes from this manager
+        // 2. Check if there is direct water touching this block first.
+        // Include horizontal diagonals so corner farm plots (diagonally adjacent to water)
+        // are correctly detected as watered — matching what the player planting system sees.
+        Vector3i[] neighbors = {
+            position + Vector3i.up, position + Vector3i.down,
+            position + Vector3i.left, position + Vector3i.right,
+            position + Vector3i.forward, position + Vector3i.back,
+            // horizontal diagonals
+            position + new Vector3i( 1, 0,  1), position + new Vector3i( 1, 0, -1),
+            position + new Vector3i(-1, 0,  1), position + new Vector3i(-1, 0, -1)
+        };
+
+        foreach (var neighbor in neighbors)
+        {
+            if (IsDirectWaterSource(neighbor))
+            {
+                _waterSourceCache[position] = neighbor;
+                return neighbor;
+            }
+        }
+
+        // 3. If no direct water, perform the pipe search.
         var pipeSearch = new PipeData(position, this.maxPipes);
         Vector3i waterSource = pipeSearch.DiscoverWaterFromPipes(position);
 
-        // 3. Cache the result (even if zero)
-        _waterSourceCache[position] = waterSource;
+        // Only cache a positive result. "No water" (zero) is intentionally not cached so
+        // that newly placed water is detected on the next UpdateTick without needing an
+        // explicit cache invalidation — which may not fire for A21+ voxel water placement.
+        if (waterSource != Vector3i.zero)
+            _waterSourceCache[position] = waterSource;
 
         return waterSource;
     }
@@ -183,15 +211,28 @@ public class WaterPipeManager
     /// </summary>
     public static void Sync(Vector3i blockPos, bool isEnabled)
     {
-        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsClient)
+        var connectionManager = SingletonMonoBehaviour<ConnectionManager>.Instance;
+
+        if (!connectionManager.IsServer)
         {
-            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
+            // Pure client: send the request to the server.
+            connectionManager.SendToServer(
                 NetPackageManager.GetPackage<NetPackageToggleSprinkler>().Setup(blockPos, isEnabled));
             return;
         }
-        // Ensure package is sent reliably if needed
-        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
-            NetPackageManager.GetPackage<NetPackageToggleSprinkler>().Setup(blockPos, isEnabled)/*, true*/); // Optional reliable flag
+
+        // Broadcast to any connected remote clients.
+        connectionManager.SendPackage(
+            NetPackageManager.GetPackage<NetPackageToggleSprinkler>().Setup(blockPos, isEnabled));
+
+        // On singleplayer / listen-server SendPackage doesn't loop back to the host.
+        // Update the local view directly. (Dedicated server has no local player.)
+        if (!GameManager.IsDedicatedServer)
+        {
+            var world = GameManager.Instance.World;
+            if (world?.GetBlock(blockPos).Block is BlockWaterSourceSDX sprinkler)
+                sprinkler.ToggleSprinkler(blockPos, isEnabled);
+        }
     }
 
 
@@ -213,41 +254,44 @@ public class WaterPipeManager
     }
 
     /// <summary>
-    /// Invalidates the water source cache for positions within a certain range of a change.
-    /// More granular than clearing the entire cache.
+    /// Invalidates the water source cache for entries where either the query position OR the
+    /// cached result position is within range of a change. Uses maxPipes as the default range
+    /// since pipe networks can extend that far.
     /// </summary>
     /// <param name="changedPosition">The position where a change occurred (pipe/sprinkler added/removed).</param>
-    /// <param name="range">The range around the change to invalidate.</param>
-    public void InvalidateWaterCacheNear(Vector3i changedPosition, int range = 5) // Example range
+    /// <param name="range">The range around the change to invalidate. Defaults to maxPipes.</param>
+    public void InvalidateWaterCacheNear(Vector3i changedPosition, int range = -1)
     {
+         if (range < 0) range = maxPipes;
          AdvLogging.DisplayLog(AdvFeatureClass, $"Invalidating water cache near {changedPosition} (Range: {range})");
          List<Vector3i> keysToRemove = new List<Vector3i>();
          int rangeSq = range * range;
 
-         // Find cached keys within range of the change
          foreach (var kvp in _waterSourceCache)
          {
              Vector3i cachedQueryPos = kvp.Key;
+             Vector3i cachedResultPos = kvp.Value;
+
+             // Invalidate if the query position is near the change
              if (Vector3.SqrMagnitude(cachedQueryPos - changedPosition) <= rangeSq)
              {
                  keysToRemove.Add(cachedQueryPos);
+                 continue;
              }
-             // Also consider if the *result* was near the change? Maybe less critical.
-             // Vector3i cachedResultPos = kvp.Value;
-             // if (cachedResultPos != Vector3i.zero && Vector3.SqrMagnitude(cachedResultPos - changedPosition) <= rangeSq) { ... }
+
+             // Also invalidate if the cached result pointed at a position near the change
+             // (e.g. a water source was removed — all pipes that cached it as their result are stale)
+             if (cachedResultPos != Vector3i.zero && Vector3.SqrMagnitude(cachedResultPos - changedPosition) <= rangeSq)
+             {
+                 keysToRemove.Add(cachedQueryPos);
+             }
          }
 
-         // Remove the identified keys
          foreach (var key in keysToRemove)
          {
             _waterSourceCache.Remove(key);
          }
          AdvLogging.DisplayLog(AdvFeatureClass, $"Invalidated {keysToRemove.Count} cache entries near {changedPosition}.");
-
-         // Alternative: Instead of precise range, maybe just clear cache if changes are frequent?
-         // Consider performance trade-off of iterating cache vs. blanket clear.
-         // If InvalidateWaterCacheNear is slow, revert to InvalidateWaterCache().
-         // InvalidateWaterCache(); // Simpler alternative
     }
 
 
@@ -257,35 +301,48 @@ public class WaterPipeManager
     /// </summary>
     public bool IsWaterSource(Vector3i position)
     {
+        // Always return true for direct water (rivers, lakes, etc.)
         if (IsDirectWaterSource(position)) return true;
 
         var blockValue = GameManager.Instance.World.GetBlock(position);
-        // Check if it's a registered sprinkler block (even if currently off/disconnected, it's a *potential* source)
-        if (blockValue.Block is BlockWaterSourceSDX) return true;
+
+        // Only count a sprinkler as a SOURCE if it is an "Unlimited" type
+        // This prevents standard sprinklers from acting as their own water source
+        if (blockValue.Block is BlockWaterSourceSDX waterSourceBlock)
+        {
+            return waterSourceBlock.IsWaterSourceUnlimited();
+        }
 
         return false;
     }
 
     /// <summary>
-    /// Checks if a position contains direct water (A21+ system, legacy liquid block, or custom unlimited block).
+    /// Checks if a position contains direct water (A21+ system, legacy liquid block, or custom block).
     /// Does NOT check for sprinklers or pipes.
+    /// Used for plant proximity scanning where terrain water (rivers, lakes) is a valid source.
     /// </summary>
     public bool IsDirectWaterSource(Vector3i position)
     {
-        // A21+ water system check
-        if (GameManager.Instance.World.IsWater(position)) return true; // Includes rivers, lakes etc.
-
         var blockValue = GameManager.Instance.World.GetBlock(position);
 
-        // Legacy water block check
+        // Exclude pipe blocks first — water may flow through them in the voxel sim,
+        // so world.IsWater() can return true at pipe positions. Checking block type
+        // before world.IsWater() ensures pipes are never treated as water sources.
+        if (blockValue.Block is BlockWaterPipeSDX) return false;
+
+        // A21+ water system check — valid when a plant is standing next to a river/lake
+        if (GameManager.Instance.World.IsWater(position)) return true;
+
+        // Legacy placed water block
         if (blockValue.Block is BlockLiquidv2) return true;
 
-        // Custom block property check (e.g., bedrock as unlimited source)
-        if (blockValue.Block.Properties.GetBool("WaterSource")) return true; // Explicit WaterSource=true property
-        if (blockValue.Block.Properties.GetString("WaterType").ToLower() == "unlimited") return true; // WaterType=unlimited property
+        // Custom block properties
+        if (blockValue.Block.Properties.GetBool("WaterSource")) return true;
+        if (blockValue.Block.Properties.GetString("WaterType").ToLower() == "unlimited") return true;
 
         return false;
     }
+
 
     /// <summary>
     /// Counts water blocks in the surrounding area (cubic scan).

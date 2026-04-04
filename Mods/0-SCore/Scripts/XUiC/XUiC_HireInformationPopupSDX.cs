@@ -24,7 +24,7 @@
         if (entityID == 0)
             return;
 
-        var myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
+        var myEntity = player.world.GetEntity(entityID) as IEntityAliveSDX;;
         if (myEntity != null)
             hireInformationLabel.Text = "Hire " + myEntity.EntityName + " for " + EntityUtilities.GetHireCost(entityID) + " " +
                                         EntityUtilities.GetHireCurrency(entityID).ItemClass.GetLocalizedItemName() + "?";
@@ -43,7 +43,7 @@
         if (entityID == 0)
             return;
 
-        var myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
+        var myEntity = player.world.GetEntity(entityID) as IEntityAliveSDX;
         if (myEntity != null)
             EntityUtilities.Hire(entityID, player as EntityPlayerLocal);
 

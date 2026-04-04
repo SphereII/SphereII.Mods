@@ -10,9 +10,9 @@ namespace SCore.Features.ItemDegradation.Harmony.Workstations
         public static void Postfix(TileEntityCollector __instance)
         {
             var blockDewCollector = (BlockCollector)__instance.blockValue.Block;
-            for (int i = 0; i < __instance.modSlots.Length; i++)
+            for (int i = 0; i < __instance.ModSlots.Length; i++)
             {
-                var mod = __instance.modSlots[i];
+                var mod = __instance.ModSlots[i];
                 if (mod.IsEmpty()) continue;
 
                 if (!ItemDegradationHelpers.CanDegrade(mod.itemValue)) continue;

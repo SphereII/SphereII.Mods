@@ -9,18 +9,18 @@ namespace UAI
     public class UAIFilterIsLeader : IUAITargetFilter<Entity>
     {
         private readonly EntityAlive self;
-        private readonly EntityAliveSDX selfSDX;
+        private readonly IEntityAliveSDX selfSDX;
 
         public UAIFilterIsLeader(EntityAlive self)
         {
             this.self = self;
-            selfSDX = self as EntityAliveSDX;
+            selfSDX = self as IEntityAliveSDX;
         }
 
         public bool Test(Entity target)
         {
-            // If its the EntityAliveSDX, do a quick check to see if its hirable or not.
-            if (selfSDX != null && !selfSDX.isHirable) return false;
+            // If its an SDX entity, do a quick check to see if its hirable or not.
+            if (selfSDX != null && !selfSDX.IsHirable) return false;
 
             var myLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
             if (myLeader == null)

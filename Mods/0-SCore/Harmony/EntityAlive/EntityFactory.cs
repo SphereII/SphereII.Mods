@@ -16,6 +16,12 @@ namespace Harmony.EntityAlive {
                     __result =  typeof(EntityAliveSDX);
                     return false;
                 }
+                
+                if (_className == "EntityAliveSDXV4")
+                {
+                    __result =  typeof(EntityAliveSDXV4);
+                    return false;
+                }
                 if (_className == "EntitySurvivor")
                 {
                     __result =  typeof(EntitySurvivor);

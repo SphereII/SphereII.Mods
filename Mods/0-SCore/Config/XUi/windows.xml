@@ -202,7 +202,7 @@
         <button depth="3" name="btnBroadcast"
                 sprite="ui_game_symbol_bc"
                 tooltip_key="xuiPinGrab"
-                pos="154, -22" pivot="center"
+                pos="114, -22" pivot="center"
                 style="icon32px, press, hover"
                 visible="{broadcastManager}"
                 defaultcolor="[white]"

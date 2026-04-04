@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Class: EntitySwimingSDX
  * Author:  sphereii
  * Category: Entity
@@ -6,10 +6,10 @@
  *      This Mod extends the flying class to give us entities that will swim in the water, providing a more diversifed underwater environment.
  *      If the entity is not in the water, then it will be marked to despawn.
  *
- *      It contains a built-in auto-scaler of spawned entities, by has no impact on harvest amount or speed. 
+ *      It contains a built-in auto-scaler of spawned entities, by has no impact on harvest amount or speed.
  *
  * Usage:
- *  Add the following class to entities that are meant to swim in the water. 
+ *  Add the following class to entities that are meant to swim in the water.
  *
  *      <property name="Class" value="EntitySwimingSDX, SCore" />
  *
@@ -34,12 +34,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntitySwimmingSDX : EntitySwimingSDX {
-}
+// Correctly-spelled alias — resolves to the same implementation.
+public class EntitySwimmingSDX : EntitySwimingSDX { }
 
 public class EntitySwimingSDX : EntityZombieFlyingSDX
 {
-    public List<Vector3i> WaterBlocks = new List<Vector3i>();
+    // Separate backing stores so both operations are O(1):
+    //   _waterBlockSet  — O(1) Contains for the per-tick IsGoingToWater() check.
+    //   _waterBlockList — O(1) index access for the random waypoint pick.
+    // Both are rebuilt together in RefreshWaterBlocks().
+    private readonly HashSet<Vector3i> _waterBlockSet  = new HashSet<Vector3i>();
+    private readonly List<Vector3i>    _waterBlockList = new List<Vector3i>();
+
+    // How many OnUpdateLive ticks between water-block rescans.
+    // At ~20 ticks/s this is roughly 15 s, giving fish time to swim to a new
+    // area before we re-centre the scan on their updated position.
+    private const int RefreshInterval = 300;
+    private int _refreshCounter = 0;
 
     public override void Init(int _entityClass)
     {
@@ -49,72 +60,97 @@ public class EntitySwimingSDX : EntityZombieFlyingSDX
             return;
 
         getNavigator().setCanDrown(false);
-       
     }
 
-    public override bool IsAirBorne()
-    {
-        return false;
-    }
+    public override bool IsAirBorne() => false;
+
     public override void OnAddedToWorld()
     {
         base.OnAddedToWorld();
         RefreshWaterBlocks();
     }
 
-    public override void OnUpdateLive() {
+    public override void OnUpdateLive()
+    {
         base.OnUpdateLive();
+
+        // Periodically re-centre the water scan on the entity's current position
+        // so fish that have swum away from their spawn point continue to find
+        // valid waypoints instead of chasing stale positions.
+        if (++_refreshCounter >= RefreshInterval)
+        {
+            _refreshCounter = 0;
+            RefreshWaterBlocks();
+        }
+
         if (!IsGoingToWater())
             AdjustWayPoint();
         if (!IsInWater())
             MarkToUnload();
     }
 
-    public bool IsGoingToWater() {
-        var vector = new Vector3i(Waypoint);
-        return WaterBlocks.Contains(vector);
+    // O(1) via HashSet.
+    public bool IsGoingToWater()
+    {
+        return _waterBlockSet.Contains(new Vector3i(Waypoint));
     }
-    public void RefreshWaterBlocks(int range = 10, int maxY = 5) {
+
+    /// <summary>
+    /// Clears and rebuilds the water-block index centred on the entity's current
+    /// position. Despawns the entity if fewer than 20 water blocks are found
+    /// (i.e. the entity has strayed out of any meaningful body of water).
+    /// </summary>
+    public void RefreshWaterBlocks(int range = 10, int maxY = 5)
+    {
+        _waterBlockSet.Clear();
+        _waterBlockList.Clear();
+
+        var center   = new Vector3i(position);
         var blockPos = Vector3i.zero;
-        var vector = new Vector3i(position);
-        for (var x = vector.x - range; x < vector.x + range; x++)
+
+        for (var x = center.x - range; x < center.x + range; x++)
         {
-            for (var z = vector.z - range; z < vector.z + range; z++)
+            for (var z = center.z - range; z < center.z + range; z++)
             {
-                for (var y = vector.y - maxY; y < vector.y + maxY; y++)
+                for (var y = center.y - maxY; y < center.y + maxY; y++)
                 {
                     blockPos.x = x;
-                    blockPos.z = z;
                     blockPos.y = y;
-                    var waterPercent = GameManager.Instance.World.GetWaterPercent(blockPos);
-                    if (waterPercent < 0.1) continue;
-                    if (WaterBlocks.Contains(blockPos)) continue;
-                    WaterBlocks.Add(blockPos);
+                    blockPos.z = z;
+
+                    if (GameManager.Instance.World.GetWaterPercent(blockPos) < 0.1f)
+                        continue;
+
+                    // HashSet.Add returns false for duplicates, so no explicit
+                    // Contains-before-Add guard is needed.
+                    if (_waterBlockSet.Add(blockPos))
+                        _waterBlockList.Add(blockPos);
                 }
             }
         }
-        // If there's not enough water, then just despawn.
-        if ( WaterBlocks.Count < 20)
+
+        if (_waterBlockSet.Count < 20)
             MarkToUnload();
     }
 
-    private Vector3i GetRandomPosition() {
-        if (WaterBlocks.Count == 0)
+    // O(1) index access via List.
+    private Vector3i GetRandomPosition()
+    {
+        if (_waterBlockList.Count == 0)
             RefreshWaterBlocks();
 
-        if (WaterBlocks.Count == 0)
+        if (_waterBlockList.Count == 0)
             return Vector3i.zero;
 
-        var index = rand.RandomRange(0, WaterBlocks.Count);
-        return WaterBlocks[index];
+        return _waterBlockList[rand.RandomRange(0, _waterBlockList.Count)];
     }
 
-    public void AdjustWayPoint() {
+    public void AdjustWayPoint()
+    {
         Waypoint = GetRandomPosition();
     }
 
-
-    // Over-riding the SetRotation to get around the look vector zero error
+    // Guards against the "look vector is zero" Unity error.
     public override void SetRotation(Vector3 _rot)
     {
         if (_rot != Vector3.zero)

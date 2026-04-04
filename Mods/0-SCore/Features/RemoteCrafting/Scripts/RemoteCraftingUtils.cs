@@ -99,7 +99,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 {
                     if (DisableSender(disabledsender, tileEntity))
                     {
-                        break;
+                        continue;
                     }
                 }
 

@@ -12,10 +12,21 @@
                 <response_entry id="ask_origin" ref_text="Frankie_resp_ask_origin" />
                 <response_entry id="ask_since_apo" ref_text="Frankie_resp_ask_since_apo" />
                 <response_entry id="ask_who" ref_text="Frankie_resp_ask_who"/>
+                <response_entry id="ShowMe" ref_text="Frankie_resp_ask_who"/>
+                <response_entry id="PickUp" ref_text="Frankie_resp_ask_who"/>
+
                 <response_entry id="done" ref_text="Frankie_resp_ask_since_apo_cont"/>
 
             </statement>
+            <response id="PickUp" text="GenericNPC_Pickup" ref_text="Pick Me up!">
+                <action type="PickUpNPC, SCore" />
+            </response>
+        
 
+            <response id="ShowMe" text="GenericNPC_ShowMe" ref_text="Show Me your inventory">
+                <action type="ExecuteCommandSDX, SCore" id="OpenInventory" />
+            </response>
+            
             <response id="return" text="ui_greetings_generic_okay" ref_text="Oh Okay." nextstatementid="start"/>
 
             <response id="ask_rain" text="Frankie_ask_rain" ref_text="Could use some rain, huh?" nextstatementid="rain_talk"/>

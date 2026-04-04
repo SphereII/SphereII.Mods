@@ -1,19 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Portal Block Examples
+    =====================
+
+    Two portal classes are available:
+
+    Class="PoweredPortal, SCore"
+        Powered portal (BlockPoweredPortal). Supports optional power requirements,
+        locking/ACL, and a keypad. Uses TileEntityPoweredPortal.
+
+    Class="Portal2, SCore"
+        Sign-based portal (BlockPortal2). No power system. Uses TileEntitySign.
+
+    Location Syntax
+    "portalName"
+        Legacy / same-name format. Source and destination are both "portalName".
+        Any two portals sharing this name will link to each other.
+
+    "source=A,destination=B"
+        Explicit named format. This portal is named A and targets portal B.
+        For bidirectional travel, the partner portal must have source=B,destination=A.
+
+    "source=A,destination=B,prefab=prefabName"
+        Like the above, but the destination is inside a named prefab that may not
+        have a physical portal block placed by the player.
+
+    If no Location property is set, the player edits the sign text in-game
+    to assign a portal name.
+-->
 <configs>
     <append xpath="/blocks">
+
+        <!-- ================================================================
+             BASE BLOCK — inherit from this when creating your own portals
+             ================================================================ -->
         <block name="portalMaster">
             <property name="Class" value="Portal, SCore"/>
+
+            <!-- Buff applied on use to enforce the teleport cooldown -->
             <property name="CooldownBuff" value="buffTeleportCooldown"/>
+
+            <!-- Milliseconds to wait before moving the player (lets the animation play) -->
             <property name="Delay" value="2000"/>
 
-            <!-- Uncomment to hard code the portal ID-->
-            <!--property name="Location" value="Portal01" /-->
-
-            <!-- determines if the name of the portal is displayed -->
+            <!-- Show the destination portal name when the player looks at the block -->
             <property name="Display" value="true"/>
 
-            <!-- If the player has this buff, they will be able to see the portal name. -->
-            <!--property name="DisplayBuff" value="buffyours" /-->
+            <!-- Optional: require this buff on the player to allow teleport -->
+            <!--property name="ActivateBuff" value="buffYourBuff" /-->
+
+            <!-- Optional: require this buff to reveal the destination name (otherwise shows "...") -->
+            <!--property name="DisplayBuff" value="buffYourBuff" /-->
+
+            <!-- Optional: hard-code this portal's name (disables player sign editing) -->
+            <!--property name="Location" value="PortalName" /-->
 
             <property name="Material" value="Mstone"/>
             <property name="Shape" value="ModelEntity"/>
@@ -33,37 +73,41 @@
             <property name="DescriptionKey" value="guppyPortal_desc"/>
         </block>
 
+        <!-- ================================================================
+             EXAMPLE 1 — Bidirectional pair via matching names (simplest)
+
+             Place exactly two of these blocks anywhere in the world.
+             They will automatically link to each other because they share
+             the same name. The first placed waits until the second is placed.
+             No additional configuration needed.
+             ================================================================ -->
         <block name="samplePortal01">
             <property name="Extends" value="portalMaster"/>
+            <property name="Class" value="PoweredPortal, SCore"/>
             <property name="DisplayType" value="blockMulti"/>
             <property name="MultiBlockDim" value="3,3,3"/>
             <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
-            <property name="Location" value="samplePortal01"/> <!-- Legacy and default -->
+            <property name="Location" value="samplePortal01"/>
             <property name="Display" value="true"/>
-            <property name="RequiredPower" value="0"/>  <!-- Does not require power to operate -->
+            <property name="RequiredPower" value="0"/>
         </block>
 
-        <block name="samplePortal01b">
-            <property name="Extends" value="portalMaster"/>
-            <property name="DisplayType" value="blockMulti"/>
-            <property name="MultiBlockDim" value="3,3,3"/>
-            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
-            <property name="Location" value="source=samplePortal01cb,destination=samplePortal01b"/>
-            <property name="Display" value="true"/>
-            <property name="RequiredPower" value="0"/>    <!-- Does not require power to operate -->
-        </block>
+        <!-- ================================================================
+             EXAMPLE 2 — Named bidirectional pair (explicit source/destination)
+
+             Place one samplePortal02 and one samplePortal03.
+             samplePortal02 teleports to samplePortal03, and vice versa.
+             Use this format when you want differently-named portals to link.
+             ================================================================ -->
         <block name="samplePortal02">
             <property name="Extends" value="portalMaster"/>
             <property name="Class" value="PoweredPortal, SCore"/>
             <property name="DisplayType" value="blockMulti"/>
             <property name="MultiBlockDim" value="3,3,3"/>
             <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
-            <property name="Location"
-                      value="source=samplePortal02,destination=samplePortal03"/>  <!-- I am Portal02, I go to Portal03 -->
-            <property name="RequiredPower" value="0"/>
-            <!-- Does not require power to operate -->
-
+            <property name="Location" value="source=samplePortal02,destination=samplePortal03"/>
             <property name="Display" value="true"/>
+            <property name="RequiredPower" value="0"/>
         </block>
 
         <block name="samplePortal03">
@@ -72,47 +116,75 @@
             <property name="DisplayType" value="blockMulti"/>
             <property name="MultiBlockDim" value="3,3,3"/>
             <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
-            <property name="Location"
-                      value="source=samplePortal03,destination=NA"/>  <!-- I am Portal03, I go to NA, which is not created, thus not anywhere-->
-            <property name="RequiredPower" value="0"/>
-            <!-- Does not require power to operate -->
-
+            <property name="Location" value="source=samplePortal03,destination=samplePortal02"/>
             <property name="Display" value="true"/>
+            <property name="RequiredPower" value="0"/>
         </block>
 
+        <!-- ================================================================
+             EXAMPLE 3 — Player-configurable portal
+
+             No Location property. After placing, the player opens the sign
+             interface and types the portal name. This enables runtime linking
+             without requiring a different block type per destination.
+
+             Pair two of these by giving them matching names (same-name format)
+             or matching source/destination names (explicit format).
+             ================================================================ -->
         <block name="samplePortal04">
             <property name="Extends" value="portalMaster"/>
             <property name="Class" value="PoweredPortal, SCore"/>
             <property name="DisplayType" value="blockMulti"/>
             <property name="MultiBlockDim" value="3,3,3"/>
-            <property name="Model" value="@:Entities/Electrical/power_switchPrefab.prefab"/>
-            <!--property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/-->
+            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
             <property name="Display" value="true"/>
+            <property name="RequiredPower" value="0"/>
         </block>
 
+        <!-- ================================================================
+             EXAMPLE 4 — Sign-based portal (BlockPortal2, no power system)
+
+             Uses Portal2 class which extends BlockPlayerSign. Does not require
+             a powered tile entity. Useful for lightweight portals that do not
+             need power wiring.
+
+             Same Location syntax applies. Place two with the same name to link.
+
+             NOTE: Because Location is set, the sign editor is intentionally
+             disabled on this block. The portal name is fixed at placement.
+             To allow player-editing, remove the Location property (same as
+             samplePortal04 but using Portal2 class instead).
+             ================================================================ -->
         <block name="samplePortal05">
             <property name="Extends" value="portalMaster"/>
-            <property name="Class" value="PoweredPortal, SCore"/>
+            <property name="Class" value="Portal2, SCore"/>
             <property name="DisplayType" value="blockMulti"/>
             <property name="MultiBlockDim" value="3,3,3"/>
             <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
-            <!-- I am samplePortal05, I go to samplePortal03, which is inside a prefab called farm_02-->
-            <property name="Location" value="source=samplePortal05,destination=samplePortal03,prefab=farm_02"/>
-            <property name="RequiredPower" value="0"/>
-            <!-- Does not require power to operate -->
-
+            <property name="Location" value="samplePortal05"/>
             <property name="Display" value="true"/>
         </block>
 
-        <block name="samplePortal06samplePortal06">
+        <!-- ================================================================
+             EXAMPLE 5 — Prefab destination portal
+
+             Teleports the player to a portal block inside a named prefab.
+             The prefab does not need a separately placed destination portal —
+             the PortalManager scans the prefab for blocks with a Location
+             property and registers them automatically.
+
+             Replace "yourPrefabName" with the name of the target prefab.
+             ================================================================ -->
+        <block name="samplePortalPrefab">
             <property name="Extends" value="portalMaster"/>
             <property name="Class" value="PoweredPortal, SCore"/>
             <property name="DisplayType" value="blockMulti"/>
             <property name="MultiBlockDim" value="3,3,3"/>
             <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
-            <property name="RequiredPower" value="0"/>
+            <property name="Location" value="source=samplePortalPrefab,destination=prefabDestination,prefab=yourPrefabName"/>
             <property name="Display" value="true"/>
-            <property name="Delay" value="200"/>
+            <property name="RequiredPower" value="0"/>
         </block>
+
     </append>
 </configs>

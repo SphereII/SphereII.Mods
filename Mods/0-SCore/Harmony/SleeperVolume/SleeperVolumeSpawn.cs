@@ -16,7 +16,7 @@ namespace SCore.Harmony.SleeperVolume
 
             // ___flags has an int representation of ETriggerType; "Attack" is 2
             int trigger = ___flags & 7;
-            if (trigger == 2 && (__result is EntityAliveSDX || __result is EntityEnemySDX))
+            if (trigger == 2 && (__result is IEntityAliveSDX || __result is EntityEnemySDX))
             {
                 __result.ConditionalTriggerSleeperWakeUp();
             }

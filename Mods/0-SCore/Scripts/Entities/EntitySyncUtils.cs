@@ -12,11 +12,9 @@ public static class EntitySyncUtils
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageEntityAliveSDXCollect>().Setup(_entityId, _playerId));
             return;
         }
-        EntityAliveSDX entity = GameManager.Instance.World.GetEntity(_entityId) as EntityAliveSDX;
-        if (entity == null)
-        {
-            return;
-        }
+        var entity = GameManager.Instance.World.GetEntity(_entityId) as EntityAlive;
+        if (entity == null || entity is not IEntityAliveSDX) return;
+
         if (GameManager.Instance.World.IsLocalPlayer(_playerId))
         {
             CollectClient(entity, _playerId);
@@ -30,11 +28,12 @@ public static class EntitySyncUtils
 
     public static void CollectClient(int _entityId, int _playerId)
     {
-        EntityAliveSDX entity = GameManager.Instance.World.GetEntity(_entityId) as EntityAliveSDX;
-        if (entity == null) return;
+        var entity = GameManager.Instance.World.GetEntity(_entityId) as EntityAlive;
+        if (entity == null || entity is not IEntityAliveSDX) return;
         CollectClient(entity, _playerId);
     }
-    public static void CollectClient(EntityAliveSDX entity, int _playerId)
+
+    public static void CollectClient(EntityAlive entity, int _playerId)
     {
 
         // 2. SERVER LOGIC: Execute the pickup.
@@ -45,6 +44,7 @@ public static class EntitySyncUtils
         // GetNPCItemValue handles serializing inventory, stats, buffs, and cvars
         // into the ItemValue metadata strings.
         ItemValue itemValue = GetNPCItemValue(entity);
+
         if (itemValue?.type == 0)
         {
             Log.Error($"[0-SCore] EntitySyncUtils.Collect: Failed to generate ItemValue for {entity.EntityName}. Aborting pickup.");
@@ -67,23 +67,27 @@ public static class EntitySyncUtils
         
         // clears the cvars
         EntityUtilities.ExecuteCMD(entity.entityId, "Dismiss", player);
-        
-       // Cleaning up bad cvar format.
+
+        // Cleaning up bad cvar format.
         player.Buffs.SetCustomVar($"hired_${entity.entityId}", 0f);
+
+        // Release the HarvestManager container for trader-type NPCs.
+        HarvestManager.Remove(entity.entityId);
      
         
     }
 
 
-    public static ItemValue GetNPCItemValue(EntityAliveSDX npc)
+    public static ItemValue GetNPCItemValue(EntityAlive npc)
     {
+        var iNpc = npc as IEntityAliveSDX;
+        if (iNpc == null) return ItemValue.None;
+
         // 1. Identify Target Item
         string targetItemClass = "spherePickUpNPC";
         EntityClass currentEntityClass = EntityClass.list[npc.entityClass];
         if (currentEntityClass.Properties.Values.ContainsKey("PickUpItem"))
-        {
             targetItemClass = currentEntityClass.Properties.Values["PickUpItem"];
-        }
 
         ItemClass itemClass = ItemClass.GetItemClass(targetItemClass, true);
         if (itemClass == null) return ItemValue.None;
@@ -92,16 +96,18 @@ public static class EntitySyncUtils
         itemValue.Metadata = new Dictionary<string, TypedMetadataValue>();
 
         // 2. Core Stats
-        itemValue.SetMetadata("NPCName", npc.FirstName, TypedMetadataValue.TypeTag.String);
+        itemValue.SetMetadata("NPCName", iNpc.FirstName, TypedMetadataValue.TypeTag.String);
         itemValue.SetMetadata("EntityClassId", npc.entityClass, TypedMetadataValue.TypeTag.Integer);
         itemValue.SetMetadata("Health", (int)npc.Health, TypedMetadataValue.TypeTag.Integer);
         itemValue.SetMetadata("MaxHealth", (int)npc.Stats.Health.Max, TypedMetadataValue.TypeTag.Integer);
 
-        if (!string.IsNullOrEmpty(npc.Title))
-            itemValue.SetMetadata("MyTitle", npc.Title, TypedMetadataValue.TypeTag.String);
+        if (!string.IsNullOrEmpty(iNpc.Title))
+            itemValue.SetMetadata("MyTitle", iNpc.Title, TypedMetadataValue.TypeTag.String);
 
-        // 3. Ownership
-        itemValue.SetMetadata("BelongsToPlayer", npc.belongsPlayerId, TypedMetadataValue.TypeTag.Integer);
+        // 3. Ownership — V3 has belongsPlayerId; V4 tracks ownership via leader cvars only.
+        if (npc is EntityAliveSDX v3get)
+            itemValue.SetMetadata("BelongsToPlayer", v3get.belongsPlayerId, TypedMetadataValue.TypeTag.Integer);
+
         var leader = EntityUtilities.GetLeaderOrOwner(npc.entityId);
         if (leader)
             itemValue.SetMetadata("Leader", leader.entityId, TypedMetadataValue.TypeTag.Integer);
@@ -110,7 +116,6 @@ public static class EntitySyncUtils
         int cvarCount = 0;
         foreach (var cvar in npc.Buffs.CVars)
         {
-            // Format: "Key:Value"
             itemValue.SetMetadata($"CVar_{cvarCount}", $"{cvar.Key}:{cvar.Value}", TypedMetadataValue.TypeTag.String);
             cvarCount++;
         }
@@ -130,7 +135,19 @@ public static class EntitySyncUtils
         itemValue.SetMetadata("Inventory", inventoryStr, TypedMetadataValue.TypeTag.String);
 
         // 7. Bag / Loot Container
-        if (npc.lootContainer != null)
+        // Both EntityAliveSDX and EntityAliveSDXV4 extend EntityTrader.  OpenInventory routes
+        // their player-accessible bag through HarvestManager, not npc.lootContainer.
+        // Serialize from HarvestManager when present; fall back to lootContainer for any
+        // non-trader entity that reaches this path.
+        if (npc is EntityTrader && HarvestManager.Has(npc.entityId))
+        {
+            var hc = HarvestManager.GetOrCreate(npc.entityId);
+            string bagStr = SerializeItemStackArray(hc.items);
+            itemValue.SetMetadata("Bag", bagStr, TypedMetadataValue.TypeTag.String);
+            if (!string.IsNullOrEmpty(hc.lootListName))
+                itemValue.SetMetadata("LootListName", hc.lootListName, TypedMetadataValue.TypeTag.String);
+        }
+        else if (npc.lootContainer != null)
         {
             string bagStr = SerializeItemStackArray(npc.lootContainer.items);
             itemValue.SetMetadata("Bag", bagStr, TypedMetadataValue.TypeTag.String);
@@ -138,36 +155,36 @@ public static class EntitySyncUtils
                 itemValue.SetMetadata("LootListName", npc.lootContainer.lootListName, TypedMetadataValue.TypeTag.String);
         }
 
-        var item = npc.inventory?.holdingItem.GetItemName();
-
-        itemValue.SetMetadata("CurrentWeapon",item, TypedMetadataValue.TypeTag.String);
+        itemValue.SetMetadata("CurrentWeapon", npc.inventory?.holdingItem.GetItemName(), TypedMetadataValue.TypeTag.String);
 
         return itemValue;
     }
 
-    public static void SetNPCItemValue(EntityAliveSDX npc, ItemValue itemValue)
+    public static void SetNPCItemValue(EntityAlive npc, ItemValue itemValue)
     {
         if (itemValue == null) return;
+        var iNpc = npc as IEntityAliveSDX;
+        if (iNpc == null) return;
 
         // 1. Core Stats
         var entityName = itemValue.GetMetadata("NPCName") as string;
         if (!string.IsNullOrEmpty(entityName))
         {
-            npc.FirstName  = entityName;
+            iNpc.FirstName = entityName;
             npc.entityName = entityName;
         }
 
         var myTitle = itemValue.GetMetadata("MyTitle") as string;
-        if (!string.IsNullOrEmpty(myTitle)) npc.Title = myTitle;
+        if (!string.IsNullOrEmpty(myTitle)) iNpc.Title = myTitle;
 
         if (itemValue.GetMetadata("Health") is int hp) npc.Health = hp;
-        
-        if (itemValue.GetMetadata("BelongsToPlayer") is int pId) npc.belongsPlayerId = pId;
+
+        // V3-specific ownership field; V4 ownership is handled via leader cvars.
+        if (itemValue.GetMetadata("BelongsToPlayer") is int pId && npc is EntityAliveSDX v3set)
+            v3set.belongsPlayerId = pId;
+
         if (itemValue.GetMetadata("Leader") is int lId)
-        {
             EntityUtilities.SetLeaderAndOwner(npc.entityId, lId);
-            
-        }
 
         // 2. CVars
         if (itemValue.GetMetadata("CVarCount") is int cvarCount)
@@ -178,9 +195,7 @@ public static class EntitySyncUtils
                 if (string.IsNullOrEmpty(cvarStr)) continue;
                 string[] split = cvarStr.Split(':');
                 if (split.Length == 2 && StringParsers.TryParseFloat(split[1], out float value))
-                {
                     npc.Buffs.AddCustomVar(split[0], value);
-                }
             }
         }
 
@@ -201,12 +216,8 @@ public static class EntitySyncUtils
         {
             ItemStack[] slots = DeserializeItemStackArray(invStr);
             npc.inventory.SetSlots(slots);
-            
-            // Force update weapon model
             if (npc.inventory.holdingItem != null)
-            {
-                npc.UpdateWeapon(npc.inventory.holdingItemItemValue, true);
-            }
+                iNpc.UpdateWeapon(npc.inventory.holdingItemItemValue.ItemClass?.GetItemName() ?? "");
         }
 
         // 5. Bag (Loot Container)
@@ -214,39 +225,48 @@ public static class EntitySyncUtils
         if (!string.IsNullOrEmpty(bagStr))
         {
             ItemStack[] slots = DeserializeItemStackArray(bagStr);
-            
-            if (npc.lootContainer == null)
+
+            // For EntityTrader-based entities (both EntityAliveSDX and EntityAliveSDXV4),
+            // the player-accessible inventory is served by HarvestManager — restore there so
+            // the OpenInventory dialog finds it under the new entity ID.
+            if (npc is EntityTrader)
             {
-                Chunk chunk = null;
-                npc.lootContainer = new TileEntityLootContainer(chunk);
-                npc.lootContainer.entityId = npc.entityId;
-                npc.lootContainer.SetContainerSize(new Vector2i(8, 6)); 
-            }
-            
-            // Basic resize logic to ensure items fit
-            if (npc.lootContainer.items.Length < slots.Length)
-            {
-               npc.lootContainer.items = slots;
+                var hc = HarvestManager.GetOrCreate(npc.entityId);
+                for (int i = 0; i < slots.Length && i < hc.items.Length; i++)
+                    hc.items[i] = slots[i];
             }
             else
             {
-                for(int i = 0; i < slots.Length && i < npc.lootContainer.items.Length; i++)
+                if (npc.lootContainer == null)
                 {
-                    npc.lootContainer.items[i] = slots[i];
+                    Chunk chunk = null;
+                    npc.lootContainer = new TileEntityLootContainer(chunk);
+                    npc.lootContainer.entityId = npc.entityId;
+                    npc.lootContainer.SetContainerSize(new Vector2i(8, 6));
                 }
+
+                if (npc.lootContainer.items.Length < slots.Length)
+                    npc.lootContainer.items = slots;
+                else
+                    for (int i = 0; i < slots.Length && i < npc.lootContainer.items.Length; i++)
+                        npc.lootContainer.items[i] = slots[i];
+                npc.lootContainer.SetModified();
             }
-            npc.lootContainer.SetModified();
         }
-        
+
         string lootList = itemValue.GetMetadata("LootListName") as string;
         if (!string.IsNullOrEmpty(lootList) && npc.lootContainer != null)
             npc.lootContainer.lootListName = lootList;
 
         npc.Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);
 
-        npc._currentWeapon = itemValue.GetMetadata("CurrentWeapon") as string;
-        if ( !string.IsNullOrEmpty(npc._currentWeapon))
-            npc.UpdateWeapon(npc._currentWeapon);
+        var currentWeapon = itemValue.GetMetadata("CurrentWeapon") as string;
+        // Store weapon name in the concrete type's _currentWeapon field.
+        if (npc is EntityAliveSDX v3w) v3w._currentWeapon = currentWeapon;
+        else if (npc is EntityAliveSDXV4 v4w) v4w._currentWeapon = currentWeapon;
+
+        if (!string.IsNullOrEmpty(currentWeapon))
+            iNpc.UpdateWeapon(currentWeapon);
     }
 
     // -------------------------------------------------------------------------
