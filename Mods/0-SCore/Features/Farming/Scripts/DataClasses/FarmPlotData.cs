@@ -205,20 +205,37 @@ public List<Block.SItemDropProb> Manage(EntityAlive entityAlive)
         // Modifying a stack's count in-place is safe for both TileEntityLootContainer and
         // TileEntityTrader — it doesn't replace the items[] array reference, so it cannot
         // trigger the TileEntityTrader setter that would corrupt TraderData.PrimaryInventory.
-        if (string.IsNullOrEmpty(seedToPlant) && entityAlive.lootContainer != null)
+        if (string.IsNullOrEmpty(seedToPlant))
         {
-            foreach (var stack in entityAlive.lootContainer.items)
+            ItemStack[] inventoryItems = null;
+            TileEntityLootContainer containerToMark = null;
+
+            if (entityAlive is EntityTrader && HarvestManager.Has(entityAlive.entityId))
             {
-                if (!stack.IsEmpty())
+                containerToMark = HarvestManager.GetOrCreate(entityAlive.entityId);
+                inventoryItems = containerToMark.items;
+            }
+            else if (entityAlive.lootContainer != null)
+            {
+                containerToMark = entityAlive.lootContainer;
+                inventoryItems = containerToMark.items;
+            }
+
+            if (inventoryItems != null)
+            {
+                foreach (var stack in inventoryItems)
                 {
-                    var itemClass = ItemClass.GetForId(stack.itemValue.type);
-                    if (itemClass.Name.StartsWith("planted") && itemClass.Name.EndsWith("1"))
+                    if (!stack.IsEmpty())
                     {
-                        seedToPlant = itemClass.Name;
-                        stack.count--;
-                        if (stack.count <= 0) stack.Clear();
-                        entityAlive.lootContainer.SetModified();
-                        break;
+                        var itemClass = ItemClass.GetForId(stack.itemValue.type);
+                        if (itemClass.Name.StartsWith("planted") && itemClass.Name.EndsWith("1"))
+                        {
+                            seedToPlant = itemClass.Name;
+                            stack.count--;
+                            if (stack.count <= 0) stack.Clear();
+                            containerToMark.SetModified();
+                            break;
+                        }
                     }
                 }
             }

@@ -22,7 +22,15 @@ public class DialogRequirementNPCHasItemSDX : BaseDialogRequirement
         var entityAlive = myEntity as EntityAlive;
         var item = ItemClass.GetItem(ID);
         if (item == null) return false;
-        if (entityAlive.lootContainer?.HasItem(item) == true) return true;
+
+        // EntityTrader-based NPCs (EntityAliveSDX, EntityAliveSDXV4) store player-accessible
+        // inventory in HarvestManager rather than lootContainer.
+        if (entityAlive is EntityTrader && HarvestManager.Has(entityAlive.entityId))
+        {
+            if (HarvestManager.GetOrCreate(entityAlive.entityId).HasItem(item)) return true;
+        }
+        else if (entityAlive.lootContainer?.HasItem(item) == true) return true;
+
         if (entityAlive.inventory.GetItemCount(item) > 0) return true;
         if (entityAlive.bag.GetItemCount(item) > 0) return true;
         return false;

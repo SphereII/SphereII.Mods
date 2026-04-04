@@ -33,7 +33,25 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 [ Change Log ]
 
-Version: 2.6.21.1125 
+Version: 2.6.21.1949
+	[ NPC Weapon Swapping / Dialog ]
+		- Fixed weapon swap dialog options (e.g. "Use Knife") never appearing for EntityTrader-based
+		  NPCs (EntityAliveSDX, EntityAliveSDXV4) even when the NPC had the required item.
+		- Root cause: DialogRequirementNPCHasItemSDX checked lootContainer for the player weapon,
+		  but EntityTrader NPCs store their accessible inventory in HarvestManager. The dialog
+		  option was always hidden because HasItem found nothing.
+		- DialogRequirementNPCHasItemSDX now checks HarvestManager first for EntityTrader entities,
+		  falling back to lootContainer for non-trader entities.
+		- Fixed FindWeapon() in both EntityAliveSDX and EntityAliveSDXV4 performing the same wrong
+		  lookup on the CompatibleWeapon path — now checks HarvestManager for EntityTrader entities.
+		- Fixed "Use Bare Hands" (meleeNPCEmptyHand) and other starting-kit weapons never equipping:
+		  FindWeapon() gated all lookups behind a CompatibleWeapon property check, so items that
+		  lack that property (like meleeNPCEmptyHand) always returned false. itemsOnEnterGame and
+		  the current hand-item are now checked before the CompatibleWeapon gate.
+		- Fixed UAITaskFarmingV4.CheckHasSeed() checking lootContainer instead of HarvestManager,
+		  causing farmer NPCs to never detect seeds they were carrying and skip all empty farm plots.
+
+Version: 2.6.21.1125
 	[ NPC Pickup / PickUpNPC ]
 		- Fixed NPC inventory being lost when picked up via DialogActionPickUpNPC and placed back
 		  down with ItemActionDeployNPCSDX.

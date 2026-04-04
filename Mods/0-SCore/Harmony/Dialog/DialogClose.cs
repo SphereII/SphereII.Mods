@@ -9,7 +9,7 @@ namespace Harmony.Dialog
     [HarmonyPatch("OnClose")]
     public class XUiC_LootWindowGroupOnClose
     {
-        public static bool Prefix(XUiC_DialogWindowGroup __instance)
+        public static bool Prefix(XUiC_LootWindowGroup __instance)
         {
             if (!__instance.xui.playerUI.entityPlayer.Buffs.HasCustomVar("CurrentNPC")) return true;
             var entityID = (int)__instance.xui.playerUI.entityPlayer.Buffs.GetCustomVar("CurrentNPC");

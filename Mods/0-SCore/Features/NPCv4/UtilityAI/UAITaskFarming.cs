@@ -246,9 +246,15 @@ namespace UAI
         /// </summary>
         private bool CheckHasSeed(Context _context)
         {
-            if (_context.Self.lootContainer == null) return false;
+            ItemStack[] items = null;
+            if (_context.Self is EntityTrader && HarvestManager.Has(_context.Self.entityId))
+                items = HarvestManager.GetOrCreate(_context.Self.entityId).items;
+            else if (_context.Self.lootContainer != null)
+                items = _context.Self.lootContainer.items;
 
-            foreach (var itemStack in _context.Self.lootContainer.items)
+            if (items == null) return false;
+
+            foreach (var itemStack in items)
             {
                 if (itemStack.IsEmpty()) continue;
                 if (MatchesSeedPattern(itemStack.itemValue.ItemClass.GetItemName()) && itemStack.count > 0)

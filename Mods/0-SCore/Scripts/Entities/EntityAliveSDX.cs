@@ -1979,6 +1979,19 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
 
     public bool FindWeapon(string weapon)
     {
+        // Check starting items first — items like meleeNPCEmptyHand have no CompatibleWeapon property
+        // but are always available because they're part of the NPC's base kit.
+        for (var i = 0; i < itemsOnEnterGame.Count; i++)
+        {
+            if (itemsOnEnterGame[i].itemValue.ItemClass.GetItemName()
+                .Equals(weapon, StringComparison.InvariantCultureIgnoreCase)) return true;
+        }
+
+        if (GetHandItem().ItemClass.GetItemName().Equals(weapon, StringComparison.InvariantCultureIgnoreCase))
+            return true;
+
+        // For NPC weapons that map to a player-held counterpart (via CompatibleWeapon property),
+        // verify the player version is present in the accessible inventory.
         var currentWeapon = ItemClass.GetItem(weapon);
         if (currentWeapon == null) return false;
         if (!currentWeapon.ItemClass.Properties.Contains("CompatibleWeapon")) return false;
@@ -1986,31 +1999,26 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
         if (string.IsNullOrEmpty(playerWeapon)) return false;
         var playerWeaponItem = ItemClass.GetItem(playerWeapon);
         if (playerWeaponItem == null) return false;
-        if (lootContainer != null)
-        {
-            if (lootContainer.HasItem(playerWeaponItem))
-                return true;
-        }
 
-        // If we don't have it in our loot container, check to see if we had it when we first spawned in.
-        for (var i = 0; i < itemsOnEnterGame.Count; i++)
-        {
-            var itemStack = itemsOnEnterGame[i];
-            if (itemStack.itemValue.ItemClass.GetItemName()
-                .Equals(weapon, StringComparison.InvariantCultureIgnoreCase)) return true;
-        }
+        // EntityTrader-based NPCs store their accessible inventory in HarvestManager.
+        if (this is EntityTrader && HarvestManager.Has(entityId))
+            return HarvestManager.GetOrCreate(entityId).HasItem(playerWeaponItem);
 
-        if (GetHandItem().ItemClass.GetItemName().Equals(weapon, StringComparison.InvariantCultureIgnoreCase))
-            return true;
-        return false;
+        return lootContainer != null && lootContainer.HasItem(playerWeaponItem);
     }
 
 
     public override void SetupStartingItems()
     {
         // If InitialInventory is already set, this is a restored NPC (picked up and re-placed).
-        // Skip overwriting their inventory with the default XML starting items.
-        if (Buffs.GetCustomVar("InitialInventory") > 0) return;
+        // Skip overwriting their inventory with the default XML starting items, but still set
+        // _defaultWeapon so UpdateWeapon has a fallback when FindWeapon fails.
+        if (Buffs.GetCustomVar("InitialInventory") > 0)
+        {
+            if (itemsOnEnterGame.Count > 0 && string.IsNullOrEmpty(_defaultWeapon))
+                _defaultWeapon = ItemClass.GetForId(itemsOnEnterGame[0].itemValue.type).GetItemName();
+            return;
+        }
 
         for (var i = 0; i < this.itemsOnEnterGame.Count; i++)
         {

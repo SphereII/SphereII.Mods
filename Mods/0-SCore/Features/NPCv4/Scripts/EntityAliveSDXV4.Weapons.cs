@@ -69,6 +69,21 @@ public partial class EntityAliveSDXV4
     /// </summary>
     public bool FindWeapon(string weapon)
     {
+        // Check starting items first — items like meleeNPCEmptyHand have no CompatibleWeapon property
+        // but are always available because they're part of the NPC's base kit.
+        for (int i = 0; i < itemsOnEnterGame.Count; i++)
+        {
+            if (itemsOnEnterGame[i].itemValue.ItemClass.GetItemName()
+                    .Equals(weapon, StringComparison.InvariantCultureIgnoreCase))
+                return true;
+        }
+
+        if (GetHandItem().ItemClass.GetItemName()
+                .Equals(weapon, StringComparison.InvariantCultureIgnoreCase))
+            return true;
+
+        // For NPC weapons that map to a player-held counterpart (via CompatibleWeapon property),
+        // verify the player version is present in the accessible inventory.
         var currentWeapon = ItemClass.GetItem(weapon);
         if (currentWeapon == null) return false;
         if (!currentWeapon.ItemClass.Properties.Contains("CompatibleWeapon")) return false;
@@ -77,17 +92,11 @@ public partial class EntityAliveSDXV4
         var playerWeaponItem = ItemClass.GetItem(playerWeapon);
         if (playerWeaponItem == null) return false;
 
-        if (lootContainer != null && lootContainer.HasItem(playerWeaponItem)) return true;
+        // EntityTrader-based NPCs store their accessible inventory in HarvestManager.
+        if (this is EntityTrader && HarvestManager.Has(entityId))
+            return HarvestManager.GetOrCreate(entityId).HasItem(playerWeaponItem);
 
-        for (int i = 0; i < itemsOnEnterGame.Count; i++)
-        {
-            if (itemsOnEnterGame[i].itemValue.ItemClass.GetItemName()
-                    .Equals(weapon, StringComparison.InvariantCultureIgnoreCase))
-                return true;
-        }
-
-        return GetHandItem().ItemClass.GetItemName()
-            .Equals(weapon, StringComparison.InvariantCultureIgnoreCase);
+        return lootContainer != null && lootContainer.HasItem(playerWeaponItem);
     }
 
     /// <summary>

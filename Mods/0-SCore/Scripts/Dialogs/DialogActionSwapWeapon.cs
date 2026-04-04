@@ -15,6 +15,7 @@ public class DialogActionSwapWeapon : BaseDialogAction
         var entityAlive = myEntity as EntityAlive;
         if (entityAlive == null) return;
         var item = ItemClass.GetItem(ID);
+        if (item == null || item.IsEmpty()) return;
         entityAlive.Buffs.SetCustomVar("CurrentWeaponID", item.GetItemId());
         myEntity.UpdateWeapon(ID);
         EntityUtilities.UpdateHandItem(entityAlive.entityId, ID);
