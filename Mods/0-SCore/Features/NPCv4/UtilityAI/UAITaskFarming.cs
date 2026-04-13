@@ -1,5 +1,6 @@
 ﻿using GamePath;
-using System.Collections.Generic; // Added for List<>
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UAI
@@ -47,6 +48,10 @@ namespace UAI
         private string _seedPatternEndsWith = string.Empty; // Cache for seed pattern matching.
         private string _cooldownBuff = "buffFarmerCoolDown";
 
+        // Resolved once in Start(): non-null when this NPC is hired by a player leader.
+        // When set, FindTargetFarmPlot restricts candidates to plots inside that player's land claim.
+        private PersistentPlayerData _leaderPlayerData;
+
 
         /// <summary>
         /// Initializes parameters from the AI configuration.
@@ -90,7 +95,15 @@ namespace UAI
             _hasWorkBuffApplied = false;
             _currentTimeout = DefaultTimeout;
             _targetFarmPlotData = null;
-            //plantData = null; // Note: plantData was declared but never used in the original code. Removed.
+
+            // Resolve the leader's land claim data once per task invocation.
+            // Hired NPCs (those with a player leader) are restricted to plots inside that
+            // player's land claim. Un-hired NPCs can farm any plot as before.
+            _leaderPlayerData = null;
+            var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId);
+            if (leader != null)
+                _leaderPlayerData = GameManager.Instance?.GetPersistentPlayerList()
+                                               ?.GetPlayerDataFromEntityID(leader.entityId);
 
             Vector3i currentPosition = new Vector3i(_context.Self.position);
             _hasSeedInInventory = CheckHasSeed(_context);
@@ -282,7 +295,8 @@ namespace UAI
 
         /// <summary>
         /// Finds the most suitable farm plot based on entity position and whether it has seeds.
-        /// Implements a prioritized search strategy.
+        /// When the NPC is hired (has a player leader), only plots inside that player's land
+        /// claim are considered.  Un-hired NPCs use any available plot as before.
         /// </summary>
         /// <returns>FarmPlotData of the chosen plot, or null if none found.</returns>
         private FarmPlotData FindTargetFarmPlot(Vector3i position, bool hasSeed)
@@ -293,14 +307,13 @@ namespace UAI
             if (hasSeed)
             {
                 foundPlot = FarmPlotManager.Instance.GetFarmPlotsNearby(position, true);
-                if (IsClaimed(foundPlot)) foundPlot = null;
+                if (IsClaimed(foundPlot) || !IsAllowed(foundPlot)) foundPlot = null;
 
                 if (foundPlot == null)
                 {
-                    var farmDatas = FarmPlotManager.Instance.GetCloseFarmPlots(position);
-                    foreach (var candidate in farmDatas)
+                    foreach (var candidate in FarmPlotManager.Instance.GetCloseFarmPlots(position))
                     {
-                        if (!IsClaimed(candidate)) { foundPlot = candidate; break; }
+                        if (!IsClaimed(candidate) && IsAllowed(candidate)) { foundPlot = candidate; break; }
                     }
                 }
             }
@@ -309,29 +322,41 @@ namespace UAI
             if (foundPlot == null)
             {
                 foundPlot = FarmPlotManager.Instance.GetClosesUnmaintainedWithPlants(position);
-                if (IsClaimed(foundPlot)) foundPlot = null;
+                if (IsClaimed(foundPlot) || !IsAllowed(foundPlot)) foundPlot = null;
             }
 
             if (foundPlot == null)
             {
                 foundPlot = FarmPlotManager.Instance.GetClosesUnmaintained(position, _searchRange);
-                if (IsClaimed(foundPlot)) foundPlot = null;
+                if (IsClaimed(foundPlot) || !IsAllowed(foundPlot)) foundPlot = null;
             }
 
             if (foundPlot == null)
             {
                 foundPlot = FarmPlotManager.Instance.GetFarmPlotsNearbyWithPlants(position);
-                if (IsClaimed(foundPlot)) foundPlot = null;
+                if (IsClaimed(foundPlot) || !IsAllowed(foundPlot)) foundPlot = null;
             }
 
             // Priority 3: Look for wilted plots (if applicable).
             if (foundPlot == null)
             {
                 foundPlot = FarmPlotManager.Instance.GetClosesFarmPlotsWilted(position);
-                if (IsClaimed(foundPlot)) foundPlot = null;
+                if (IsClaimed(foundPlot) || !IsAllowed(foundPlot)) foundPlot = null;
             }
 
             return foundPlot;
+        }
+
+        /// <summary>
+        /// Returns true if this NPC is allowed to work the given plot.
+        /// Un-hired NPCs (<see cref="_leaderPlayerData"/> is null) may work any plot.
+        /// Hired NPCs are restricted to plots inside their leader's land claim.
+        /// </summary>
+        private bool IsAllowed(FarmPlotData plot)
+        {
+            if (plot == null) return false;
+            if (_leaderPlayerData == null) return true;  // not hired — no restriction
+            return FarmLandClaimUtils.IsPlotInLandClaim(plot.GetBlockPos(), _leaderPlayerData);
         }
 
 

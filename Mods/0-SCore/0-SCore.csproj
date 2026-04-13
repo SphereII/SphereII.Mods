@@ -170,6 +170,7 @@
     <Compile Include="Features\NPCv4\UtilityAI\UAIConsiderationCooldown.cs" />
     <Compile Include="Features\NPCv4\UtilityAI\UAIConsiderationEnemyNear.cs" />
     <Compile Include="Features\NPCv4\UtilityAI\UAIConsiderationFailOnDistanceToLeader.cs" />
+    <Compile Include="Features\NPCv4\UtilityAI\UAIConsiderationFarmPlotInLandClaim.cs" />
     <Compile Include="Features\NPCv4\UtilityAI\UAIConsiderationHasHomePositioncs.cs" />
     <Compile Include="Features\NPCv4\UtilityAI\UAIConsiderationHasInvestigatePosition.cs" />
     <Compile Include="Features\NPCv4\UtilityAI\UAIConsiderationHasOrder.cs" />

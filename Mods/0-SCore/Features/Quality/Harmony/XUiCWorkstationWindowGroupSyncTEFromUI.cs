@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
 
@@ -11,72 +12,92 @@ namespace SCore.Features.Quality.Harmony
         private static readonly string AdvFeatureClass = "AdvancedItemFeatures";
         private static readonly string Feature = "CustomQualityLevels";
 
+        // Persists packed (quality << 16 | entityId) values across syncTEfromUI calls,
+        // including the final teardown call that fires when the window closes.
+        // Key: tile entity world position.  Value: slot index → packed int.
+        // Shared with TileEntityWorkstationAddCraftComplete so it can clear entries on completion.
+        internal static readonly Dictionary<Vector3i, Dictionary<int, int>> QualityCache
+            = new Dictionary<Vector3i, Dictionary<int, int>>();
+
         public static void Postfix(XUiC_WorkstationWindowGroup __instance)
         {
             if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return;
 
-            // 1. Get the Reference to the TileEntity and the Crafting Queue
-            // Note: Accessing private fields via Reflection/Publicized assemblies
             var tileEntity = __instance.WorkstationData.TileEntity;
             var craftingQueue = __instance.craftingQueue;
-
             if (tileEntity == null || craftingQueue == null) return;
 
-            // 2. Get the list of recipes currently in the UI
-            var recipesToCraft = craftingQueue.GetRecipesToCraft();
-            if (recipesToCraft == null) return;
-
-            // 3. Get the queue stored in the TileEntity (which currently has the WRONG quality)
             var teQueue = tileEntity.Queue;
             if (teQueue == null) return;
 
+            var tePos = tileEntity.ToWorldPos();
             bool isModified = false;
 
-            // 4. Loop through and correct the data
-            // We iterate up to the count of the UI recipes, ensuring we don't go out of bounds of the TE queue
-            int count = Math.Min(recipesToCraft.Length, teQueue.Length);
-            
-            for (int i = 0; i < count; i++)
+            // ── Phase 1: refresh cache from live UI ────────────────────────────────
+            // Only runs when the UI still has valid recipe data (window is open and
+            // the player has selected recipes).  This writes the user's chosen quality
+            // into the cache keyed by tile entity position + queue slot.
+            var recipesToCraft = craftingQueue.GetRecipesToCraft();
+            if (recipesToCraft != null)
             {
-                var uiRecipe = recipesToCraft[i];
-                var teItem = teQueue[i];
-
-                // If the UI recipe exists and is valid
-                if (uiRecipe != null && uiRecipe.GetRecipe() != null)
+                int count = Math.Min(recipesToCraft.Length, teQueue.Length);
+                for (int i = 0; i < count; i++)
                 {
-                    // Get the REAL values from the UI
-                    int realQuality = uiRecipe.OutputQuality;
+                    var uiRecipe = recipesToCraft[i];
+                    if (uiRecipe?.GetRecipe() == null) continue;
+
+                    int realQuality   = uiRecipe.OutputQuality;
                     int playerEntityId = uiRecipe.StartingEntityId;
 
-                    // Only pack if we actually need to (Quality > 255) 
-                    // or if you want consistent behavior, just always pack.
-                    // Here we check if the TE currently holds a truncated value to be safe.
-                    
-                    // PACKING LOGIC:
-                    int safeId = playerEntityId & 0xFFFF;
-                    int safeQuality = realQuality & 0xFFFF;
-                    int packedValue = (safeQuality << 16) | safeId;
+                    // Quality ≤ 255 fits in vanilla's byte field — no packing needed.
+                    if (realQuality <= 255) continue;
 
-                    // If the value currently stored is different from our packed value, overwrite it.
-                    if (teItem.StartingEntityId != packedValue)
-                    {
-                        teItem.StartingEntityId = packedValue;
-                        isModified = true;
+                    int packedValue = ((realQuality & 0xFFFF) << 16) | (playerEntityId & 0xFFFF);
 
-                        if (realQuality > 255)
-                        {
-                            // Optional: Log only when we are fixing a high-quality item
-                           // Log.Out($"[SCore] syncTEfromUI Postfix: Fixed Quality. UI Quality: {realQuality} -> Packed into EntityID: {packedValue}");
-                        }
-                    }
+                    if (!QualityCache.TryGetValue(tePos, out var slotCache))
+                        QualityCache[tePos] = slotCache = new Dictionary<int, int>();
+
+                    slotCache[i] = packedValue;
                 }
             }
 
-            // 5. If we changed anything, force the TileEntity to save again
-            if (isModified)
+            // ── Phase 2: re-assert cached values ──────────────────────────────────
+            // Runs unconditionally, including during window teardown.  This overwrites
+            // whatever the game's syncTEfromUI just wrote into StartingEntityId with
+            // the preserved packed value, keeping the quality intact even after the
+            // player closes the workstation window.
+            if (!QualityCache.TryGetValue(tePos, out var cache)) return;
+
+            var slotsToRemove = new List<int>();
+            foreach (var entry in cache)
             {
-                tileEntity.setModified();
+                int slot        = entry.Key;
+                int packedValue = entry.Value;
+                if (slot >= teQueue.Length) { slotsToRemove.Add(slot); continue; }
+
+                var teItem = teQueue[slot];
+                if (teItem == null || teItem.Recipe == null || teItem.Multiplier <= 0)
+                {
+                    // Slot is empty — craft finished or was cancelled; drop the entry.
+                    slotsToRemove.Add(slot);
+                    continue;
+                }
+
+                if (teItem.StartingEntityId != packedValue)
+                {
+                    teItem.StartingEntityId = packedValue;
+                    isModified = true;
+                }
             }
+
+            foreach (int slot in slotsToRemove)
+                cache.Remove(slot);
+
+            if (cache.Count == 0)
+                QualityCache.Remove(tePos);
+
+            if (isModified)
+                tileEntity.setModified();
         }
     }
 }

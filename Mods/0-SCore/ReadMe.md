@@ -33,6 +33,38 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 [ Change Log ]
 
+Version: 2.6.29.1709
+	[ Quality - Custom Quality Levels ]
+		- Added XUiMItemStackGetCustomDisplayValueForItem patch: fixes item tooltip display_value tier
+		  lookups when using extended quality ranges (1-600). Vanilla passes raw quality as an array
+		  index, causing out-of-bounds reads on 6-element value arrays. The patch converts raw quality
+		  to a tier (1-6) via QualityUtils.CalculateTier() before calling GetValue(), mirroring what
+		  MinEventModifyCVar already does for triggered effects.
+		- Fixed crash/lockup: added null guards for null/empty ItemValue, null ItemClass, non-quality
+		  items (tier == 0), and null GetTriggeredEffects() return values in the new patch.
+	[ Quality - Workstation Crafting ]
+		- Refactored XUiCWorkstationWindowGroupSyncTEFromUI: replaced per-call packing of all items
+		  with a persistent QualityCache (keyed by tile entity position + queue slot) that only stores
+		  items with quality > 255. Phase 2 re-asserts cached packed values on every syncTEfromUI call,
+		  including window teardown, so the quality is preserved even after the player closes the
+		  workstation.
+		- TileEntityWorkstationAddCraftComplete now captures the __instance parameter so it can evict
+		  the completed craft's entry from QualityCache when the item is finished.
+	[ NPC Farming - Land Claim Restriction ]
+		- UAITaskFarmingV4 now resolves the hiring player's PersistentPlayerData once in Start() and
+		  passes it to a new IsAllowed() check in FindTargetFarmPlot(). Hired NPCs (those with a player
+		  leader) are restricted to farm plots inside their leader's active land claim; un-hired NPCs
+		  can farm any plot as before.
+		- Added UAIConsiderationFarmPlotInLandClaimV4 and UAIConsiderationNotFarmPlotInLandClaimV4:
+		  UAI considerations that score 1f / 0f based on whether any unvisited farm plot within a
+		  configurable distance lies inside an active land claim.
+		  XML: <consideration class="FarmPlotInLandClaim, SCore" distance="50" />
+		- Added FarmLandClaimUtils.IsPlotInLandClaim(): shared helper that checks PersistentPlayerList
+		  .m_lpBlockMap using the same axis-aligned distance logic as World.IsLandProtectedBlock.
+		  Accepts an optional ownerFilter to restrict the check to a specific player's claims.
+		- Fixed potential NRE: all land-claim checks now guard against null PersistentPlayerList,
+		  null m_lpBlockMap, and null FarmPlotManager.Instance.
+
 Version: 2.6.21.1949
 	[ NPC Weapon Swapping / Dialog ]
 		- Fixed weapon swap dialog options (e.g. "Use Knife") never appearing for EntityTrader-based
