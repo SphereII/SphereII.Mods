@@ -96,14 +96,31 @@ namespace UAI
             _currentTimeout = DefaultTimeout;
             _targetFarmPlotData = null;
 
-            // Resolve the leader's land claim data once per task invocation.
-            // Hired NPCs (those with a player leader) are restricted to plots inside that
-            // player's land claim. Un-hired NPCs can farm any plot as before.
+            // Resolve the land-claim owner once per task invocation.
+            //
+            // Priority 1 — active hire: the NPC has a live Leader/Owner cvar pointing at a
+            //   player who is currently in the world.  Plots are restricted to that player's
+            //   land claim.
+            //
+            // Priority 2 — FarmHere mode: the player issued "FarmHere", which zeroed the
+            //   Leader/Owner cvars (removing the NPC from the party / stopping TP) but stored
+            //   the player's entity ID in "FarmOwnerEntityId".  The farming task honours that
+            //   stored ID for land-claim checks so behaviour is identical to being hired.
+            //
+            // Priority 3 — un-hired NPC: no restriction, any plot is fair game.
             _leaderPlayerData = null;
             var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId);
             if (leader != null)
+            {
                 _leaderPlayerData = GameManager.Instance?.GetPersistentPlayerList()
                                                ?.GetPlayerDataFromEntityID(leader.entityId);
+            }
+            else if (_context.Self.Buffs.HasCustomVar("FarmOwnerEntityId"))
+            {
+                var ownerId = (int)_context.Self.Buffs.GetCustomVar("FarmOwnerEntityId");
+                _leaderPlayerData = GameManager.Instance?.GetPersistentPlayerList()
+                                               ?.GetPlayerDataFromEntityID(ownerId);
+            }
 
             Vector3i currentPosition = new Vector3i(_context.Self.position);
             _hasSeedInInventory = CheckHasSeed(_context);

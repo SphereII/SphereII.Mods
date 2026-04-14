@@ -33,6 +33,96 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 [ Change Log ]
 
+Version: 2.6.32.1643
+	[ Powered Workstations - Offline Catch-Up ]
+		- Fixed powered workstations (RequirePower = true) stalling when the chunk was unloaded and
+		  then reloaded. Previously the prefix always set currentBurnTimeLeft to a fixed 15f when
+		  power was detected, which was insufficient for the vanilla workstation's offline catch-up
+		  loop: on chunk reload the loop attempts to apply all ticks elapsed since the last save in
+		  a single UpdateTick call, consuming burn time at 1:1. With only 15 units available, the
+		  workstation would run dry mid-catch-up and stop crafting.
+		- Added a static _lastPowerTick dictionary (Vector3i → ulong) on the PoweredWorkstations
+		  class that records the game tick at which power was last successfully applied to each
+		  workstation position.
+		- On each UpdateTick where power is detected, elapsed = now - lastPowerTick. The patch sets
+		  currentBurnTimeLeft to max(current, elapsed + 15f), supplying exactly enough burn time for
+		  the catch-up loop to complete plus a 15-tick buffer for the next normal tick. During normal
+		  loaded operation elapsed ≈ 1, so behaviour is identical to before.
+		- When power is lost the position is removed from the dictionary so there is no stale elapsed
+		  time if power is restored later.
+		- Note: the dictionary is in-memory only. On the first UpdateTick after a game restart,
+		  elapsed = 0 and the workstation receives the standard 15f buffer (same as the original
+		  behaviour), which is acceptable since vanilla workstations handle their own persistency.
+		- Also fixed a pre-existing typo in the Prefix method signature (___Let's pfuel → ___fuel).
+
+	[ NPC Farming - Water Range Fix ]
+		- FarmPlotData.HasWater() now includes the same 4-block horizontal fallback scan used by
+		  vanilla crops, plus a one-block-down check for each position. Previously only immediate
+		  neighbors (±1) were checked, causing outer farm plots that were valid for vanilla crop
+		  growth to be ignored by the farmer AI until the player manually interacted with them.
+		  After breaking a plant on an outer plot, the farmer would also stop tending it for the
+		  same reason — both issues are resolved by the wider scan.
+
+	[ NPC Farming - Double Water Consumption Fix ]
+		- BlockPlantGrowingSDX.UpdateTick and CheckPlantAlive now guard water checks and
+		  consumption behind a new IsRootBlock() helper. IsRootBlock() returns true only when the
+		  block directly below is NOT also a BlockPlantGrowingSDX, identifying the lowest block of
+		  a multi-block-tall plant stack. Two-block plants (e.g. coffee) were previously consuming
+		  water twice per growth tick because each block registered independently in CropManager
+		  and both ran the full water logic.
+
+	[ NPC Farming - FarmHere / RecallFarmer Commands ]
+		- Added FarmHere ExecuteCommandSDX action: removes the NPC from the player's active party
+		  (zeroes Leader and Owner cvars, removes hired_X stamp, evicts from SphereCache) but
+		  stores the player's entity ID in a new FarmOwnerEntityId cvar. The NPC is set to Stay
+		  order at its current position and no longer teleports to the player.
+		- Added RecallFarmer ExecuteCommandSDX action: restores the NPC to the player's active
+		  party via SetLeaderAndOwner. Only the player whose entity ID matches FarmOwnerEntityId
+		  can execute the recall; all others are silently blocked at both the dialog-requirement
+		  and code layers.
+		- FollowMe now includes an ownership guard: if an NPC is in farm mode (FarmOwnerEntityId
+		  > 0), only the registered owner can issue a FollowMe command.
+		- UAITaskFarmingV4.Start() now falls back to FarmOwnerEntityId when Leader/Owner are both
+		  zero, resolving the hiring player's PersistentPlayerData so land-claim restrictions
+		  continue to apply even after the NPC leaves the active party.
+		XML example:
+			<!-- Assign NPC to farm without following. Leader only, not already in farm mode. -->
+			<response id="farm_here" text="farm_here_key" nextstatementid="farm_mode_active">
+			    <requirement type="Leader, SCore" requirementtype="Hide" />
+			    <requirement type="IsFarmOwner, SCore" requirementtype="Hide" value="not" />
+			    <action type="ExecuteCommandSDX, SCore" id="FarmHere" />
+			</response>
+			<!-- Recall NPC. Visible only to the registered farm owner. -->
+			<response id="recall_farmer" text="recall_farmer_key" nextstatementid="recalled">
+			    <requirement type="IsFarmOwner, SCore" requirementtype="Hide" />
+			    <action type="ExecuteCommandSDX, SCore" id="RecallFarmer" />
+			</response>
+
+	[ Dialog - IsFarmOwner Requirement ]
+		- Added DialogRequirementIsFarmOwner: passes when the talking player's entity ID matches
+		  FarmOwnerEntityId on the current NPC (i.e., player is the registered farm owner). With
+		  value="not", passes when the NPC is NOT in farm mode. Used to gate FarmHere/Recall
+		  dialog options and prevent NPC theft by other players.
+		XML:
+			<requirement type="IsFarmOwner, SCore" requirementtype="Hide" />
+			<requirement type="IsFarmOwner, SCore" requirementtype="Hide" value="not" />
+
+	[ Dialog - HiredSDX Requirement Update ]
+		- DialogRequirementHiredSDX now also returns true when FarmOwnerEntityId > 0, treating
+		  farm mode as a hired state. This prevents the Hire button from re-appearing on NPCs
+		  that have been assigned to farm mode.
+
+	[ Farming Debug - scorefarming / scf Console Command ]
+		- Added ConsoleCmdFarming with commands: scf count, scf validate, scf listplots [range],
+		  scf listcrops [range]. All output is mirrored to both the console and the log file via
+		  Log.Out.
+		- scf validate: prunes stale FarmPlotManager and CropManager entries whose blocks no
+		  longer exist in the world, and reports how many were removed.
+		- scf listplots: reports each registered farm plot position, its HasWater status, and the
+		  name of any crop block found in the 4 blocks above it.
+		- scf listcrops: reports each registered crop plant position, its block name, and the name
+		  of the farm plot block found in the 4 blocks below it (if any).
+
 Version: 2.6.29.1709
 	[ Quality - Custom Quality Levels ]
 		- Added XUiMItemStackGetCustomDisplayValueForItem patch: fixes item tooltip display_value tier

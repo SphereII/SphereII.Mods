@@ -3,6 +3,8 @@ Here's a summary of the custom console commands (ConsoleCmd) available in this m
 These custom console commands extend the game's existing console functionality, providing modders and players with
 direct control over various new features, debugging tools, and administrative actions.
 
+* **`ConsoleCmdFarming.cs`**: Provides console commands for inspecting and validating the farming system's registered
+  farm plots and crop plants — useful for diagnosing water, registration, or double-counting issues.
 * **`ConsoleCmdUtilityAI.cs`**: Provides console commands for debugging and manipulating the Utility AI system, likely
   allowing for inspection or modification of AI states and behaviors.
 * **`ConsoleCmdUnitTestSCore.cs`**: Offers console commands related to unit testing for SCore features, useful for
@@ -27,7 +29,25 @@ direct control over various new features, debugging tools, and administrative ac
 To execute these custom console commands, open the in-game console by pressing `F1`. Then, type the command followed by any required arguments, and press `Enter`.
 Here's how to execute each of the custom console commands, along with their descriptions and examples. To use these commands, open the in-game console by pressing `F1`, type the command, and press `Enter`.
 
-### 1\. `utilityai` / `uai`
+### 1\. `scorefarming` / `scf`
+
+* **Description**: Debugging and validation commands for the SCore farming system. Inspects registered farm plots and crop plants; all output is mirrored to both the console and the log file.
+* **Subcommands**:
+  * `count` — Prints the number of registered farm plots and crop plants.
+  * `validate` — Scans all registered entries, removes any whose blocks no longer exist in the world, and reports how many stale entries were pruned.
+  * `listplots [range]` — Lists all registered farm plots. If `range` is supplied, only plots within that many blocks of the player are shown. For each plot, also reports any crop block found in the 4 blocks above it.
+  * `listcrops [range]` — Lists all registered crop plants. If `range` is supplied, only crops within that many blocks of the player are shown. For each crop, also reports the farm plot block found in the 4 blocks below it (if any).
+* **Execution Examples**:
+  ```
+  scf count
+  scf validate
+  scf listplots
+  scf listplots 20
+  scf listcrops
+  scf listcrops 30
+  ```
+
+### 2\. `utilityai` / `uai`
 
 * **Description**: Reloads the Utility AI.
 * **Execution Example**:
@@ -39,7 +59,7 @@ Here's how to execute each of the custom console commands, along with their desc
   uai
   ```
 
-### 2\. `unittest`
+### 3\. `unittest`
 
 * **Description**: Runs a test script.
 * **Execution Example**:
@@ -48,7 +68,7 @@ Here's how to execute each of the custom console commands, along with their desc
   ```
   (e.g., `unittest CanDamageChecks npcHarleyBat zombieBoe`)
 
-### 3\. `ReloadSCore`
+### 4\. `ReloadSCore`
 
 * **Description**: Reloads the specified XML file, which could have significant game-changing results.
 * **Execution Example**:
@@ -57,7 +77,7 @@ Here's how to execute each of the custom console commands, along with their desc
   ```
   (e.g., `ReloadSCore blocks.xml` or `ReloadSCore buffs.xml`)
 
-### 4\. `dialog` / `dialogs`
+### 5\. `dialog` / `dialogs`
 
 * **Description**: Reloads the dialogue XML files.
 * **Execution Example**:
@@ -69,7 +89,7 @@ Here's how to execute each of the custom console commands, along with their desc
   dialogs
   ```
 
-### 5\. `lock`
+### 6\. `lock`
 
 * **Description**: Sets `BreakTime` and `MaxGive` CVars on the primary player for lock testing.
 * **Execution Example**:
@@ -78,7 +98,7 @@ Here's how to execute each of the custom console commands, along with their desc
   ```
   (e.g., `lock 1.2 8` to set a break time of 1.2 and max give of 8)
 
-### 6\. `adjustmarkup`
+### 7\. `adjustmarkup`
 
 * **Description**: Adjusts the trader's buy markup value.
 * **Execution Example**:
@@ -87,7 +107,7 @@ Here's how to execute each of the custom console commands, along with their desc
   ```
   (e.g., `adjustmarkup 3.0` to set the trader markup to 3.0)
 
-### 7\. `setcvar`
+### 8\. `setcvar`
 
 * **Description**: Sets a CVar on the primary player.
 * **Execution Example**:
@@ -96,7 +116,7 @@ Here's how to execute each of the custom console commands, along with their desc
   ```
   (e.g., `setcvar myPlayerXP 5000` to set `myPlayerXP` CVar to 5000; setting `cvarValue` to 0 removes the CVar)
 
-### 8\. `fireclear`
+### 9\. `fireclear`
 
 * **Description**: Clears the Fire cache, effectively resetting the state of all fires in the world.
 * **Execution Example**:
@@ -104,7 +124,7 @@ Here's how to execute each of the custom console commands, along with their desc
   fireclear
   ```
 
-### 9\. `actiondelay` / `ad`
+### 10\. `actiondelay` / `ad`
 
 * **Description**: Changes the time before a new action in the Utility AI is chosen. Default is 0.2 seconds.
 * **Execution Example**:
@@ -113,7 +133,7 @@ Here's how to execute each of the custom console commands, along with their desc
   ```
   (e.g., `actiondelay 0.5` to set action delay to 0.5 seconds)
 
-### 10\. `weaponsway`
+### 11\. `weaponsway`
 
 * **Description**: Toggles or sets the Weapon Sway visual effect on the primary player.
 * **Execution Example**:

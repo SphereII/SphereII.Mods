@@ -8,12 +8,21 @@
         <dialog id="FrankieFarmerDialog" startstatementid="start" extends="trader,dialogSurvivorZombieInfo">
 
             <statement id="start" text="Frankie_start" ref_text="[Frankie looks up from his work, wary] Well now... ain't seen many new faces 'round here lately. What do you want?">
+                <response_entry id="Hire" ref_text="I am interested in hiring you." />
+
+                <!--
                 <response_entry id="ask_rain" ref_text="Frankie_resp_ask_rain" />
                 <response_entry id="ask_origin" ref_text="Frankie_resp_ask_origin" />
                 <response_entry id="ask_since_apo" ref_text="Frankie_resp_ask_since_apo" />
                 <response_entry id="ask_who" ref_text="Frankie_resp_ask_who"/>
                 <response_entry id="ShowMe" ref_text="Frankie_resp_ask_who"/>
+                -->
                 <response_entry id="PickUp" ref_text="Frankie_resp_ask_who"/>
+
+                <!-- Farm assignment — visible only to the hired leader when not yet in farm mode -->
+                <response_entry id="frankie_farm_here" />
+                <!-- Recall — visible only to the original owner when NPC is in farm mode -->
+                <response_entry id="frankie_recall_farmer" />
 
                 <response_entry id="done" ref_text="Frankie_resp_ask_since_apo_cont"/>
 
@@ -21,7 +30,10 @@
             <response id="PickUp" text="GenericNPC_Pickup" ref_text="Pick Me up!">
                 <action type="PickUpNPC, SCore" />
             </response>
-        
+            <response id="Hire" text="GenericNPC_Hire" ref_text="I am interested in hiring you.">
+                <requirement type="HiredSDX, SCore" requirementtype="Hide" value="not" />
+                <action type="OpenDialogSDX, SCore" id="Hire" />
+            </response>
 
             <response id="ShowMe" text="GenericNPC_ShowMe" ref_text="Show Me your inventory">
                 <action type="ExecuteCommandSDX, SCore" id="OpenInventory" />
@@ -66,6 +78,40 @@
 
             <statement id="done" text="Frankie_done" ref_text="Alright. Keep your eyes peeled out there.">
             </statement>
+
+            <!-- Shown after the player assigns Frankie to farm mode -->
+            <statement id="frankie_farm_mode_active" text="Frankie_farm_mode_active" ref_text="[Frankie nods and grips his tools.] I'll keep things runnin' here. You go do what you gotta do. I ain't goin' nowhere.">
+                <response_entry id="done" />
+            </statement>
+
+            <!-- Shown after the player recalls Frankie back to active hire -->
+            <statement id="frankie_farm_recalled" text="Frankie_farm_recalled" ref_text="[Frankie straightens up and wipes his hands on his overalls.] Right then. Lead the way.">
+                <response_entry id="done" />
+            </statement>
+
+            <!--
+                Assign Frankie to farm the area without following the player.
+                Requirements:
+                  - Player must be Frankie's current leader (normally hired).
+                  - Frankie must NOT already be in farm mode.
+            -->
+            <response id="frankie_farm_here" text="Frankie_farm_here" ref_text="Stay here and tend the farm. I'll come back for you." nextstatementid="done">
+                <requirement type="Leader, SCore" requirementtype="Hide" />
+                <requirement type="IsFarmOwner, SCore" requirementtype="Hide" value="not" />
+                <action type="ExecuteCommandSDX, SCore" id="FarmHere" />
+            </response>
+
+            <!--
+                Recall Frankie from farm mode back to active follow.
+                Requirements:
+                  - Player must be the registered farm owner (set by FarmHere).
+                  - This gates out any other player from stealing Frankie.
+                  The code-level guard in ExecuteCMD provides a second layer of protection.
+            -->
+            <response id="frankie_recall_farmer" text="Frankie_recall_farmer" ref_text="Come follow me again." nextstatementid="done">
+                <requirement type="IsFarmOwner, SCore" requirementtype="Hide" />
+                <action type="ExecuteCommandSDX, SCore" id="RecallFarmer" />
+            </response>
 
         </dialog>
     </append>

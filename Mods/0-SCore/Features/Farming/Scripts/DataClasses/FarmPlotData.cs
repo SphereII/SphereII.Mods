@@ -57,6 +57,19 @@ public class FarmPlotData
                 return true;
         }
 
+        // Vanilla-style fallback: scan for a direct water source within 4 blocks horizontally
+        // at the plot's Y level (and one below), matching the vanilla game's farm-plot water
+        // check. This ensures farm plots that are within vanilla watering range of a trough or
+        // lake — but not immediately adjacent — are still recognised as watered by NPC farmers.
+        for (var dx = -4; dx <= 4; dx++)
+        {
+            for (var dz = -4; dz <= 4; dz++)
+            {
+                if (WaterPipeManager.Instance.IsDirectWaterSource(new Vector3i(_blockPos.x + dx, _blockPos.y, _blockPos.z + dz))) return true;
+                if (WaterPipeManager.Instance.IsDirectWaterSource(new Vector3i(_blockPos.x + dx, _blockPos.y - 1, _blockPos.z + dz))) return true;
+            }
+        }
+
         return false;
     }
 

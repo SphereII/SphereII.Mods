@@ -1282,6 +1282,14 @@ public static class EntityUtilities
                 break;
 
             case "FollowMe":
+                // If the NPC is in FarmHere mode, only the registered owner may pull it back.
+                if (entityAlive.Buffs.HasCustomVar("FarmOwnerEntityId") &&
+                    entityAlive.Buffs.GetCustomVar("FarmOwnerEntityId") > 0 &&
+                    (int)entityAlive.Buffs.GetCustomVar("FarmOwnerEntityId") != player.entityId)
+                {
+                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " FollowMe blocked: player is not the farm owner.");
+                    return false;
+                }
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Leader");
                 SetLeader(EntityID, player.entityId);
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order");
@@ -1406,6 +1414,58 @@ public static class EntityUtilities
                 player.Companions?.Remove(entityAlive);
                 player.Buffs.SetCustomVar($"hired_{EntityID}", 0f);
                 CheckForDanglingHires(player.entityId);
+                break;
+
+            case "FarmHere":
+                // Detach from the active party so the NPC never TPs to the player, but
+                // record the player's entity ID so the farming task can still restrict
+                // plot access to plots inside this player's land claim.
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " FarmHere: storing owner, detaching from party");
+
+                // Persist the issuing player's entity ID for land-claim lookups.
+                entityAlive.Buffs.SetCustomVar("FarmOwnerEntityId", (float)player.entityId);
+
+                // Zero out both Leader and Owner so GetLeaderOrOwner returns null →
+                // NPCLeaderComponent stops re-stamping hired_X and never queues a TP.
+                entityAlive.Buffs.SetCustomVar("Leader", 0f);
+                entityAlive.Buffs.SetCustomVar("Owner", 0f);
+
+                // Remove from party tracking on both sides.
+                player.Companions?.Remove(entityAlive);
+                player.Buffs.SetCustomVar($"hired_{EntityID}", 0f);
+                CheckForDanglingHires(player.entityId);
+
+                // Evict from the leader cache so the zeroed cvars are seen immediately.
+                SphereCache.LeaderCache.Remove(EntityID);
+
+                // Stay at current position — same as the existing StayHere command.
+                SetCurrentOrder(EntityID, Orders.Stay);
+                if (orderReceiver != null) orderReceiver.GuardPosition = position;
+                if (entityAlive.moveHelper != null) entityAlive.moveHelper.Stop();
+
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " FarmHere: done");
+                break;
+
+            case "RecallFarmer":
+                // Only the original owner may recall a farmer assigned via FarmHere.
+                if (entityAlive.Buffs.HasCustomVar("FarmOwnerEntityId") &&
+                    entityAlive.Buffs.GetCustomVar("FarmOwnerEntityId") > 0 &&
+                    (int)entityAlive.Buffs.GetCustomVar("FarmOwnerEntityId") != player.entityId)
+                {
+                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " RecallFarmer blocked: player is not the farm owner.");
+                    return false;
+                }
+                // Reverse FarmHere: re-hire the NPC and set it to follow the player again.
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " RecallFarmer: re-hiring NPC");
+
+                entityAlive.Buffs.RemoveCustomVar("FarmOwnerEntityId");
+
+                // Re-establish the full leader + owner relationship and set Follow order.
+                SetLeaderAndOwner(EntityID, player.entityId);
+                entityAlive.moveSpeed = player.moveSpeed;
+                entityAlive.moveSpeedAggro = player.moveSpeedAggro;
+
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " RecallFarmer: done");
                 break;
         }
 

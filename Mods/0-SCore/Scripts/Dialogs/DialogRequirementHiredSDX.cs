@@ -22,6 +22,10 @@
         var isTame = currentNpc.Buffs.HasCustomVar("Leader") && currentNpc.Buffs.GetCustomVar("Leader") > 0;
         if (currentNpc.Buffs.HasCustomVar("Owner") && currentNpc.Buffs.GetCustomVar("Owner") > 0)
             isTame = true;
+        // Also consider FarmHere mode as hired — Leader/Owner are zeroed in that state but
+        // the NPC is still assigned to a specific player and should not be re-hireable.
+        if (currentNpc.Buffs.HasCustomVar("FarmOwnerEntityId") && currentNpc.Buffs.GetCustomVar("FarmOwnerEntityId") > 0)
+            isTame = true;
 
         if (base.Value.EqualsCaseInsensitive("not"))
             return !isTame;

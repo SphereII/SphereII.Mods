@@ -74,7 +74,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
 
     public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
-        if (RequireWater)
+        if (RequireWater && IsRootBlock(_world, _blockPos))
         {
             var plantData = CropManager.Instance.GetPlant(_blockPos);
             if (plantData != null && plantData.CanStay() == false)
@@ -88,11 +88,16 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
 
         return base.UpdateTick(_world, _clrIdx, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded, _rnd);
     }
+
     public override bool CheckPlantAlive(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
     {
         // Allow the plant to follow the basic rules.
         var result = base.CheckPlantAlive(_world, _clrIdx, _blockPos, _blockValue);
         if (result == false) return false;
+
+        // Only the root block owns the water check — upper blocks of multi-block plants defer
+        // to the root so water is not consumed multiple times per tick.
+        if (!IsRootBlock(_world, _blockPos)) return true;
 
         // check if we are near a water source.
         if (CropManager.Instance.IsNearWater(_blockPos, WaterRange)) return true;
@@ -104,7 +109,16 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
             return false;
         }
         return true;
+    }
 
+    /// <summary>
+    /// Returns true if this block is the root of a plant — i.e. the block directly below is
+    /// NOT another BlockPlantGrowingSDX.  Upper segments of multi-block plants skip water
+    /// consumption so it is only charged once per plant per tick.
+    /// </summary>
+    private static bool IsRootBlock(WorldBase world, Vector3i blockPos)
+    {
+        return !(world.GetBlock(blockPos + Vector3i.down).Block is BlockPlantGrowingSDX);
     }
 
     public void Wilt(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)

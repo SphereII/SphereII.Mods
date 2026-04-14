@@ -193,6 +193,33 @@ public class FarmPlotManager
             entry.Value.Reset();
     }
 
+    /// <summary>
+    /// Returns a snapshot of all registered farm plot data for inspection.
+    /// </summary>
+    public List<FarmPlotData> GetAll()
+    {
+        return new List<FarmPlotData>(_farmPlots.Values);
+    }
+
+    /// <summary>
+    /// Checks every registered position and removes any entry whose block is no longer a
+    /// BlockFarmPlotSDX (e.g. the block was replaced or the chunk reloaded out of sync).
+    /// Returns the number of stale entries removed.
+    /// </summary>
+    public int Validate()
+    {
+        var world = GameManager.Instance.World;
+        var stale = new List<Vector3i>();
+        foreach (var kvp in _farmPlots)
+        {
+            if (world.GetBlock(kvp.Key).Block is not BlockFarmPlotSDX)
+                stale.Add(kvp.Key);
+        }
+        foreach (var pos in stale)
+            _farmPlots.Remove(pos);
+        return stale.Count;
+    }
+
     public List<Vector3> GetClosePositions(Vector3i position, float range = 50, bool ignoreEmpty = false)
     {
         var counter = 0;

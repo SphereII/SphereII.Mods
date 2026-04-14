@@ -50,6 +50,7 @@ These requirements define conditions that must be met for a dialogue option or s
 * **RequirementNPCHasCVar**: Checks if an NPC has a specific CVar.
 * **RequirementNPCHasItemSDX**: Checks if an NPC has a specific item in their inventory.
 * **RequirementNotHaveItemSDX**: Checks if an entity *does not* have a specific item in their inventory.
+* **RequirementIsFarmOwner**: Checks if the talking player is the registered farm owner of the NPC (i.e., the NPC is in FarmHere mode and was assigned by this player). Supports `value="not"` to check that the NPC is *not* in farm mode.
 * **RequirementRandomRoll**: Performs a random roll to determine if the requirement is met.
 
 
@@ -402,13 +403,13 @@ Checks if an entity has a specific AI task active.
 
 #### 14\. `RequirementHiredSDX`
 
-Checks if an entity is currently hired by the player.
+Checks if an entity is currently hired by the player. Also returns true if the NPC is in FarmHere mode (assigned to tend a farm without following), treating that state as "hired" so hire prompts are correctly hidden.
 
 ```xml
-<requirement type="HiredSDX, SCore" target="self" />
+<requirement type="HiredSDX, SCore" requirementtype="Hide" value="not" />
 ```
 
-**Explanation**: Requires the entity to be currently hired by the player.
+**Explanation**: Requires the entity to be currently hired by the player (or in FarmHere mode). With `value="not"`, the requirement passes when the NPC is *not* hired — use this on the Hire response to hide it once the NPC is already yours.
 
 #### 15\. `RequirementIsSleeper`
 
@@ -479,3 +480,36 @@ Performs a random roll to determine if the requirement is met.
 ```
 
 **Explanation**: A 50% chance for the requirement to be met. `value` is a float from 0.0 to 1.0.
+
+#### 22\. `RequirementIsFarmOwner`
+
+Checks if the talking player is the registered farm owner of the current NPC — that is, the NPC is in FarmHere mode and was assigned to that mode by this specific player. Supports `value="not"` to check that the NPC is *not* in farm mode.
+
+```xml
+<!-- Visible only to the player who sent this NPC into farm mode -->
+<requirement type="IsFarmOwner, SCore" requirementtype="Hide" />
+
+<!-- Visible only when the NPC is NOT in farm mode (i.e., ready to be assigned) -->
+<requirement type="IsFarmOwner, SCore" requirementtype="Hide" value="not" />
+```
+
+**Explanation**: Used together with `ExecuteCommandSDX FarmHere` and `RecallFarmer` to gate farm-mode assignment and recall behind ownership. Prevents other players from stealing a farm-mode NPC.
+
+**Full farm dialog example**:
+
+```xml
+<!-- Assign NPC to farm the area without following the player.
+     Visible only to the current leader when NPC is NOT already in farm mode. -->
+<response id="farm_here" text="farm_here_key" ref_text="Stay here and tend the farm." nextstatementid="farm_mode_active">
+    <requirement type="Leader, SCore" requirementtype="Hide" />
+    <requirement type="IsFarmOwner, SCore" requirementtype="Hide" value="not" />
+    <action type="ExecuteCommandSDX, SCore" id="FarmHere" />
+</response>
+
+<!-- Recall NPC from farm mode back to active follow.
+     Visible only to the original farm owner. -->
+<response id="recall_farmer" text="recall_farmer_key" ref_text="Come follow me again." nextstatementid="recalled">
+    <requirement type="IsFarmOwner, SCore" requirementtype="Hide" />
+    <action type="ExecuteCommandSDX, SCore" id="RecallFarmer" />
+</response>
+```

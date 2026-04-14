@@ -228,6 +228,34 @@ public class CropManager
     }
 
     /// <summary>
+    /// Returns a snapshot of all registered crop positions for inspection.
+    /// </summary>
+    public List<Vector3i> GetAll()
+    {
+        return new List<Vector3i>(_cropMap.Keys);
+    }
+
+    /// <summary>
+    /// Checks every registered position and removes any entry whose block is no longer a
+    /// BlockPlant (e.g. the plant was harvested/destroyed but Remove() was missed).
+    /// Returns the number of stale entries removed.
+    /// </summary>
+    public int Validate()
+    {
+        var world = GameManager.Instance.World;
+        var stale = new List<Vector3i>();
+        foreach (var kvp in _cropMap)
+        {
+            var block = world.GetBlock(kvp.Key);
+            if (block.isair || block.Block is not BlockPlant)
+                stale.Add(kvp.Key);
+        }
+        foreach (var pos in stale)
+            Remove(pos);
+        return stale.Count;
+    }
+
+    /// <summary>
     /// Checks if a position is near water by creating a temporary PlantData instance.
     /// Note: This creates a temporary object. Consider direct WaterPipeManager call if possible,
     /// but this leverages PlantData's full check (direct, pipe, sprinkler).

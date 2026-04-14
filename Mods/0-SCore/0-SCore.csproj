@@ -103,6 +103,7 @@
     <Compile Include="Features\Farming\Scripts\Blocks\Water Blocks\BlockBaseWaterSystem.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\Water Blocks\BlockWaterPipeSDX.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\Water Blocks\BlockWaterSourceSDX.cs" />
+    <Compile Include="Features\Farming\Scripts\ConsoleCmdFarming.cs" />
     <Compile Include="Features\Farming\Scripts\CropManager.cs" />
     <Compile Include="Features\Farming\Scripts\CropManagerV2.cs" />
     <Compile Include="Features\Farming\Scripts\DataClasses\FarmPlotData.cs" />
@@ -604,6 +605,7 @@
     <Compile Include="Scripts\Dialogs\DialogRequirementHasItemSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementHasPlayerLevelSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementHasQuestSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementIsFarmOwner.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementIsSleeper.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementIsTrader.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementLeader.cs" />
