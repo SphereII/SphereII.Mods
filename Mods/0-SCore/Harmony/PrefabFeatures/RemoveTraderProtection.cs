@@ -56,10 +56,27 @@ namespace Harmony.PrefabFeatures
         {
             private static FastTags<TagGroup.Global> tags = FastTags<TagGroup.Global>.Parse("traderPlaceable");
 
+            // Tracks the last position where a traderPlaceable block bypassed the trader area
+            // check. When DamageBlock destroys the block (leaving air), downstream calls such
+            // as NotifyDestroyedBlock still query IsWithinTraderArea for the same position.
+            // By remembering the position we can continue returning false so the harvest event
+            // is not suppressed after the block has been removed.
+            private static Vector3i _lastBypassedPos = new Vector3i(int.MinValue, int.MinValue, int.MinValue);
+
             public static bool Prefix(ref bool __result, World __instance, Vector3i _worldBlockPos)
             {
                 var block = __instance.GetBlock(_worldBlockPos);
-                if ( block.Block.HasAnyFastTags(tags))
+                if (block.Block.HasAnyFastTags(tags))
+                {
+                    _lastBypassedPos = _worldBlockPos;
+                    __result = false;
+                    return false;
+                }
+
+                // The block at this position may now be air because a traderPlaceable block was
+                // just destroyed here (e.g. by DamageBlock). Continue bypassing so that harvest
+                // and destroy events fired from NotifyDestroyedBlock are not blocked.
+                if (block.isair && _worldBlockPos == _lastBypassedPos)
                 {
                     __result = false;
                     return false;

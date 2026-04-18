@@ -33,6 +33,48 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 [ Change Log ]
 
+Version: 2.6.35.1852
+	[ Repair - Quality Loss ]
+		- Added ItemActionEntryRepairQualityLoss patch: replaces vanilla's flat −1 quality-per-repair
+		  with a configurable percentage-based reduction. When no configuration is present the vanilla
+		  behaviour is preserved unchanged.
+		- Quality loss is resolved from three sources in priority order (highest wins):
+		    1. Player cvar  RepairQualityLoss  — stored as a decimal fraction (0.05 = 5%, 0.10 = 10%).
+		       A value of 0 is treated as unset (falls through to item/global config).
+		       A negative value (e.g. −1) means no quality loss; useful for a "master craftsman" perk.
+		    2. Per-item XML property  RepairQualityLoss  in items.xml — whole-number percentage (e.g. "5").
+		    3. Global default  RepairQualityLoss  in AdvancedItemFeatures (blocks.xml) — same format.
+		- Loss is calculated as  Ceil(qualityBeforeRepair × lossPercent / 100)  and the result is
+		  clamped to QualityUtils.GetMinQuality() so items can never be repaired below the configured
+		  minimum quality.
+
+		Configuration examples:
+
+		Global default (blocks.xml AdvancedItemFeatures — applies to all items):
+		    <property name="RepairQualityLoss" value="10"/>   <!-- 10% loss per repair -->
+
+		Per-item override (items.xml — takes priority over the global default):
+		    <property name="RepairQualityLoss" value="5"/>    <!-- this item loses only 5% per repair -->
+		    <property name="RepairQualityLoss" value="0"/>    <!-- this item never loses quality -->
+
+		Perk / buff cvar (highest priority — set dynamically via buffs.xml):
+		    <set_cvar name="RepairQualityLoss" value="0.05"/> <!-- 5% loss while buff is active -->
+		    <set_cvar name="RepairQualityLoss" value="-1"/>   <!-- no quality loss (master craftsman) -->
+
+	[ Harvest Challenge - traderPlaceable Blocks ]
+		- Fixed harvest challenge objectives (type="Harvest, SCore") not counting block harvests when
+		  the harvested block also carried the  traderPlaceable  tag
+		  (e.g. <property name="Tags" value="AdvancedCrops,traderPlaceable"/>).
+		- Root cause: vanilla's DamageBlock removes the block (position becomes air) before calling
+		  NotifyDestroyedBlock. That subsequent call re-checks IsWithinTraderArea for the now-air
+		  position; the prior patch only bypassed the check for positions that currently held a
+		  traderPlaceable block, so the air position fell through to vanilla, which returned true
+		  (inside trader area) and suppressed the HarvestItem event.
+		- Fix: WorldIsWithinTraderArea now records the last position where the traderPlaceable bypass
+		  fired (_lastBypassedPos). If the very next call for the same position finds air (the block
+		  was just destroyed), the patch continues to return false so the harvest and destroy events
+		  are not suppressed.
+
 Version: 2.6.32.1643
 	[ Powered Workstations - Offline Catch-Up ]
 		- Fixed powered workstations (RequirePower = true) stalling when the chunk was unloaded and

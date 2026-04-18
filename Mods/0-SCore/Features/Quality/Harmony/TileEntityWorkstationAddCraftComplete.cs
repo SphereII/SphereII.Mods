@@ -22,7 +22,33 @@ namespace SCore.Features.Quality.Harmony
                 int realPlayerID =  crafterEntityID        & 0xFFFF;
 
                 if (itemCrafted != null)
+                {
                     itemCrafted.Quality = (ushort)realQuality;
+
+                    // The ItemValue constructor sizes Modifications based on the random quality it
+                    // generated during construction.  Now that we've set the real quality we need
+                    // to resize the array so the item has the correct number of mod slots.
+                    int correctSlots = UnityEngine.Mathf.Clamp(
+                        (int)EffectManager.GetValue(
+                            PassiveEffects.ModSlots, itemCrafted,
+                            (float)Utils.FastMax(0, realQuality - 1),
+                            null, null,
+                            default(FastTags<TagGroup.Global>),
+                            true, true, true, true, true, 1, true, false),
+                        0, 255);
+
+                    if (itemCrafted.Modifications.Length != correctSlots)
+                    {
+                        var resized = new ItemValue[correctSlots];
+                        // Preserve any mods that already fit (e.g. default mod items from recipe).
+                        for (int i = 0; i < UnityEngine.Mathf.Min(itemCrafted.Modifications.Length, correctSlots); i++)
+                            resized[i] = itemCrafted.Modifications[i];
+                        // Fill any new empty slots.
+                        for (int i = itemCrafted.Modifications.Length; i < correctSlots; i++)
+                            resized[i] = ItemValue.None.Clone();
+                        itemCrafted.Modifications = resized;
+                    }
+                }
 
                 crafterEntityID = realPlayerID;
             }

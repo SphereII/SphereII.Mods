@@ -335,6 +335,7 @@
     <Compile Include="Features\Quality\Harmony\QualityInfoGetTierColor.cs" />
     <Compile Include="Features\Quality\Harmony\QualityTroublshooting.cs" />
     <Compile Include="Features\Quality\Harmony\TileEntityWorkstationAddCraftComplete.cs" />
+    <Compile Include="Features\Quality\Harmony\ItemActionEntryRepairQualityLoss.cs" />
     <Compile Include="Features\Quality\Harmony\TraderStageTemplateIsWithin.cs" />
     <Compile Include="Features\Quality\Harmony\XUiCCombineGridMergeSlotChangedEvent.cs" />
     <Compile Include="Features\Quality\Harmony\XUiCCraftingInfoAddQualityButton_OnPress.cs" />
@@ -343,6 +344,7 @@
     <Compile Include="Features\Quality\Harmony\XUiCRecipeStackOutputStack.cs" />
     <Compile Include="Features\Quality\Harmony\XUiCRecipeStackSetRecipe.cs" />
     <Compile Include="Features\Quality\Harmony\XUiCWorkstationWindowGroupSyncTEFromUI.cs" />
+    <Compile Include="Features\Quality\Harmony\XUiMItemStackGetCustomDisplayValueForItem.cs" />
     <Compile Include="Features\Quality\Harmony\XUiMTraderGetBuyPrice.cs" />
     <Compile Include="Features\Quality\Harmony\XUiMTraderGetSellPrice.cs" />
     <Compile Include="Features\Quality\Scripts\QualityUtils.cs" />

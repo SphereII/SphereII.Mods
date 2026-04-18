@@ -75,20 +75,20 @@ namespace Challenges {
 
                 if (!result)
                 {
-            
+
 
                     return;
                 }
             }
 
-            
+
 
             if (!string.IsNullOrEmpty(itemTag))
             {
                 var tag = FastTags<TagGroup.Global>.Parse(itemTag);
                 if (!stack.itemValue.ItemClass.HasAnyTags(tag))
                 {
-                    
+
 
                     return;
                 }

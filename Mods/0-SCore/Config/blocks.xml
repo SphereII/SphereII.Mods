@@ -124,6 +124,14 @@
                 <!-- To change the amount of decrease and increase for quality levels for crafting -->
                 <!-- ie, if you press the arrow to decrease the quality level to craft, it'll go down 25 points, instead of every point -->
                 <property name="QualityStages" value="25" />
+
+                <!-- Percentage of current quality lost each time an item is repaired (whole number, 0-100).           -->
+                <!-- value="0"  = no quality loss (default — preserves vanilla durability repair without quality drop) -->
+                <!-- value="10" = a quality-600 item loses Ceil(600 * 0.10) = 60 quality per repair                  -->
+                <!-- Remove this property entirely to revert to vanilla flat −1 quality loss per repair.              -->
+                <!-- Per-item override: add <property name="RepairQualityLoss" value="5"/> to the item in items.xml   -->
+                <!-- Player cvar  RepairQualityLoss  (fraction: 0.10 = 10%) overrides both this and the item value.  -->
+                <property name="RepairQualityLoss" value="0" />
             </property>
 
             <property class="AdvancedPlayerFeatures">
