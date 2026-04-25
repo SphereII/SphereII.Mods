@@ -1523,35 +1523,38 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
             leader.Buffs.RemoveCustomVar($"hired_{entityId}");
             EntityUtilities.SetLeaderAndOwner(entityId, 0);
             GameManager.ShowTooltip(leader, $"Oh no! {EntityName} has died. :(");
+        }
 
-            if (lootContainer != null)
+        // EntityAliveSDX extends EntityTrader, so the player-accessible bag lives in
+        // HarvestManager rather than lootContainer. Check HarvestManager first.
+        var bagContainer = (this is EntityTrader && HarvestManager.Has(entityId))
+            ? HarvestManager.GetOrCreate(entityId)
+            : lootContainer;
+
+        if (bagContainer != null && !bagContainer.IsEmpty())
+        {
+            var bagPosition = new Vector3i(this.position + base.transform.up);
+
+            var className = "BackpackNPC";
+            if (EntityClass.GetEntityClass(className.GetHashCode()) == null)
+                className = "Backpack";
+
+            var entityBackpack = EntityFactory.CreateEntity(className.GetHashCode(), bagPosition) as EntityItem;
+            if (entityBackpack != null)
             {
-                var isBackpackEmpty = lootContainer.IsEmpty();
-                if (!isBackpackEmpty)
+                var entityCreationData = new EntityCreationData(entityBackpack)
                 {
-                    var bagPosition = new Vector3i(this.position + base.transform.up);
+                    entityName = Localization.Get(this.EntityName),
+                    id = -1,
+                    lootContainer = bagContainer
+                };
 
-                    var className = "BackpackNPC";
-                    var entityClass = EntityClass.GetEntityClass(className.GetHashCode());
-                    if (entityClass == null)
-                        className = "Backpack";
-
-                    var entityBackpack = EntityFactory.CreateEntity(className.GetHashCode(), bagPosition) as EntityItem;
-
-                    var entityCreationData = new EntityCreationData(entityBackpack)
-                    {
-                        entityName = Localization.Get(this.EntityName),
-                        id = -1,
-                        lootContainer = lootContainer
-                    };
-
-                    GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
-                    if (entityBackpack)
-                        entityBackpack.OnEntityUnload();
-                    //  this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
-                }
+                GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
+                entityBackpack.OnEntityUnload();
             }
         }
+
+        HarvestManager.Remove(entityId);
 
         var player = leader as EntityPlayer;
         if (leader)

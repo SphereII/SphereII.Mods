@@ -33,6 +33,16 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 [ Change Log ]
 
+Version: 2.6.40.647
+	[ EntityAliveSDX - Backpack Drop on Death ]
+		- Fixed backpack not dropping when an NPC dies. EntityAliveSDX extends EntityTrader, so the
+		  player-accessible bag is stored in HarvestManager rather than lootContainer. SetDead() now
+		  checks HarvestManager first and falls back to lootContainer for non-trader entities.
+		- Added null guard when creating the backpack entity to prevent a silent NullReferenceException
+		  if neither "BackpackNPC" nor "Backpack" entity class is found.
+		- HarvestManager.Remove() is now called on NPC death to clean up the harvest container,
+		  consistent with the pickup (collect) flow.
+
 Version: 2.6.35.1852
 	[ Repair - Quality Loss ]
 		- Added ItemActionEntryRepairQualityLoss patch: replaces vanilla's flat −1 quality-per-repair
