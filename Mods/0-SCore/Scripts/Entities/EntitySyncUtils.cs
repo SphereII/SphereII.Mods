@@ -157,6 +157,10 @@ public static class EntitySyncUtils
 
         itemValue.SetMetadata("CurrentWeapon", npc.inventory?.holdingItem.GetItemName(), TypedMetadataValue.TypeTag.String);
 
+        // Prevent this item from being dragged into any container (chests, other NPC bags, etc.).
+        // The XUiC_ItemStack_SlotTags NoStorage check reads this and blocks placement.
+        itemValue.SetMetadata("NoStorage", 1, TypedMetadataValue.TypeTag.Integer);
+
         return itemValue;
     }
 

@@ -33,6 +33,49 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 [ Change Log ]
 
+Version: 2.6.43.925
+	[ NPC - Prevent Storing NPC Inside Another NPC's Inventory ]
+		- DialogActionPickUpNPC now blocks pickup of any NPC whose hand inventory, HarvestManager bag,
+		  or loot container contains an item with EntityClassId metadata (i.e. another stored NPC).
+		  Previously, picking up the outer NPC would serialize the inner NPC item via
+		  SerializeItemStackArray, which does not preserve ItemValue metadata. On deploy the inner
+		  NPC item would have no EntityClassId and could never be placed, producing the log warning
+		  "ItemActionDeployNPCSDX: No EntityClass defined for this item."
+		- XUiC_ItemStack_SlotTags.IsStackAllowedInContainer now runs the NoStorage metadata check
+		  before the xui.lootContainer null guard. Previously, drag-and-drop into entity-based
+		  containers (which have no world block position and may leave lootContainer null) bypassed
+		  the NoStorage gate entirely.
+		- EntitySyncUtils.GetNPCItemValue now stamps NoStorage = 1 on every NPC pickup item,
+		  activating the existing XUiC_ItemStack_SlotTags gate to prevent NPC items from being
+		  dragged into any container through the UI.
+		- Added localization keys npcHasItems and npcContainsNPC to 0-SCore/Config/Localization.txt.
+
+	[ Repair - Simultaneous Repair Queue Bug Fix ]
+		- Fixed a bug where repairing two items at the same time caused the second item to not
+		  lose any quality. Root cause: the patch used a single static _pendingOriginalQuality
+		  field and enforced only one RepairItem event subscription via -= then +=. When two
+		  repairs were queued back-to-back, the second Prefix call overwrote the static field
+		  and reused the single subscription. The first repair fired and unsubscribed the handler,
+		  leaving the second repair with no handler and no quality loss applied.
+		- Fixed by replacing the static int with a Queue<int>. Each Prefix call enqueues the
+		  pre-repair quality and adds one subscription (+=, no preceding -=). Each OnRepairItem
+		  call removes one subscription, reads quality from item metadata (preferred, item-specific)
+		  or dequeues from the queue (fallback, FIFO order matches repair queue order).
+
+	[ Repair - Flat Quality Levels Loss ]
+		- Added RepairQualityLossLevels property support (per-item in items.xml or global in
+		  AdvancedItemFeatures in blocks.xml). When set, each repair loses exactly N quality
+		  levels regardless of the item's current quality. Takes priority over the existing
+		  percentage-based RepairQualityLoss property.
+
+		Configuration example:
+		    <property name="RepairQualityLossLevels" value="2"/>   <!-- lose exactly 2 levels per repair -->
+
+	[ ChallengeObjectiveHarvest - Clone Fix ]
+		- Clone() now copies isDebug and blockName fields. Previously both were dropped on clone,
+		  causing debug mode to silently turn off and block name filters to stop working after the
+		  challenge objective was cloned internally by the challenge system.
+
 Version: 2.6.40.647
 	[ EntityAliveSDX - Backpack Drop on Death ]
 		- Fixed backpack not dropping when an NPC dies. EntityAliveSDX extends EntityTrader, so the

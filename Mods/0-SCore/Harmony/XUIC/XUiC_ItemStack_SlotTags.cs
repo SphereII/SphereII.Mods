@@ -24,7 +24,12 @@ namespace SCore.Harmony.TileEntities
             var currentStack = itemStack.xui.dragAndDrop?.CurrentStack;
             if (currentStack == null || currentStack.IsEmpty()) return true;
 
-            // Only run on loot containers and their slots.
+            // Check NoStorage before any container-specific guard so items like stored NPCs
+            // are blocked from being dragged into any non-player-inventory slot, even when
+            // the destination is an entity loot container that has no world block position.
+            if (!CheckItemsForContainer(currentStack)) return false;
+
+            // Only run tag-based checks on loot containers and their slots.
             if (itemStack.xui.lootContainer == null) return true;
             if (itemStack.StackLocation != XUiC_ItemStack.StackLocationTypes.LootContainer) return true;
             var blockValue = GameManager.Instance.World.GetBlock(itemStack.xui.lootContainer.ToWorldPos());

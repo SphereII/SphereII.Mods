@@ -1,4 +1,6 @@
 Key,English,French,german,russian
+npcHasItems,"NPC has items in its inventory and cannot be picked up.","","Der NPC hat Gegenstände in seinem Inventar und kann nicht aufgehoben werden.","У NPC есть предметы в инвентаре, и его нельзя подобрать."
+npcContainsNPC,"Cannot pick up an NPC that has another NPC stored in its inventory.","","Es ist nicht möglich, einen NPC aufzuheben, der einen anderen NPC in seinem Inventar gespeichert hat.","Нельзя подобрать NPC, в чьём инвентаре хранится другой NPC."
 <include filename="Dialogs/Zombies.txt"/>
 takeandreplace,"Rip off ","Changer","Abreißen ","Оторвать "
 musicbox_turnOn,"Turn On","Allumer","Einschalten","Включить"

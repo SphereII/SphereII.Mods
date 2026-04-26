@@ -1,90 +1,107 @@
+using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
 
 namespace SCore.Features.Quality.Harmony
 {
     /// <summary>
-    /// Replaces vanilla's flat -1 quality-per-repair with a configurable percentage loss.
+    /// Replaces vanilla's flat -1 quality-per-repair with a configurable loss.
     ///
-    /// Global default (blocks.xml AdvancedItemFeatures):
-    ///   <property name="RepairQualityLoss" value="10"/>   <!-- all items lose 10 % per repair -->
+    /// Flat levels (takes priority over percentage):
+    ///   <property name="RepairQualityLossLevels" value="2"/>  <!-- lose exactly 2 quality levels -->
     ///
-    /// Per-item override (items.xml / item property block):
-    ///   <property name="RepairQualityLoss" value="5"/>    <!-- this item loses only 5 %       -->
-    ///   <property name="RepairQualityLoss" value="0"/>    <!-- this item loses no quality      -->
+    /// Percentage-based:
+    ///   <property name="RepairQualityLoss" value="10"/>  <!-- lose 10% of current quality -->
+    ///   <property name="RepairQualityLoss" value="0"/>   <!-- no quality loss -->
     ///
-    /// The per-item value takes priority over the global default.  If neither is set the
-    /// vanilla -1 flat reduction is used unchanged.
-    ///
-    /// Values are whole-number percentages (0–100).  Loss is rounded up (Ceil) and the
-    /// result is clamped to QualityUtils.GetMinQuality().
+    /// Both support per-item (items.xml) and global (AdvancedItemFeatures in blocks.xml) values.
+    /// Per-item takes priority over global. Player cvar "RepairQualityLoss" (fraction) overrides
+    /// the percentage path. If nothing is configured, vanilla -1 flat reduction is used.
     /// </summary>
     [HarmonyPatch(typeof(ItemActionEntryRepair))]
     [HarmonyPatch(nameof(ItemActionEntryRepair.OnActivated))]
     public class ItemActionEntryRepairQualityLoss
     {
-        private static readonly string AdvFeatureClass = "AdvancedItemFeatures";
-        private static readonly string GlobalProperty  = "RepairQualityLoss";
-        private static readonly string ItemProperty    = "RepairQualityLoss";
-        private const           string MetaKey         = "SCoreRepairOrigQuality";
+        private static readonly string AdvFeatureClass   = "AdvancedItemFeatures";
+        private static readonly string PercentProperty   = "RepairQualityLoss";
+        private static readonly string FlatLevelsProperty = "RepairQualityLossLevels";
+        private const           string MetaKey           = "SCoreRepairOrigQuality";
 
-        // Static fallback for when ItemValue.Clone() does not copy metadata.
-        // Only valid between OnActivated and the matching RepairItem event fire.
-        private static int _pendingOriginalQuality = -1;
+        // Queue tracks one pre-repair quality per queued repair, in FIFO order.
+        // Used as fallback when ItemValue.Clone() does not copy metadata.
+        private static readonly Queue<int> _pendingOriginalQualities = new Queue<int>();
+
+        /// <summary>
+        /// Returns flat quality levels to lose per repair, or -1 if not configured.
+        /// Priority: per-item XML → global XML.
+        /// </summary>
+        private static int GetLossLevels(ItemValue itemValue)
+        {
+            if (itemValue.ItemClass.Properties.Contains(FlatLevelsProperty))
+            {
+                var str = itemValue.ItemClass.Properties.GetStringValue(FlatLevelsProperty);
+                if (int.TryParse(str, out int itemLevels))
+                    return itemLevels;
+            }
+
+            var globalStr = Configuration.GetPropertyValue(AdvFeatureClass, FlatLevelsProperty);
+            if (!string.IsNullOrEmpty(globalStr) && int.TryParse(globalStr, out int globalLevels))
+                return globalLevels;
+
+            return -1;
+        }
 
         /// <summary>
         /// Returns the loss percent (0–100) to apply, or -1 if no source is configured (vanilla fallback).
-        ///
-        /// Priority (highest → lowest):
-        ///   1. Player cvar  "RepairQualityLoss"  — stored as a fraction: 0.05 = 5%, 0.10 = 10%
-        ///                                          0 = unset; negative (e.g. -1) = no loss
-        ///   2. Per-item property  RepairQualityLoss  in items.xml  (whole-number %, e.g. "5")
-        ///   3. Global property  RepairQualityLoss  in AdvancedItemFeatures (blocks.xml)  (same format)
+        /// Priority: player cvar → per-item XML → global XML.
         /// </summary>
         private static float GetLossPercent(ItemValue itemValue)
         {
-            // 1. Player cvar (highest priority — buffs/quests/progression can override).
-            //    Stored as a fraction (0.05 = 5%). 0 = unset. Negative = no loss, clamped to 0.
+            // Player cvar (highest priority). Stored as a fraction: 0.05 = 5%. 0 = unset.
             var player = GameManager.Instance?.World?.GetPrimaryPlayer();
-            if (player != null && player.Buffs.HasCustomVar("RepairQualityLoss"))
+            if (player != null && player.Buffs.HasCustomVar(PercentProperty))
             {
-                float cvarVal = player.Buffs.GetCustomVar("RepairQualityLoss");
+                float cvarVal = player.Buffs.GetCustomVar(PercentProperty);
                 if (cvarVal != 0f)
                     return Mathf.Max(0f, cvarVal * 100f);
             }
 
-            // 2. Per-item override.
-            if (itemValue.ItemClass.Properties.Contains(ItemProperty))
+            if (itemValue.ItemClass.Properties.Contains(PercentProperty))
             {
-                var str = itemValue.ItemClass.Properties.GetStringValue(ItemProperty);
+                var str = itemValue.ItemClass.Properties.GetStringValue(PercentProperty);
                 if (float.TryParse(str, out float itemLoss))
                     return itemLoss;
             }
 
-            // 3. Global default in AdvancedItemFeatures.
-            var globalStr = Configuration.GetPropertyValue(AdvFeatureClass, GlobalProperty);
+            var globalStr = Configuration.GetPropertyValue(AdvFeatureClass, PercentProperty);
             if (!string.IsNullOrEmpty(globalStr) && float.TryParse(globalStr, out float globalLoss))
                 return globalLoss;
 
             return -1f;
         }
 
+        private static bool HasAnyLossConfigured(ItemValue itemValue)
+        {
+            return GetLossLevels(itemValue) >= 0 || GetLossPercent(itemValue) >= 0f;
+        }
+
         public static void Prefix(ItemActionEntryRepair __instance)
         {
             var itemValue = ItemClassUtils.GetItemValue(__instance.ItemController);
             if (itemValue == null) return;
-            if (GetLossPercent(itemValue) < 0f) return;
+            if (!HasAnyLossConfigured(itemValue)) return;
 
             // Snapshot quality BEFORE vanilla's repair queue applies the -1 reduction.
             int originalQuality = (int)itemValue.Quality;
-            _pendingOriginalQuality = originalQuality;
+            _pendingOriginalQualities.Enqueue(originalQuality);
 
             // Also write to metadata so the value travels with the cloned ItemValue that
             // AddRepairItemToQueue stores internally (works if Clone copies metadata).
             itemValue.SetMetadata(MetaKey, originalQuality, TypedMetadataValue.TypeTag.Integer);
 
-            // Ensure exactly one subscription so rapid back-to-back repairs don't stack.
-            QuestEventManager.Current.RepairItem -= OnRepairItem;
+            // Allow multiple subscriptions — one per queued repair — so simultaneous repairs
+            // each get their own OnRepairItem call. The old "-= then +=" pattern was a bug:
+            // it ensured only one handler, so the second of two queued repairs never fired.
             QuestEventManager.Current.RepairItem += OnRepairItem;
         }
 
@@ -92,21 +109,34 @@ namespace SCore.Features.Quality.Harmony
         {
             QuestEventManager.Current.RepairItem -= OnRepairItem;
 
-            float lossPercent = GetLossPercent(itemValue);
-            if (lossPercent < 0f) return;
-
-            // Resolve original quality: metadata is preferred (survives Clone), static
-            // field is the fallback for engines where Clone drops metadata.
-            int originalQuality;
+            // Resolve original quality: metadata is preferred (item-specific, survives Clone),
+            // queue is the fallback in FIFO order matching the repair queue.
+            int originalQuality = -1;
             var raw = itemValue.GetMetadata(MetaKey);
             if (raw is int metaQuality)
+            {
                 originalQuality = metaQuality;
-            else if (_pendingOriginalQuality >= 0)
-                originalQuality = _pendingOriginalQuality;
-            else
-                return;
+                if (_pendingOriginalQualities.Count > 0)
+                    _pendingOriginalQualities.Dequeue();
+            }
+            else if (_pendingOriginalQualities.Count > 0)
+            {
+                originalQuality = _pendingOriginalQualities.Dequeue();
+            }
 
-            _pendingOriginalQuality = -1;
+            if (originalQuality < 0) return;
+
+            // Flat levels take priority over percentage.
+            int lossLevels = GetLossLevels(itemValue);
+            if (lossLevels >= 0)
+            {
+                int newQualityFlat = Mathf.Max(QualityUtils.GetMinQuality(), originalQuality - lossLevels);
+                itemValue.Quality  = (ushort)newQualityFlat;
+                return;
+            }
+
+            float lossPercent = GetLossPercent(itemValue);
+            if (lossPercent < 0f) return;
 
             float lossFraction = lossPercent / 100f;
             int qualityLoss    = Mathf.CeilToInt(originalQuality * lossFraction);

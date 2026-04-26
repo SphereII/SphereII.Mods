@@ -8,11 +8,17 @@ public class DialogActionPickUpNPC : BaseDialogAction
         var myEntity = playerUI.xui.Dialog.Respondent as EntityAlive;
         if (myEntity == null || myEntity is not IEntityAliveSDX) return;
 
+        if (HasNpcInInventory(myEntity))
+        {
+            GameManager.ShowTooltip(player as EntityPlayerLocal, Localization.Get("npcContainsNPC"), string.Empty, "ui_denied", null);
+            return;
+        }
+
         if (!string.IsNullOrEmpty(ID))
         {
             if (myEntity.lootContainer?.items.Length > 0)
             {
-                GameManager.ShowTooltip(player as EntityPlayerLocal, "npcHasItems", string.Empty, "ui_denied", null);
+                GameManager.ShowTooltip(player as EntityPlayerLocal, Localization.Get("npcHasItems"), string.Empty, "ui_denied", null);
                 return;
             }
         }
@@ -28,6 +34,33 @@ public class DialogActionPickUpNPC : BaseDialogAction
             GameManager.ShowTooltip(player as EntityPlayerLocal, Localization.Get("xuiInventoryFullForPickup"), string.Empty, "ui_denied", null);
         }
     }
-    
-  
+
+    private static bool HasNpcInInventory(EntityAlive entity)
+    {
+        foreach (var stack in entity.inventory.GetSlots())
+        {
+            if (!stack.IsEmpty() && stack.itemValue.HasMetadata("EntityClassId"))
+                return true;
+        }
+
+        if (entity is EntityTrader && HarvestManager.Has(entity.entityId))
+        {
+            var hc = HarvestManager.GetOrCreate(entity.entityId);
+            foreach (var stack in hc.items)
+            {
+                if (!stack.IsEmpty() && stack.itemValue.HasMetadata("EntityClassId"))
+                    return true;
+            }
+        }
+        else if (entity.lootContainer?.items != null)
+        {
+            foreach (var stack in entity.lootContainer.items)
+            {
+                if (!stack.IsEmpty() && stack.itemValue.HasMetadata("EntityClassId"))
+                    return true;
+            }
+        }
+
+        return false;
+    }
 }
