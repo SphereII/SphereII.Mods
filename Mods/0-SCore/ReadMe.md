@@ -33,6 +33,14 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 [ Change Log ]
 
+Version: 2.6.44.742
+	[ Repair - Flat Quality Levels Loss - Cvar Support ]
+		- RepairQualityLossLevels can now be set via player cvar (e.g. from a buff or progression),
+		  matching the existing cvar support for RepairQualityLoss. Stored as a whole integer;
+		  0 is treated as unset and falls through to per-item or global XML config.
+		- Priority order (highest wins): player cvar → per-item XML → global XML.
+			CVar name is: RepairQualityLossLevels
+
 Version: 2.6.43.925
 	[ NPC - Prevent Storing NPC Inside Another NPC's Inventory ]
 		- DialogActionPickUpNPC now blocks pickup of any NPC whose hand inventory, HarvestManager bag,
@@ -63,13 +71,18 @@ Version: 2.6.43.925
 		  or dequeues from the queue (fallback, FIFO order matches repair queue order).
 
 	[ Repair - Flat Quality Levels Loss ]
-		- Added RepairQualityLossLevels property support (per-item in items.xml or global in
-		  AdvancedItemFeatures in blocks.xml). When set, each repair loses exactly N quality
+		- Added RepairQualityLossLevels support. When set, each repair loses exactly N quality
 		  levels regardless of the item's current quality. Takes priority over the existing
-		  percentage-based RepairQualityLoss property.
+		  percentage-based RepairQualityLoss path.
+		- Resolved from three sources in priority order (highest wins):
+		    1. Player cvar  RepairQualityLossLevels  — whole integer (2 = lose 2 levels).
+		       0 is treated as unset (falls through to item/global config).
+		    2. Per-item XML property  RepairQualityLossLevels  in items.xml.
+		    3. Global default  RepairQualityLossLevels  in AdvancedItemFeatures (blocks.xml).
 
-		Configuration example:
+		Configuration examples:
 		    <property name="RepairQualityLossLevels" value="2"/>   <!-- lose exactly 2 levels per repair -->
+		    <set_cvar name="RepairQualityLossLevels" value="1"/>   <!-- 1 level loss while buff is active -->
 
 	[ ChallengeObjectiveHarvest - Clone Fix ]
 		- Clone() now copies isDebug and blockName fields. Previously both were dropped on clone,

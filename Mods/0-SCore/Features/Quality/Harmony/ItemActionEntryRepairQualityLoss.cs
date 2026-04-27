@@ -7,16 +7,17 @@ namespace SCore.Features.Quality.Harmony
     /// <summary>
     /// Replaces vanilla's flat -1 quality-per-repair with a configurable loss.
     ///
-    /// Flat levels (takes priority over percentage):
-    ///   <property name="RepairQualityLossLevels" value="2"/>  <!-- lose exactly 2 quality levels -->
+    /// Flat levels (takes priority over percentage). Whole-number levels, stored as integer:
+    ///   Player cvar  RepairQualityLossLevels  (highest priority — set via buffs/progression)
+    ///   <property name="RepairQualityLossLevels" value="2"/>  <!-- per-item or global XML -->
     ///
-    /// Percentage-based:
-    ///   <property name="RepairQualityLoss" value="10"/>  <!-- lose 10% of current quality -->
+    /// Percentage-based. Whole-number percent, cvar stored as fraction (0.10 = 10%):
+    ///   Player cvar  RepairQualityLoss  (highest priority — set via buffs/progression)
+    ///   <property name="RepairQualityLoss" value="10"/>  <!-- per-item or global XML -->
     ///   <property name="RepairQualityLoss" value="0"/>   <!-- no quality loss -->
     ///
     /// Both support per-item (items.xml) and global (AdvancedItemFeatures in blocks.xml) values.
-    /// Per-item takes priority over global. Player cvar "RepairQualityLoss" (fraction) overrides
-    /// the percentage path. If nothing is configured, vanilla -1 flat reduction is used.
+    /// Per-item takes priority over global. If nothing is configured, vanilla -1 flat reduction is used.
     /// </summary>
     [HarmonyPatch(typeof(ItemActionEntryRepair))]
     [HarmonyPatch(nameof(ItemActionEntryRepair.OnActivated))]
@@ -33,10 +34,19 @@ namespace SCore.Features.Quality.Harmony
 
         /// <summary>
         /// Returns flat quality levels to lose per repair, or -1 if not configured.
-        /// Priority: per-item XML → global XML.
+        /// Priority: player cvar → per-item XML → global XML.
         /// </summary>
         private static int GetLossLevels(ItemValue itemValue)
         {
+            // Player cvar (highest priority). Stored as a whole integer: 2 = lose 2 levels. 0 = unset.
+            var player = GameManager.Instance?.World?.GetPrimaryPlayer();
+            if (player != null && player.Buffs.HasCustomVar(FlatLevelsProperty))
+            {
+                int cvarVal = (int)player.Buffs.GetCustomVar(FlatLevelsProperty);
+                if (cvarVal != 0)
+                    return Mathf.Max(0, cvarVal);
+            }
+
             if (itemValue.ItemClass.Properties.Contains(FlatLevelsProperty))
             {
                 var str = itemValue.ItemClass.Properties.GetStringValue(FlatLevelsProperty);
