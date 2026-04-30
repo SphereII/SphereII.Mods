@@ -125,12 +125,10 @@ namespace SCore.Features.ItemDegradation.Utils
             if (IsDegraded(mod))
             {
                 DeactivateItem(mod, player);
-                if (mod.ItemClass.MaxUseTimesBreaksAfter.Value)
-                {
-                    if ( player != null)
-                        Manager.BroadcastPlay(player, "itembreak");
-                    mod = ItemValue.None;
-                }
+                // When MaxUseTimesBreaksAfter is true, the break sound and slot removal are
+                // handled by the caller (MinEventActionRoutineUpdate.CheckItemValue) which
+                // has the array index needed to null out the Modifications slot. Nothing to
+                // do here beyond the DeactivateItem call above.
 
                 return;
             }

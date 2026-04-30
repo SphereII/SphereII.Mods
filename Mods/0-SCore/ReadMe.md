@@ -33,6 +33,32 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 [ Change Log ]
 
+Version: 2.6.47.357
+	[ Item Degradation - ItemPercentUsed Requirement Display Fix ]
+		- passive_effects inside an effect_group gated by ItemPercentUsed, SCore now show their
+		  correct values on an item mod's stats page before installation.
+		- Root cause: IsValid called base.IsValid first; in a tooltip/stats display context
+		  _params.Self is null, causing TargetedCompareRequirementBase to return false and
+		  suppressing the entire effect_group even for a brand-new undamaged mod.
+		- Fix: base.IsValid is now skipped when _params.Self is null. The ItemValue condition
+		  (UseTimes / MaxUseTimes compared against the configured value) is evaluated directly,
+		  so a new mod with UseTimes=0 correctly satisfies operation="LT" value="1".
+
+	[ Item Degradation - DegradationBreaksAfter Now Removes Mods ]
+		- Item mods with DegradationBreaksAfter=true are now correctly removed from their
+		  parent item's Modifications slot when they reach 0 durability.
+		- Root cause A: CheckModification in ItemModificationDegradation.cs did
+		  mod = ItemValue.None which only reassigned the local parameter; the actual
+		  Modifications[] array slot was never updated.
+		- Root cause B: MinEventActionRoutineUpdate.CheckItemValue iterated Modifications
+		  with foreach, providing no array index to write back to.
+		- Fix: CheckItemValue now uses a for loop over Modifications. After ticking each mod,
+		  if IsDegraded and MaxUseTimesBreaksAfter are both true, the break sound plays and
+		  itemValue.Modifications[i] is set to ItemValue.None.Clone(), matching the existing
+		  equipment-slot removal pattern already used for degraded armor/clothing.
+		- Removed the dead mod = ItemValue.None assignment from CheckModification and replaced
+		  it with a comment noting that slot removal is handled by the caller.
+
 Version: 2.6.44.742
 	[ Repair - Flat Quality Levels Loss - Cvar Support ]
 		- RepairQualityLossLevels can now be set via player cvar (e.g. from a buff or progression),

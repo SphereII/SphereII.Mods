@@ -79,10 +79,16 @@ public class MinEventActionRoutineUpdate : MinEventActionTargetedBase
     {
         if (itemValue == null) return;
         OnSelfRoutineUpdate.RoutineUpdate(itemValue);
-        foreach (var mod in itemValue.Modifications)
+        for (var i = 0; i < itemValue.Modifications.Length; i++)
         {
-            if ( mod?.ItemClass == null) continue;
+            var mod = itemValue.Modifications[i];
+            if (mod?.ItemClass == null) continue;
             OnSelfRoutineUpdate.RoutineUpdate(mod);
+            if (ItemDegradationHelpers.IsDegraded(mod) && mod.ItemClass.MaxUseTimesBreaksAfter.Value)
+            {
+                Manager.BroadcastPlay(GameManager.Instance.World.GetPrimaryPlayer(), "itembreak");
+                itemValue.Modifications[i] = ItemValue.None.Clone();
+            }
         }
     }
 
