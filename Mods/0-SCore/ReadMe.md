@@ -33,6 +33,95 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 [ Change Log ]
 
+Version: 2.6.58.744
+	[ Item Degradation - Quality Curve Support (Linear / Quadratic / Cubic) ]
+		- GetDurabilityForQuality now accepts an optional curve parameter controlling
+		  how durability scales across quality tiers.
+		- GetValue reads a DegradationCurve XML property from the item class and passes
+		  it through to GetDurabilityForQuality. Defaults to "linear" if not set, so
+		  all existing items are unaffected.
+		- Supported values for DegradationCurve:
+		    linear    — equal spacing between tiers (existing behaviour, default)
+		    quadratic — t^2 curve; lower tiers degrade faster, higher tiers last longer
+		    cubic     — t^3 curve; even steeper advantage for high-quality items
+
+		Example values with DegradationMaxUse="1000,6000" param1="1,6":
+
+		  Quality    Linear    Quadratic    Cubic
+		  Q1         1000      1000         1000
+		  Q2         2000      1200         1040
+		  Q3         3000      2000         1370
+		  Q4         4000      3400         2080
+		  Q5         5000      5200         3560
+		  Q6         6000      6000         6000
+
+		Configuration example (items.xml / item_modifiers.xml):
+		    <property name="DegradationMaxUse" value="1000,6000" param1="1,6"/>
+		    <property name="DegradationCurve"  value="quadratic"/>
+
+		Works with both vanilla quality (1-6) and extended quality (1-600) because
+		the curve is applied to the normalized 0-1 step before scaling to the
+		durability range, so the shape is identical regardless of the quality scale.
+
+	[ Item Degradation - GetValue Metadata Cache Removed ]
+		- Removed the metadata write-back in GetValue that was caching the computed
+		  DegradationMaxUse result into item metadata. This caused two bugs:
+		  1. Changing DegradationMaxUse in XML had no effect on existing items because
+		     the stale cached value was always returned first on subsequent calls.
+		  2. Quality scaling was silently broken: quality=0 items were clamped to minQuality
+		     and cached the minimum durability value, making every quality tier degrade at
+		     the Q1 rate regardless of the item's actual quality.
+		- Also removed the metadata read. XML is now always authoritative for
+		  DegradationMaxUse and DegradationPerUse — no per-item cache can interfere.
+
+	[ Item Degradation - GetPercentUsed Division by Zero Guard ]
+		- Added a guard in GetPercentUsed for when GetMaxUseTimes returns 0.
+		  Previously this caused a float division by zero (NaN), which silently caused
+		  the ItemPercentUsed LT 1 requirement to evaluate as false, blocking
+		  DegradeItemValueMod from ever firing even when CanDegrade was true.
+		- Now returns 0f when maxUse is 0, treating the item as unused.
+
+	[ Item Degradation - Params1 Missing Quality Range Warning ]
+		- GetValue now uses TryGetValue instead of the direct [] accessor on Params1.
+		  Item types that do not populate Params1 for appended properties previously
+		  caused a silent -1 return (GetMaxUseTimes=0, CanDegrade=false, no degradation).
+		- When param1 is missing on a comma-separated DegradationMaxUse value, a log
+		  warning is now emitted and the first value in the range is used as a flat
+		  integer fallback so degradation still fires.
+
+	[ Item Degradation - Dew Collector Debug Logging ]
+		- Added and subsequently removed temporary per-slot debug logging in
+		  TileEntityDewCollectorHandleModChanged to diagnose the above issues.
+		  Confirmed the patch fires on every production cycle (~2x per second),
+		  and that quality-scaled maxUseTimes (Q1=1000, Q3=3000, Q6=6000) is
+		  computed correctly once the cache and Params1 issues were resolved.
+
+	[ SphereII Item Mod Degradation - items.xml Set vs Append Fix ]
+		- Changed DegradationMaxUse and DegradationPerUse overrides for tool items
+		  from <append> (which added duplicate property elements) to <set> (which
+		  replaces the value on the property already added by StandardSettings.xml).
+		  Duplicate properties caused the game to always read the first occurrence,
+		  making per-item overrides in other modlets have no effect.
+
+Version: 2.6.56.807
+	[ Item Degradation - Workstation Tool Degradation Offline Fix ]
+		- Tools in a workstation now degrade correctly when crafting happens while the player
+		  has left the workstation (bUserAccessing = false).
+		- Root cause: the ItemDegradation TileEntityWorkstationHandleRecipeQueue Prefix only
+		  checked whether the required tool was already broken (to stop the workstation) but
+		  never fired degradation events. The Recipe Feature Prefix called CheckToolsForDegradation
+		  but only when that feature was enabled, and even then craftingToolType = 0 recipes
+		  silently skipped every tool slot.
+		- Fix: the ItemDegradation Prefix now counts how many recipe completions fall within
+		  the current tick's _timePassed window using CraftingTimeLeft / OneItemCraftTime math,
+		  and calls CheckToolsForDegradation once per completion. This works regardless of****
+		  whether the Remote Crafting feature is enabled.
+		- Removed the duplicate CheckToolsForDegradation call from the Recipe Feature Prefix
+		  to prevent double-degradation when both patches are active.
+		- Note: degradation only fires when the recipe requires a specific tool type
+		  (craftingToolType != 0). Recipes with no required tool type do not degrade any tools,
+		  which is the intended behaviour.
+
 Version: 2.6.47.357
 	[ Item Degradation - ItemPercentUsed Requirement Display Fix ]
 		- passive_effects inside an effect_group gated by ItemPercentUsed, SCore now show their

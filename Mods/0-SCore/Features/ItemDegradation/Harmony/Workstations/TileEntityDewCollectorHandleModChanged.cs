@@ -17,7 +17,7 @@ namespace SCore.Features.ItemDegradation.Harmony.Workstations
 
                 if (!ItemDegradationHelpers.CanDegrade(mod.itemValue)) continue;
 
-                // Reset the conversions based on if each type is degraded. 
+                // Reset the conversions based on if each type is degraded.
                 OnSelfItemDegrade.CheckForDegradation(mod);
 
                 // If it's not degraded, don't reset its items.

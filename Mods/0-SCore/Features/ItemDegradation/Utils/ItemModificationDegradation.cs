@@ -13,48 +13,57 @@ namespace SCore.Features.ItemDegradation.Utils
         public const string DegradationPerUse = "DegradationPerUse";
         public const string DegradationMaxUse = "DegradationMaxUse";
 
-        public static int GetDurabilityForQuality(int quality, int minQuality, int maxQuality, int minDurability, int maxDurability)
+        public static int GetDurabilityForQuality(int quality, int minQuality, int maxQuality,
+                                                    int minDurability, int maxDurability,
+                                                    string curve = "linear")
         {
-            // Clamp the quality input
             quality = Math.Max(minQuality, Math.Min(maxQuality, quality));
 
-            float qualityStep = (float)(quality - minQuality) / (maxQuality - minQuality);
-            float durabilityRange = maxDurability - minDurability;
+            float t = (maxQuality == minQuality) ? 1f
+                      : (float)(quality - minQuality) / (maxQuality - minQuality);
 
-            return (int)Math.Round(minDurability + (qualityStep * durabilityRange));
+            float curvedT = curve switch
+            {
+                "quadratic" => t * t,
+                "cubic"     => t * t * t,
+                _           => t,   // linear (default)
+            };
+
+            return (int)Math.Round(minDurability + curvedT * (maxDurability - minDurability));
         }
 
         private static int GetValue(ItemValue mod, string property)
         {
-            // 1. Check dynamic metadata first for override values.
-            if (mod.GetMetadata(property) is int value)
-            {
-                return value;
-            }
-
             if (mod.ItemClass?.Properties == null) return -1;
-            
-            // 2. Fall back to static item class properties.
             if (!mod.ItemClass.Properties.Contains(property)) return -1;
 
             var propValue = mod.ItemClass.Properties.GetString(property);
             if (string.IsNullOrEmpty(propValue)) return -1;
 
-            // If it's a single integer, return it directly.
+            // Single integer — no quality scaling.
             if (!propValue.Contains(',')) return StringParsers.ParseSInt32(propValue);
 
-            // If it's a comma-separated range, perform the quality check.
-            var qualityRangeString = mod.ItemClass.Properties.Params1[property];
-            if (string.IsNullOrEmpty(qualityRangeString)) return -1;
+            // Comma-separated range requires a param1 quality range (e.g. param1="1,6").
+            // Use TryGetValue: item_modifiers may not populate Params1 for appended
+            // properties, which previously caused a silent -1 return → GetMaxUseTimes=0
+            // → CanDegrade=false → no SCore degradation fired at all.
+            if (!mod.ItemClass.Properties.Params1.TryGetValue(property, out var qualityRangeString) ||
+                string.IsNullOrEmpty(qualityRangeString))
+            {
+                Log.Warning($"[SCore] ItemDegradation: '{mod.ItemClass.GetItemName()}' has a " +
+                            $"comma-separated '{property}' but no param1 quality range. " +
+                            $"Falling back to the minimum value. Add param1=\"minQuality,maxQuality\" to fix this.");
+                return StringParsers.ParseSInt32(propValue.Substring(0, propValue.IndexOf(',')));
+            }
 
-            var qualityRange = StringParsers.ParseVector2i(qualityRangeString);
+            var qualityRange    = StringParsers.ParseVector2i(qualityRangeString);
             var durabilityRange = StringParsers.ParseVector2i(propValue);
+            var curve           = mod.ItemClass.Properties.Contains("DegradationCurve")
+                                  ? mod.ItemClass.Properties.GetString("DegradationCurve")
+                                  : "linear";
 
-            var maxDurability = GetDurabilityForQuality(mod.Quality, qualityRange.x, qualityRange.y, durabilityRange.x, durabilityRange.y);
-            mod.SetMetadata(property, maxDurability, TypedMetadataValue.TypeTag.Integer);
-            return maxDurability;
-
-            // Return a default value if the property is not found anywhere.
+            return GetDurabilityForQuality(mod.Quality, qualityRange.x, qualityRange.y,
+                                           durabilityRange.x, durabilityRange.y, curve);
         }
 
         public static int GetDegradationPerUse(ItemValue mod)
@@ -72,6 +81,7 @@ namespace SCore.Features.ItemDegradation.Utils
         public static float GetPercentUsed(ItemValue mod)
         {
             var maxUse = GetMaxUseTimes(mod);
+            if (maxUse <= 0) return 0f;
             return mod.UseTimes / maxUse;
         }
 

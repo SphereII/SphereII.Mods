@@ -41,8 +41,6 @@ namespace SCore.Features.Recipe.Harmony
                     var minEffect = RecipeUtils.GenerateMinEventParams(player, startingPlayer, itemValue);
                     var recipe = RecipeUtils.GetRecipe(recipeQueueItem.Recipe);
 
-                    ItemDegradationHelpers.CheckToolsForDegradation(__instance, recipe);
-                    
                     var additionalOutputs = RecipeUtils.GetAdditionalOutput(recipe, minEffect);
                     foreach (var addtionalOutput in additionalOutputs)
                     {

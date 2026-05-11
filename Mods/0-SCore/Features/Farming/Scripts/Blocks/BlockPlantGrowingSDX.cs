@@ -79,7 +79,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
             var plantData = CropManager.Instance.GetPlant(_blockPos);
             if (plantData != null && plantData.CanStay() == false)
             {
-                // This Removes unregisters the block if it cannot stay, such as if it can't find water, etc.
+                // This Removes unregistered the block if it cannot stay, such as if it can't find water, etc.
                 // It'll call CheckPlantAlive() and re-scan for water before it dies.
                 plantData.Remove();
                 return false;
