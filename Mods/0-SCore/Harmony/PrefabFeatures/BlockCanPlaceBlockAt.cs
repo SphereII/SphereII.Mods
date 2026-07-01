@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 
 namespace SCore.Harmony.PrefabFeatures
 {
@@ -8,7 +8,7 @@ namespace SCore.Harmony.PrefabFeatures
     {
         private static FastTags<TagGroup.Global> tags = FastTags<TagGroup.Global>.Parse("traderPlaceable");
 
-        public static void Postfix( ref bool __result, WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bOmitCollideCheck)
+        public static void Postfix( ref bool __result, WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, bool _bOmitCollideCheck)
         {
             if (__result) return;
             if (_blockPos.y > 253) return;

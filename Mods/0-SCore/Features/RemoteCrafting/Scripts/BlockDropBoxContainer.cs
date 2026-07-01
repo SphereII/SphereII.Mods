@@ -1,7 +1,7 @@
 ﻿using SCore.Features.RemoteCrafting.Scripts;
 using UnityEngine;
 
-public class BlockDropBoxContainer : BlockSecureLootSigned
+public class BlockDropBoxContainer : BlockCompositeTileEntity
 {
     private float _distance;
     private float _updateTime;
@@ -28,31 +28,38 @@ public class BlockDropBoxContainer : BlockSecureLootSigned
         base.OnBlockAdded(world, _chunk, _blockPos, _blockValue, _addedByPlayer);
         if (!world.IsRemote())
         {
-            world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, this.blockID, GetTickRate());
+            world.GetWBT().AddScheduledBlockUpdate(_blockPos, this.blockID, GetTickRate());
         }
     }
 
-    public override bool UpdateTick(WorldBase world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue,
+    public override bool UpdateTick(WorldBase world, Vector3i _blockPos, BlockValue _blockValue,
         bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
-        var tileLootContainer = (TileEntityLootContainer) world.GetTileEntity(_clrIdx, _blockPos);
-        if (tileLootContainer == null) return false;
+        var tileEntity = world.GetTileEntity(_blockPos) as TileEntityComposite;
+        if (tileEntity == null) return false;
 
-        if (!tileLootContainer.IsUserAccessing() )
+        if (!tileEntity.IsUserAccessing())
         {
-            var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
-            foreach (var itemStack in tileLootContainer.GetItems())
+            var lootable = tileEntity.GetFeature<TEFeatureStorage>();
+            if (lootable != null)
             {
-                if (itemStack.IsEmpty()) continue;
-                // If we successfully added, clear the stack.
-                if (RemoteCraftingUtils.AddToNearbyContainer(primaryPlayer, itemStack, _distance))
-                    itemStack.Clear();
+                var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
+                var items = lootable.items;
+                if (items != null)
+                {
+                    for (int i = 0; i < items.Length; i++)
+                    {
+                        if (items[i].IsEmpty()) continue;
+                        if (RemoteCraftingUtils.AddToNearbyContainer(primaryPlayer, items[i], _distance))
+                            items[i] = ItemStack.Empty;
+                    }
+                }
+                lootable.bTouched = true;
+                lootable.SetModified();
             }
-            tileLootContainer.bTouched = true;
-            tileLootContainer.SetModified();
         }
 
-        world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, this.blockID, GetTickRate());
+        world.GetWBT().AddScheduledBlockUpdate(_blockPos, this.blockID, GetTickRate());
         return true;
     }
 }

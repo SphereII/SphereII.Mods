@@ -261,10 +261,10 @@ public class EntityEnemySDX : EntityHuman, IEntityOrderReceiverSDX
 
         // Find the nearest block, and if its a sign, read its code.
         var target = ModGeneralUtilities.FindNearestBlock(position, pathingVectors);
-        var tileEntitySign = GameManager.Instance.World.GetTileEntity(0, new Vector3i(target)) as TileEntitySign;
-        if (tileEntitySign == null) return;
+        var TEFeatureSignable = (GameManager.Instance.World.GetTileEntity(new Vector3i(target)) as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
+        if (TEFeatureSignable == null) return;
 
-        var text = tileEntitySign.signText.Text;
+        var text = TEFeatureSignable.signText.Text;
 
         // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
         var task = PathingCubeParser.GetValue(text, "task");

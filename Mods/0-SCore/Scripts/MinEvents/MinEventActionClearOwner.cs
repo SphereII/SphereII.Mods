@@ -12,7 +12,7 @@ public class MinEventActionClearOwner : MinEventActionRemoveBuff
             var hitInfo = Voxel.voxelRayHitInfo;
             if (hitInfo == null) return;
             var position = hitInfo.hit.blockPos;
-            var tileEntity = GameManager.Instance.World.GetTileEntity(0, position) as TileEntityPoweredTrigger;
+            var tileEntity = GameManager.Instance.World.GetTileEntity(position) as TileEntityPoweredTrigger;
             if (tileEntity == null) return;
 
             tileEntity.SetOwner(null);

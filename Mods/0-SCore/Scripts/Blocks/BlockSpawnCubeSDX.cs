@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-internal class BlockSpawnCubeSDX : BlockPlayerSign
+internal class BlockSpawnCubeSDX : BlockSign
 {
     // public string SpawnGroup;
     // public string task = "Wander";
@@ -13,23 +13,23 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
         new BlockActivationCommand("Trigger", "trigger", true)
     };
 
-    public override bool OnBlockActivated(string commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
+    public override bool OnBlockActivated(string commandName, WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
         if (_blockValue.ischild)
         {
             var parentPos = list[_blockValue.type].multiBlockPos.GetParentPos(_blockPos, _blockValue);
             var block = _world.GetBlock(parentPos);
-            return base.OnBlockActivated(commandName, _world, _cIdx, parentPos, block, _player);
+            return base.OnBlockActivated(commandName, _world, parentPos, block, _player);
         }
 
-        var tileEntitySign = _world.GetTileEntity(_cIdx, _blockPos) as TileEntitySign;
-        if (tileEntitySign == null) return false;
+        var composite = _world.GetTileEntity(_blockPos) as TileEntityComposite;
+        if (composite == null) return false;
         switch (commandName)
         {
             case "edit":
-                return OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
+                return OnBlockActivated(_world, _blockPos, _blockValue, _player);
             case "trigger":
-                CheckForSpawn(_world, _cIdx, _blockPos, _blockValue, true);
+                CheckForSpawn(_world, _blockPos, _blockValue, true);
                 break;
             default:
                 return false;
@@ -38,18 +38,18 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
         return true;
     }
 
-    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         if (_world.IsEditor() || GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
-            return base.GetActivationText(_world, _blockValue, _clrIdx, _blockPos, _entityFocusing);
+            return base.GetActivationText(_world, _blockValue, _blockPos, _entityFocusing);
         return "";
     }
 
     //private BlockActivationCommand[] cmds = new BlockActivationCommand[0];
-    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
-        var tileEntitySign = (TileEntitySign)_world.GetTileEntity(_clrIdx, _blockPos);
-        if (tileEntitySign == null) return new BlockActivationCommand[0];
+        var composite = _world.GetTileEntity(_blockPos) as TileEntityComposite;
+        if (composite == null) return new BlockActivationCommand[0];
         if (_world.IsEditor() || GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled)) return cmds;
 
         //        Debug.Log("No commands.");
@@ -84,30 +84,30 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
         return newSign;
     }
 
-    public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
+    public override bool UpdateTick(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            var chunkCluster = _world.ChunkClusters[_clrIdx];
+            var chunkCluster = _world.ChunkCache;
             if (chunkCluster == null) return false;
 
             if ((Chunk)chunkCluster.GetChunkFromWorldPos(_blockPos) == null) return false;
 
             if (!Properties.Values.ContainsKey("Config")) return false;
         }
-        return base.UpdateTick(_world, _clrIdx, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded, _rnd);
+        return base.UpdateTick(_world, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded, _rnd);
 
     }
-    public void CheckForSpawn(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool force = false)
+    public void CheckForSpawn(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, bool force = false)
     {
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
             return;
 
-        var tileEntitySign = _world.GetTileEntity(_clrIdx, _blockPos) as TileEntitySign;
-        if (tileEntitySign == null)
+        var TEFeatureSignable = (_world.GetTileEntity(_blockPos) as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
+        if (TEFeatureSignable == null)
             return;
 
-        var signText = tileEntitySign.signText.Text;
+        var signText = TEFeatureSignable.signText.Text;
         var entityClassID = PathingCubeParser.GetValue(signText, "entityid");
 
         // If there's already an entityID, check 
@@ -202,7 +202,7 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
             // Update the sign with the new entity ID.
             var newSign = SetValue(signText, "entityid", myEntity.entityId.ToString());
             newSign = SetValue(signText, "time", (GameManager.Instance.World.GetWorldTime() + 5000).ToString());
-            tileEntitySign.SetText(newSign);
+            TEFeatureSignable.SetText(newSign);
 
             var entityCreationData = new EntityCreationData(myEntity);
             entityCreationData.id = -1;
@@ -244,7 +244,7 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
             }
 
             // Destroy the block after spawn.
-            DamageBlock(GameManager.Instance.World, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, -1, null, false);
+            DamageBlock(GameManager.Instance.World, new BlockValueRef(_blockPos), _blockValue, Block.list[_blockValue.type].MaxDamage, -1, null, false);
 
         }
         catch (Exception ex)
@@ -253,16 +253,16 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
         }
     }
 
-    public override BlockValue OnBlockPlaced(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, GameRandom _rnd)
+    public override BlockValue OnBlockPlaced(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, GameRandom _rnd)
     {
-        var blockValue= base.OnBlockPlaced(_world, _clrIdx, _blockPos, _blockValue, _rnd);
-        var tileEntitySign = _world.GetTileEntity(_clrIdx, _blockPos) as TileEntitySign;
-        if (tileEntitySign != null)
+        var blockValue= base.OnBlockPlaced(_world, _blockPos, _blockValue, _rnd);
+        var TEFeatureSignable = (_world.GetTileEntity(_blockPos) as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
+        if (TEFeatureSignable != null)
         {
             if (Properties.Values.ContainsKey("Config"))
             {
-                tileEntitySign.SetText(Properties.Values["Config"]);
-                CheckForSpawn(_world, _clrIdx, _blockPos, _blockValue, true);
+                TEFeatureSignable.SetText(Properties.Values["Config"]);
+                CheckForSpawn(_world, _blockPos, _blockValue, true);
             }
         }
         return blockValue;
@@ -270,48 +270,34 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
     public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
         base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue,_addedByPlayer);
-        var tileEntitySign = _world.GetTileEntity(_chunk.ClrIdx, _blockPos) as TileEntitySign;
-        if (tileEntitySign != null)
+        var TEFeatureSignable = (_world.GetTileEntity(_blockPos) as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
+        if (TEFeatureSignable != null)
             if (Properties.Values.ContainsKey("Config"))
             { 
-                tileEntitySign.SetText(Properties.Values["Config"]);
-                CheckForSpawn(_world, _chunk.ClrIdx, _blockPos, _blockValue, true);
+                TEFeatureSignable.SetText(Properties.Values["Config"]);
+                CheckForSpawn(_world, _blockPos, _blockValue, true);
             }
         
     }
 
-    public override void OnBlockLoaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockLoaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
-        base.OnBlockLoaded(_world, _clrIdx, _blockPos, _blockValue);
-        CheckForSpawn(_world, _clrIdx, _blockPos, _blockValue);
+        base.OnBlockLoaded(_world, _blockPos, _blockValue);
+        CheckForSpawn(_world, _blockPos, _blockValue);
     }
 
-    public override void OnBlockEntityTransformAfterActivated(WorldBase _world, Vector3i _blockPos, int _cIdx, BlockValue _blockValue, BlockEntityData _ebcd)
+    public override void OnBlockEntityTransformAfterActivated(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, BlockEntityData _ebcd)
     {
         if (_ebcd == null)
             return;
 
-        var chunk = (Chunk)((World)_world).GetChunkFromWorldPos(_blockPos);
-        if (chunk == null)
-            return;
-
-        var tileEntitySign = _world.GetTileEntity(_cIdx, _blockPos) as TileEntitySign;
-        if (tileEntitySign == null)
-        {
-            tileEntitySign = new TileEntitySign(chunk);
-            if (tileEntitySign != null)
-            {
-                if (Properties.Values.ContainsKey("Config"))
-                    tileEntitySign.SetText(Properties.Values["Config"]);
-
-                tileEntitySign.localChunkPos = World.toBlock(_blockPos);
-                chunk.AddTileEntity(tileEntitySign);
-            }
-        }
+        var TEFeatureSignable = (_world.GetTileEntity(_blockPos) as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
+        if (TEFeatureSignable != null && Properties.Values.ContainsKey("Config"))
+            TEFeatureSignable.SetText(Properties.Values["Config"]);
 
         // Hide the sign, so its not visible. Without this, it errors out.
         _ebcd.bHasTransform = false;
-        base.OnBlockEntityTransformAfterActivated(_world, _blockPos, _cIdx, _blockValue, _ebcd);
+        base.OnBlockEntityTransformAfterActivated(_world, _blockPos, _blockValue, _ebcd);
 
         // Re-show the transform. This won't have a visual effect, but fixes when you pick up the block, the outline of the block persists.
         _ebcd.bHasTransform = true;

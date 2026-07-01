@@ -15,7 +15,7 @@ internal class BlockSpawnerSDX : Block
             Task = Properties.Values["Task"];
     }
 
-    public void CheckForSpawn(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public void CheckForSpawn(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
         if (string.IsNullOrEmpty(SpawnGroup))
         {
@@ -40,7 +40,7 @@ internal class BlockSpawnerSDX : Block
                     EntityUtilities.SetCurrentOrder(NewEntity.entityId, EntityUtilities.Orders.Wander);
 
                 _blockValue.meta2 = 1;
-                _world.SetBlockRPC(_clrIdx, _blockPos, _blockValue);
+                _world.SetBlockRPC(_blockPos, _blockValue);
             }
         }
     }
@@ -48,12 +48,12 @@ internal class BlockSpawnerSDX : Block
     public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
         base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue, _addedByPlayer);
-        CheckForSpawn(_world, _chunk.ClrIdx, _blockPos, _blockValue);
+        CheckForSpawn(_world, _blockPos, _blockValue);
     }
 
-    public override void OnBlockLoaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockLoaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
-        base.OnBlockLoaded(_world, _clrIdx, _blockPos, _blockValue);
-        CheckForSpawn(_world, _clrIdx, _blockPos, _blockValue);
+        base.OnBlockLoaded(_world, _blockPos, _blockValue);
+        CheckForSpawn(_world, _blockPos, _blockValue);
     }
 }

@@ -6,7 +6,7 @@ namespace Harmony.EntityVehicleDropCorpse {
         [HarmonyPatch("Kill")]
         public class EntityVehicleKill {
             public static void Postfix(EntityVehicle __instance) {
-                __instance.dropCorpseBlock();
+                __instance.DropBagServer();
             }
         }
     }

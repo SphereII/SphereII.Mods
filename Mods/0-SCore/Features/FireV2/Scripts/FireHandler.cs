@@ -247,7 +247,7 @@ public class FireHandler : IFireHandler
             if (fireBlockData.BlockValue.Block.Properties.Values.ContainsKey("Explosion.ParticleIndex") ||
                 fireBlockData.BlockValue.Block.Properties.Classes.ContainsKey("Explosion"))
             {
-                fireBlockData.BlockValue.Block.OnBlockDestroyedByExplosion(GameManager.Instance.World, 0, position,
+                fireBlockData.BlockValue.Block.OnBlockDestroyedByExplosion(GameManager.Instance.World, position,
                     fireBlockData.BlockValue, -1);
             }
 
@@ -259,14 +259,14 @@ public class FireHandler : IFireHandler
             }
             _removeFires.Add(position);
            // GameManager.Instance.World.SetBlockRPC(0, position, blockValue2);
-            _pendingChanges.Add(new BlockChangeInfo(0, position, blockValue2));   
-            
+            _pendingChanges.Add(new BlockChangeInfo(new BlockValueRef(position), blockValue2));
+
              return;
         }
 
         _fireMap[position] = fireBlockData;
       //  GameManager.Instance.World.SetBlockRPC(0, position, fireBlockData.BlockValue);
-        _pendingChanges.Add(new BlockChangeInfo(0, position, fireBlockData.BlockValue));
+        _pendingChanges.Add(new BlockChangeInfo(new BlockValueRef(position), fireBlockData.BlockValue));
 
         var extinguishChance = fireBlockData.ChanceToExtinguish * (rainfallValue > 0.25f ? 2f : 1f);
         if (_random.RandomRange(0f, 1f) < extinguishChance)

@@ -197,14 +197,14 @@ namespace Harmony.TileEntities
             {
                 AdvLogging.DisplayLog(AdvFeatureClass,
                     block.Block.GetBlockName() + ": TileEntity can call ActivateBlock. Calling it...");
-                Block.list[block.type].ActivateBlock(world, __instance.GetClrIdx(), __instance.ToWorldPos(), block,
+                Block.list[block.type].ActivateBlock(world, __instance.ToWorldPos(), block,
                     true, true);
             }
             else
             {
                 AdvLogging.DisplayLog(AdvFeatureClass,
                     block.Block.GetBlockName() + ": TileEntity is Active but is not Activating.");
-                Block.list[block.type].ActivateBlock(world, __instance.GetClrIdx(), __instance.ToWorldPos(), block,
+                Block.list[block.type].ActivateBlock(world, __instance.ToWorldPos(), block,
                     false, true);
             }
 

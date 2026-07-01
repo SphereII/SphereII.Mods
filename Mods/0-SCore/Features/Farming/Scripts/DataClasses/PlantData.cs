@@ -140,7 +140,7 @@ public class PlantData
 
         // DoExchangeAction handles emission reduction, cascading to neighbor blocks,
         // and ChangeToAir when fully depleted.
-        liquidBlock.DoExchangeAction(world, 0, sourcePos, blockValue, $"deplete{damage}", 1);
+        liquidBlock.DoExchangeAction(world, sourcePos, blockValue, $"deplete{damage}", 1);
 
         if (WaterPos == sourcePos && !WaterPipeManager.Instance.IsDirectWaterSource(sourcePos))
             WaterPos = Vector3i.zero;
@@ -196,7 +196,7 @@ public class PlantData
              var chunk = GameManager.Instance.World.GetChunkFromWorldPos(BlockPos) as Chunk;
              if (chunk != null)
              {
-                 block.CheckPlantAlive(GameManager.Instance.World, chunk.ClrIdx, BlockPos, BlockValue);
+                 block.CheckPlantAlive(GameManager.Instance.World, BlockPos, BlockValue);
              }
         }
     }

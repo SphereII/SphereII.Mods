@@ -33,9 +33,9 @@ namespace Features.LockPicking
                 if (__instance.HasAnyTags(FastTags<TagGroup.Global>.Parse("notrample"))) return;
 
                 Vector3i blockPosition = __instance.GetBlockPosition();
-                var block = GameManager.Instance.World.GetBlock(0, blockPosition).Block;
+                var block = GameManager.Instance.World.GetBlock(blockPosition).Block;
                 if (block.FilterTags != null && block.FilterTags.ContainsCaseInsensitive(DestructibleTag))
-                    block.DamageBlock(GameManager.Instance.World, 0, blockPosition, block.ToBlockValue(), Block.list[block.ToBlockValue().type].MaxDamage, (__instance != null) ? __instance.entityId : -1, null, false) ;
+                    block.DamageBlock(GameManager.Instance.World, new BlockValueRef(blockPosition), block.ToBlockValue(), Block.list[block.ToBlockValue().type].MaxDamage, (__instance != null) ? __instance.entityId : -1, default(ItemActionAttack.AttackHitInfo), false);
             }
         }
 

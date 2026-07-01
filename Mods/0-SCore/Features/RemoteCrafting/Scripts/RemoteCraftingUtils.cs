@@ -13,6 +13,14 @@ namespace SCore.Features.RemoteCrafting.Scripts
     {
         private const string AdvFeatureClass = "AdvancedRecipes";
 
+        private static string GetCurrentWorkstation(EntityPlayerLocal player)
+        {
+            var te = player?.PlayerUI?.xui?.CurrentWorkstationInputGrid?.WorkstationData?.TileEntity;
+            if (te == null) return "";
+            var pos = te.ToWorldPos();
+            return GameManager.Instance.World.GetBlock(pos).Block.GetBlockName();
+        }
+
         public static List<TileEntity> GetTileEntities(EntityAlive player)
         {
             var distance = 30f;
@@ -47,11 +55,15 @@ namespace SCore.Features.RemoteCrafting.Scripts
         {
             if (forRepairs && CheckEnemyForRepairing())
                 if (IsEnemyNearby(player))
+                {
                     return new List<TileEntity>();
+                }
 
             if (!forRepairs && CheckEnemyForCrafting())
                 if (IsEnemyNearby(player))
+                {
                     return new List<TileEntity>();
+                }
 
             var landClaimContainersOnly = CheckForLandClaimContainers();
             var world = GameManager.Instance.World;
@@ -61,8 +73,15 @@ namespace SCore.Features.RemoteCrafting.Scripts
             if (landClaimPlayerOnly)
             {
                 var vector3I = new Vector3i(player.GetPosition());
-                if (!world.IsMyLandProtectedBlock(vector3I, world.GetGameManager().GetPersistentLocalPlayer()))
+                var persistentPlayer = world.GetGameManager().GetPersistentLocalPlayer();
+                if (persistentPlayer == null)
+                {
                     return new List<TileEntity>();
+                }
+                if (!world.IsMyLandProtectedBlock(vector3I, persistentPlayer))
+                {
+                    return new List<TileEntity>();
+                }
             }
 
             var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
@@ -76,7 +95,12 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 if (landClaimContainersOnly)
                 {
                     var vector3I = new Vector3i(path);
-                    if (!world.IsMyLandProtectedBlock(vector3I, world.GetGameManager().GetPersistentLocalPlayer()))
+                    var persistentPlayer = world.GetGameManager().GetPersistentLocalPlayer();
+                    if (persistentPlayer == null)
+                    {
+                        continue;
+                    }
+                    if (!world.IsMyLandProtectedBlock(vector3I, persistentPlayer))
                     {
                         continue;
                     }
@@ -87,14 +111,23 @@ namespace SCore.Features.RemoteCrafting.Scripts
                     if (!(distanceToLeader < distance)) continue;
                 }
 
-                var tileEntity = player.world.GetTileEntity(0, new Vector3i(path));
-                if (tileEntity == null) continue;
+                var tileEntity = player.world.GetTileEntity(new Vector3i(path));
+                if (tileEntity == null)
+                {
+                    continue;
+                }
 
                 // Check if Broadcastmanager is running if running check if lootcontainer is in Broadcastmanager dictionary
                 // note: Broadcastmanager.Instance.Check()) throws nullref if Broadcastmanager is not running.
                 // works because Hasinstance is being checked first in the or.
-                if (Broadcastmanager.HasInstance && !Broadcastmanager.Instance.Check(tileEntity.ToWorldPos())) continue;
-                if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) continue;
+                if (Broadcastmanager.HasInstance && !Broadcastmanager.Instance.Check(tileEntity.ToWorldPos()))
+                {
+                    continue;
+                }
+                if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity))
+                {
+                    continue;
+                }
                 if (disabledsender[0] != null)
                 {
                     if (DisableSender(disabledsender, tileEntity))
@@ -158,11 +191,11 @@ namespace SCore.Features.RemoteCrafting.Scripts
             // TODO: we want to refactor this to remove the complex LinQ.
             // bind storage to workstation
             if (value.Split(';').Where(x =>
-                    x.Split(':')[0].Split(',').Any(ws => ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation))
+                    x.Split(':')[0].Split(',').Any(ws => ws.Trim() == GetCurrentWorkstation(playerLocal)))
                 .Any(x => x.Split(':')[1].Split(',').Any(y => y == lootTileEntity.lootListName))) result = true;
             // bind storage to other workstations if allowed
             if (value.Split(';').Any(x =>
-                    x.Split(':')[0].Split(',').Any(ws => ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation))
+                    x.Split(':')[0].Split(',').Any(ws => ws.Trim() == GetCurrentWorkstation(playerLocal)))
                 || bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation")))
                 return result;
             {
@@ -189,7 +222,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
             {
                 var workstation = bind.Split(':')[0].Split(',');
                 var disablebinding = bind.Split(':')[1].Split(',');
-                if ((workstation.Any(ws => ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation)) &&
+                if ((workstation.Any(ws => ws.Trim() == GetCurrentWorkstation(playerLocal))) &&
                     (disablebinding.Any(x => x.Trim() == lootTileEntity.lootListName))) result = true;
             }
 
@@ -199,11 +232,8 @@ namespace SCore.Features.RemoteCrafting.Scripts
         public static bool IsLootContainerOpenByAnotherPlayer(TileEntity tileEntity, EntityAlive player)
         {
             if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var tileEntityLootable)) return true;
-            var openTileEntityID = GameManager.Instance.GetEntityIDForLockedTileEntity(tileEntity);
-            if (openTileEntityID == -1) return false;
             if (tileEntityLootable.IsUserAccessing()) return false;
-            // Check to see if we have it opened.
-            return player.entityId != openTileEntityID;
+            return false;
         }
 
         public static List<ItemStack> SearchNearbyContainers(EntityAlive player)
@@ -280,11 +310,15 @@ namespace SCore.Features.RemoteCrafting.Scripts
         public static bool AddToNearbyContainer(EntityAlive player, ItemStack itemStack, float distance)
         {
             var tileEntities = GetTileEntities(player, distance, false);
+            var itemName = itemStack.itemValue?.ItemClass?.GetItemName() ?? "unknown";
             foreach (var tileEntity in tileEntities)
             {
                 if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) continue;
                 if (IsLootContainerOpenByAnotherPlayer(tileEntity, player)) continue;
-                if (CheckTileEntity(itemStack, lootTileEntity)) return true;
+                if (CheckTileEntity(itemStack, lootTileEntity))
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -293,22 +327,30 @@ namespace SCore.Features.RemoteCrafting.Scripts
 
         private static bool CheckTileEntity(ItemStack itemStack, ITileEntityLootable lootTileEntity)
         {
-            // 1. Initial Guards
-            if (lootTileEntity == null || lootTileEntity.IsUserAccessing()) return false;
+            var itemName = itemStack.itemValue?.ItemClass?.GetItemName() ?? "unknown";
+            var containerPos = (lootTileEntity as TileEntity)?.ToWorldPos().ToString() ?? "?";
 
-            // Check for Dropbox property
-            if (lootTileEntity.blockValue.Block.Properties.Values.ContainsKey("DropBox")) return false;
+            if (lootTileEntity == null || lootTileEntity.IsUserAccessing())
+            {
+                return false;
+            }
+
+            // Skip the drop box itself — don't distribute back into drop boxes
+            if (lootTileEntity.blockValue.Block.Properties.Values.ContainsKey("DropBox"))
+            {
+                return false;
+            }
+
+            if (!lootTileEntity.HasItem(itemStack.itemValue))
+            {
+                return false;
+            }
 
             bool changed = false;
             lootTileEntity.SetUserAccessing(true);
 
             try
             {
-                if (!lootTileEntity.HasItem(itemStack.itemValue))
-                {
-                    return false; // Skip this box entirely if it doesn't already have lead
-                }
-
                 var result = lootTileEntity.TryStackItem(0, itemStack);
                 if (result.allMoved)
                 {
@@ -321,14 +363,12 @@ namespace SCore.Features.RemoteCrafting.Scripts
                     changed = true;
                     return true;
                 }
+
             }
             finally
             {
-                // 5. Cleanup: Always release the lock and save changes
                 if (changed)
-                {
-                    lootTileEntity.SetModified(); // CRITICAL: Tells the game to save this box to disk
-                }
+                    lootTileEntity.SetModified();
 
                 lootTileEntity.SetUserAccessing(false);
             }

@@ -125,7 +125,7 @@ namespace SphereII.FoodSpoilage.HarmonyPatches
                     case XUiC_ItemStack.StackLocationTypes.LootContainer:
                         modifier = SpoilageConfig.ContainerModifier; // Base container modifier
                         storageTypeDebug = $"Container ({modifier})";
-                        var container = instance.xui?.lootContainer;
+                        var container = instance.xui?.LootContainer;
                         if (container != null)
                         {
                             var blockValue = GameManager.Instance?.World?.GetBlock(container.ToWorldPos());
@@ -155,7 +155,7 @@ namespace SphereII.FoodSpoilage.HarmonyPatches
                     // Handle other cases explicitly or fall through to default
                     case XUiC_ItemStack.StackLocationTypes.Vehicle:
                     case XUiC_ItemStack.StackLocationTypes.Workstation:
-                    case XUiC_ItemStack.StackLocationTypes.DewCollector:
+                    case XUiC_ItemStack.StackLocationTypes.Collector:
                     case XUiC_ItemStack.StackLocationTypes.Equipment: // Equipment might warrant its own modifier?
                     case XUiC_ItemStack.StackLocationTypes.Merge: // Merge shouldn't really hold items long term?
                     default: // Generic Container as default
@@ -254,7 +254,7 @@ namespace SphereII.FoodSpoilage.HarmonyPatches
                         if (player != null && !instance.xui.PlayerInventory.AddItem(spoiledItemStack, true))
                         {
                             player.world.gameManager.ItemDropServer(spoiledItemStack, player.GetPosition(),
-                                Vector3.zero, -1, 60f, false);
+                                Vector3.zero);
                         }
                     }
 

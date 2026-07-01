@@ -27,7 +27,7 @@ namespace Harmony.EntityAlive
         {
             DynamicProperties props = __instance.EntityClass?.Properties;
 
-            if (!props.Values.ContainsKey(PropTintColor) && !props.Values.dic.Keys.Any(k => k.StartsWith(PropTintMaterial)))
+            if (!props.Values.ContainsKey(PropTintColor) && !props.Values.Keys.Any(k => k.StartsWith(PropTintMaterial)))
             {
                 return;
             }
@@ -42,7 +42,7 @@ namespace Harmony.EntityAlive
             List<Material> materials = GetAllMaterials(renderers);
             string[] shaderProperties = ParseShaderProperties(props, ',');
 
-            foreach (KeyValuePair<string, string> prop in props.Values.dic)
+            foreach (KeyValuePair<string, string> prop in props.Values)
             {
                 if (string.IsNullOrEmpty(prop.Key) || !prop.Key.StartsWith(PropTintMaterial))
                 {

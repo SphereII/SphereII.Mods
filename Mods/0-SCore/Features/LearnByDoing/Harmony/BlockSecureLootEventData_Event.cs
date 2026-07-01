@@ -1,19 +1,19 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 
 namespace SCore.Features.LearnByDoing.Harmony
 {
-    [HarmonyPatch(typeof(BlockSecureLoot))]
-    [HarmonyPatch(nameof(BlockSecureLoot.EventData_Event))]
+    // Disabled: BlockCompositeTileEntity no longer has EventData_Event in current game build.
+    // TODO: Find the correct class/method to patch for secure loot timer events.
+    // [HarmonyPatch(typeof(BlockCompositeTileEntity), "EventData_Event")]
     public class BlockSecureLooteventData_Event
     {
-        public static bool Prefix(BlockSecureLoot __instance, TimerEventData timerData)
+        public static bool Prefix(BlockCompositeTileEntity __instance, TimerEventData timerData)
         {
             var world = GameManager.Instance.World;
             var array = (object[])timerData.Data;
-            var num = (int)array[0];
             var vector3i = (Vector3i)array[2];
             var block = world.GetBlock(vector3i);
-            if (world.GetTileEntity(num, vector3i) is not TileEntitySecureLootContainer tileEntitySecureLootContainer) return true;
+            if (world.GetTileEntity(vector3i) is not TileEntityComposite) return true;
             OnLootContainerPicked.onLootContainerPicked(block);
             return true;
         }

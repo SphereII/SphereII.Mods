@@ -25,7 +25,7 @@ namespace Harmony.NPCFeatures
             foreach (var entity in __instance.traders)
             {
                 if (entity is not EntityTrader entityTrader) continue;
-                var traderData = entityTrader.TileEntityTrader?.TraderData;
+                var traderData = entityTrader.TraderData;
                 if (traderData == null) continue;
                 if ( traderData.TraderID == -1) continue;
                 if (TraderInfo.traderInfoList.Length < traderData.TraderID)

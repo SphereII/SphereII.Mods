@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-public class BlockMortSpawner : BlockLoot
+public class BlockMortSpawner : BlockCompositeTileEntity
 {
     private GameObject GameObject;
     public string PropLootable = "Lootable";
@@ -40,7 +40,7 @@ public class BlockMortSpawner : BlockLoot
     {
         if (_world.IsRemote()) return;
 
-        if (_ebcd == null) _ebcd = _world.ChunkClusters[0].GetBlockEntity(_blockPos);
+        if (_ebcd == null) _ebcd = _world.ChunkCache.GetBlockEntity(_blockPos);
 
         if (_ebcd == null || _ebcd.transform == null) return;
 
@@ -51,11 +51,11 @@ public class BlockMortSpawner : BlockLoot
         Script.Initialize(_world, _blockPos);
     }
 
-    private void RemoveScript(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockEntityData _ebcd)
+    private void RemoveScript(WorldBase _world, Vector3i _blockPos, BlockEntityData _ebcd)
     {
         if (_world.IsRemote()) return;
 
-        if (_ebcd == null) _ebcd = _world.ChunkClusters[_clrIdx].GetBlockEntity(_blockPos);
+        if (_ebcd == null) _ebcd = _world.ChunkCache.GetBlockEntity(_blockPos);
 
         if (_ebcd == null || _ebcd.transform == null) return;
 
@@ -93,16 +93,16 @@ public class BlockMortSpawner : BlockLoot
 
     #region overrides
 
-    public override void OnBlockValueChanged(WorldBase _world, Chunk _chunk, int _clrIdx, Vector3i _blockPos, BlockValue _oldBlockValue, BlockValue _newBlockValue)
+    public override void OnBlockValueChanged(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _oldBlockValue, BlockValue _newBlockValue)
     {
-        base.OnBlockValueChanged(_world, _chunk, _clrIdx, _blockPos, _oldBlockValue, _newBlockValue);
+        base.OnBlockValueChanged(_world, _chunk, _blockPos, _oldBlockValue, _newBlockValue);
         if (!Stopped(_newBlockValue.meta2) || GameManager.IsDedicatedServer) return;
 
-        CheckParticles(_world.ChunkClusters[_clrIdx].GetBlockEntity(_blockPos));
+        CheckParticles(_world.ChunkCache.GetBlockEntity(_blockPos));
     }
-    //public override void OnBlockValueChanged(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _oldBlockValue, BlockValue _newBlockValue)
+    //public override void OnBlockValueChanged(WorldBase _world, Vector3i _blockPos, BlockValue _oldBlockValue, BlockValue _newBlockValue)
     //{
-    //    base.OnBlockValueChanged(_world, _clrIdx, _blockPos, _oldBlockValue, _newBlockValue);
+    //    base.OnBlockValueChanged(_world, _blockPos, _oldBlockValue, _newBlockValue);
 
     //    if (!Stopped(_newBlockValue.meta2) || GameManager.IsDedicatedServer) return;
 
@@ -110,16 +110,16 @@ public class BlockMortSpawner : BlockLoot
     //}
     public override void OnBlockRemoved(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
-        RemoveScript(world, _chunk.ClrIdx, _blockPos, null);
+        RemoveScript(world, _blockPos, null);
 
         base.OnBlockRemoved(world, _chunk, _blockPos, _blockValue);
     }
 
-    public override void OnBlockUnloaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockUnloaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
-        RemoveScript(_world, _clrIdx, _blockPos, null);
+        RemoveScript(_world, _blockPos, null);
 
-        base.OnBlockUnloaded(_world, _clrIdx, _blockPos, _blockValue);
+        base.OnBlockUnloaded(_world, _blockPos, _blockValue);
     }
 
     public override void ForceAnimationState(BlockValue _blockValue, BlockEntityData _ebcd)
@@ -129,9 +129,9 @@ public class BlockMortSpawner : BlockLoot
         if (Stopped(_blockValue.meta2) && !GameManager.IsDedicatedServer) CheckParticles(_ebcd);
     }
 
-    public override void OnBlockLoaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockLoaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
-        base.OnBlockLoaded(_world, _clrIdx, _blockPos, _blockValue);
+        base.OnBlockLoaded(_world, _blockPos, _blockValue);
 
         AddScript(_world, _blockPos, null);
     }
@@ -143,55 +143,54 @@ public class BlockMortSpawner : BlockLoot
         AddScript(world, _blockPos, null);
     }
 
-    public override void OnBlockEntityTransformAfterActivated(WorldBase _world, Vector3i _blockPos, int _cIdx, BlockValue _blockValue, BlockEntityData _ebcd)
+    public override void OnBlockEntityTransformAfterActivated(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, BlockEntityData _ebcd)
     {
-        base.OnBlockEntityTransformAfterActivated(_world, _blockPos, _cIdx, _blockValue, _ebcd);
+        base.OnBlockEntityTransformAfterActivated(_world, _blockPos, _blockValue, _ebcd);
 
         SetTag(_ebcd.transform, _ebcd.transform, "T_Block");
         AddScript(_world, _blockPos, _ebcd);
     }
 
-    public override int OnBlockDamaged(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, int _damagePoints, int _entityIdThatDamaged, ItemActionAttack.AttackHitInfo attackHitInfo,
+    public override int OnBlockDamaged(WorldBase _world, BlockValueRef _bvRef, BlockValue _blockValue, int _damagePoints, int _entityIdThatDamaged, ItemActionAttack.AttackHitInfo attackHitInfo,
         bool _bByPassMaxDamage, bool bBypassMaxDamage, int recDepth)
     {
-        var chunkCluster = _world.ChunkClusters[_clrIdx];
-        if (chunkCluster == null) return 0;
+        var _blockPos = _bvRef.BlockPosition;
 
         if (isMultiBlock && _blockValue.ischild)
         {
             var parentPos = multiBlockPos.GetParentPos(_blockPos, _blockValue);
-            var block = chunkCluster.GetBlock(parentPos);
+            var block = _world.GetBlock(parentPos);
 
             if (block.ischild) Debug.Log("Block on position " + parentPos + " should be a parent but is not!");
 
-            return block.ischild ? 0 : list[block.type].OnBlockDamaged(_world, _clrIdx, parentPos, block, _damagePoints, _entityIdThatDamaged, attackHitInfo, false, bBypassMaxDamage, recDepth);
+            return block.ischild ? 0 : list[block.type].OnBlockDamaged(_world, new BlockValueRef(parentPos), block, _damagePoints, _entityIdThatDamaged, attackHitInfo, false, bBypassMaxDamage, recDepth);
         }
 
         var d = _blockValue.damage;
         var max = list[_blockValue.type].MaxDamage;
 
         if (d >= max || d + _damagePoints < max)
-            return base.OnBlockDamaged(_world, _clrIdx, _blockPos, _blockValue, _damagePoints, _entityIdThatDamaged, attackHitInfo, false, _bByPassMaxDamage, recDepth);
+            return base.OnBlockDamaged(_world, _bvRef, _blockValue, _damagePoints, _entityIdThatDamaged, attackHitInfo, false, _bByPassMaxDamage, recDepth);
 
-        chunkCluster.InvokeOnBlockDamagedDelegates(_blockPos, _blockValue, _damagePoints, _entityIdThatDamaged);
+        _world.ChunkCache?.InvokeOnBlockDamagedDelegates(_bvRef, _blockValue, _damagePoints, _entityIdThatDamaged);
 
         if (!Stopped(_blockValue.meta2))
         {
             _blockValue.damage = 0;
             _blockValue.meta2 = (byte)(_blockValue.meta2 | (1 << 1));
 
-            _world.SetBlockRPC(_clrIdx, _blockPos, _blockValue);
+            _world.SetBlockRPC(_bvRef, _blockValue);
             return 0;
         }
 
-        if (OnBlockDestroyedBy(_world, _clrIdx, _blockPos, _blockValue, _entityIdThatDamaged, false) == DestroyedResult.Remove)
+        if (OnBlockDestroyedBy(_world, _bvRef, _blockValue, _entityIdThatDamaged, false) == DestroyedResult.Remove)
             return max;
 
         SpawnDestroyParticleEffect(_world, _blockValue, _blockPos, _world.GetLightBrightness(_blockPos + new Vector3i(0, 1, 0)), GetColorForSide(_blockValue, BlockFace.Top), _entityIdThatDamaged);
 
         if (DowngradeBlock.type == 0)
         {
-            _world.SetBlockRPC(_clrIdx, _blockPos, BlockValue.Air);
+            _world.SetBlockRPC(_bvRef, BlockValue.Air);
 
             //todo: should this be 0? seems a bug to return the old types max damage
             return list[_blockValue.type].MaxDamage;
@@ -202,14 +201,14 @@ public class BlockMortSpawner : BlockLoot
         downgrade.rotation = _blockValue.rotation;
         downgrade.meta = _blockValue.meta;
         if (list[downgrade.type].shape.IsTerrain())
-            _world.SetBlockRPC(_clrIdx, _blockPos, downgrade, list[downgrade.type].Density);
+            _world.SetBlockRPC(_bvRef, downgrade, list[downgrade.type].Density);
         else
-            _world.SetBlockRPC(_clrIdx, _blockPos, downgrade);
+            _world.SetBlockRPC(_bvRef, downgrade);
 
         return list[_blockValue.type].MaxDamage;
     }
 
-    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         var lootable = false;
         if (Properties.Values.ContainsKey(PropLootable) && !bool.TryParse(Properties.Values[PropLootable], out lootable))
@@ -221,10 +220,10 @@ public class BlockMortSpawner : BlockLoot
                 ? "Empty..."
                 : !Stopped(_blockValue.meta2)
                     ? "Locked!"
-                    : base.GetActivationText(_world, _blockValue, _clrIdx, _blockPos, _entityFocusing);
+                    : base.GetActivationText(_world, _blockValue, _blockPos, _entityFocusing);
     }
 
-    public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
+    public override bool OnBlockActivated(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
         if (!Stopped(_blockValue.meta2) || WasLooted(_blockValue.meta2)) return false;
 
@@ -234,9 +233,9 @@ public class BlockMortSpawner : BlockLoot
         if (!lootable) return false;
 
         _blockValue.meta2 = (byte)(_blockValue.meta2 | (1 << 2));
-        _world.SetBlockRPC(_cIdx, _blockPos, _blockValue);
+        _world.SetBlockRPC(_blockPos, _blockValue);
 
-        return base.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
+        return base.OnBlockActivated(_world, _blockPos, _blockValue, _player);
     }
 
     #endregion
@@ -295,7 +294,7 @@ public class MortSpawnerScript : MonoBehaviour
         var world = GameManager.Instance.World;
         if (world == null) return;
 
-        BlockValue = world.GetBlock(0, Position);
+        BlockValue = world.GetBlock(Position);
 
         //block is no longer our spawner block, remove the script
         if (BlockValue.type != SpawnerType)
@@ -387,7 +386,7 @@ public class MortSpawnerScript : MonoBehaviour
         Position = _blockPos;
         Positionf = Position.ToVector3();
 
-        BlockValue = _world.GetBlock(0, Position);
+        BlockValue = _world.GetBlock( Position);
         SpawnerType = BlockValue.type;
 
         var props = Block.list[BlockValue.type].Properties.Values;

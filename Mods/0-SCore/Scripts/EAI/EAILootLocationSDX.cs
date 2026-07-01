@@ -12,7 +12,7 @@ using UnityEngine;
 internal class EAILootLocationSDX : EAIApproachSpot
 {
     private readonly bool blDisplayLog = false;
-    private readonly List<TileEntityLootContainer> lstTileContainers = new List<TileEntityLootContainer>();
+    private readonly List<TileEntityComposite> lstTileContainers = new List<TileEntityComposite>();
 
     private readonly Dictionary<int, PrefabInstance> prefabsAroundFar = new Dictionary<int, PrefabInstance>();
     private readonly Dictionary<int, PrefabInstance> prefabsAroundNear = new Dictionary<int, PrefabInstance>();
@@ -163,15 +163,15 @@ internal class EAILootLocationSDX : EAIApproachSpot
         //    return false; // too far away from it
         //}
         DisplayLog(" Looking at: " + seekPos + " My position is: " + theEntity.position);
-        var tileEntityLootContainer = theEntity.world.GetTileEntity(Voxel.voxelRayHitInfo.hit.clrIdx, new Vector3i(seekPos)) as TileEntityLootContainer;
-        if (tileEntityLootContainer == null)
+        var TileEntityComposite = theEntity.world.GetTileEntity(new Vector3i(seekPos)) as TileEntityComposite;
+        if (TileEntityComposite == null)
         {
             DisplayLog("No Loot container here.");
             return false;
         }
 
-        GetItemFromContainer(tileEntityLootContainer);
-        if (tileEntityLootContainer.IsEmpty())
+        GetItemFromContainer(TileEntityComposite);
+        if (TileEntityComposite.GetFeature<TEFeatureStorage>()?.bTouched == true)
         {
             DisplayLog(" Looted Container.");
             return true;
@@ -291,11 +291,11 @@ internal class EAILootLocationSDX : EAIApproachSpot
                     var tileEntities = chunk.GetTileEntities();
                     for (var k = 0; k < tileEntities.list.Count; k++)
                     {
-                        var tileEntity = tileEntities.list[k] as TileEntityLootContainer;
+                        var tileEntity = tileEntities.list[k] as TileEntityComposite;
                         if (tileEntity != null)
                         {
                             var block = theEntity.world.GetBlock(tileEntity.ToWorldPos());
-                            if (tileEntity.bTouched)
+                            if (tileEntity.GetFeature<TEFeatureStorage>()?.bTouched == true)
                             {
                                 DisplayLog(" This tile Entity has already been touched: " + tileEntities);
                                 continue;
@@ -317,7 +317,7 @@ internal class EAILootLocationSDX : EAIApproachSpot
 
 
     // Grab a single item from the storage box, and remmove it.
-    public void GetItemFromContainer(TileEntityLootContainer tileLootContainer)
+    public void GetItemFromContainer(TileEntityComposite tileLootContainer)
     {
         var lookRay = new Ray(theEntity.position, theEntity.GetLookVector());
         if (!Voxel.Raycast(theEntity.world, lookRay, Constants.cDigAndBuildDistance, -538480645, 4095, 0f))
@@ -329,24 +329,26 @@ internal class EAILootLocationSDX : EAIApproachSpot
         var blockPos = tileLootContainer.ToWorldPos();
         lstTileContainers.Remove(tileLootContainer);
 
-        DisplayLog(" Loot List: " + tileLootContainer.lootListName);
-        if (string.IsNullOrEmpty(tileLootContainer.lootListName))
+        var storage = tileLootContainer.GetFeature<TEFeatureStorage>();
+        if (storage == null) return;
+        DisplayLog(" Loot List: " + storage.lootListName);
+        if (string.IsNullOrEmpty(storage.lootListName))
             return;
-        if (tileLootContainer.bTouched)
+        if (storage.bTouched)
             return;
 
-        tileLootContainer.bTouched = true;
-        tileLootContainer.bWasTouched = true;
+        storage.bTouched = true;
+        storage.bWasTouched = true;
 
         DisplayLog("Checking Loot Container: " + tileLootContainer);
-        if (tileLootContainer.items != null)
+        if (storage.items != null)
         {
             var block = theEntity.world.GetBlock(blockPos);
             var lootContainerName = Localization.Get(Block.list[block.type].GetBlockName());
             theEntity.SetLookPosition(blockPos.ToVector3());
 
             DisplayLog(" Loot container is: " + lootContainerName);
-            DisplayLog(" Loot Container has this many Slots: " + tileLootContainer.items.Length);
+            DisplayLog(" Loot Container has this many Slots: " + storage.items.Length);
 
             EntityPlayer player = null;
             if (theEntity.Buffs.HasCustomVar("Owner"))
@@ -359,17 +361,18 @@ internal class EAILootLocationSDX : EAIApproachSpot
             theEntity.FireEvent(MinEventTypes.onSelfOpenLootContainer);
             var state = UnityEngine.Random.state;
             UnityEngine.Random.InitState((int)(GameManager.Instance.World.worldTime % 2147483647UL));
-            var array = LootContainer.GetLootContainer(tileLootContainer.lootListName).Spawn(Random, tileLootContainer.items.Length,
-               player.Progression.GetLevel(), 0f, player, new FastTags<TagGroup.Global>(), false, false);
+            var array = LootContainer.GetLootContainer(storage.lootListName).Spawn(Random, storage.items.Length,
+               player.Progression.GetLevel(), 0f, player, new FastTags<TagGroup.Global>(), false, false, false);
             UnityEngine.Random.state = state;
+            var npcLoot = (theEntity as EntityAliveSDX)?.bag;
             for (var i = 0; i < array.Count; i++)
-                if (theEntity.lootContainer.AddItem(array[i].Clone()))
+                if (npcLoot != null && npcLoot.AddItem(array[i].Clone()))
                 {
                     DisplayLog("Removing item from loot container: " + array[i].itemValue.ItemClass.Name);
                 }
                 else
                 {
-                    DisplayLog(" Could Not add Item to NPC inventory. " + tileLootContainer.items[i].itemValue);
+                    DisplayLog(" Could Not add Item to NPC inventory. " + storage.items[i].itemValue);
                     if (theEntity is EntityAliveSDX)
                     {
                         EntityUtilities.ExecuteCMD(theEntity.entityId, "FollowMe", player);

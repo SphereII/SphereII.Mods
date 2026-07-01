@@ -32,6 +32,151 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 3.0.16.732 
+
+	[ Prefabs ]
+		- Updated Cave Prefabs from Stallionsden.
+
+	[ DropBox ]
+		- Removed excessive debug logs
+
+	[ Lock Picking - Door Activation Command Migration ]
+		- Fixed lock picking no longer triggering on doors. The engine now prefixes
+		  BlockCompositeTileEntity.OnBlockActivated command names with the owning feature
+		  (e.g. "TEFeatureDoor:open" instead of the bare "open"), so
+		  BlockDoorSecurePatch.BlockDoorSecureOnBlockActivated's exact string match against
+		  "open" always failed and the door fell through to vanilla behavior. Updated the
+		  check to match "TEFeatureDoor:open".
+
+	[ Github ]
+		- Syncing all changes from Experimental
+
+Version: 3.0.8.709 [ Experimental ]
+
+	[ Fixes ] 
+		- Fixed an updated XUiC_MessageBoxWindowGroup.ShowOkCancel() call
+		- Recompiled to re-link against method parameter change.
+		- Renamed XUi to XUi_InGame for Larger Parties mod to properly expand the ui controller.
+
+Version: 3.0.6.626  [ Experimental ]
+
+	[ NPC Loot Containers - SCoreLootContainer Migration (Xyth) ]
+		- The engine's TileEntityLootContainer/TileEntityTrader classes changed enough that
+		  NPCs could no longer use them directly for their personal loot (bag) and harvest
+		  containers. Added a new minimal in-memory container, SCoreLootContainer
+		  (implements ITileEntityLootable + IInventory on top of TileEntity), that never
+		  attaches to a chunk or the world tile-entity system, so it can't trigger network
+		  packets or corrupt TraderData.
+		- EntityAliveSDX:
+			- lootContainer is now an SCoreLootContainer instead of a TileEntityLootContainer.
+			- _tileEntityTrader is now a TileEntityVendingMachine (TileEntityTrader was
+			  retargeted by the engine); removed the now-nonexistent entityId assignment on it.
+			- GetActivationCommands/OnEntityActivated were updated to the engine's new
+			  signatures (no more indexInBlockActivationCommands/Vector3i tePos). Activating a
+			  dead NPC now opens its lootContainer directly via EntityUtilities.OpenContainer
+			  instead of going through GameManager.TELockServer.
+			- BagItems population was moved out of CopyPropertiesFromEntityClass() into a new
+			  SetupBagItems(), called from PostInit() once bag/Buffs/inventory exist. NPCs
+			  don't get a bag by default (only EntityPlayer allocates one), so SetupBagItems
+			  also lazily creates a 45-slot Bag before adding items.
+			- The same BagItems-before-bag-exists NRE existed in EntityAliveSDXV4
+			  (Features/NPCv4), which still populated BagItems inline in
+			  CopyPropertiesFromEntityClass(). Applied the same SetupBagItems()/PostInit()
+			  fix there.
+			- Corpse drop (dropCorpseBlock) now reads the spawned corpse block's
+			  TileEntityComposite and copies items into its TEFeatureStorage feature instead
+			  of calling the removed CopyLootContainerDataFromOther on TileEntityLootContainer.
+			- Sign-based pathing code reads TEFeatureSignable off a TileEntityComposite instead
+			  of casting to the removed TileEntitySign.
+		- HarvestManager: switched its per-NPC harvest container from TileEntityLootContainer
+		  to SCoreLootContainer. Also fixed the harvest loot window auto-closing instantly:
+		  the container was created with only a chunk reference (localChunkPos defaulting to
+		  the chunk's bedrock corner, ~60m below the player), which tripped the loot window's
+		  distance-based auto-close. GetOrCreate now repositions the container's chunk/
+		  localChunkPos onto the NPC's current position on every call.
+		- EntityUtilities: lootContainer is no longer on the base EntityAlive, so every
+		  lootContainer read now casts the entity to EntityAliveSDX first. OpenContainer was
+		  reworked for the new scavenge-timer behavior on untouched containers: it now marks
+		  the container bWasTouched and calls XUiC_LootWindowGroup.OpenLooting() instead of
+		  SetTileEntityChest()+Open(), since forcing the window open before OpenLooting bound
+		  the tile entity caused a null-reference on close. Door lock/unlock helpers were
+		  updated to read TEFeatureLockable off a TileEntityComposite instead of casting to
+		  the removed TileEntitySecureDoor, and door-open state is now read directly from the
+		  block meta bit instead of the removed BlockDoor.IsDoorOpen().
+
+Version: 3.0.2.1557  [ Experimental ]
+	- Maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaany fixes to get it to compile
+
+	[ Harmony Patch Fixes - API Migration ]
+		- Fixed several Harmony patches broken by upstream game API changes (invalid casts,
+		  renamed/retargeted methods, changed signatures):
+			- EntityEnemySDX.SetupAutoPathingBlocks(): replaced a direct `as TEFeatureSignable`
+			  cast with `TileEntityComposite.GetFeature<TEFeatureSignable>()`.
+			- ModGeneralUtilities.CheckContents(): added an SCoreLootContainer overload, since
+			  EntityAliveSDX.lootContainer can no longer be passed to the TileEntityComposite
+			  overload.
+			- SleeperVolumeSpawn: SleeperVolume.Spawn now returns bool and spawns entities
+			  asynchronously; patch retargeted to AddEnemyToWorld, extracting the entity from
+			  object[] __args.
+			- AudioClientPlay (0-SCore and SampleProject): Audio.Client.Play gained two new
+			  parameters; patch attributes/Prefixes updated to the new
+			  (int, string, float, float, int) signature. Also fixed a soundGoupName ->
+			  soundGroupName parameter typo in SampleProject's AudioClientPlay2.
+			- XUiC_LootWindowGroupOnOpen: XUiC_LootWindowGroup no longer declares its own
+			  OnOpen, so DeclaredMethod can't find it; switched to [HarmonyTargetMethod] with
+			  AccessTools.Method() to walk the inheritance chain.
+			- ParticlesOnBlocks Blocks.cs: Block.OnBlockDamaged now takes a BlockValueRef
+			  instead of a Vector3i; Postfix updated to read the position via
+			  _bvRef.BlockPosition.
+			- EntityFlyingEAITasks: EntityVulture no longer declares Init(int); switched to
+			  [HarmonyTargetMethod] targeting the full
+			  Init(int, EntityInstanceAssets, EModelInstanceAssets) signature.
+			- NoVehicleTake: EntityVehicle.GetActivationCommands was removed; replaced with a
+			  Postfix on AllowActivationCommand(ReadOnlySpan<char>, EntityPlayerLocal) that
+			  blocks the "take" command unless the vehicle is tagged takeable, a per-vehicle
+			  cvar override is set, or the PickUpAllVehicles cvar is enabled.
+
+	[ XML - Explosion / DamageBonus Property Format Migration ]
+		- All flat `Explosion.X` properties have been converted to the engine's new nested
+		  `<property class="Explosion">` block format, with any nested `DamageBonus.X`
+		  entries further promoted to their own `<property class="DamageBonus">` block.
+		  Updated:
+			- Z-SphereIIDebugging/Config/items.xml: thrownCryoGrenade,
+			  thrownAmmoMolotovCocktailExtinguish (including its Action0/Action1 blocks).
+			- Z-SphereIIDebugging/Config/entityclasses.xml: the 4x4 truck entity.
+			- 0-XNPCCore/Config/entityclasses.xml: ZombieCop (including the DamageBonus.earth
+			  promotion).
+			- 0-XNPCCore/Config/items.xml: RPG ammo Action1 (including the DamageBonus.water
+			  promotion), crossbow bolt ammo Action1.
+		- Stray/duplicate properties were merged in the process (e.g.
+		  thrownAmmoMolotovCocktailExtinguish had an Explosion.BlockDamage separated from its
+		  other explosion properties), and zero-value DamageBonus suppressions no longer
+		  needed by the new engine were removed.
+
+	[ Block Upgrade Repair - ReadFromContainers Item Count Lookup Fix ]
+		- Fixed block upgrades never completing (resources never consumed, block never
+		  swapping) whenever BlockUpgradeRepair's ReadFromContainers was enabled.
+		- Root cause: RemoveRequiredResource and CanRemoveRequiredResource were reading
+		  the upgrade item count with `block.Properties.Values.TryGetValue("ItemCount", ...)`,
+		  a flat lookup. The game actually stores it nested under the UpgradeBlock class
+		  (`<property class="UpgradeBlock"><property name="ItemCount" .../></property>`),
+		  in `Properties.Classes["UpgradeBlock"]`, not the flat `Properties.Values`
+		  dictionary. The lookup therefore always failed, which made CanRemoveRequiredResource
+		  silently deny every swing (blockUpgradeCount never advanced), so the upgrade never
+		  fired and no resources were ever touched.
+		- Fix: both methods now use `block.Properties.TryGetValue(Block.PropUpgradeBlockClass,
+		  Block.PropUpgradeBlockItemCount, out var itemCountStr)` to read the nested property
+		  correctly.
+		- Also fixed CanRemoveRequiredResource only allowing the upgrade when nearby
+		  containers alone held the *full* required item count, ignoring any amount already
+		  in the player's inventory/bag. It now checks containers against the remaining
+		  deficit (`quantity - heldCount`) instead.
+		- Also fixed RemoveRequiredResource's container fallback, which re-requested the
+		  full item count from inventory then bag (DecItem is partial, not atomic, so this
+		  could over-consume across calls) and counted the bag's matching items toward the
+		  requirement without actually removing them. It now tracks a single running
+		  "remaining" total across inventory -> bag -> containers, and reports failure
+		  honestly if the combined total still falls short.
 
 Version: 2.6.58.744
 	[ Item Degradation - Quality Curve Support (Linear / Quadratic / Cubic) ]

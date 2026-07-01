@@ -30,7 +30,7 @@ namespace Harmony.ZombieFeatures
 
                 if (GamePrefs.GetBool(EnumGamePrefs.DebugStopEnemiesMoving))
                 {
-                    __instance.SetMoveForwardWithModifiers(0f, 0f, false);
+                    __instance.SetMoveForwardWithModifiers(0f, 0f, 0f, false);
                     __instance.aiManager?.UpdateDebugName();
                     return true;
                 }
@@ -75,12 +75,14 @@ namespace Harmony.ZombieFeatures
             }
         }
 
-        [HarmonyPatch(typeof(EntityVulture))]
-        [HarmonyPatch("Init")]
-        [HarmonyPatch(new[] { typeof(int) })]
-
+        // EntityVulture doesn't declare Init(int) — DeclaredMethod fails; use Method to walk hierarchy.
+        [HarmonyPatch]
         public class EntityFlyingEAITasksInitEntityVulture
         {
+            [HarmonyTargetMethod]
+            public static System.Reflection.MethodBase TargetMethod() =>
+                AccessTools.Method(typeof(EntityVulture), "Init", new[] { typeof(int), typeof(EntityInstanceAssets), typeof( EModelInstanceAssets)});
+
             public static void Postfix(ref global::EntityAlive __instance)
             {
                 if (!__instance.HasAnyTags(FastTags<TagGroup.Global>.Parse("allowEAI")))

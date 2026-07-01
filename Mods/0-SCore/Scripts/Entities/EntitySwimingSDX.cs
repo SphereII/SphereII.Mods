@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Class: EntitySwimingSDX
  * Author:  sphereii
  * Category: Entity
@@ -52,9 +52,9 @@ public class EntitySwimingSDX : EntityZombieFlyingSDX
     private const int RefreshInterval = 300;
     private int _refreshCounter = 0;
 
-    public override void Init(int _entityClass)
+    public override void Init(int _entityClass, EntityInstanceAssets _assets, EModelInstanceAssets _eModelAssets)
     {
-        base.Init(_entityClass);
+        base.Init(_entityClass, _assets, _eModelAssets);
         emodel.SetVisible(true, true);
         if (getNavigator() == null)
             return;

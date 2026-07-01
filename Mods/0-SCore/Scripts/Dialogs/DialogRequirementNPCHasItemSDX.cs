@@ -29,7 +29,7 @@ public class DialogRequirementNPCHasItemSDX : BaseDialogRequirement
         {
             if (HarvestManager.GetOrCreate(entityAlive.entityId).HasItem(item)) return true;
         }
-        else if (entityAlive.lootContainer?.HasItem(item) == true) return true;
+        else if (entityAlive.bag.HasItem(item) == true) return true;
 
         if (entityAlive.inventory.GetItemCount(item) > 0) return true;
         if (entityAlive.bag.GetItemCount(item) > 0) return true;

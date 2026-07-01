@@ -19,26 +19,21 @@
                 if (targetType == TileEntityType.None) // Not a tile entity.
                     continue;
 
-                var tileEntity = _context.World.GetTileEntity(0, vector);
+                var tileEntity = _context.World.GetTileEntity(vector);
                 if (tileEntity == null) continue;
                 if (targetType == TileEntityType.None) continue;
 
                 if (tileEntity.GetTileEntityType() == targetType)
                 {
                     AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{GetType()} : {tileEntity.ToString()}  My Position: {_context.Self.position}  Type: {tileEntity.GetTileEntityType()}");
-                    switch (tileEntity.GetTileEntityType())
+                    if (tileEntity is TileEntityComposite tec)
                     {
-                        // If the loot containers were already touched, don't path to them.
-                        case TileEntityType.Loot:
-                            if (!((TileEntityLootContainer)tileEntity).bTouched)
-                                return 1f;
-                            break;
-                        case TileEntityType.SecureLoot:
-                            if (!((TileEntitySecureLootContainer)tileEntity).bTouched)
-                                return 1f;
-                            break;
-                        default:
-                            return 1f;
+                        var storage = tec.GetFeature<TEFeatureStorage>();
+                        if (storage == null || !storage.bTouched) return 1f;
+                    }
+                    else
+                    {
+                        return 1f;
                     }
                 }
             }

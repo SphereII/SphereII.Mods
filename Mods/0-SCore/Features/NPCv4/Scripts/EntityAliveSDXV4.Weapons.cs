@@ -53,7 +53,8 @@ public partial class EntityAliveSDXV4
 
         // Refresh the animator after the weapon switch so the right-hand transform is correct.
         var entityClassType = EntityClass.list[entityClass];
-        emodel.avatarController.SwitchModelAndView(entityClassType.mesh.name, emodel.IsFPV, IsMale);
+        var meshName2 = entityClassType.Properties.Values.ContainsKey("Mesh") ? entityClassType.Properties.Values["Mesh"] : entityClassType.entityClassName;
+        emodel.avatarController.SwitchModelAndView(meshName2, emodel.IsFPV, IsMale);
 
         if (emodel.avatarController is AvatarZombieController zombieController)
             zombieController.rightHandT = zombieController.FindTransform(GetRightHandTransformName());
@@ -87,7 +88,7 @@ public partial class EntityAliveSDXV4
         var currentWeapon = ItemClass.GetItem(weapon);
         if (currentWeapon == null) return false;
         if (!currentWeapon.ItemClass.Properties.Contains("CompatibleWeapon")) return false;
-        var playerWeapon = currentWeapon.ItemClass.Properties.GetStringValue("CompatibleWeapon");
+        var playerWeapon = currentWeapon.ItemClass.Properties.GetString("CompatibleWeapon");
         if (string.IsNullOrEmpty(playerWeapon)) return false;
         var playerWeaponItem = ItemClass.GetItem(playerWeapon);
         if (playerWeaponItem == null) return false;

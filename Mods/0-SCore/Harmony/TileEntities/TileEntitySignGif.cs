@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using UnityEngine;
 using UnityEngine.Video;
 using Component = System.ComponentModel.Component;
@@ -21,59 +21,66 @@ namespace Harmony.TileEntities {
         }
 
 
-        [HarmonyPatch(typeof(TileEntitySign))]
-        [HarmonyPatch(nameof(TileEntitySign.RefreshTextMesh))]
+        [HarmonyPatch(typeof(TEFeatureSignable))]
+        [HarmonyPatch(nameof(TEFeatureSignable.RefreshTextMesh))]
         public class TileEntitySignSetText {
-            public static bool Prefix(TileEntitySign __instance) {
-                if (GameManager.IsDedicatedServer)
-                    return true;
-                var smartTextMesh = __instance.smartTextMesh;
+            public static bool Prefix(TEFeatureSignable __instance) {
+                if (!EnableExtendedSigns) return true;
+                if (GameManager.IsDedicatedServer) return true;
+                var smartTextMeshes = __instance.smartTextMesh;
+                if (smartTextMeshes == null || smartTextMeshes.Length == 0) return true;
+                var smartTextMesh = smartTextMeshes[0];
                 if (smartTextMesh == null) return true;
                 var parentTransform = smartTextMesh.transform.parent;
                 if (parentTransform.transform.childCount < 2)
                     return true;
                 var signMesh = parentTransform.transform.GetChild(0);
                 var prefab = parentTransform.transform.GetChild(1);
-                
-                // use a third child to hole a separate copy of the signMesh prefab, so we can make adjustments,
-                // while also letting us revert back to a regular sign.
+
+                // Use a third child as a separate copy of the signMesh prefab for media display,
+                // so we can revert back to a regular sign. Locate by name to avoid mistakenly
+                // treating real prefab children (index 2+) as the wrapper on multi-child blocks.
                 Transform wrapperPrefab = null;
-                if (parentTransform.transform.childCount > 2)
-                    wrapperPrefab = parentTransform.transform.GetChild(2);
-                if (wrapperPrefab == null)
+                for (var i = 2; i < parentTransform.transform.childCount; i++)
                 {
-                    var go = Object.Instantiate(signMesh.gameObject, parentTransform);
-                    go.name = "WrapperPrefab";
-                    wrapperPrefab = go.transform;
-                    wrapperPrefab.SetAsLastSibling();
-                }
-
-                if (EnableExtendedSigns)
-                {
-                    var text = __instance.signText.Text;
-                    if (text.StartsWith("http"))
+                    if (parentTransform.transform.GetChild(i).name == "WrapperPrefab")
                     {
-                        var wrapper = wrapperPrefab.gameObject.GetOrAddComponent<ImageWrapper>();
-                        // Check for supported url, and do some converting if necessary
-                        if (!wrapper.ValidURL(ref text)) return true;
-                        if (!wrapper.IsNewURL(text)) return true;
-                        wrapper.Pause();
-                        wrapper.Init(text);
-
-                        __instance.SetModified();
-                        signMesh.gameObject.SetActive(false);
-                        prefab.gameObject.SetActive(false);
-                        return true;
+                        wrapperPrefab = parentTransform.transform.GetChild(i);
+                        break;
                     }
                 }
 
+                var text = __instance.signText.Text;
+                if (text.StartsWith("http"))
+                {
+                    if (wrapperPrefab == null)
+                    {
+                        var go = Object.Instantiate(signMesh.gameObject, parentTransform);
+                        go.name = "WrapperPrefab";
+                        wrapperPrefab = go.transform;
+                        wrapperPrefab.SetAsLastSibling();
+                    }
+
+                    var wrapper = wrapperPrefab.gameObject.GetOrAddComponent<ImageWrapper>();
+                    if (!wrapper.ValidURL(ref text)) return true;
+                    if (!wrapper.IsNewURL(text)) return true;
+                    wrapper.Pause();
+                    wrapper.Init(text);
+
+                    __instance.SetModified();
+                    signMesh.gameObject.SetActive(false);
+                    prefab.gameObject.SetActive(false);
+                    return true;
+                }
+
+                // Non-URL text: remove any media wrapper and restore the normal sign mesh.
                 if (wrapperPrefab != null)
                     Object.Destroy(wrapperPrefab.gameObject);
-                if ( prefab != null)
+                if (prefab != null)
                     prefab.gameObject.SetActive(true);
-                if ( signMesh != null)
+                if (signMesh != null)
                     signMesh.gameObject.SetActive(true);
-                
+
                 return true;
             }
         }

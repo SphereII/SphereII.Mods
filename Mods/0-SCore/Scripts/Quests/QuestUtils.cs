@@ -14,8 +14,8 @@ public static class QuestUtils
 
     public static PrefabInstance FindPrefab(string poiName, Vector3 startPosition, ref List<Vector2> usedPOILocations, BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome, string biomeFilter = "")
     {
-        //var listOfPrefabs = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetPOIPrefabs().FindAll(instance => instance.name.Contains(poiName));
-        var listOfPrefabs = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetDynamicPrefabs().FindAll(instance => instance.name.Contains(poiName));
+        var listOfPrefabs = GameManager.Instance.GetDynamicPrefabDecorator().allPrefabs.FindAll(instance => instance.name.Contains(poiName));
+        //var listOfPrefabs = GameManager.Instance.GetDynamicPrefabDecorator().GetDynamicPrefabs().FindAll(instance => instance.name.Contains(poiName));
         // Filter the prefab list if there's an exact name
         var filteredPrefabs = listOfPrefabs.FindAll(instance => instance.name == poiName);
         if (filteredPrefabs.Count > 0)
@@ -352,14 +352,8 @@ public static class QuestUtils
         float minSearchDistance = -1,
         float maxSearchDistance = -1)
     {
-        if (!prefab.prefab.bSleeperVolumes)
-        {
-            if (LoggingEnabled)
-            {
-                Log.Out($"Quest {questTag}: Prefab {prefab.name} has no sleeper volumes");
-            }
-            return false;
-        }
+        // bSleeperVolumes removed in new game version — skip this check
+        // if (!prefab.prefab.bSleeperVolumes) return false;
 
         if (!questTag.IsEmpty && !prefab.prefab.GetQuestTag(questTag))
         {

@@ -1,5 +1,5 @@
-﻿using HarmonyLib;
-using System.Linq;
+﻿using System;
+using HarmonyLib;
 
 namespace Harmony.NoVehicleTake
 {
@@ -10,47 +10,28 @@ namespace Harmony.NoVehicleTake
         private static readonly string VehiclePickUpTags = "takeable";
         private static readonly string cvarPickupAll = "PickUpAllVehicles";
 
-
+        // EntityVehicle.GetActivationCommands no longer exists; vehicle command gating
+        // is now done via AllowActivationCommand(string commandType, EntityAlive entityFocusing).
         [HarmonyPatch(typeof(EntityVehicle))]
-        [HarmonyPatch("GetActivationCommands")]
-        public class EntityVehicleGetActivationCommands
+        [HarmonyPatch("AllowActivationCommand")]
+        public class EntityVehicleAllowActivationCommand
         {
-            public static EntityActivationCommand[] Postfix(EntityActivationCommand[] __result, EntityVehicle __instance, global::EntityAlive _entityFocusing)
+            public static void Postfix(ref bool __result, EntityVehicle __instance, ReadOnlySpan<char>  _commandName, EntityPlayerLocal _playerFocusing)
             {
-                // Check if this feature is enabled.
-                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return __result;
-
-
-                if (__instance.HasAnyTags(FastTags<TagGroup.Global>.Parse(VehiclePickUpTags))) return __result;
-
-                // If the player has a cvar with the following code, allow them to take it. 
-                // This will allow modders to fine tune vehicle pick up via perk or cvar.
-                var vehicleID = $"{__instance.EntityName}_pickup";
-                if (_entityFocusing.Buffs.HasCustomVar(vehicleID) && _entityFocusing.Buffs.GetCustomVar(vehicleID) > 0)
-                    return __result;
-
-                // If they can pick up everything...
-                if (_entityFocusing.Buffs.HasCustomVar(cvarPickupAll) && _entityFocusing.Buffs.GetCustomVar(cvarPickupAll) > 0)
-                    return __result;
-
-                for (var i = 0; i < __result.Length; i++)
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return;
+                if (__instance.CommandIs(_commandName, "take"))
                 {
-                    if (__result[i].text == "take")
-                        __result[i].enabled = false;
+                 
+                    if (__instance.HasAnyTags(FastTags<TagGroup.Global>.Parse(VehiclePickUpTags))) return;
+
+                    var vehicleID = $"{__instance.EntityName}_pickup";
+                    if (_playerFocusing.Buffs.HasCustomVar(vehicleID) &&
+                        _playerFocusing.Buffs.GetCustomVar(vehicleID) > 0) return;
+                    if (_playerFocusing.Buffs.HasCustomVar(cvarPickupAll) &&
+                        _playerFocusing.Buffs.GetCustomVar(cvarPickupAll) > 0) return;
+
+                    __result = false;
                 }
-
-                return __result;
-                //var list = __result.Cast<EntityActivationCommand>().ToList();
-                //for (var x = 0; x < list.Count; x++)
-                //{
-                //    if (list[x].text != "take") continue;
-                //    list.RemoveAt(x);
-                //    break;
-                //}
-
-
-                //return list.ToArray();
             }
         }
     }

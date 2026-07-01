@@ -117,7 +117,7 @@ public static class ModGeneralUtilities
                 var blockLocation = new Vector3i(myEntity.InvestigatePosition.x, myEntity.InvestigatePosition.y, myEntity.InvestigatePosition.z);
                 var checkBlock = myEntity.world.GetBlock(blockLocation);
                 DisplayLog(" CheckForBin(): Target Block is: " + checkBlock);
-                var myTile = myEntity.world.GetTileEntity(0, blockLocation) as TileEntityLootContainer;
+                var myTile = myEntity.world.GetTileEntity(blockLocation) as TileEntityComposite;
                 if (myTile != null)
                 {
                     item = CheckContents(myTile, lstItems, StatType);
@@ -182,14 +182,16 @@ public static class ModGeneralUtilities
     }
 
     // This will check if the food item actually exists in the container, before making the trip to it.
-    public static ItemValue CheckContents(TileEntityLootContainer tileLootContainer, List<string> lstContents, string strSearchType)
+    public static ItemValue CheckContents(TileEntityComposite tileLootContainer, List<string> lstContents, string strSearchType)
     {
         DisplayLog(" Check Contents of Container: " + tileLootContainer);
-        DisplayLog(" TileEntity: " + tileLootContainer.items.Length);
+        var storage = tileLootContainer.GetFeature<TEFeatureStorage>();
+        if (storage == null) return null;
+        DisplayLog(" TileEntity: " + storage.items.Length);
         ItemValue myItem = null;
-        if (tileLootContainer.items != null)
+        if (storage.items != null)
         {
-            var array = tileLootContainer.GetItems();
+            var array = storage.items;
             for (var i = 0; i < array.Length; i++)
             {
                 if (array[i].IsEmpty())
@@ -215,17 +217,50 @@ public static class ModGeneralUtilities
                         DisplayLog(" My Item is consumable: " + myItem.ItemClass.GetItemName());
                         // if there's only one left, remove the entire item; otherwise, decrease it.
                         if (array[i].count == 1)
-                            tileLootContainer.RemoveItem(array[i].itemValue);
+                            storage.RemoveItem(array[i].itemValue);
                         else
                             array[i].count--;
 
-                        tileLootContainer.UpdateSlot(i, array[i]);
+                        storage.UpdateSlot(i, array[i]);
 
                         return myItem;
                     }
             }
         }
 
+        DisplayLog("CheckContents(): No Items found.");
+        return null;
+    }
+
+    public static ItemValue CheckContents(SCoreLootContainer lootContainer, List<string> lstContents, string strSearchType)
+    {
+        if (lootContainer == null) return null;
+        var array = lootContainer.GetItems();
+        for (var i = 0; i < array.Length; i++)
+        {
+            if (array[i].IsEmpty()) continue;
+            DisplayLog(" Not Empty: " + array[i].itemValue.ItemClass.Name);
+            ItemValue myItem = null;
+            if (lstContents.Contains(array[i].itemValue.ItemClass.Name))
+            {
+                if (IsConsumable(array[i].itemValue, strSearchType) != null)
+                    myItem = array[i].itemValue;
+            }
+            else if (lstContents.Count == 0)
+            {
+                if (IsConsumable(array[i].itemValue, strSearchType) != null)
+                    myItem = array[i].itemValue;
+            }
+            if (myItem != null && IsConsumable(myItem, strSearchType) != null)
+            {
+                if (array[i].count == 1)
+                    lootContainer.RemoveItem(array[i].itemValue);
+                else
+                    array[i].count--;
+                lootContainer.UpdateSlot(i, array[i]);
+                return myItem;
+            }
+        }
         DisplayLog("CheckContents(): No Items found.");
         return null;
     }
@@ -355,11 +390,11 @@ public static class ModGeneralUtilities
                                 continue;
                         }
                         // If it's a sign, check to see if there's a code on it.
-                        var tileEntitySign = tileEntity as TileEntitySign;
-                        if (tileEntitySign != null)
+                        var TEFeatureSignable = (tileEntity as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
+                        if (TEFeatureSignable != null)
                         {
                             // If the sign is empty and the code is 0, then accept it as a path
-                            var text = tileEntitySign.signText.Text;
+                            var text = TEFeatureSignable.signText.Text;
                             if (string.IsNullOrEmpty(text) && code == 0)
                             {
                                 localLists.Add(TargetBlockPosition.ToVector3());
@@ -415,7 +450,8 @@ public static class ModGeneralUtilities
                     if (!lstBlocks.Contains(block.Block.GetBlockName()))
                         continue;
 
-                    if (GameManager.Instance.World.GetTileEntity(0, TargetBlockPosition) is TileEntitySign tileEntitySign)
+                    var compositeAtPos = GameManager.Instance.World.GetTileEntity(TargetBlockPosition) as TileEntityComposite;
+                    if (compositeAtPos?.GetFeature<TEFeatureSignable>() != null)
                         localLists.Add(TargetBlockPosition.ToVector3());
                 }
             }
@@ -463,11 +499,11 @@ public static class ModGeneralUtilities
                     if (!lstBlocks.Contains(block.Block.GetBlockName()))
                         continue;
 
-                    var tileEntitySign = GameManager.Instance.World.GetTileEntity(0, TargetBlockPosition) as TileEntitySign;
-                    if (tileEntitySign != null)
+                    var TEFeatureSignable = (GameManager.Instance.World.GetTileEntity(TargetBlockPosition) as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
+                    if (TEFeatureSignable != null)
                     {
                         // If the sign is empty and the code is 0, then accept it as a path
-                        var text = tileEntitySign.signText.Text;
+                        var text = TEFeatureSignable.signText.Text;
                         
                         if (string.IsNullOrEmpty(text) && code == 0)
                         {

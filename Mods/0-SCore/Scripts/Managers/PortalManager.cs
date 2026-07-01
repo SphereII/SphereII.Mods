@@ -91,14 +91,14 @@ public class PortalManager
     public bool AddPosition(Vector3i position)
     {
         // If this sign isn't registered, try to register it now.
-        var tileEntity = GameManager.Instance.World.GetTileEntity(0, position) as TileEntityPoweredPortal;
+        var tileEntity = GameManager.Instance.World.GetTileEntity(position) as TileEntityPoweredPortal;
         var text = "";
         if (tileEntity != null)
             text = tileEntity.signText.Text;
 
-        var tileEntitySign = GameManager.Instance.World.GetTileEntity(0, position) as TileEntitySign;
-        if (tileEntitySign != null)
-            text = tileEntitySign.signText.Text;
+        var TEFeatureSignable = GameManager.Instance.World.GetTileEntity(position) as TEFeatureSignable;
+        if (TEFeatureSignable != null)
+            text = TEFeatureSignable.signText.Text;
 
         if (string.IsNullOrEmpty(text)) return false;
         PortalManager.Instance.AddPosition(position, text);
@@ -253,7 +253,7 @@ public class PortalManager
             return CheckForPrefabLocation(destinationItem);
         }
         // If the portal needs power, make sure its on.
-        var tileEntity = GameManager.Instance.World.GetTileEntity(0, destination) as TileEntityPoweredPortal;
+        var tileEntity = GameManager.Instance.World.GetTileEntity(destination) as TileEntityPoweredPortal;
         if (tileEntity == null) return Vector3i.zero; // Dead portal
         if (tileEntity.RequiredPower <= 0) return destination;
         if (tileEntity.IsPowered) return destination;

@@ -151,7 +151,7 @@ public class FireManager : MonoBehaviour
             List<Vector3i> firePositions = new List<Vector3i>();
             foreach (var change in pendingChanges)
             {
-                firePositions.Add(change.pos);
+                firePositions.Add(change.blockValueRef.BlockPosition);
             }
             _networkManager.SyncAddFireBatch(firePositions);
         }

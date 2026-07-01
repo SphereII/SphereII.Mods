@@ -111,7 +111,7 @@ public class XUiC_SCoreCompanion : XUiController
         if (!(updateLimiter < 0f)) return;
         updateLimiter = 1f;
         UpdateStatus();
-        RefreshBindings(true);
+        RefreshBindings();
     }
 
     public void SetCompanion(EntityAlive entity)
@@ -120,12 +120,12 @@ public class XUiC_SCoreCompanion : XUiController
 
         if (Companion == null)
         {
-            RefreshBindings(true);
+            RefreshBindings();
             return;
         }
 
         UpdateStatus();
-        RefreshBindings(true);
+        RefreshBindings();
         IsDirty = true;
     }
 
@@ -149,7 +149,7 @@ public class XUiC_SCoreCompanion : XUiController
     {
         base.OnOpen();
         IsDirty = true;
-        RefreshBindings(true);
+        RefreshBindings();
     }
 
 

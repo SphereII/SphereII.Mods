@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -213,12 +213,13 @@ public class PortalManager
 
     public bool AddPosition(Vector3i position)
     {
-        var tileEntity = GameManager.Instance.World.GetTileEntity(0, position) as TileEntityPoweredPortal;
+        var tileEntity = GameManager.Instance.World.GetTileEntity(position) as TileEntityPoweredPortal;
         var text = tileEntity?.signText.Text ?? string.Empty;
 
         if (string.IsNullOrEmpty(text))
         {
-            var sign = GameManager.Instance.World.GetTileEntity(0, position) as TileEntitySign;
+            var composite = GameManager.Instance.World.GetTileEntity(position) as TileEntityComposite;
+            var sign = composite?.GetFeature<TEFeatureSignable>();
             if (sign != null) text = sign.signText.Text;
         }
 
@@ -369,7 +370,7 @@ public class PortalManager
         if (destination == Vector3i.zero)
             return CheckForPrefabLocation(destinationItem);
 
-        var tileEntity = GameManager.Instance.World.GetTileEntity(0, destination) as TileEntityPoweredPortal;
+        var tileEntity = GameManager.Instance.World.GetTileEntity(destination) as TileEntityPoweredPortal;
         if (tileEntity == null) return Vector3i.zero;
         if (tileEntity.RequiredPower <= 0) return destination;
         if (tileEntity.IsPowered) return destination;

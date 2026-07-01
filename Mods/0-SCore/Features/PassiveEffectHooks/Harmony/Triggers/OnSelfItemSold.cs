@@ -10,7 +10,7 @@ public static class OnSell
             ItemValue = ItemValue.None,
             Biome = GameManager.Instance.World.GetPrimaryPlayer()?.biomeStandingOn
         };
-        var currentTrader = GameManager.Instance.World.GetEntity(minEventParams.TileEntity.EntityId) as EntityNPC;
+        var currentTrader = TraderUtils.GetCurrentTraderEntity();
         minEventParams.Other = currentTrader;
 
         // We want to set the _item_value to something, just case this is the first time.        
@@ -35,7 +35,7 @@ public static class OnSell
         minEventParams.Self.Buffs.AddCustomVar("_totalSold", count);
         minEventParams.Self.Buffs.AddCustomVar("_sellPrice", sellPrice);
 
-        var currentTrader = GameManager.Instance.World.GetEntity(minEventParams.TileEntity.EntityId) as EntityNPC;
+        var currentTrader = TraderUtils.GetCurrentTraderEntity();
         minEventParams.Other = currentTrader;
         minEventParams.Self.MinEventContext = minEventParams;
         minEventParams.Self.FireEvent(MinEventTypes.onSelfItemSold);

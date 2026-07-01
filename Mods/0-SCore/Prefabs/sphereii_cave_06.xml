@@ -10,14 +10,20 @@
   <property name="SleeperVolumeSize" value="12, 5, 11" />
   <property name="SleeperVolumeStart" value="0, -1, -1" />
   <property name="SleeperVolumeGroupId" value="0" />
-  <property name="SleeperVolumeGroup" value="S_-Group_Generic_Zombie,5,6" />
+  <property name="SleeperVolumeGroup" value="GroupGenericZombie,5,6" />
   <property name="SleeperIsLootVolume" value="False" />
   <property name="SleeperIsBossVolume" value="False" />
   <property name="SleeperVolumeFlags" value="0" />
   <property name="RotationToFaceNorth" value="2" />
+  <property name="ShowQuestClearCount" value="1" />
+  <property name="SleeperIsQuestExclude" value="False" />
+  <property name="SleeperVolumeTriggeredBy" value=" " />
+  <property name="PrefabSize" value="12, 4, 11" />
+  <property name="Zoning" value="none" />
   <property class="Stats">
-    <property name="TotalVertices" value="30814" />
-    <property name="TotalTriangles" value="5859" />
+    <property name="LightsVolume" value="0" />
+    <property name="TotalVertices" value="30344" />
+    <property name="TotalTriangles" value="5139" />
     <property class="BlockEntities">
       <property name="Vertices" value="30344" />
       <property name="Triangles" value="5139" />
@@ -46,21 +52,14 @@
       <property name="Vertices" value="0" />
       <property name="Triangles" value="0" />
     </property>
-    <property class="ChunkMeshes6">
-      <property name="Vertices" value="0" />
-      <property name="Triangles" value="0" />
+  </property>
+  <property class="IndexedBlockOffsets">
+    <property class="challenge_gore">
+      <property name="0" value="10, 1, 6" />
     </property>
-    <property class="ChunkMeshes7">
-      <property name="Vertices" value="470" />
-      <property name="Triangles" value="720" />
-    </property>
-    <property class="ChunkMeshes8">
-      <property name="Vertices" value="0" />
-      <property name="Triangles" value="0" />
-    </property>
-    <property class="ChunkMeshes9">
-      <property name="Vertices" value="0" />
-      <property name="Triangles" value="0" />
+    <property class="challenge_polymers">
+      <property name="0" value="2, 1, 5" />
+      <property name="1" value="5, 1, 7" />
     </property>
   </property>
 </prefab>

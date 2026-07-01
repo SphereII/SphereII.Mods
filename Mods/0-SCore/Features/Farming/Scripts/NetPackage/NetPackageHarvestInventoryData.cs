@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 
 /// <summary>
@@ -49,11 +49,11 @@ public class NetPackageHarvestInventoryData : NetPackage
                 World.toChunkXZ((int)entity.position.x),
                 World.toChunkXZ((int)entity.position.z)) as Chunk;
 
-        var container = new TileEntityLootContainer(chunk);
-        container.entityId      = _npcEntityId;
-        container.lootListName  = "traderNPC";
+        var container = new SCoreLootContainer(chunk);
+        container.EntityId       = _npcEntityId;
+        container.lootListName   = "traderNPC";
         container.SetContainerSize(new Vector2i(8, 8), true);
-        container.bTouched      = true;   // suppress vanilla loot generation
+        container.bTouched       = true;   // suppress vanilla loot generation
         container.bPlayerStorage = true;  // suppress loot-respawn tick
 
         for (int i = 0; i < items.Length && i < container.items.Length; i++)

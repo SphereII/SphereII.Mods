@@ -10,7 +10,7 @@ public class XUiC_SCoreCompanionList : XUiController
     public override void Init()
     {
         base.Init();
-        ID = WindowGroup.ID;
+        ID = WindowGroup.Id;
 
         var childrenByType = GetChildrenByType<XUiC_SCoreCompanion>(null);
         foreach (var t in childrenByType)

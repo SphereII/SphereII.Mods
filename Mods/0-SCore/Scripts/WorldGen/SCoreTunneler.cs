@@ -76,7 +76,7 @@
             var y = random.RandomRange(3, 5);
             //var prefab = new Prefab(new Vector3i(4, 3, 4));
             var prefab = new Prefab(new Vector3i(x, y, z));
-            prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, position, true);
+            prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, position, true, FastTags<TagGroup.Global>.none);
         }
         
         public virtual void PlaceAround(Chunk chunk, Vector3i position, bool isPillar = false)

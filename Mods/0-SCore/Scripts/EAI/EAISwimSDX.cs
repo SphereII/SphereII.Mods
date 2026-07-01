@@ -7,7 +7,7 @@ public class EAISwimSDX : EAIWander
 
     public EAISwimSDX()
     {
-        MutexBits = 1;
+       // MutexBits = 1;
     }
 
     public override void Init(EntityAlive entity)

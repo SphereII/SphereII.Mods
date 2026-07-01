@@ -43,6 +43,16 @@ namespace UAI
             // The y is lower than max wander, since they tend to try to climb up steep hills.
             _position = RandomPositionGenerator.CalcAround(_context.Self, (int)maxWanderDistance, 10);
        //     _position = RandomPositionGenerator.Calc(_context.Self, (int) maxWanderDistance, 10);
+
+            // CalcAround returns Vector3.zero when no valid position exists (e.g. unloaded chunks at
+            // biome spawn time). Pathing to world-origin always fails → BlockedTime rises → IsBlocked
+            // fires → Stop → UAI restarts Wander → tight freeze loop. Bail early instead.
+            if (_position == Vector3.zero)
+            {
+                Stop(_context);
+                return;
+            }
+
             _position.y = (int) GameManager.Instance.World.GetHeightAt(_position.x, _position.z) + 1;
 
             // If interests points have been specified, random roll to see if the npc will path towards them or not.

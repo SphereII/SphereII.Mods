@@ -1,4 +1,4 @@
-using Audio;
+﻿using Audio;
 using Platform;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ Feature request: destination blocks.  No teleporting capabilities, just used as 
 Give buff value equals property that gives a buff when used. Then I can specify different visual scenes while transporting
 
 */
-public class BlockPortal2 : BlockPlayerSign
+public class BlockPortal2 : BlockSign
 {
     private string buffCooldown = "buffTeleportCooldown";
     private int delay = 1000;
@@ -64,9 +64,9 @@ public class BlockPortal2 : BlockPlayerSign
         PortalManager.Instance.RemovePosition(_blockPos);
     }
 
-    public override void OnBlockLoaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockLoaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
-        base.OnBlockLoaded(_world, _clrIdx, _blockPos, _blockValue);
+        base.OnBlockLoaded(_world, _blockPos, _blockValue);
         if (_blockValue.ischild) return;
         PortalManager.Instance.AddPosition(_blockPos);
     }
@@ -77,8 +77,8 @@ public class BlockPortal2 : BlockPlayerSign
         if (!string.IsNullOrEmpty(location))
         {
             // Set text first so AddPosition reads the correct name from the tile entity.
-            var tileEntitySign = world.GetTileEntity(0, _blockPos) as TileEntitySign;
-            tileEntitySign?.SetText(location);
+            var teComposite = world.GetTileEntity(_blockPos) as TileEntityComposite;
+            teComposite?.GetFeature<TEFeatureSignable>()?.SetText(location);
             PortalManager.Instance.AddPosition(_blockPos, location);
         }
     }
@@ -139,64 +139,66 @@ public class BlockPortal2 : BlockPlayerSign
 
     // --- Activation ---
 
-    public override bool OnBlockActivated(string commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
+    public override bool OnBlockActivated(string commandName, WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
         if (_blockValue.ischild)
         {
             Vector3i parentPos = _blockValue.Block.multiBlockPos.GetParentPos(_blockPos, _blockValue);
-            return OnBlockActivated(commandName, _world, _cIdx, parentPos, _world.GetBlock(parentPos), _player);
+            return OnBlockActivated(commandName, _world, parentPos, _world.GetBlock(parentPos), _player);
         }
-        var tileEntitySign = _world.GetTileEntity(_cIdx, _blockPos) as TileEntitySign;
-        if (tileEntitySign == null) return false;
+        var composite = _world.GetTileEntity(_blockPos) as TileEntityComposite;
+        if (composite == null) return false;
+        var lockable = composite.GetFeature<TEFeatureLockable>();
 
         switch (commandName)
         {
             case "portalActivate":
-                if (GameManager.Instance.IsEditMode() || !tileEntitySign.IsLocked() || tileEntitySign.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
+                if (GameManager.Instance.IsEditMode() || lockable == null || !lockable.IsLocked() || lockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                     TeleportPlayer(_player, _blockPos);
                 return false;
             case "edit":
-                if (GameManager.Instance.IsEditMode() || !tileEntitySign.IsLocked() || tileEntitySign.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
+                if (GameManager.Instance.IsEditMode() || lockable == null || !lockable.IsLocked() || lockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                 {
                     if (string.IsNullOrEmpty(location))
-                        return OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
+                        return OnBlockActivated(_world, _blockPos, _blockValue, _player);
                 }
                 Manager.BroadcastPlayByLocalPlayer(_blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/locked");
                 return false;
             case "lock":
-                tileEntitySign.SetLocked(true);
+                lockable?.SetLocked(true);
                 Manager.BroadcastPlayByLocalPlayer(_blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/locking");
                 GameManager.ShowTooltip(_player, "containerLocked");
                 return true;
             case "unlock":
-                tileEntitySign.SetLocked(false);
+                lockable?.SetLocked(false);
                 Manager.BroadcastPlayByLocalPlayer(_blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/unlocking");
                 GameManager.ShowTooltip(_player, "containerUnlocked");
                 return true;
             case "keypad":
                 if (string.IsNullOrEmpty(location))
-                    XUiC_KeypadWindow.Open(LocalPlayerUI.GetUIForPlayer(_player), tileEntitySign);
+                    XUiC_KeypadWindow.Open(LocalPlayerUI.GetUIForPlayer(_player), lockable);
                 return true;
             default:
                 return false;
         }
     }
 
-    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
-        var tileEntitySign = _world.GetTileEntity(_clrIdx, _blockPos) as TileEntitySign;
-        if (tileEntitySign == null) return new BlockActivationCommand[0];
+        var composite2 = _world.GetTileEntity(_blockPos) as TileEntityComposite;
+        if (composite2 == null) return new BlockActivationCommand[0];
+        var lockable2 = composite2.GetFeature<TEFeatureLockable>();
 
         PlatformUserIdentifierAbs localUser = PlatformManager.InternalLocalUserIdentifier;
-        PersistentPlayerData playerData = _world.GetGameManager().GetPersistentPlayerList().GetPlayerData(tileEntitySign.GetOwner());
-        bool isOwner = tileEntitySign.LocalPlayerIsOwner();
-        bool isACL = !isOwner && playerData?.ACL != null && playerData.ACL.Contains(localUser);
+        PersistentPlayerData playerData = _world.GetGameManager().GetPersistentPlayerList().GetPlayerData(lockable2?.GetOwner());
+        bool isOwner = lockable2?.LocalPlayerIsOwner() ?? true;
+        bool isACL = !isOwner && playerData.IsAlly(localUser);
 
         cmds[0].enabled = true;
         cmds[1].enabled = string.IsNullOrEmpty(location);
-        cmds[2].enabled = !tileEntitySign.IsLocked() && (isOwner || isACL);
-        cmds[3].enabled = tileEntitySign.IsLocked() && isOwner;
-        cmds[4].enabled = (!tileEntitySign.IsUserAllowed(localUser) && tileEntitySign.HasPassword() && tileEntitySign.IsLocked()) || isOwner;
+        cmds[2].enabled = (lockable2 == null || !lockable2.IsLocked()) && (isOwner || isACL);
+        cmds[3].enabled = (lockable2?.IsLocked() ?? false) && isOwner;
+        cmds[4].enabled = (lockable2 != null && !lockable2.IsUserAllowed(localUser) && lockable2.HasPassword() && lockable2.IsLocked()) || isOwner;
         return cmds;
     }
 
@@ -216,15 +218,15 @@ public class BlockPortal2 : BlockPlayerSign
         animator.SetBool("portalOff", !isOn);
     }
 
-    public override void OnBlockEntityTransformAfterActivated(WorldBase _world, Vector3i _blockPos, int _cIdx, BlockValue _blockValue, BlockEntityData _ebcd)
+    public override void OnBlockEntityTransformAfterActivated(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, BlockEntityData _ebcd)
     {
         if (_ebcd == null) return;
         _ebcd.bHasTransform = false;
-        base.OnBlockEntityTransformAfterActivated(_world, _blockPos, _cIdx, _blockValue, _ebcd);
+        base.OnBlockEntityTransformAfterActivated(_world, _blockPos, _blockValue, _ebcd);
         _ebcd.bHasTransform = true;
     }
 
-    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         if (!display) return "";
 

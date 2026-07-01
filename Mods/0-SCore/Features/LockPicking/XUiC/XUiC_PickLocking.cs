@@ -11,7 +11,7 @@ public class XUiC_PickLocking : XUiController {
 
     public override void Init() {
         Lock = new SphereLocks();
-        ID = windowGroup.ID;
+        ID = windowGroup.Id;
         base.Init();
     }
 
@@ -73,7 +73,7 @@ public class XUiC_PickLocking : XUiController {
                     GameManager.Instance.World.GetGameRandom(), blockPos.x, blockPos.z, false);
                 blockValue.rotation = currentBlock.rotation;
                 blockValue.meta = currentBlock.meta;
-                GameManager.Instance.World.SetBlockRPC(0, blockPos, blockValue, blockValue.Block.Density);
+                GameManager.Instance.World.SetBlockRPC(new BlockValueRef(blockPos), blockValue, blockValue.Block.Density);
             }
         }
 

@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileEntitySignable, ITileEntity
 {
+	private int entityId;
 	private bool isLocked;
 	private PlatformUserIdentifierAbs ownerID;
 	private List<PlatformUserIdentifierAbs> allowedUserIds;
@@ -155,6 +156,27 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 	}
 
 	public string GetPassword()
+	{
+		return this.password;
+	}
+
+	public bool SetPasswordHash(string _passwordHash, PlatformUserIdentifierAbs _userIdentifier)
+	{
+		if (!IsOwner(_userIdentifier)) return false;
+		if (_passwordHash == this.password) return false;
+		this.password = _passwordHash;
+		this.allowedUserIds.Clear();
+		this.setModified();
+		return true;
+	}
+
+	public bool CheckPasswordHash(string _password, PlatformUserIdentifierAbs _userIdentifier)
+	{
+		if (IsOwner(_userIdentifier) || !HasPassword()) return true;
+		return _password == this.password;
+	}
+
+	public string GetPasswordHash()
 	{
 		return this.password;
 	}

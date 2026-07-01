@@ -20,7 +20,7 @@ using UnityEngine;
        <property name="CopyCVarToAnimator" value="cvarName1;mycvarName2" />
 
 */
-internal class BlockTriggeredSDX : BlockLoot {
+internal class BlockTriggeredSDX : BlockCompositeTileEntity {
     private static readonly string AdvFeatureClass = "AdvancedTileEntities";
     private int RandomIndex;
     private bool _isLootContainer;
@@ -51,18 +51,18 @@ internal class BlockTriggeredSDX : BlockLoot {
             _activationBuffs = Properties.Values["ActivationBuffs"];
     }
 
-    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos,
+    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos,
         EntityAlive _entityFocusing) {
         UpdateAnimator(_world, _blockPos, _entityFocusing);
         if (_activateOnLook)
         {
             TriggerActivationBuffs(_entityFocusing);
-            ActivateBlock(_world, _clrIdx, _blockPos, _blockValue, true, true);
+            ActivateBlock(_world, _blockPos, _blockValue, true, true);
         }
 
         if (_isLootContainer)
         {
-            return base.GetActivationText(_world, _blockValue, _clrIdx, _blockPos, _entityFocusing);
+            return base.GetActivationText(_world, _blockValue, _blockPos, _entityFocusing);
         }
 
         
@@ -78,14 +78,14 @@ internal class BlockTriggeredSDX : BlockLoot {
         }
     }
     // don't open the loot container.
-    public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue,
+    public override bool OnBlockActivated(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue,
         EntityPlayerLocal _player) {
         
         TriggerActivationBuffs(_player);
         UpdateAnimator(_world, _blockPos, _player);
         if (_isLootContainer)
         {
-            return base.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
+            return base.OnBlockActivated(_world, _blockPos, _blockValue, _player);
         }
 
         return true;
@@ -115,7 +115,7 @@ internal class BlockTriggeredSDX : BlockLoot {
         }
     }
 
-    public override bool ActivateBlock(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue,
+    public override bool ActivateBlock(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue,
         bool isOn, bool isPowered) {
         // If there's no transform, no sense on keeping going for this class.
         var ebcd = _world.GetChunkFromWorldPos(_blockPos).GetBlockEntity(_blockPos);

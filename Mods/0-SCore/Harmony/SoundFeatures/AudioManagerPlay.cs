@@ -7,7 +7,7 @@ namespace Harmony.SoundFeatures
 {
     [HarmonyPatch(typeof(Manager))]
     [HarmonyPatch("Play")]
-    [HarmonyPatch(new[] { typeof(Vector3), typeof(string), typeof(int), typeof(bool) })]
+    [HarmonyPatch(new[] { typeof(Vector3), typeof(string), typeof(int), typeof(bool),typeof(float)})]
     //[HarmonyPatch(new[] { typeof(Vector3), typeof(string), typeof(int) })]
     public class AudioManagerPlay
     {

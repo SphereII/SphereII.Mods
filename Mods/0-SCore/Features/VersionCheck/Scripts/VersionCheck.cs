@@ -127,47 +127,47 @@ public class VersionCheck
         string message = string.Format(Localization.Get(descriptionFormat), gameVersion, modVersion);
 
         // Display the message box
-        XUiC_MessageBoxWindowGroup.ShowMessageBox(
+        XUiC_MessageBoxWindowGroup.ShowOkCancel(
             xui,
             Localization.Get(title),
             message,
-            XUiC_MessageBoxWindowGroup.MessageBoxTypes.OkCancel,
-            () => Application.Quit(), // Left button (Quit)
+            "",
+            () => Application.Quit(), // Ok/Left button (Quit)
             () => {
-                // Right button (Continue)
-                xui.playerUI.windowManager.CloseAllOpenWindows();
+                // Cancel/Right button (Continue)
+                xui.playerUI.windowManager.CloseAllOpenModalWindows();
                 xui.playerUI.windowManager.Open("mainmenu", true);
             },
             true,
+            false,
             false
         );
     }
 
-    [HarmonyPatch(typeof(XUiC_MessageBoxWindowGroup))]
-    [HarmonyPatch(nameof(XUiC_MessageBoxWindowGroup.GetBindingValueInternal))]
-
-    public class MessageBoxWindowGroupPatch
-    {
-        [HarmonyPostfix]
-        public static void Postfix(XUiC_MessageBoxWindowGroup __instance, ref bool __result, ref string _value,
-            string _bindingName)
-        {
-            // Check if it's the specific message box we want to modify
-            if (__instance.MessageBoxType == XUiC_MessageBoxWindowGroup.MessageBoxTypes.OkCancel &&
-                __instance.Title == Localization.Get(title)) // Replace 'title' with the exact title you're using
-            {
-                switch (_bindingName)
-                {
-                    case "leftbuttontext":
-                        _value = Localization.Get("xuiQuit");
-                        __result = true;
-                        break;
-                    case "rightbuttontext":
-                        _value = Localization.Get("btnContinue");
-                        __result = true;
-                        break;
-                }
-            }
-        }
-    }
+    // [HarmonyPatch(typeof(XUiC_MessageBoxWindowGroup))]
+    // [HarmonyPatch(nameof(XUiC_MessageBoxWindowGroup.GetBindingValueInternal))]
+    //
+    // public class MessageBoxWindowGroupPatch
+    // {
+    //     [HarmonyPostfix]
+    //     public static void Postfix(XUiC_MessageBoxWindowGroup __instance, ref bool __result, ref string _value,
+    //         string _bindingName)
+    //     {
+    //         // Check if it's the specific message box we want to modify
+    //         if (__instance.Title == Localization.Get(title))
+    //         {
+    //             switch (_bindingName)
+    //             {
+    //                 case "leftbuttontext":
+    //                     _value = Localization.Get("xuiQuit");
+    //                     __result = true;
+    //                     break;
+    //                 case "rightbuttontext":
+    //                     _value = Localization.Get("btnContinue");
+    //                     __result = true;
+    //                     break;
+    //             }
+    //         }
+    //     }
+    // }
 }

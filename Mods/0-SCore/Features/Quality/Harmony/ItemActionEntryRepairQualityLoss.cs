@@ -49,7 +49,7 @@ namespace SCore.Features.Quality.Harmony
 
             if (itemValue.ItemClass.Properties.Contains(FlatLevelsProperty))
             {
-                var str = itemValue.ItemClass.Properties.GetStringValue(FlatLevelsProperty);
+                var str = itemValue.ItemClass.Properties.GetString(FlatLevelsProperty);
                 if (int.TryParse(str, out int itemLevels))
                     return itemLevels;
             }
@@ -78,7 +78,7 @@ namespace SCore.Features.Quality.Harmony
 
             if (itemValue.ItemClass.Properties.Contains(PercentProperty))
             {
-                var str = itemValue.ItemClass.Properties.GetStringValue(PercentProperty);
+                var str = itemValue.ItemClass.Properties.GetString(PercentProperty);
                 if (float.TryParse(str, out float itemLoss))
                     return itemLoss;
             }

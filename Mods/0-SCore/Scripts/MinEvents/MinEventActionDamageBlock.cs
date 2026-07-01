@@ -12,6 +12,6 @@ public class MinEventActionDamageBlock : MinEventActionTargetedBase
         var position = new Vector3i(_params.Position);
         var ticks = _params.StartPosition.x;
         var perUse = _params.StartPosition.y;
-        blockValue.Block.DamageBlock(GameManager.Instance.World, 0, position, blockValue, (int)perUse * (int)ticks, -1);
+        blockValue.Block.DamageBlock(GameManager.Instance.World, new BlockValueRef(position), blockValue, (int)perUse * (int)ticks, -1, default(ItemActionAttack.AttackHitInfo), false);
     }
 }

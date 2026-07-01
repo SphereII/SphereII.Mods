@@ -1,7 +1,7 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using Platform;
 
-//OnBlockActivated(int _indexInBlockActivationCommands, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+//OnBlockActivated(int _indexInBlockActivationCommands, WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
 
 namespace Features.LockPicking
 {
@@ -11,12 +11,12 @@ namespace Features.LockPicking
         private static readonly string Feature = "AdvancedLocks";
 
     
-        [HarmonyPatch(typeof(BlockDoorSecure))]
+        [HarmonyPatch(typeof(BlockCompositeTileEntity))]
         [HarmonyPatch("OnBlockActivated")]
-        [HarmonyPatch(new[] { typeof(string), typeof(WorldBase), typeof(int), typeof(Vector3i), typeof(BlockValue), typeof(EntityPlayerLocal) })]
+        [HarmonyPatch(new[] { typeof(string), typeof(WorldBase),typeof(Vector3i), typeof(BlockValue), typeof(EntityPlayerLocal) })]
         public class BlockDoorSecureOnBlockActivated
         {
-            public static bool Prefix(ref Block __instance, string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
+            public static bool Prefix(ref Block __instance, string _commandName, WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
@@ -26,17 +26,15 @@ namespace Features.LockPicking
                 {
                     return true;
                 }
-        
+
                 if (_blockValue.ischild) return true;
-                var tileEntitySecureDoor = (TileEntitySecureDoor)_world.GetTileEntity(_cIdx, _blockPos);
-                if (tileEntitySecureDoor == null)
+                var lockable = (_world.GetTileEntity(_blockPos) as TileEntityComposite)?.GetFeature<TEFeatureLockable>();
+                if (lockable == null)
                     return true;
 
-                if (!tileEntitySecureDoor.IsLocked() || tileEntitySecureDoor.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
+                if (!lockable.IsLocked() || lockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                 {
                     return true;
-                    // __instance.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
-                    // return false;
                 }
 
                 var pickable = true;
@@ -47,16 +45,17 @@ namespace Features.LockPicking
                 if (pickable == false) return true;
 
                 // Door has an owner, don't allow picking.
-                if (tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.GetOwner() != null)
+                if (lockable.IsLocked() && lockable.GetOwner() != null)
                     return true;
 
-                if (!tileEntitySecureDoor.IsLocked()) return true;
+                if (!lockable.IsLocked()) return true;
                 // 1 == try to open locked door.
-                if (_commandName != "open") return true;
-                
-       
+                // Newer game versions prefix the activation command with the feature name (e.g. "TEFeatureDoor:open").
+                if (_commandName != "TEFeatureDoor:open") return true;
+
+
                 // Check if the player has lock picks.
-                var playerUI = (_player as EntityPlayerLocal)?.PlayerUI;
+                var playerUI = _player?.PlayerUI;
                 if (playerUI == null)
                     return true;
                 var playerInventory = playerUI.xui.PlayerInventory;
@@ -64,12 +63,12 @@ namespace Features.LockPicking
                 if (playerInventory.GetItemCount(item) == 0)
                 {
                     playerUI.xui.CollectedItemList.AddItemStack(new ItemStack(item, 0), true);
-                    GameManager.ShowTooltip((EntityPlayerLocal) _player, Localization.Get("ttLockpickMissing"));
+                    GameManager.ShowTooltip(_player, Localization.Get("ttLockpickMissing"));
                     return false;
                 }
 
-                tileEntitySecureDoor.SetLocked(true);
-                XUiC_PickLocking.Open(playerUI, tileEntitySecureDoor, _blockValue, _blockPos);
+                lockable.SetLocked(true);
+                XUiC_PickLocking.Open(playerUI, lockable, _blockValue, _blockPos);
                 return false;
             }
         }

@@ -31,7 +31,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
     // Allow params to be a comma-delimited list of various incentives, such as item name, buff, or cvar.
     //	<property name="AITask-5" value="ApproachAndAttackTarget" data="class=EntityNPC,0,EntityEnemyAnimal,0,EntityPlayer,0"/> <!-- class,maxChaseTime (return home) -->
 
-    public override void SetData(DictionarySave<string, string> data)
+    public override void SetData(Dictionary<string, string> data)
     {
         base.SetData(data);
         string text;

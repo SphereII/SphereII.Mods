@@ -75,7 +75,7 @@ namespace Harmony
                 vector.y += 320f;
                 PhysicsScene defaultPhysicsScene = Physics.defaultPhysicsScene;
                 Vector3 down = Vector3.down;
-                AstarVoxelGrid.HitData hitData;
+                AstarVoxelGrid.HitData hitData = default;
                 hitData.blockerFlags = 4096;
                 RaycastHit raycastHit;
                 while (defaultPhysicsScene.Raycast(vector, down, out raycastHit, 320.01f, 1073807360, QueryTriggerInteraction.Ignore))
@@ -214,7 +214,7 @@ namespace Harmony
                                     while ((float)vector3i3.y > num11)
                                     {
                                         vector2.y = (float)vector3i3.y - position2.y;
-                                        AstarVoxelGrid.HitData hitData2;
+                                        AstarVoxelGrid.HitData hitData2 = default;
                                         hitData2.blockerFlags = (ushort)(8192 | CalcBlockingFlags(vector2, 0f, ___neighboursOffsetV2));
                                         hitData2.point.x = vector2.x;
                                         hitData2.point.z = vector2.z;

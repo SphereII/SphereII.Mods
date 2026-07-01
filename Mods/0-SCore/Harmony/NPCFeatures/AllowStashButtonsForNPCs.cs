@@ -12,8 +12,8 @@ namespace Harmony.NPCFeatures
             if (bindingName == "lootingorvehiclestorage")
             {
                 if (value == "true") return;
-                if (__instance.xui.lootContainer == null) return;
-                var entityId = __instance.xui.lootContainer.EntityId;
+                if (__instance.xui.LootContainer == null) return;
+                var entityId = (__instance.xui.LootContainer as SCoreLootContainer)?.EntityId ?? -1;
                 if (entityId == -1) return;
                 var owner = EntityUtilities.GetLeaderOrOwner(entityId);
                 if ( owner == null) return; 
@@ -31,12 +31,12 @@ namespace Harmony.NPCFeatures
         private static bool Prefix(ref bool __result,XUiC_BackpackWindow __instance, out IInventory _dstInventory)
         {
             _dstInventory = null;
-            if (__instance.xui.lootContainer == null) return true;
-            var entityId = __instance.xui.lootContainer.EntityId;
+            if (__instance.xui.LootContainer == null) return true;
+            var entityId = (__instance.xui.LootContainer as SCoreLootContainer)?.EntityId ?? -1;
             if (entityId == -1) return true;
             var playerEntity = EntityUtilities.GetLeaderOrOwner(entityId);
             if (playerEntity == null) return true;
-            _dstInventory = __instance.xui.lootContainer;
+            _dstInventory = __instance.xui.LootContainer;
             __result = true;
             return false;
         }

@@ -67,7 +67,7 @@ public class NetPackageQuestGotoPointSDX : NetPackage
 			{
 				EntityPlayer entityPlayer = GameManager.Instance.World.GetEntity(this.playerId) as EntityPlayer;
 				PrefabInstance prefabInstance = null;
-				prefabInstance = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetRandomPOINearWorldPos(new Vector2(entityPlayer.position.x, entityPlayer.position.z), 100, 4000000, this.questTags, this.difficulty, null, -1, BiomeFilterTypes.AnyBiome, "");
+				prefabInstance =DynamicPrefabDecorator.GetRandomPOINearWorldPos(new Vector2(entityPlayer.position.x, entityPlayer.position.z), 100, 4000000, this.questTags, this.difficulty, null, -1, BiomeFilterTypes.AnyBiome, "");
 
 				new Vector2((float)prefabInstance.boundingBoxPosition.x + (float)prefabInstance.boundingBoxSize.x / 2f, (float)prefabInstance.boundingBoxPosition.z + (float)prefabInstance.boundingBoxSize.z / 2f);
 
@@ -98,7 +98,7 @@ public class NetPackageQuestGotoPointSDX : NetPackage
 					for (int j = 0; j < 15; j++)
 					{
 						PrefabInstance prefabInstance2;
-						prefabInstance2 = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetRandomPOINearWorldPos(new Vector2(entityPlayer.position.x, entityPlayer.position.z), 100, 4000000, this.questTags, this.difficulty, null, -1, BiomeFilterTypes.AnyBiome, "");
+						prefabInstance2 = DynamicPrefabDecorator.GetRandomPOINearWorldPos(new Vector2(entityPlayer.position.x, entityPlayer.position.z), 100, 4000000, this.questTags, this.difficulty, null, -1, BiomeFilterTypes.AnyBiome, "");
 
 						Vector2 vector3b = new Vector2((float)prefabInstance2.boundingBoxPosition.x + (float)prefabInstance2.boundingBoxSize.x / 2f, (float)prefabInstance2.boundingBoxPosition.z + (float)prefabInstance2.boundingBoxSize.z / 2f);
 

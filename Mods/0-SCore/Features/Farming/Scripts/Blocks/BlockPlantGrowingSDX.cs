@@ -22,14 +22,14 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         if (this.Properties.Values.ContainsKey("RequireWater"))
             RequireWater = StringParsers.ParseBool(this.Properties.Values["RequireWater"]);
 
-        if (this.Properties.Values.ContainsKey("Wilt"))
-            this.willWilt = StringParsers.ParseBool(this.Properties.Values["Wilt"]);
+        // if (this.Properties.Values.ContainsKey("Wilt"))
+        //     this.willWilt = StringParsers.ParseBool(this.Properties.Values["Wilt"]);
 
         if (this.Properties.Values.ContainsKey("WaterRange"))
             this.WaterRange = int.Parse(this.Properties.Values["WaterRange"]);
 
-        if (this.Properties.Values.ContainsKey("PlantGrowing.Wilt"))
-            this.wiltedPlant = ItemClass.GetItem(this.Properties.Values["PlantGrowing.Wilt"], false).ToBlockValue();
+        if (this.Properties.Values.ContainsKey("Wilt"))
+            this.wiltedPlant = ItemClass.GetItem(this.Properties.Values["Wilt"], false).ToBlockValue();
     }
 
 
@@ -41,9 +41,9 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
     }
 
     // Checks the preview if the plant can actually go there.
-    public override bool CanPlaceBlockAt(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bOmitCollideCheck = false)
+    public override bool CanPlaceBlockAt(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, bool _bOmitCollideCheck = false)
     {
-        if (!base.CanPlaceBlockAt(_world, _clrIdx, _blockPos, _blockValue, _bOmitCollideCheck))
+        if (!base.CanPlaceBlockAt(_world, _blockPos, _blockValue, _bOmitCollideCheck))
             return false;
 
         if (RequireWater == false) return true;
@@ -52,16 +52,16 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
 
     // When chunk is loaded, force add the block. This will be valiated on the update check in the crop manager, but
     // the assumption here is if the block was there to begin with, it's allowed.
-    public override void OnBlockLoaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockLoaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
-        base.OnBlockLoaded(_world, _clrIdx, _blockPos, _blockValue);
+        base.OnBlockLoaded(_world, _blockPos, _blockValue);
         CropManager.Instance.ForceAdd(_blockPos);
     }
 
     // Remove from the map when unloading
-    public override void OnBlockUnloaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockUnloaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
-        base.OnBlockUnloaded(_world, _clrIdx, _blockPos, _blockValue);
+        base.OnBlockUnloaded(_world, _blockPos, _blockValue);
         CropManager.Instance.Remove(_blockPos);
     }
 
@@ -72,7 +72,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         CropManager.Instance.Add(_blockPos, WaterRange);
     }
 
-    public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
+    public override bool UpdateTick(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
         if (RequireWater && IsRootBlock(_world, _blockPos))
         {
@@ -86,13 +86,13 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
             }
         }
 
-        return base.UpdateTick(_world, _clrIdx, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded, _rnd);
+        return base.UpdateTick(_world, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded, _rnd);
     }
 
-    public override bool CheckPlantAlive(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override bool CheckPlantAlive(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
         // Allow the plant to follow the basic rules.
-        var result = base.CheckPlantAlive(_world, _clrIdx, _blockPos, _blockValue);
+        var result = base.CheckPlantAlive(_world, _blockPos, _blockValue);
         if (result == false) return false;
 
         // Only the root block owns the water check — upper blocks of multi-block plants defer
@@ -105,7 +105,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         // Only wilt if the property is set.
         if (willWilt)
         {
-            Wilt(_world, _clrIdx, _blockPos, _blockValue);
+            Wilt(_world, _blockPos, _blockValue);
             return false;
         }
         return true;
@@ -121,7 +121,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         return !(world.GetBlock(blockPos + Vector3i.down).Block is BlockPlantGrowingSDX);
     }
 
-    public void Wilt(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public void Wilt(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
         // Handle wilting.
         _blockValue.type = this.wiltedPlant.type;
@@ -133,7 +133,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         blockValue.meta = _blockValue.meta;
         blockValue.meta2 = 0;
         _blockValue = blockValue;
-        _world.SetBlockRPC(_clrIdx, _blockPos, _blockValue);
+        _world.SetBlockRPC(new BlockValueRef(_blockPos), _blockValue);
     }
 }
 

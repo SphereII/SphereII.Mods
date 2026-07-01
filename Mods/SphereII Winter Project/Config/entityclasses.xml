@@ -48,7 +48,7 @@
        <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" target="self" buff="buffRemoveDuplicateTrader"/>
   </append>
 
-  <!-- change demo zombie to do more damage to the ground. -->
+  <!-- change demo zombie to do more damage to the ground. 
   <set xpath="//entity_class[@name='zombieDemolition']/property[@name='Explosion.DamageBonus.earth']/@value">0.5</set>
-
+-->
 </configs>

@@ -26,7 +26,7 @@ public class BlockPrefabPlacer : Block
     }
 
     // Over-write whatever is there. Screw it!
-    public override bool CanPlaceBlockAt(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bOmitCollideCheck = false)
+    public override bool CanPlaceBlockAt(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, bool _bOmitCollideCheck = false)
     {
         return true;
     }
@@ -42,7 +42,13 @@ public class BlockPrefabPlacer : Block
         var chunk = (Chunk)((World)GameManager.Instance.World).GetChunkFromWorldPos(_blockPos);
         var location = PathAbstractions.PrefabsSearchPaths.GetLocation(prefabName);
         
-        var prefabTemplate = GameManager.Instance.GetDynamicPrefabDecorator().GetPrefab(prefabName, true, true, true);
+        // Search existing prefabs by name
+        Prefab prefabTemplate = null;
+        var allPrefabs = new List<PrefabInstance>();
+        GameManager.Instance.GetDynamicPrefabDecorator().GetAllPrefabs(allPrefabs);
+        foreach (var pi in allPrefabs)
+            if (pi.name == prefabName && pi.prefab != null) { prefabTemplate = pi.prefab; break; }
+
         if (prefabTemplate == null)
         {
             // If it's not in the prefab decorator, load it up.
@@ -52,12 +58,12 @@ public class BlockPrefabPlacer : Block
         }
         var myPrefab = prefabTemplate.Clone();
 
-        myPrefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, _blockPos, true);
+        myPrefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, _blockPos, true, FastTags<TagGroup.Global>.none);
         var entityInstanceIds = new List<int>();
         myPrefab.CopyEntitiesIntoChunkStub(chunk, _blockPos, entityInstanceIds, true);
 
         var prefabInstance = new PrefabInstance(GameManager.Instance.GetDynamicPrefabDecorator().GetNextId(), location, _blockPos, 0, myPrefab, 0);
-        GameManager.Instance.GetDynamicPrefabDecorator().AddPrefab(prefabInstance, false);
+        GameManager.Instance.GetDynamicPrefabDecorator().AddWorldPrefab(prefabInstance, false);
 
     }
 }

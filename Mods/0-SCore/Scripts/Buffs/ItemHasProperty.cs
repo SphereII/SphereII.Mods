@@ -40,7 +40,7 @@ public class ItemHasProperty : TargetedCompareRequirementBase
         {
             if (!itemClass.Properties.Contains(propertyName)) return false;
 
-            var propStringValue = itemClass.Properties.GetStringValue(propertyName);
+            var propStringValue = itemClass.Properties.GetString(propertyName);
             result = propStringValue.EqualsCaseInsensitive(propertyValue);
         }
 

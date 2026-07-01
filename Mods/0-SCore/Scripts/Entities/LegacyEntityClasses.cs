@@ -24,18 +24,9 @@ public class EntityBanditSDX : EntityBandit
 
 public class EntityGenericSDX : EntityAlive
 {
-    public override void Init(int _entityClass)
+    public override void Init(int _entityClass, EntityInstanceAssets _assets, EModelInstanceAssets _eModelAssets)
     {
-        base.Init(_entityClass);
-        inventory.SetSlots(new[]
-        {
-            new ItemStack(inventory.GetBareHandItemValue(), 1)
-        });
-    }
-
-    public override void InitFromPrefab(int _entityClass)
-    {
-        base.InitFromPrefab(_entityClass);
+        base.Init(_entityClass, _assets, _eModelAssets);
         inventory.SetSlots(new[]
         {
             new ItemStack(inventory.GetBareHandItemValue(), 1)
@@ -68,18 +59,9 @@ public class EntitySurvivorSDX : EntitySurvivor
 
 public class EntityZombieCopSDX : EntityZombie
 {
-    public override void Init(int _entityClass)
+    public override void Init(int _entityClass, EntityInstanceAssets _assets, EModelInstanceAssets _eModelAssets)
     {
-        base.Init(_entityClass);
-        inventory.SetSlots(new[]
-        {
-            new ItemStack(inventory.GetBareHandItemValue(), 1)
-        });
-    }
-
-    public override void InitFromPrefab(int _entityClass)
-    {
-        base.InitFromPrefab(_entityClass);
+        base.Init(_entityClass, _assets, _eModelAssets);
         inventory.SetSlots(new[]
         {
             new ItemStack(inventory.GetBareHandItemValue(), 1)
@@ -146,10 +128,10 @@ internal class EntityWanderingTrader : EntityNPC
             base.OnUpdateLive();
     }
 
-    public override bool OnEntityActivated(int _indexInBlockActivationCommands, Vector3i _tePos, EntityAlive _entityFocusing)
+    public override void OnEntityActivated(EntityActivationCommand _command, EntityPlayerLocal _playerFocusing)
     {
         emodel.avatarController.UpdateBool("IsBusy", true);
-        return base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
+        base.OnEntityActivated(_command, _playerFocusing);
     }
 
     public override int DamageEntity(DamageSource _damageSource, int _strength, bool _criticalHit, float _impulseScale)

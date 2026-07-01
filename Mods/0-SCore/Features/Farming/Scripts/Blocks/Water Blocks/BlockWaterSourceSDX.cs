@@ -1,4 +1,4 @@
-using Audio;
+﻿using Audio;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -75,9 +75,9 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         return false;
     }
 
-    public override bool CanPlaceBlockAt(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bOmitCollideCheck = false)
+    public override bool CanPlaceBlockAt(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, bool _bOmitCollideCheck = false)
     {
-        if (!base.CanPlaceBlockAt(_world, _clrIdx, _blockPos, _blockValue, _bOmitCollideCheck))
+        if (!base.CanPlaceBlockAt(_world, _blockPos, _blockValue, _bOmitCollideCheck))
             return false;
 
         // Unlimited source sprinklers are self-contained — no pipe connection required
@@ -102,23 +102,23 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         base.OnBlockRemoved(_world, _chunk, _blockPos, _blockValue);
     }
 
-    public override void OnBlockUnloaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockUnloaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
-        base.OnBlockUnloaded(_world, _clrIdx, _blockPos, _blockValue);
+        base.OnBlockUnloaded(_world, _blockPos, _blockValue);
         StopSprinklerSound(_blockPos);
         ClearConnectionStatus(_blockPos);
         ClearManualOverride(_blockPos);
     }
 
-    public override void OnBlockLoaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockLoaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
-        base.OnBlockLoaded(_world, _clrIdx, _blockPos, _blockValue);
+        base.OnBlockLoaded(_world, _blockPos, _blockValue);
         if (_blockValue.ischild) return;
 
         ClearConnectionStatus(_blockPos);
         ClearManualOverride(_blockPos);
 
-        var chunkCluster = _world.ChunkClusters[_clrIdx];
+        var chunkCluster = _world.ChunkCache;
         if (chunkCluster == null) return;
 
         var chunk = (Chunk)chunkCluster.GetChunkFromWorldPos(_blockPos);
@@ -129,7 +129,7 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         });
         if (!_world.IsRemote())
         {
-            _world.GetWBT().AddScheduledBlockUpdate(chunk.ClrIdx, _blockPos, this.blockID, this.GetTickRate());
+            _world.GetWBT().AddScheduledBlockUpdate(_blockPos, this.blockID, this.GetTickRate());
         }
 
         WaterPipeManager.Instance.AddValve(_blockPos);
@@ -149,17 +149,17 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         });
         if (!_world.IsRemote())
         {
-            _world.GetWBT().AddScheduledBlockUpdate(_chunk.ClrIdx, _blockPos, this.blockID, this.GetTickRate());
+            _world.GetWBT().AddScheduledBlockUpdate(_blockPos, this.blockID, this.GetTickRate());
         }
 
         WaterPipeManager.Instance.AddValve(_blockPos);
     }
 
-    public override void OnNeighborBlockChange(WorldBase world, int _clrIdx, Vector3i _myBlockPos,
+    public override void OnNeighborBlockChange(WorldBase world, Vector3i _myBlockPos,
         BlockValue _myBlockValue,
         Vector3i _blockPosThatChanged, BlockValue _newNeighborBlockValue, BlockValue _oldNeighborBlockValue)
     {
-        base.OnNeighborBlockChange(world, _clrIdx, _myBlockPos, _myBlockValue, _blockPosThatChanged,
+        base.OnNeighborBlockChange(world, _myBlockPos, _myBlockValue, _blockPosThatChanged,
             _newNeighborBlockValue, _oldNeighborBlockValue);
         RefreshAllSprinklers(_myBlockPos);
     }
@@ -177,15 +177,13 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         }
     }
 
-    public override bool HasBlockActivationCommands(WorldBase _world, BlockValue _blockValue, int _clrIdx,
-        Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override bool HasBlockActivationCommands(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         return true;
     }
 
     // --- Activation Command Logic ---
-    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue,
-        int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         bool currentStateIsOn = false;
         bool? currentManualOverride = GetManualOverride(_blockPos);
@@ -213,7 +211,7 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         return this.cmds;
     }
 
-    public override bool OnBlockActivated(string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos,
+    public override bool OnBlockActivated(string _commandName, WorldBase _world, Vector3i _blockPos,
         BlockValue _blockValue, EntityPlayerLocal _player)
     {
         bool stateChanged = false;
@@ -293,10 +291,10 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         return (ulong)10f;
     }
 
-    public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue,
+    public override bool UpdateTick(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue,
         bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
-        _world.GetWBT().AddScheduledBlockUpdate(_clrIdx, _blockPos, this.blockID, this.GetTickRate());
+        _world.GetWBT().AddScheduledBlockUpdate(_blockPos, this.blockID, this.GetTickRate());
         RefreshSprinkler(_blockPos);
         return true;
     }
@@ -343,7 +341,7 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
             SetConnectionStatus(sprinklerPos, null);
             var chunk = (Chunk)world.GetChunkFromWorldPos(sprinklerPos);
             if (chunk == null) continue;
-            world.GetWBT().AddScheduledBlockUpdate(chunk.ClrIdx, sprinklerPos,
+            world.GetWBT().AddScheduledBlockUpdate(sprinklerPos,
                 world.GetBlock(sprinklerPos).type, 1);
         }
     }

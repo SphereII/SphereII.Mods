@@ -74,7 +74,7 @@ namespace Harmony.WorldGen {
                 BiomeSpawnEntityGroupData biomeSpawnEntityGroupData, int idHash, World world, int maxCount) {
                 spawnData.entitesSpawned.TryGetValue(idHash, out var countsAndTime);
                 countsAndTime.delayWorldTime = world.worldTime +
-                                               (ulong)((float)biomeSpawnEntityGroupData.respawnDelayInWorldTime *
+                                               (ulong)((float)biomeSpawnEntityGroupData.respawnDelayInWorldTime[0] *
                                                        world.RandomRange(0.9f, 1.1f));
                // Debug.Log($"Reset respawn for {idHash}: {countsAndTime.count}");
                 countsAndTime.maxCount = maxCount;

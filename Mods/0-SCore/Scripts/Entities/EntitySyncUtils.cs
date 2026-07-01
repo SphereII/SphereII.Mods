@@ -147,12 +147,12 @@ public static class EntitySyncUtils
             if (!string.IsNullOrEmpty(hc.lootListName))
                 itemValue.SetMetadata("LootListName", hc.lootListName, TypedMetadataValue.TypeTag.String);
         }
-        else if (npc.lootContainer != null)
+        else if (npc is EntityAliveSDX npcSDXSerial && npcSDXSerial.lootContainer != null)
         {
-            string bagStr = SerializeItemStackArray(npc.lootContainer.items);
+            string bagStr = SerializeItemStackArray(npcSDXSerial.lootContainer.items);
             itemValue.SetMetadata("Bag", bagStr, TypedMetadataValue.TypeTag.String);
-            if (!string.IsNullOrEmpty(npc.lootContainer.lootListName))
-                itemValue.SetMetadata("LootListName", npc.lootContainer.lootListName, TypedMetadataValue.TypeTag.String);
+            if (!string.IsNullOrEmpty(npcSDXSerial.lootContainer.lootListName))
+                itemValue.SetMetadata("LootListName", npcSDXSerial.lootContainer.lootListName, TypedMetadataValue.TypeTag.String);
         }
 
         itemValue.SetMetadata("CurrentWeapon", npc.inventory?.holdingItem.GetItemName(), TypedMetadataValue.TypeTag.String);
@@ -239,28 +239,32 @@ public static class EntitySyncUtils
                 for (int i = 0; i < slots.Length && i < hc.items.Length; i++)
                     hc.items[i] = slots[i];
             }
-            else
+            else if (npc is EntityAliveSDX npcSDX3)
             {
-                if (npc.lootContainer == null)
+                if (npcSDX3.lootContainer == null)
                 {
-                    Chunk chunk = null;
-                    npc.lootContainer = new TileEntityLootContainer(chunk);
-                    npc.lootContainer.entityId = npc.entityId;
-                    npc.lootContainer.SetContainerSize(new Vector2i(8, 6));
+                    // TileEntity.get_blockValue() dereferences this.chunk; a null chunk throws a
+                    // NullReferenceException when the looting window opens. Resolve the entity's
+                    // current chunk so blockValue returns a valid (if irrelevant) block.
+                    Chunk chunk = npc.world?.GetChunkSync(
+                        World.toChunkXZ((int)npc.position.x),
+                        World.toChunkXZ((int)npc.position.z)) as Chunk;
+                    npcSDX3.lootContainer = new SCoreLootContainer(chunk) { EntityId = npc.entityId };
+                    npcSDX3.lootContainer.SetContainerSize(new Vector2i(8, 6));
                 }
 
-                if (npc.lootContainer.items.Length < slots.Length)
-                    npc.lootContainer.items = slots;
+                if (npcSDX3.lootContainer.items.Length < slots.Length)
+                    npcSDX3.lootContainer.items = slots;
                 else
-                    for (int i = 0; i < slots.Length && i < npc.lootContainer.items.Length; i++)
-                        npc.lootContainer.items[i] = slots[i];
-                npc.lootContainer.SetModified();
+                    for (int i = 0; i < slots.Length && i < npcSDX3.lootContainer.items.Length; i++)
+                        npcSDX3.lootContainer.items[i] = slots[i];
+                npcSDX3.lootContainer.SetModified();
             }
         }
 
         string lootList = itemValue.GetMetadata("LootListName") as string;
-        if (!string.IsNullOrEmpty(lootList) && npc.lootContainer != null)
-            npc.lootContainer.lootListName = lootList;
+        if (!string.IsNullOrEmpty(lootList) && npc is EntityAliveSDX sdxForLoot && sdxForLoot.lootContainer != null)
+            sdxForLoot.lootContainer.lootListName = lootList;
 
         npc.Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);
 

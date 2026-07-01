@@ -64,7 +64,7 @@
 //             {
 //                 var strDisplay = "Property: " + strTag;
 //                 if (dynamicProperties.Contains(strTag))
-//                     strDisplay += " Value: " + dynamicProperties.GetStringValue(strTag);
+//                     strDisplay += " Value: " + dynamicProperties.GetString(strTag);
 //                 else
 //                     strDisplay += " Property is not set.";
 //

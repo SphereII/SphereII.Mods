@@ -249,8 +249,8 @@ namespace UAI
             ItemStack[] items = null;
             if (_context.Self is EntityTrader && HarvestManager.Has(_context.Self.entityId))
                 items = HarvestManager.GetOrCreate(_context.Self.entityId).items;
-            else if (_context.Self.lootContainer != null)
-                items = _context.Self.lootContainer.items;
+            else if ((_context.Self as EntityAliveSDX)?.lootContainer != null)
+                items = (_context.Self as EntityAliveSDX).lootContainer.items;
 
             if (items == null) return false;
 
@@ -355,15 +355,15 @@ namespace UAI
             AdvLogging.DisplayLog("AdvancedTroubleshootingFeatures", "UAITaskFarming",
                 $"Entity {_context.Self.entityId} harvested {harvestedItemStacks?.Count ?? 0} item type(s) from {_targetFarmPlotPosition}.");
 
-            // EntityAliveSDXV4 extends EntityTrader. TileEntityLootContainer.AddItem() always
+            // EntityAliveSDXV4 extends EntityTrader. TileEntityComposite.AddItem() always
             // calls SetModified() internally, which for TileEntityTrader triggers a network
             // packet that serialises both items[] and TraderData in one stream. Those two stores
             // can diverge, causing EndOfStreamException on the client. Use HarvestManager — a
-            // plain TileEntityLootContainer per entity, never attached to the world tile-entity
+            // plain TileEntityComposite per entity, never attached to the world tile-entity
             // system — to store crops safely. The player opens it via the OpenInventory dialog cmd.
             bool isTraderEntity = _context.Self is EntityTrader;
 
-            var lootContainer = _context.Self.lootContainer;
+            var lootContainer = (_context.Self as EntityAliveSDX)?.lootContainer;
             if (!isTraderEntity && lootContainer == null)
                 Debug.LogWarning($"UAITaskFarming: lootContainer is null on entity {_context.Self.entityId}. Harvest items will be dropped.");
 
@@ -408,8 +408,8 @@ namespace UAI
                             AdvLogging.DisplayLog("AdvancedTroubleshootingFeatures", "UAITaskFarming",
                                 $"  Harvest container full — dropping {count}x '{item.name}' on ground.");
                             _context.Self.world.GetGameManager().ItemDropServer(
-                                itemStack, _context.Self.position, Vector3.zero,
-                                _context.Self.entityId, 60f, false);
+                                itemStack, _context.Self.position, Vector3.zero);
+
                         }
                         else
                         {
@@ -429,8 +429,8 @@ namespace UAI
                         AdvLogging.DisplayLog("AdvancedTroubleshootingFeatures", "UAITaskFarming",
                             $"  Inventory full or null — dropping {count}x '{item.name}' on ground.");
                         _context.Self.world.GetGameManager().ItemDropServer(
-                            itemStack, _context.Self.position, Vector3.zero,
-                            _context.Self.entityId, 60f, false);
+                            itemStack, _context.Self.position, Vector3.zero);
+                            
                     }
                 }
 

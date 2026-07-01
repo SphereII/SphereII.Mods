@@ -28,7 +28,7 @@ public class SCore_QuickLoad
 
             if (!autoStart) return true;
      
-            _xuiInstance.playerUI.windowManager.Open(XUiC_MainMenu.ID, true, false, true);
+            _xuiInstance.playerUI.windowManager.Open(XUiC_MainMenu.ID, true, false);
             return false;
 
         }
@@ -63,11 +63,11 @@ public class SCore_QuickLoad
         }
     }
 
-    [HarmonyPatch(typeof(XUiC_NewContinueGame))]
+    [HarmonyPatch(typeof(XUiC_ContinueGame))]
     [HarmonyPatch("OnOpen")]
     public class SphereII_XUIC_NewContinueGame
     {
-        private static void Postfix(XUiC_NewContinueGame __instance)
+        private static void Postfix(XUiC_ContinueGame __instance)
         {
             var autoStart = false;
             for (var i = 0; i < Environment.GetCommandLineArgs().Length; i++)

@@ -30,7 +30,7 @@ public class MinEventActionCreateItemSDX : MinEventActionBase
             var container = LootContainer.GetLootContainer(_lootGroup);
             if (container == null) return;
 
-            var array = container.Spawn(_params.Self.rand, _createItemCount, (float)_params.Self.Progression.GetLevel(), 0f, null, new FastTags<TagGroup.Global>(), container.UniqueItems, false);
+            var array = container.Spawn(_params.Self.rand, _createItemCount, (float)_params.Self.Progression.GetLevel(), 0f, null, new FastTags<TagGroup.Global>(), container.UniqueItems, false, false);
             foreach (var t in array)
                 if (!LocalPlayerUI.GetUIForPlayer(entityPlayer).xui.PlayerInventory.AddItem(t, true))
                     entityPlayer.world.gameManager.ItemDropServer(t, entityPlayer.GetPosition(), Vector3.zero);

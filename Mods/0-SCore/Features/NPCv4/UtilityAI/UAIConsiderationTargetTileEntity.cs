@@ -33,28 +33,21 @@ namespace UAI
                 if (targetType == TileEntityType.None) // Not a tile entity.
                     continue;
 
-                var tileEntity = _context.World.GetTileEntity(0, vector);
+                var tileEntity = _context.World.GetTileEntity(vector);
                 if (tileEntity.GetTileEntityType() == targetType)
                 {
                     float num = UAIUtils.DistanceSqr(_context.Self.position, vector);
                     float scoreClamp = Mathf.Clamp01(Mathf.Max(0f, num - this._min) / (this._max - this._min));
                     float score = (Mathf.Max(i, num - this._min) / (this._max - this._min));
                     AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{GetType()} : {tileEntity.ToString()} Score {score} Clamped {scoreClamp}  My Position: {_context.Self.position} Distance {num} Type: {tileEntity.GetTileEntityType()}");
-                    switch (tileEntity.GetTileEntityType())
+                    if (tileEntity is TileEntityComposite tec)
                     {
-                        // If the loot containers were already touched, don't path to them.
-                        case TileEntityType.Loot:
-                            if (!((TileEntityLootContainer)tileEntity).bTouched)
-                                return scoreClamp;
-                            break;
-                        case TileEntityType.SecureLoot:
-                            if (!((TileEntitySecureLootContainer)tileEntity).bTouched)
-                                return scoreClamp;
-                            break;
-                        default:
-                            //  var temp = _context.Self.rand.RandomFloat;
-                            //Debug.Log($"\tRandomScore: {Mathf.Clamp01(temp)}");
-                            return scoreClamp;
+                        var storage = tec.GetFeature<TEFeatureStorage>();
+                        if (storage == null || !storage.bTouched) return scoreClamp;
+                    }
+                    else
+                    {
+                        return scoreClamp;
                     }
                 }
             }

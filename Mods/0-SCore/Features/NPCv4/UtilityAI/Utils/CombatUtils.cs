@@ -159,13 +159,7 @@ namespace UAI
 
                 if (entity is not EntityPlayerLocal && entity is not EntityPlayer) continue;
                 if (EntityTargetingUtilities.IsEnemy(context.Self, entity)) continue;
-
-                if (context.Self
-                    .GetActivationCommands(new Vector3i(context.Self.position), lookTarget as EntityAlive)
-                    .Length > 0)
-                {
-                    lookTarget = entity;
-                }
+                lookTarget = entity;
             }
 
             if (lookTarget == null)

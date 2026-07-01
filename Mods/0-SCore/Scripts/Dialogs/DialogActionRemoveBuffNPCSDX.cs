@@ -6,6 +6,6 @@
         var myEntity = playerUI.xui.Dialog.Respondent as IEntityAliveSDX;
         if (myEntity == null) return;
 
-        (myEntity as EntityAlive).Buffs.RemoveBuff(base.ID, true);
+        (myEntity as EntityAlive).Buffs.RemoveBuff(base.ID);
     }
 }

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Class:       EntityAliveSDXV4
  * Author:      sphereii
  * Category:    Entity
@@ -152,8 +152,13 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
     private Vector3 _scale;
     private ChunkCluster.OnChunkVisibleDelegate _chunkClusterVisibleDelegate;
 
-    private TileEntityTrader _tileEntityTrader;
+    private TileEntityVendingMachine _tileEntityTrader;
     private TraderArea       _traderArea;
+
+    public SCoreLootContainer lootContainer;
+
+    public string lootListAlive;
+    public string lootListOnDeath;
 
     private string _particleOnDestroy;
     private BlockValue _corpseBlockValue;
@@ -302,7 +307,7 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
             var strBox    = "0,0,0";
             var strCenter = "0,0,0";
             var dynProps  = ec.Properties.Classes["Boundary"];
-            foreach (var kvp in dynProps.Values.Dict)
+            foreach (var kvp in dynProps.Values)
             {
                 if (kvp.Key == "BoundaryBox") strBox    = dynProps.Values[kvp.Key];
                 if (kvp.Key == "Center")      strCenter = dynProps.Values[kvp.Key];
@@ -310,22 +315,35 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
             ConfigureBoundaryBox(StringParsers.ParseVector3(strBox), StringParsers.ParseVector3(strCenter));
         }
 
-        if (ec.Properties.Values.ContainsKey("BagItems"))
+        // NOTE: BagItems population moved to PostInit() / SetupBagItems().
+    }
+
+    // Populate the NPC's bag from the "BagItems" entityclass property.
+    // Runs from PostInit (post-Awake) so bag/Buffs/inventory are all initialized.
+    private void SetupBagItems()
+    {
+        var ec = EntityClass.list[entityClass];
+        if (!ec.Properties.Values.ContainsKey("BagItems")) return;
+
+        // NPC bag is null by default: only EntityPlayer initializes its bag (with
+        // CarryCapacity); EntityNPC/EntityTrader never do. Construct WITH a slot count --
+        // new Bag() leaves items null and Bag.AddItem -> AddToItemStackArray(items) NREs.
+        const int npcBagSlots = 45;
+        if (bag == null) bag = new Bag(npcBagSlots);
+
+        foreach (var item in ec.Properties.Values["BagItems"].Split(","))
         {
-            foreach (var item in ec.Properties.Values["BagItems"].Split(","))
+            var name  = item;
+            var count = 1;
+            if (item.Contains("="))
             {
-                var name  = item;
-                var count = 1;
-                if (item.Contains("="))
-                {
-                    var parts = item.Split('=');
-                    name  = parts[0];
-                    count = StringParsers.ParseSInt32(parts[1]);
-                }
-                var iv = ItemClass.GetItem(name);
-                if (!iv.Equals(ItemValue.None))
-                    bag.AddItem(new ItemStack(iv, count));
+                var parts = item.Split('=');
+                name  = parts[0];
+                count = StringParsers.ParseSInt32(parts[1]);
             }
+            var iv = ItemClass.GetItem(name);
+            if (!iv.Equals(ItemValue.None))
+                bag.AddItem(new ItemStack(iv, count));
         }
     }
 
@@ -342,8 +360,13 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
 
         if (lootContainer == null)
         {
-            Chunk chunk = null;
-            lootContainer = new TileEntityLootContainer(chunk) { entityId = entityId };
+            // TileEntity.get_blockValue() dereferences this.chunk; a null chunk throws a
+            // NullReferenceException when the looting window opens. Resolve the entity's
+            // current chunk so blockValue returns a valid (if irrelevant) block.
+            Chunk chunk = world?.GetChunkSync(
+                World.toChunkXZ((int)position.x),
+                World.toChunkXZ((int)position.z)) as Chunk;
+            lootContainer = new SCoreLootContainer(chunk) { EntityId = entityId };
             lootContainer.SetContainerSize(string.IsNullOrEmpty(GetLootList())
                 ? new Vector2i(8, 6)
                 : LootContainer.GetLootContainer(GetLootList()).size);
@@ -361,6 +384,7 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
 
         Buffs.SetCustomVar("$waterStaminaRegenAmount", 0, false);
         SetupStartingItems();
+        SetupBagItems();
         if (!string.IsNullOrEmpty(_currentWeapon))
             UpdateWeapon(_currentWeapon);
 
@@ -378,15 +402,13 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
 
     private void SanitizeTraderData()
     {
-        if (TileEntityTrader?.TraderData == null) return;
-        var inv = TileEntityTrader.TraderData.PrimaryInventory;
+        if (_tileEntityTrader?.TraderData == null) return;
+        var inv = _tileEntityTrader.TraderData.PrimaryInventory;
         if (inv == null || inv.Count > 200)
         {
             Log.Warning($"[0-SCore] Corrupt TraderData on {EntityName} ({entityId}). Resetting.");
-            Chunk chunk = null;
-            TileEntityTrader = new TileEntityTrader(chunk);
-            TileEntityTrader.entityId = entityId;
-            TileEntityTrader.TraderData.TraderID = NPCInfo != null ? NPCInfo.TraderID : 1;
+            _tileEntityTrader = new TileEntityVendingMachine(null);
+            _tileEntityTrader.TraderData.TraderID = NPCInfo != null ? NPCInfo.TraderID : 1;
         }
     }
 
@@ -396,7 +418,7 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
             IsSleeping = false;
 
         _chunkClusterVisibleDelegate = OnChunkDisplayed;
-        GameManager.Instance.World.ChunkClusters[0].OnChunkVisibleDelegates += _chunkClusterVisibleDelegate;
+        GameManager.Instance.World.ChunkCache.OnChunkVisibleDelegates += _chunkClusterVisibleDelegate;
         base.OnAddedToWorld();
         AddToInventory();
     }
@@ -436,7 +458,7 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
             ConditionalTriggerSleeperWakeUp();
         }
 
-        Buffs.RemoveBuff("buffnewbiecoat", false);
+        Buffs.RemoveBuff("buffnewbiecoat");
         Stats.Health.MaxModifier = Stats.Health.Max;
 
         // ── 4. Animation state ────────────────────────────────────────────────
@@ -469,8 +491,7 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
         if (_tileEntityTrader == null)
         {
             Chunk chunk = null;
-            _tileEntityTrader = new TileEntityTrader(chunk);
-            _tileEntityTrader.entityId = entityId;
+            _tileEntityTrader = new TileEntityVendingMachine(chunk);
             _tileEntityTrader.TraderData.TraderID = NPCInfo.TraderID;
         }
 
@@ -536,7 +557,8 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
         if (pathingVectors == null || pathingVectors.Count == 0) return;
 
         var target = ModGeneralUtilities.FindNearestBlock(position, pathingVectors);
-        var sign   = GameManager.Instance.World.GetTileEntity(0, new Vector3i(target)) as TileEntitySign;
+        var composite = GameManager.Instance.World.GetTileEntity(new Vector3i(target)) as TileEntityComposite;
+        var sign   = composite?.GetFeature<TEFeatureSignable>();
         if (sign == null) return;
 
         var text = sign.signText.Text;

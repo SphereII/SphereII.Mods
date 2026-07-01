@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -6,12 +6,12 @@ using System.IO;
 /// Maintains a per-NPC harvest inventory for trader-type entities (e.g. EntityAliveSDXV4).
 ///
 /// Problem: EntityAliveSDXV4 extends EntityTrader. Its lootContainer is a TileEntityTrader,
-/// whose write/read path serialises both TileEntityLootContainer.items[] AND TraderData in
-/// one stream. TileEntityLootContainer.AddItem() internally calls SetModified(), which
+/// whose write/read path serialises both SCoreLootContainer.items[] AND TraderData in
+/// one stream. SCoreLootContainer.AddItem() internally calls SetModified(), which
 /// triggers a TileEntityTrader network packet. Any mismatch between the items[] store and
 /// TraderData.PrimaryInventory causes EndOfStreamException on the receiving client.
 ///
-/// Solution: Store harvested crops in a plain TileEntityLootContainer that is completely
+/// Solution: Store harvested crops in a plain SCoreLootContainer that is completely
 /// separate from the trader entity's lootContainer. This container is never attached to a
 /// chunk or to the world tile-entity system, so SetModified() is never called on it during
 /// harvest. The player accesses it via the standard looting window (OpenInventory dialog
@@ -24,23 +24,23 @@ public static class HarvestManager
 
     // Keyed by entity ID. Entries persist for the server session; removed when the NPC is
     // picked up (via EntitySyncUtils.Collect) or killed.
-    private static readonly Dictionary<int, TileEntityLootContainer> _containers =
-        new Dictionary<int, TileEntityLootContainer>();
+    private static readonly Dictionary<int, SCoreLootContainer> _containers =
+        new Dictionary<int, SCoreLootContainer>();
 
     // -------------------------------------------------------------------------
     // Client-side pending state
     // -------------------------------------------------------------------------
     // When a dedicated-server client opens a trader NPC's harvest inventory,
-    // NetPackageHarvestInventoryData creates a temporary local TileEntityLootContainer
+    // NetPackageHarvestInventoryData creates a temporary local SCoreLootContainer
     // and stores it here. XUiC_LootWindowGroup_OnClose reads these fields on close,
     // serialises whatever items remain, and sends them back to the server via
     // NetPackageHarvestInventoryUpdate so the server-side container stays accurate.
     // Both fields are -1 / null when no harvest window is open.
     public static int ClientPendingEntityId                    = -1;
-    public static TileEntityLootContainer ClientPendingContainer = null;
+    public static SCoreLootContainer ClientPendingContainer = null;
 
     /// <summary>Returns (or lazily creates) the harvest container for the given entity.</summary>
-    public static TileEntityLootContainer GetOrCreate(int entityId)
+    public static SCoreLootContainer GetOrCreate(int entityId)
     {
         if (!_containers.TryGetValue(entityId, out var container))
         {
@@ -49,7 +49,7 @@ public static class HarvestManager
             // We resolve this two ways:
             //   1. Pass the entity's current chunk so blockValue returns a valid (if irrelevant) block.
             //   2. Set entityId so OnOpen takes the entity loot-stage path, which never casts
-            //      blockValue.Block to BlockLoot (only the block-based path does that cast).
+            //      blockValue.Block to BlockCompositeTileEntity (only the block-based path does that cast).
             Chunk chunk = null;
             var world = GameManager.Instance?.World;
             if (world != null)
@@ -61,8 +61,8 @@ public static class HarvestManager
                         World.toChunkXZ((int)entity.position.z)) as Chunk;
             }
 
-            container = new TileEntityLootContainer(chunk);
-            container.entityId = entityId;
+            container = new SCoreLootContainer(chunk);
+            container.EntityId = entityId;
             container.lootListName = "traderNPC";
             container.SetContainerSize(new Vector2i(ContainerWidth, ContainerHeight), true);
 
@@ -74,7 +74,29 @@ public static class HarvestManager
 
             _containers[entityId] = container;
         }
+
+        // Keep the container positioned on the NPC. XUiC_LootWindow auto-closes the loot
+        // window when the player is farther than (cCollectItemDistance + 30) from
+        // te.ToWorldCenterPos(). Created with only a chunk and localChunkPos=(0,0,0), the
+        // container reported the chunk's bedrock corner (Y=0) ~60m below the player, so the
+        // window slammed shut the instant it opened. Refresh every call since the NPC moves.
+        PositionAtEntity(container, entityId);
         return container;
+    }
+
+    /// <summary>
+    /// Point the container's tile-entity position at the entity's current block position so
+    /// the loot window's distance auto-close measures against the NPC, not the chunk origin.
+    /// </summary>
+    private static void PositionAtEntity(SCoreLootContainer container, int entityId)
+    {
+        var world = GameManager.Instance?.World;
+        var entity = world?.GetEntity(entityId);
+        if (entity == null) return;
+        int bx = (int)entity.position.x, by = (int)entity.position.y, bz = (int)entity.position.z;
+        if (world.GetChunkSync(World.toChunkXZ(bx), World.toChunkXZ(bz)) is Chunk chunk)
+            container.chunk = chunk;
+        container.localChunkPos = new Vector3i(bx - World.toChunkXZ(bx) * 16, by, bz - World.toChunkXZ(bz) * 16);
     }
 
     /// <summary>

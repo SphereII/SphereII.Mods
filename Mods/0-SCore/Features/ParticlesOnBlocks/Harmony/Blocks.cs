@@ -90,7 +90,7 @@ namespace SCore.Features.ParticlesOnBlocks.Scripts {
             public static void Postfix(Block __instance) {
                 if (!__instance.Properties.Classes.ContainsKey("Particles")) return;
                 var particlesProperties = __instance.Properties.Classes["Particles"];
-                foreach (var property in particlesProperties.Values.dic)
+                foreach (var property in particlesProperties.Values)
                 {
                     if (!property.Value.Contains("modfolder")) continue;
                     foreach (var particle in property.Value.Split(','))
@@ -136,8 +136,8 @@ namespace SCore.Features.ParticlesOnBlocks.Scripts {
         [HarmonyPatch(typeof(Block))]
         [HarmonyPatch("OnBlockDamaged")]
         public class BlockOnOnBlockDamaged {
-            public static void Postfix(Block __instance, Vector3i _blockPos) {
-                CheckForParticleOnDamaged(__instance, _blockPos);
+            public static void Postfix(Block __instance, BlockValueRef _bvRef) {
+                CheckForParticleOnDamaged(__instance, _bvRef.BlockPosition);
             }
         }
     

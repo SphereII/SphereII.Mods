@@ -26,7 +26,7 @@ public class BlockRobot : Block
         {
             bNeedsTemperature = true
         });
-        world.GetWBT().AddScheduledBlockUpdate(_chunk.ClrIdx, _blockPos, this.blockID, this.GetTickRate());
+        world.GetWBT().AddScheduledBlockUpdate(_blockPos, this.blockID, this.GetTickRate());
 
     }
     public override ulong GetTickRate()
@@ -56,7 +56,7 @@ public class BlockRobot : Block
         _ebcd.transform.Translate(nextPosition);
     }
  
-    public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
+    public override bool UpdateTick(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
         //var farmPlot = FarmPlotManager.Instance.GetFarmPlotsNearby(_blockPos);
         //if (farmPlot == null)
@@ -66,7 +66,7 @@ public class BlockRobot : Block
         //    Move(_blockPos);
 
         //}
-        return base.UpdateTick(_world, _clrIdx, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded, _rnd);
+        return base.UpdateTick(_world, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded, _rnd);
     }
 }
 

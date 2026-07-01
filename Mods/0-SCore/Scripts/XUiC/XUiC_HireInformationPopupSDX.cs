@@ -47,13 +47,13 @@
         if (myEntity != null)
             EntityUtilities.Hire(entityID, player as EntityPlayerLocal);
 
-        xui.playerUI.windowManager.Close(windowGroup.ID);
+        xui.playerUI.windowManager.Close(windowGroup.Id);
     }
 
     private void BtnCancelHireInformation_OnPressed(XUiController _sender, int _mouseButton)
     {
         hireInformationPanel.IsVisible = false;
-        xui.playerUI.windowManager.Close(windowGroup.ID);
+        xui.playerUI.windowManager.Close(windowGroup.Id);
     }
 
     public override void OnClose()

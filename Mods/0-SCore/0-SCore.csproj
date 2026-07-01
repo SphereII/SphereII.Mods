@@ -770,6 +770,7 @@
     <Compile Include="Scripts\Signs\AnimatedGifPlayer.cs" />
     <Compile Include="Scripts\Signs\ImageWrapper.cs" />
     <Compile Include="Scripts\SoundData\SoundDataNodeClass.cs" />
+    <Compile Include="Scripts\TileEntities\SCoreLootContainer.cs" />
     <Compile Include="Scripts\TileEntities\TileEntityAoE.cs" />
     <Compile Include="Scripts\TileEntities\TileEntityPoweredPortal.cs" />
     <Compile Include="Scripts\TileEntities\TileEntityPoweredWorkstationSdx.cs" />
@@ -890,10 +891,10 @@
     <Content Include="Config\sounds.xml" />
     <Content Include="Config\spawning.xml" />
     <Content Include="Config\utilityai.xml" />
-    <Content Include="Config\XUi\controls.xml" />
-    <Content Include="Config\XUi\windows.xml" />
-    <Content Include="Config\XUi\xui.xml" />
     <Content Include="Config\XUi_Common\styles.xml" />
+    <Content Include="Config\XUi_InGame\controls.xml" />
+    <Content Include="Config\XUi_InGame\windows.xml" />
+    <Content Include="Config\XUi_InGame\xui.xml" />
     <Content Include="Config\XUi_Menu\windows-Template.xml" />
     <Content Include="Documentation\Challenges\BlocksChallenges.md" />
     <Content Include="Documentation\Challenges\Challenges.md" />
@@ -1128,6 +1129,7 @@
     <None Include="Scripts\Mods.dll.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Config\XUi\" />
     <Folder Include="Features\ParticleAttractor\Harmony\" />
     <Folder Include="Features\PlayerMetrics\BloodMoonTracking\Harmony\" />
     <Folder Include="Features\PlayerMetrics\KillTracking\Harmony\" />

@@ -47,10 +47,6 @@ namespace UAI
 
                     var stack = ItemStack.Empty;
                     ItemStack[] array = _context.Self.bag.GetSlots();
-                    if (_context.Self.lootContainer != null)
-                    {
-                        array = _context.Self.lootContainer.GetItems();
-                    }
                     for (int i = 0; i < array.Length; i++)
                     {
                         if (array[i] != null && array[i] != ItemStack.Empty )

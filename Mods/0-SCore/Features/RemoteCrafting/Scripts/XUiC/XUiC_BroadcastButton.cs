@@ -27,9 +27,9 @@ public class XUiC_BroadcastButton : XUiController {
         //if debug enabled show lootList name of container
         if (Configuration.CheckFeatureStatus(AdvFeatureClass, "Debug"))
         {
-            if (xui.lootContainer != null)
+            if (xui.LootContainer != null)
             {
-                Log.Out("Current Container name: " + xui.lootContainer.lootListName);
+                Log.Out("Current Container name: " + xui.LootContainer.lootListName);
             }
         }
 
@@ -40,19 +40,19 @@ public class XUiC_BroadcastButton : XUiController {
         //Check if Broadcastmanager is running
         if (!Broadcastmanager.HasInstance) return;
 
-        if (Broadcastmanager.Instance.Check(xui.lootContainer.ToWorldPos()))
+        if (Broadcastmanager.Instance.Check(xui.LootContainer.ToWorldPos()))
         {
             //Unselect button
             _button.Selected = true;
             // Remove from Broadcastmanager dictionary
-            Broadcastmanager.Instance.remove(xui.lootContainer.ToWorldPos());
+            Broadcastmanager.Instance.remove(xui.LootContainer.ToWorldPos());
         }
         else
         {
             //Select button
             _button.Selected = false;
             // Add to Broadcastmanager dictionary
-            Broadcastmanager.Instance.add(xui.lootContainer.ToWorldPos());
+            Broadcastmanager.Instance.add(xui.LootContainer.ToWorldPos());
         }
     }
 
@@ -63,14 +63,15 @@ public class XUiC_BroadcastButton : XUiController {
         _button.IsVisible = false;
         var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
         var bindToWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation").Split(';');
-        if (xui.lootContainer == null || !Broadcastmanager.HasInstance ||
-            xui.vehicle != null ||
-            GameManager.Instance.World.GetEntity(xui.lootContainer.EntityId) is EntityAliveSDX ||
-            GameManager.Instance.World.GetEntity(xui.lootContainer.EntityId) is EntityDrone) return;
+        var lootEntityId = (xui.LootContainer as SCoreLootContainer)?.EntityId ?? -1;
+        if (xui.LootContainer == null || !Broadcastmanager.HasInstance ||
+            xui.Vehicle != null ||
+            GameManager.Instance.World.GetEntity(lootEntityId) is EntityAliveSDX ||
+            GameManager.Instance.World.GetEntity(lootEntityId) is EntityDrone) return;
 
         if (disabledsender[0] != null)
         {
-            if (RemoteCraftingUtils.DisableSender(disabledsender, xui.lootContainer))
+            if (RemoteCraftingUtils.DisableSender(disabledsender, xui.LootContainer))
             {
                 return;
             }
@@ -81,7 +82,7 @@ public class XUiC_BroadcastButton : XUiController {
             foreach (var bind in bindToWorkstation)
             {
                 var bindings = bind.Split(':')[1].Split(',');
-                if (bindings.Any(x => x.Trim() == xui.lootContainer.lootListName)) counter++;
+                if (bindings.Any(x => x.Trim() == xui.LootContainer.lootListName)) counter++;
             }
 
             if (counter == 0 &&
@@ -93,6 +94,6 @@ public class XUiC_BroadcastButton : XUiController {
         //Enable button and set if button is selected
         _button.IsVisible = true;
         _button.Enabled = true;
-        _button.Selected = !Broadcastmanager.Instance.Check(xui.lootContainer.ToWorldPos());
+        _button.Selected = !Broadcastmanager.Instance.Check(xui.LootContainer.ToWorldPos());
     }
 }

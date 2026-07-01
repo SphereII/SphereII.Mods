@@ -62,7 +62,7 @@ public class SCoreEntityKilled
             // - It calculates the Leader's XP (Taxed by Party).
             // - It distributes shares to Party members.
             // - It updates Quests (SharedKillServer) for the whole party.
-            leader.AddKillXP(victim);
+            leader.AddKillXP(victim, ItemValue.None, 1f);
         }
     }
 }

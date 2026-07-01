@@ -9,7 +9,7 @@ namespace Harmony.ItemActions {
             if (!itemValue.ItemClass.Properties.Contains("RepairLimit")) return -1;
             
             // Check if RepairLimit is an array or not, and if so, expect a value for each quality level.
-            var repairLimitValue = itemValue.ItemClass.Properties.GetStringValue("RepairLimit");
+            var repairLimitValue = itemValue.ItemClass.Properties.GetString("RepairLimit");
             if ( repairLimitValue.Contains(','))
             {
                 var quality = itemValue.Quality;

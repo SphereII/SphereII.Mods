@@ -1,25 +1,27 @@
 using HarmonyLib;
-using UnityEngine;
 
 namespace SCore.Harmony.XUIC
 {
     public class XUiC_LootWindowGroupOnOpenPatches
     {
-        [HarmonyPatch(typeof(XUiC_LootWindowGroup))]
-        [HarmonyPatch(nameof(XUiC_LootWindowGroup.OnOpen))]
+        // XUiC_LootWindowGroup no longer overrides OnOpen — DeclaredMethod won't find it.
+        // Use HarmonyTargetMethod with AccessTools.Method to walk up the inheritance chain.
+        [HarmonyPatch]
         public class LootWindowGroupOnOpenPatchesOnOpen
         {
-            private static bool Prefix(XUiC_LootWindowGroup __instance)
+            [HarmonyTargetMethod]
+            public static System.Reflection.MethodBase TargetMethod() =>
+                AccessTools.Method(typeof(XUiC_LootWindowGroup), "OnOpen");
+
+            private static bool Prefix(object __instance)
             {
-                if (__instance?.te == null) return true;
-           
-                if (!string.IsNullOrEmpty(__instance.te.lootListName)) return true;
-                Log.Out($"Missing lootListName on {__instance.te}");
-                var windowManager2 = __instance.xui.playerUI.windowManager;
-                __instance.ignoreCloseSound = true;
+                var instance = __instance as XUiC_LootWindowGroup;
+                if (instance?.te == null) return true;
+
+                if (!string.IsNullOrEmpty(instance.te.lootListName)) return true;
+                Log.Out($"Missing lootListName on {instance.te}");
+                var windowManager2 = instance.xui.playerUI.windowManager;
                 windowManager2.Close("timer");
-                __instance.isOpening = false;
-                __instance.isClosingFromDamage = true;
                 windowManager2.Close("looting");
                 return false;
             }

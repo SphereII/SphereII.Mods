@@ -21,18 +21,18 @@ namespace Harmony.TileEntities
     {
 
         [HarmonyPatch(typeof(TileEntity))]
-        [HarmonyPatch("Instantiate")]
+        [HarmonyPatch("InstantiateFromRead")]
         public class TileEntityInstantiate
         {
-            public static bool Prefix(ref TileEntity __result, TileEntityType type, Chunk _chunk)
+            public static bool Prefix(ref TileEntity __result, TileEntityType _type, Chunk _chunk)
             {
-                if ( type == (TileEntityType)SCoreTileEntity.TileEntityPoweredPortal)
+                if ( _type == (TileEntityType)SCoreTileEntity.TileEntityPoweredPortal)
                 { 
                         __result = new TileEntityPoweredPortal(_chunk);
                         return false;
                 }
 
-                if (type == (TileEntityType)SCoreTileEntity.TileEntityAoE)
+                if (_type == (TileEntityType)SCoreTileEntity.TileEntityAoE)
                 {
                     __result = new TileEntityAoE(_chunk);
                     return false;

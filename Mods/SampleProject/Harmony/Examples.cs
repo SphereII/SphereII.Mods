@@ -43,12 +43,11 @@ namespace SampleProject.Harmony
     // If there's overloaded methods, you need to specify the parameter list. Here's one for Client.Play(), which is overloaded.
     [HarmonyPatch(typeof(Client))]
     [HarmonyPatch("Play")]
-    // Target the Client.Play() which takes an int, a string, and a float as parameter.
-    [HarmonyPatch(new[] { typeof(int), typeof(string), typeof(float) })]
+    // Target the Client.Play() which takes an int, string, float, float, int as parameters.
+    [HarmonyPatch(new[] { typeof(int), typeof(string), typeof(float), typeof(float) })]
     public class AudioClientPlay
     {
-        // the parameter list must match vanilla, typos included!
-        private static bool Prefix(int playOnEntityId, string soundGoupName, float _occlusion)
+        private static bool Prefix(int playOnEntityId, string soundGroupName)
         {
             return true;
         }
@@ -56,10 +55,10 @@ namespace SampleProject.Harmony
 
     [HarmonyPatch(typeof(Client))]
     [HarmonyPatch("Play")]
-    [HarmonyPatch(new[] { typeof(Vector3), typeof(string), typeof(float), typeof(int) })]
+    [HarmonyPatch(new[] { typeof(Vector3), typeof(string), typeof(float), typeof(int) , typeof(float)})]
     public class AudioClientPlay2
     {
-        private static bool Prefix(Vector3 position, string soundGoupName)
+        private static bool Prefix(Vector3 position, string soundGroupName)
         {
             return true;
         }

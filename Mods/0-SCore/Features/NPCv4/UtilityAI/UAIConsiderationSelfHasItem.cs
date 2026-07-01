@@ -43,12 +43,12 @@ namespace UAI
                         var startsWith = parts[0];
                         var endsWith   = parts[1];
 
-                        if (_context.Self.lootContainer != null)
+                        if (_context.Self.bag?.items != null)
                         {
-                            foreach (var slot in _context.Self.lootContainer.items)
+                            foreach (var slot in _context.Self.bag.items)
                             {
-                                var itemName = slot.itemValue.ItemClass.GetItemName();
-                                if (itemName.StartsWith(startsWith) && itemName.EndsWith(endsWith))
+                                var itemName = slot.itemValue.ItemClass?.GetItemName();
+                                if (itemName != null && itemName.StartsWith(startsWith) && itemName.EndsWith(endsWith))
                                     return 1f;
                             }
                         }
@@ -60,8 +60,6 @@ namespace UAI
                     {
                         if (_context.Self.inventory.GetItemCount(item) > 0) return 1f;
                         if (_context.Self.bag.GetItemCount(item) > 0)       return 1f;
-                        if (_context.Self.lootContainer != null &&
-                            _context.Self.lootContainer.HasItem(item))       return 1f;
                     }
                 }
                 return 0f;

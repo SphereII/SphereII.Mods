@@ -121,7 +121,7 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry {
         playerInventory.RemoveItem(new ItemStack(repairItem,1));
         
         ((XUiC_ItemStack)base.ItemController).ItemStack = ((itemStack.count <= 0) ? ItemStack.Empty.Clone() : itemStack.Clone());
-        ((XUiC_ItemStack)base.ItemController).WindowGroup.Controller.SetAllChildrenDirty(false);
+        ((XUiC_ItemStack)base.ItemController).WindowGroup.Controller.SetAllChildrenDirty();
 
     }
 

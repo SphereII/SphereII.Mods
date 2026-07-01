@@ -39,7 +39,7 @@ public class IncludeFilenamePatches
             foreach( var file in includedFiles)
             {
                 Log.Out($"[MODS] Loading Patched Localization File {file}");
-                if (!Localization.LoadCsv(file, true))
+                if (!Localization.loadCsv(file, true))
                 {
                     Log.Out("\t*** Failed to load Patched Localization File: " + file);
                 }

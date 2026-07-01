@@ -1,4 +1,6 @@
-﻿public class EAIRangedAttackTargetSDX : EAIRangedAttackTarget
+﻿using System.Collections.Generic;
+
+public class EAIRangedAttackTargetSDX : EAIRangedAttackTarget
 {
     private EntityAlive entityTarget;
     private int attackTimeout;
@@ -12,7 +14,7 @@
 
     }
 
-    public override void SetData(DictionarySave<string, string> data)
+    public override void SetData(Dictionary<string, string> data)
     {
         base.SetData(data);
         base.GetData(data, "itemType", ref this.itemActionType);

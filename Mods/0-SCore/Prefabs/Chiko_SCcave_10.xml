@@ -12,15 +12,18 @@
   <property name="SleeperVolumeSize" value="14, 4, 14" />
   <property name="SleeperVolumeStart" value="0, 0, 0" />
   <property name="SleeperVolumeGroupId" value="0" />
-  <property name="SleeperVolumeGroup" value="S_-_Group_Lab_Worker,9,10" />
+  <property name="SleeperVolumeGroup" value="GroupLabWorker,9,10" />
   <property name="SleeperIsLootVolume" value="False" />
   <property name="SleeperIsQuestExclude" value="False" />
   <property name="SleeperVolumeFlags" value="0" />
   <property name="SleeperIsBossVolume" value="False" />
   <property name="Zoning" value="none" />
+  <property name="SleeperVolumeTriggeredBy" value=" " />
+  <property name="PrefabSize" value="14, 5, 14" />
   <property class="Stats">
-    <property name="TotalVertices" value="31930" />
-    <property name="TotalTriangles" value="33239" />
+    <property name="LightsVolume" value="0" />
+    <property name="TotalVertices" value="31456" />
+    <property name="TotalTriangles" value="32523" />
     <property class="BlockEntities">
       <property name="Vertices" value="29056" />
       <property name="Triangles" value="31051" />
@@ -49,21 +52,13 @@
       <property name="Vertices" value="0" />
       <property name="Triangles" value="0" />
     </property>
-    <property class="ChunkMeshes6">
-      <property name="Vertices" value="0" />
-      <property name="Triangles" value="0" />
+  </property>
+  <property class="IndexedBlockOffsets">
+    <property class="challenge_gore">
+      <property name="0" value="2, 1, 7" />
     </property>
-    <property class="ChunkMeshes7">
-      <property name="Vertices" value="474" />
-      <property name="Triangles" value="716" />
-    </property>
-    <property class="ChunkMeshes8">
-      <property name="Vertices" value="0" />
-      <property name="Triangles" value="0" />
-    </property>
-    <property class="ChunkMeshes9">
-      <property name="Vertices" value="0" />
-      <property name="Triangles" value="0" />
+    <property class="POILight">
+      <property name="0" value="9, 1, 8" />
     </property>
   </property>
 </prefab>

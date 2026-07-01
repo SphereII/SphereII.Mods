@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -364,17 +364,18 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
             return;
         }
 
-        if (GameManager.Instance.World.GetTileEntity(0, new Vector3i(target))
-            is not TileEntitySign tileEntitySign)
+        var teCompositeBandit = GameManager.Instance.World.GetTileEntity(new Vector3i(target)) as TileEntityComposite;
+        var TEFeatureSignable = teCompositeBandit?.GetFeature<TEFeatureSignable>();
+        if (TEFeatureSignable == null)
             return;
 
         // Safety check for sign text
-        if (tileEntitySign.signText == null)
+        if (TEFeatureSignable.signText == null)
         {
             return;
         }
 
-        var text = tileEntitySign.signText.Text;
+        var text = TEFeatureSignable.signText.Text;
         if (string.IsNullOrEmpty(text))
         {
             return;

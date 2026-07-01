@@ -67,7 +67,7 @@ public class BlockCropControlPanel : Block
     // CanPlaceBlockAt remains unchanged unless specific placement rules needed
     // public override bool CanPlaceBlockAt(...) { ... }
 
-    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         string localizedBlockName = _blockValue.Block.GetLocalizedBlockName();
 
@@ -80,7 +80,7 @@ public class BlockCropControlPanel : Block
     }
 
     // Updated: Removed logic for water commands
-    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         // Chunk and trigger logic might be specific to game/modding framework (kept for context)
         // ((Chunk)_world.ChunkClusters[_clrIdx].GetChunkSync(World.toChunkXZ(_blockPos.x), _blockPos.y, World.toChunkXZ(_blockPos.z))).GetBlockTrigger(World.toBlock(_blockPos));
@@ -113,7 +113,7 @@ public class BlockCropControlPanel : Block
     */
 
     // Updated: Removed cases for water commands
-    public override bool OnBlockActivated(string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
+    public override bool OnBlockActivated(string _commandName, WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
         switch (_commandName)
         {

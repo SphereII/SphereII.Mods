@@ -46,7 +46,7 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
     public override void Init(EntityAlive _theEntity)
     {
         base.Init(_theEntity);
-        MutexBits = 3;
+    //    MutexBits = 3;
         executeDelay = 0.5f;
 
         // There is too many values that we need to read in from the entity, so we'll read them directly from the entityclass
@@ -75,7 +75,7 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
         if (entityClass.Properties.Classes.ContainsKey("ProductionItems"))
         {
             var dynamicProperties3 = entityClass.Properties.Classes["ProductionItems"];
-            foreach (var keyValuePair in dynamicProperties3.Values.Dict)
+            foreach (var keyValuePair in dynamicProperties3.Values)
             {
                 var item = new ProductionItem();
                 item.item = ItemClass.GetItem(keyValuePair.Key);
@@ -342,24 +342,29 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
             if (lstWaterBins.Contains(checkBlock.Block.GetBlockName())) // If the water bins are configured, then look inside for something to drink. This is for NPCs, rather than cows.
             {
                 DisplayLog(" Checking water Bin: " + checkBlock.Block.GetBlockName());
-                var tileEntityLootContainer = theEntity.world.GetTileEntity(Voxel.voxelRayHitInfo.hit.clrIdx, new Vector3i(seekPos)) as TileEntityLootContainer;
-                if (tileEntityLootContainer == null)
+                var waterBinComposite = theEntity.world.GetTileEntity(new Vector3i(seekPos)) as TileEntityComposite;
+                var waterBinStorage = waterBinComposite?.GetFeature<TEFeatureStorage>();
+                if (waterBinStorage == null)
                     return false; // it's not a loot container.
 
 
                 // Check if it has any water in it.
-                if (CheckContents(tileEntityLootContainer, lstWaterItems, "Water") != null)
+                if (CheckContents(waterBinStorage, lstWaterItems, "Water") != null)
                 {
                     DisplayLog(" Found a water item");
-                    item = GetItemFromContainer(tileEntityLootContainer, lstWaterItems, "Water");
+                    item = GetItemFromContainer(waterBinStorage, lstWaterItems, "Water");
                 }
             }
 
             // Check the back pack
-            else if (CheckContents(theEntity.lootContainer, lstWaterItems, "Water") != null)
+            else
             {
-                DisplayLog(" Checking NPCs backpack ");
-                item = GetItemFromContainer(theEntity.lootContainer, lstWaterItems, "Water");
+                var npcBagWater = (theEntity as EntityAliveSDX)?.bag;
+                if (npcBagWater != null && CheckContents(npcBagWater, lstWaterItems, "Water") != null)
+                {
+                    DisplayLog(" Checking NPCs backpack ");
+                    item = GetItemFromBag(npcBagWater, lstWaterItems, "Water");
+                }
             }
 
             if (item != null)
@@ -415,24 +420,29 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
 
             if (lstFoodBins.Contains(checkBlock.Block.GetBlockName()))
             {
-                var tileEntityLootContainer = theEntity.world.GetTileEntity(Voxel.voxelRayHitInfo.hit.clrIdx, new Vector3i(seekPos)) as TileEntityLootContainer;
-                if (tileEntityLootContainer == null)
+                var foodBinComposite = theEntity.world.GetTileEntity(new Vector3i(seekPos)) as TileEntityComposite;
+                var foodBinStorage = foodBinComposite?.GetFeature<TEFeatureStorage>();
+                if (foodBinStorage == null)
                     return false; // it's not a loot container.
 
 
                 // Check if it has any food on it.
-                if (CheckContents(tileEntityLootContainer, lstFoodItems, "Food") != null)
+                if (CheckContents(foodBinStorage, lstFoodItems, "Food") != null)
                 {
                     DisplayLog(" Found Food in food bin.");
-                    item = GetItemFromContainer(tileEntityLootContainer, lstFoodItems, "Food");
+                    item = GetItemFromContainer(foodBinStorage, lstFoodItems, "Food");
                 }
             }
 
             // Check the back pack
-            else if (CheckContents(theEntity.lootContainer, lstFoodItems, "Food") != null)
+            else
             {
-                DisplayLog(" Found Food in the backpack");
-                item = GetItemFromContainer(theEntity.lootContainer, lstFoodItems, "Food");
+                var npcBagFood = (theEntity as EntityAliveSDX)?.bag;
+                if (npcBagFood != null && CheckContents(npcBagFood, lstFoodItems, "Food") != null)
+                {
+                    DisplayLog(" Found Food in the backpack");
+                    item = GetItemFromBag(npcBagFood, lstFoodItems, "Food");
+                }
             }
 
             if (item != null)
@@ -476,15 +486,16 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
             if (lstBeds.Contains(checkBlock.Block.GetBlockName()))
             {
                 DisplayLog(" My target block is in my approved list. ");
-                var tileEntityLootContainer = theEntity.world.GetTileEntity(Voxel.voxelRayHitInfo.hit.clrIdx, new Vector3i(seekPos)) as TileEntityLootContainer;
-                if (tileEntityLootContainer != null)
+                var prodComposite = theEntity.world.GetTileEntity(new Vector3i(seekPos)) as TileEntityComposite;
+                var prodStorage = prodComposite?.GetFeature<TEFeatureStorage>();
+                if (prodComposite != null)
                 {
                     DisplayLog(" It's a TileEntity. That's good.");
                     foreach (var item in lstProductionItem)
                     {
                         DisplayLog(" Adding " + item.item.GetItemId());
                         // Add the item to the loot container, and reset the cvar, if it's available.
-                        tileEntityLootContainer.AddItem(new ItemStack(item.item, item.Count));
+                        prodStorage?.AddItem(new ItemStack(item.item, item.Count));
                         if (!string.IsNullOrEmpty(item.cvar) && theEntity.Buffs.HasBuff(item.cvar))
                         {
                             theEntity.Buffs.CVars[item.cvar] = 0;
@@ -515,15 +526,15 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
 
 
     // Grab a single item from the storage box, and remmove it.
-    public ItemValue GetItemFromContainer(TileEntityLootContainer tileLootContainer, List<string> lstContents, string strSearchType)
+    public ItemValue GetItemFromContainer(ITileEntityLootable tileLootContainer, List<string> lstContents, string strSearchType)
     {
         var item = CheckContents(tileLootContainer, lstContents, strSearchType);
         if (item != null)
         {
             DisplayLog("GetItemFromContainer() Searching for item: " + item.ItemClass.Name);
-            if (tileLootContainer.items != null)
+            var array = tileLootContainer.items;
+            if (array != null)
             {
-                var array = tileLootContainer.items;
                 for (var i = 0; i < array.Length; i++)
                 {
                     if (array[i].IsEmpty()) // nothing in the slot
@@ -589,14 +600,14 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
 
 
     // This will check if the food item actually exists in the container, before making the trip to it.
-    public ItemValue CheckContents(TileEntityLootContainer tileLootContainer, List<string> lstContents, string strSearchType)
+    public ItemValue CheckContents(ITileEntityLootable tileLootContainer, List<string> lstContents, string strSearchType)
     {
         DisplayLog(" Check Contents of Container: " + tileLootContainer);
-        DisplayLog(" TileEntity: " + tileLootContainer.items.Length);
+        var array = tileLootContainer.items;
+        DisplayLog(" TileEntity: " + array.Length);
 
-        if (tileLootContainer.items != null)
+        if (array != null)
         {
-            var array = tileLootContainer.GetItems();
             for (var i = 0; i < array.Length; i++)
             {
                 if (array[i].IsEmpty())
@@ -622,6 +633,28 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
         }
 
         return null;
+    }
+
+    private ItemValue CheckContents(Bag bag, List<string> lstContents, string strSearchType)
+    {
+        if (bag?.items == null) return null;
+        foreach (var stack in bag.items)
+        {
+            if (stack.IsEmpty()) continue;
+            if (lstContents.Count > 0 && lstContents.Contains(stack.itemValue.ItemClass.Name))
+                return stack.itemValue;
+            if (lstContents.Count == 0 && IsConsumable(stack.itemValue, strSearchType) != null)
+                return stack.itemValue;
+        }
+        return null;
+    }
+
+    private ItemValue GetItemFromBag(Bag bag, List<string> lstContents, string strSearchType)
+    {
+        var found = CheckContents(bag, lstContents, strSearchType);
+        if (found == null) return null;
+        bag.DecItem(found, 1);
+        return found;
     }
 
     // Check if the entity needs to poop, and where it should go.
@@ -668,7 +701,8 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
             return false;
 
         DisplayLog(" Checking for food in inventory:");
-        if (CheckContents(theEntity.lootContainer, lstFoodItems, "Food") != null)
+        var npcBagFoodBin = (theEntity as EntityAliveSDX)?.bag;
+        if (npcBagFoodBin != null && CheckContents(npcBagFoodBin, lstFoodItems, "Food") != null)
         {
             DisplayLog(" Found Food in the backpack");
             // this.theEntity.SetInvestigatePosition(this.theEntity.position, 120);
@@ -695,7 +729,8 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
         if (GetEntityWater() > 0f)
             return true;
 
-        if (CheckContents(theEntity.lootContainer, lstWaterItems, "Water") != null)
+        var npcBagWaterBin = (theEntity as EntityAliveSDX)?.bag;
+        if (npcBagWaterBin != null && CheckContents(npcBagWaterBin, lstWaterItems, "Water") != null)
         {
             DisplayLog(" Found Water in the backpack");
             //  this.theEntity.SetInvestigatePosition(this.theEntity.position, 120);
@@ -736,7 +771,7 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
                     var tileEntities = chunk.GetTileEntities();
                     for (var k = 0; k < tileEntities.list.Count; k++)
                     {
-                        var tileEntity = tileEntities.list[k] as TileEntityLootContainer;
+                        var tileEntity = tileEntities.list[k] as TileEntityComposite;
                         if (tileEntity != null)
                         {
                             var block = theEntity.world.GetBlock(tileEntity.ToWorldPos());
@@ -749,7 +784,8 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
                             if (lstContents.Count > 0)
                             {
                                 DisplayLog(" My Content List is Empty. Searcing for regular food items.");
-                                if (CheckContents(tileEntity, lstContents, "Food") != null)
+                                var tileEntityStorage = tileEntity.GetFeature<TEFeatureStorage>();
+                                if (tileEntityStorage != null && CheckContents(tileEntityStorage, lstContents, "Food") != null)
                                 {
                                     DisplayLog(" Box has food contents: " + tileEntities);
                                     localLists.Add(tileEntity.ToWorldPos().ToVector3());

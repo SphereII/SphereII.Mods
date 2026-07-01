@@ -151,20 +151,20 @@ namespace Harmony.PrefabFeatures
             }
         }
 
-        // Allows you to talk to the trader
-        [HarmonyPatch(typeof(EntityTrader))]
-        [HarmonyPatch("ActivateTrader")]
-        public class EntityTraderActivateTrader
-        {
-            public static bool Prefix(ref bool traderIsOpen)
-            {
-                // Check if this feature is enabled.
-                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return true;
-                traderIsOpen = true;
-                return true;
-            }
-        }
+        // // Allows you to talk to the trader
+        // [HarmonyPatch(typeof(EntityTrader))]
+        // [HarmonyPatch("ActivateTrader")]
+        // public class EntityTraderActivateTrader
+        // {
+        //     public static bool Prefix(ref bool traderIsOpen)
+        //     {
+        //         // Check if this feature is enabled.
+        //         if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+        //             return true;
+        //         traderIsOpen = true;
+        //         return true;
+        //     }
+        // }
 
         // Disable the volume block behind the trader
         [HarmonyPatch(typeof(Prefab))]
@@ -177,7 +177,7 @@ namespace Harmony.PrefabFeatures
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "DisableWallVolume"))
                     return;
 
-                __instance.WallVolumes.Clear();
+                // WallVolumes removed in new game version
             }
         }
     }

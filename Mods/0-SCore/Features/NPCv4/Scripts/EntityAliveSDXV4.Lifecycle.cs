@@ -1,4 +1,4 @@
-using Audio;
+﻿using Audio;
 using UnityEngine;
 
 public partial class EntityAliveSDXV4
@@ -21,15 +21,21 @@ public partial class EntityAliveSDXV4
 
             if (lootContainer != null && !lootContainer.IsEmpty())
             {
-                var bagPos     = new Vector3i(position + transform.up);
-                var className  = EntityClass.GetEntityClass("BackpackNPC".GetHashCode()) != null
-                                 ? "BackpackNPC" : "Backpack";
-                var backpack   = EntityFactory.CreateEntity(className.GetHashCode(), bagPos) as EntityItem;
+                var bagPos   = new Vector3i(position + transform.up);
+                var className = EntityClass.GetEntityClass("BackpackNPC".GetHashCode()) != null
+                                ? "BackpackNPC" : "Backpack";
+                var backpack  = EntityFactory.CreateEntity(className.GetHashCode(), bagPos) as EntityItem;
+                Bag bag = null;
+                if (lootContainer.items != null)
+                {
+                    bag = new Bag(lootContainer.items.Length);
+                    System.Array.Copy(lootContainer.items, bag.items, lootContainer.items.Length);
+                }
                 var creationData = new EntityCreationData(backpack)
                 {
-                    entityName    = Localization.Get(EntityName),
-                    id            = -1,
-                    lootContainer = lootContainer
+                    entityName = Localization.Get(EntityName),
+                    id         = -1,
+                    bag        = bag
                 };
                 GameManager.Instance.RequestToSpawnEntityServer(creationData);
                 backpack?.OnEntityUnload();
@@ -75,7 +81,7 @@ public partial class EntityAliveSDXV4
 
     public override void MarkToUnload()
     {
-        GameManager.Instance.World.ChunkClusters[0].OnChunkVisibleDelegates -= _chunkClusterVisibleDelegate;
+        GameManager.Instance.World.ChunkCache.OnChunkVisibleDelegates -= _chunkClusterVisibleDelegate;
         base.MarkToUnload();
     }
 
@@ -151,7 +157,7 @@ public partial class EntityAliveSDXV4
     }
 
     public override void PlayOneShot(string clipName, bool sound_in_head = false, bool netsync = true,
-        bool isUnique = false, AnimationEvent _animEvent = null)
+        bool isUnique = false, AnimationEvent _animEvent = null, float volumeScale = 1f)
     {
         if (IsOnMission()) return;
         base.PlayOneShot(clipName, sound_in_head);
@@ -181,7 +187,7 @@ public partial class EntityAliveSDXV4
             lootDropProb = EffectManager.GetValue(PassiveEffects.LootDropProb,
                 entityThatKilledMe.inventory.holdingItemItemValue, lootDropProb, entityThatKilledMe);
         if (lootDropProb > rand.RandomFloat)
-            GameManager.Instance.DropContentOfLootContainerServer(BlockValue.Air, new Vector3i(position), entityId);
+            GameManager.Instance.DropContentOfLootContainerServer(BlockValue.Air, new Vector3i(position), lootContainer);
     }
 
     public override void OnDeathUpdate()
@@ -207,7 +213,7 @@ public partial class EntityAliveSDXV4
         }
     }
 
-    public override Vector3i dropCorpseBlock()
+    public Vector3i dropCorpseBlock()
     {
         if (lootContainer != null && lootContainer.IsUserAccessing()) return Vector3i.zero;
         if (_corpseBlockValue.isair)                                   return Vector3i.zero;
@@ -215,7 +221,7 @@ public partial class EntityAliveSDXV4
 
         var pos = World.worldToBlockPos(position);
         while (pos.y < 254 && (float)pos.y - position.y < 3f &&
-               !_corpseBlockValue.Block.CanPlaceBlockAt(world, 0, pos, _corpseBlockValue, false))
+               !_corpseBlockValue.Block.CanPlaceBlockAt(world, pos, _corpseBlockValue, false))
             pos += Vector3i.up;
 
         if (pos.y >= 254 || (float)pos.y - position.y >= 2.1f) return Vector3i.zero;
@@ -223,14 +229,22 @@ public partial class EntityAliveSDXV4
         world.SetBlockRPC(pos, _corpseBlockValue);
         if (pos == Vector3i.zero) return Vector3i.zero;
 
-        if (world.GetTileEntity(0, pos) is not TileEntityLootContainer te) return Vector3i.zero;
-
-        if (lootContainer != null)
-            te.CopyLootContainerDataFromOther(lootContainer);
-        else
+        if (world.GetTileEntity(pos) is not TileEntityComposite te) return Vector3i.zero;
+        var storage = te.GetFeature<TEFeatureStorage>();
+        if (lootContainer != null && storage != null)
         {
-            te.lootListName = lootListOnDeath;
-            te.SetContainerSize(LootContainer.GetLootContainer(lootListOnDeath).size, true);
+            var srcItems = lootContainer.items;
+            if (srcItems != null)
+            {
+                storage.SetContainerSize(new Vector2i(srcItems.Length, 1), true);
+                for (int i = 0; i < srcItems.Length && storage.items != null && i < storage.items.Length; i++)
+                    storage.UpdateSlot(i, srcItems[i]);
+            }
+        }
+        else if (storage != null)
+        {
+            storage.lootListName = lootListOnDeath;
+            storage.SetContainerSize(LootContainer.GetLootContainer(lootListOnDeath).size, true);
         }
         te.SetModified();
         return pos;

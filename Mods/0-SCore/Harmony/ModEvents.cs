@@ -123,7 +123,7 @@ public class SCoreModEvents {
         // Register all the new particles to the general particle effects.
         Debug.Log($"Reading External Particles in {configurationFeatureBlock.Block.GetBlockName()}/{particleClass}...");
         var dynamicProperties3 = configurationFeatureBlock.Block.Properties.Classes[particleClass];
-        foreach (var keyValuePair in dynamicProperties3.Values.Dict)
+        foreach (var keyValuePair in dynamicProperties3.Values)
         {
             var particlePath = keyValuePair.Value.ToString();
             if (string.IsNullOrEmpty(particlePath)) continue;

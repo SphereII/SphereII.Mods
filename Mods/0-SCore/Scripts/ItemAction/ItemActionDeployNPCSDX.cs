@@ -102,7 +102,7 @@ public class ItemActionDeployNPCSDX : ItemActionSpawnVehicle
                 // Handle properties for fresh spawns
                 if (isFreshSpawn)
                 {
-                    string entityName = holdingItemItemValue.ItemClass.Properties.GetStringValue("EntityName");
+                    string entityName = holdingItemItemValue.ItemClass.Properties.GetString("EntityName");
                     if (!string.IsNullOrEmpty(entityName))
                         entityAlive.SetEntityName(entityName);
 

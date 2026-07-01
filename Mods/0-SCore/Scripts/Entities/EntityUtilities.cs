@@ -278,9 +278,10 @@ public static class EntityUtilities
         }
 
         // if there's no loot container, don't check it.
-        if (myEntity.lootContainer == null) return itemStack;
+        var sdxForProp = myEntity as EntityAliveSDX;
+        if (sdxForProp?.lootContainer == null) return itemStack;
 
-        foreach (var stack in myEntity.lootContainer.items)
+        foreach (var stack in sdxForProp.lootContainer.items)
         {
             if (CheckItemStack(stack, property))
                 return stack;
@@ -311,9 +312,10 @@ public static class EntityUtilities
         }
 
         // if there's no loot container, don't check it.
-        if (myEntity.lootContainer == null) return itemStack;
+        var sdxForAction = myEntity as EntityAliveSDX;
+        if (sdxForAction?.lootContainer == null) return itemStack;
 
-        foreach (var stack in myEntity.lootContainer.items)
+        foreach (var stack in sdxForAction.lootContainer.items)
         {
             if (CheckItemStack(stack, findAction))
                 return stack;
@@ -341,7 +343,7 @@ public static class EntityUtilities
                         return stack;
                 }
 
-                foreach (var stack in myEntity.lootContainer?.items)
+                foreach (var stack in (myEntity as EntityAliveSDX)?.lootContainer?.items ?? System.Array.Empty<ItemStack>())
                 {
                     if (CheckItemStackByName(stack, ID))
                         return stack;
@@ -382,9 +384,10 @@ public static class EntityUtilities
         }
 
         // if there's no loot container, don't check it.
-        if (myEntity.lootContainer == null) return itemStack;
+        var sdxForTag = myEntity as EntityAliveSDX;
+        if (sdxForTag?.lootContainer == null) return itemStack;
 
-        foreach (var stack in myEntity.lootContainer.items)
+        foreach (var stack in sdxForTag.lootContainer.items)
         {
             if (CheckItemStack(stack, tag))
                 return stack;
@@ -424,9 +427,10 @@ public static class EntityUtilities
         // Reset counter.
         counter = -1;
 
-        if (myEntity.lootContainer != null)
+        var sdxForFindTag = myEntity as EntityAliveSDX;
+        if (sdxForFindTag?.lootContainer != null)
         {
-            foreach (var stack in myEntity.lootContainer.items)
+            foreach (var stack in sdxForFindTag.lootContainer.items)
             {
                 counter++;
                 if (CheckItemStack(stack, tag))
@@ -517,8 +521,9 @@ public static class EntityUtilities
         if (!string.IsNullOrEmpty(tags))
             fastTags = FastTags<TagGroup.Global>.Parse(tags);
 
+        var sdxForFindAction = myEntity as EntityAliveSDX;
         var counter = -1;
-        foreach (var stack in myEntity.lootContainer.items)
+        foreach (var stack in sdxForFindAction?.lootContainer?.items ?? System.Array.Empty<ItemStack>())
         {
             counter++;
             if (Equals(stack, ItemStack.Empty))
@@ -1364,7 +1369,7 @@ public static class EntityUtilities
                 if (entityAlive is EntityTrader)
                 {
                     // Trader-type entities (e.g. EntityAliveSDXV4) store harvested crops in
-                    // HarvestManager — a plain TileEntityLootContainer that is never attached to
+                    // HarvestManager — a plain TileEntityComposite that is never attached to
                     // the world TES, so SetModified() is never called during harvest and
                     // TraderData serialisation is never corrupted.
                     //
@@ -1386,17 +1391,21 @@ public static class EntityUtilities
                                 .Setup(entityAlive.entityId, player.entityId));
                     }
                 }
-                else if (entityAlive.lootContainer == null)
-                {
-                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Loot Container is null");
-                }
                 else
                 {
-                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Loot Container: " + entityAlive.lootContainer);
-                    if (string.IsNullOrEmpty(entityAlive.lootContainer.lootListName))
-                        entityAlive.lootContainer.lootListName = "traderNPC";
-                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Opening Loot Container");
-                    lootContainerOpened(entityAlive.lootContainer, uiforPlayer, player.entityId);
+                    var entitySDX = entityAlive as EntityAliveSDX;
+                    if (entitySDX?.lootContainer == null)
+                    {
+                        AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Loot Container is null");
+                    }
+                    else
+                    {
+                        AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Loot Container: " + entitySDX.lootContainer);
+                        if (string.IsNullOrEmpty(entitySDX.lootContainer.lootListName))
+                            entitySDX.lootContainer.lootListName = "traderNPC";
+                        AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Opening Loot Container");
+                        lootContainerOpened(entitySDX.lootContainer, uiforPlayer, player.entityId);
+                    }
                 }
                 break;
 
@@ -1702,18 +1711,16 @@ public static class EntityUtilities
         if (myEntity)
         {
             var block = myEntity.world.GetBlock(blockPos);
-            if (Block.list[block.type].HasTag(BlockTags.Door) && !BlockDoor.IsDoorOpen(block.meta))
+            if (Block.list[block.type].HasTag(BlockTags.Door) && (block.meta & 1) == 0)
             {
                 var chunk = myEntity.world.GetChunkFromWorldPos(blockPos) as Chunk;
                 if (forceLock)
                 {
-                    var tileEntitySecureDoor =
-                        (TileEntitySecureDoor) GameManager.Instance.World.GetTileEntity(0, blockPos);
-                    if (tileEntitySecureDoor != null)
-                        tileEntitySecureDoor.SetLocked(false);
+                    var doorComposite = GameManager.Instance.World.GetTileEntity(blockPos) as TileEntityComposite;
+                    doorComposite?.GetFeature<TEFeatureLockable>()?.SetLocked(false);
                 }
 
-                block.Block.OnBlockActivated(myEntity.world, chunk.ClrIdx, blockPos, block, myEntity as EntityPlayerLocal);
+                block.Block.OnBlockActivated(myEntity.world, blockPos, block, myEntity as EntityPlayerLocal);
             }
         }
     }
@@ -1724,7 +1731,7 @@ public static class EntityUtilities
         if (myEntity)
         {
             var block = myEntity.world.GetBlock(blockPos);
-            if (Block.list[block.type].HasTag(BlockTags.Door) && BlockDoor.IsDoorOpen(block.meta))
+            if (Block.list[block.type].HasTag(BlockTags.Door) && (block.meta & 1) != 0)
             {
                 var chunk = myEntity.world.GetChunkFromWorldPos(blockPos) as Chunk;
                 if (chunk == null)
@@ -1739,7 +1746,7 @@ public static class EntityUtilities
                 block.meta = (byte)((flag ? 1 : 0) | ((int)block.meta & -2)); 
                 myEntity.world.SetBlockRPC(chunk.ClrIdx, blockPos, block);
                 */
-                block.Block.OnBlockActivated(myEntity.world, chunk.ClrIdx, blockPos, block, null);
+                block.Block.OnBlockActivated(myEntity.world, blockPos, block, null);
             }
         }
     }
@@ -1823,56 +1830,26 @@ public static class EntityUtilities
         return TempList;
     }
 
-    private static void lootContainerOpened(TileEntityLootContainer _te, LocalPlayerUI _playerUI,
+    private static void lootContainerOpened(ITileEntityLootable _te, LocalPlayerUI _playerUI,
         int _entityIdThatOpenedIt)
     {
-        if (_playerUI != null)
-        {
-            var flag = true;
-            var lootContainerName = string.Empty;
-            if (_te.entityId != -1)
-            {
-                var entity = GameManager.Instance.World.GetEntity(_te.entityId);
-                if (entity != null)
-                {
-                    lootContainerName = Localization.Get(EntityClass.list[entity.entityClass].entityClassName);
-                    if (entity is EntityVehicle)
-                        flag = false;
-                }
-            }
-            else
-            {
-                var block = GameManager.Instance.World.GetBlock(_te.ToWorldPos());
-                lootContainerName = Localization.Get(Block.list[block.type].GetBlockName());
-            }
-
-            if (flag)
-            {
-               GameManager.Instance.lootContainerOpened(_te, _playerUI, _playerUI.entityPlayer.entityId);
-                //var controller = (XUiC_LootWindowGroup) ((XUiWindowGroup) _playerUI.windowManager.GetWindow("looting")).Controller;
-                //controller.SetTileEntityChest(lootContainerName, _te);
-                //_playerUI.windowManager.Open("looting", true);
-            }
-            //
-            // var lootContainer = LootContainer.GetLootContainer(_te.lootListName);
-            // if (lootContainer != null && _playerUI.entityPlayer != null)
-            //     lootContainer.ExecuteBuffActions(_te.entityId, _playerUI.entityPlayer);
-        }
-        //
-        // if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
-        // GameManager.Instance.lootManager.LootContainerOpened(_te, _entityIdThatOpenedIt, new FastTags<TagGroup.Global>());
-        // _te.bTouched = true;
-        //
-        // _te.SetModified();
+        // GameManager.lootContainerOpened and TileEntityComposite.entityId were removed in new game version.
+        // Container opening is handled via OpenContainer().
     }
 
-    public static void OpenContainer(EntityPlayerLocal playerLocal, TileEntityLootContainer _te)
+    public static void OpenContainer(EntityPlayerLocal playerLocal, ITileEntityLootable _te)
     {
         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(playerLocal);
-        uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
+        uiforPlayer.windowManager.CloseAllOpenModalWindows();
         GUIWindow window = uiforPlayer.windowManager.GetWindow("looting");
-        ((XUiC_LootWindowGroup)((XUiWindowGroup)window).Controller).SetTileEntityChest(_te.lootListName, _te);
-        uiforPlayer.windowManager.Open("looting", true, false, true);
+        // 3.0: OpenLooting() defers the tile-entity binding behind a scavenge timer for
+        // untouched containers and returns immediately. Forcing Open("looting") afterward
+        // then opened the loot window before 'te' was bound, so XUiC_ContainerStandardControls
+        // .OnOpen -> get_LockedSlots (and later XUiC_LootWindow.OnClose) NRE on a null te.
+        // Marking the container touched routes OpenLooting through openContainer(), which
+        // binds te on both the group and the loot window and opens the window itself.
+        _te.bWasTouched = true;
+        ((XUiC_LootWindowGroup)((XUiWindowGroup)window).Controller).OpenLooting(_te.lootListName, _te);
     }
     public static bool CheckFaction(int EntityID, EntityAlive entity)
     {

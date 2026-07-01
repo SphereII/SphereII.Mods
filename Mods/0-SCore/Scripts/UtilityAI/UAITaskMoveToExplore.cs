@@ -79,37 +79,32 @@ namespace UAI
             this.Stop(_context);
         }
 
-        private void GetItemFromContainer(Context _context, TileEntityLootContainer tileLootContainer)
+        private void GetItemFromContainer(Context _context, TileEntityComposite tileLootContainer)
         {
-            var blockPos = tileLootContainer.ToWorldPos();
-            if (string.IsNullOrEmpty(tileLootContainer.lootListName))
+            var storage = tileLootContainer.GetFeature<TEFeatureStorage>();
+            if (storage == null) return;
+            if (string.IsNullOrEmpty(storage.lootListName))
                 return;
-            if (tileLootContainer.bTouched)
+            if (storage.bTouched)
                 return;
 
-            tileLootContainer.bTouched = true;
-            tileLootContainer.bWasTouched = true;
+            storage.bTouched = true;
+            storage.bWasTouched = true;
 
             // Nothing to loot.
-            if (tileLootContainer.items == null) return;
-
-            //   SCoreUtils.SetLookPosition(_context,blockPos);
+            if (storage.items == null) return;
 
             _context.Self.MinEventContext.TileEntity = tileLootContainer;
             _context.Self.FireEvent(MinEventTypes.onSelfOpenLootContainer);
 
-            var lootContainer = LootContainer.GetLootContainer(tileLootContainer.lootListName);
+            var lootContainer = LootContainer.GetLootContainer(storage.lootListName);
             if (lootContainer == null)
                 return;
-            //            var gameStage = EffectManager.GetValue(PassiveEffects.LootGamestage, null, 10, _context.Self);
-            //var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, gameStage, 0f, null, new FastTags());
-            var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, (float)_context.Self.Progression.GetLevel(), 0f, null, new FastTags<TagGroup.Global>(), lootContainer.UniqueItems, false);
-
-
+            var array = lootContainer.Spawn(_context.Self.rand, storage.items.Length, (float)_context.Self.Progression.GetLevel(), 0f, null, new FastTags<TagGroup.Global>(), lootContainer.UniqueItems, false, false);
 
             AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"GetItemFromContainers(): {_context.Self.EntityName} ( {_context.Self.entityId}");
             for (var i = 0; i < array.Count; i++)
-                _context.Self.lootContainer.AddItem(array[i].Clone());
+                _context.Self.bag?.AddItem(array[i].Clone());
 
             _context.Self.FireEvent(MinEventTypes.onSelfLootContainer);
         }
@@ -133,12 +128,12 @@ namespace UAI
             if (sqrMagnitude2 > 2f)
                 return false;
 
-            var tileEntity = _context.Self.world.GetTileEntity(Voxel.voxelRayHitInfo.hit.clrIdx, new Vector3i(_vector));
+            var tileEntity = _context.Self.world.GetTileEntity(new Vector3i(_vector));
             switch (tileEntity)
             {
                 // if the TileEntity is a loot container, then loot it.
-                case TileEntityLootContainer tileEntityLootContainer:
-                    GetItemFromContainer(_context, tileEntityLootContainer);
+                case TileEntityComposite TileEntityComposite:
+                    GetItemFromContainer(_context, TileEntityComposite);
                     break;
             }
 

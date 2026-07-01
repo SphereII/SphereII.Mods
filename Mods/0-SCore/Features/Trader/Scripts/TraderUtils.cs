@@ -19,36 +19,24 @@ public static class TraderUtils
     public static int GetCurrentTraderID()
     {
         var trader = TraderController;
-        if (trader == null)
-        {
-            return -1;
-        }
-
-        // Use a single, concise check for the trader ID.
-        if (trader.TraderEntity != null)
-        {
-            return trader.TraderEntity.NPCInfo.TraderID;
-        }
-
-        if (trader.Trader != null)
-        {
-            return trader.Trader.TraderID;
-        }
-        
-        if (trader.TraderTileEntity != null)
-        {
-            return trader.TraderTileEntity.TraderData.TraderID;
-        }
-
-        return -1;
+        if (trader == null) return -1;
+        return trader.Trader?.TraderData?.TraderID ?? -1;
     }
 
     /// <summary>
-    /// Gets the TileEntityTrader of the current trader.
+    /// Gets the vending machine tile entity for the current trader interaction.
     /// </summary>
-    /// <returns>The TileEntityTrader, or null if no trader is being accessed.</returns>
-    public static TileEntityTrader GetCurrentTraderTileEntity()
+    /// <returns>The TileEntityVendingMachine, or null if no trader is being accessed.</returns>
+    public static TileEntityVendingMachine GetCurrentTraderTileEntity()
     {
-        return TraderController?.TraderTileEntity;
+        return TraderController?.Trader as TileEntityVendingMachine;
+    }
+
+    /// <summary>
+    /// Gets the NPC entity for the current trader interaction (entity traders only).
+    /// </summary>
+    public static EntityNPC GetCurrentTraderEntity()
+    {
+        return TraderController?.Trader as EntityNPC;
     }
 }

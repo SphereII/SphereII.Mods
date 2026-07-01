@@ -23,18 +23,7 @@ namespace SCore.Features.ItemDegradation.Harmony.Workstations
                 // If it's not degraded, don't reset its items.
                 if (!ItemDegradationHelpers.IsDegraded(mod.itemValue)) continue;
 
-                switch (blockDewCollector.ModTypes[i])
-                {
-                    case BlockCollector.ModEffectTypes.Type:
-                        __instance.IsModdedConvertItem = false;
-                        break;
-                    case BlockCollector.ModEffectTypes.Speed:
-                        __instance.CurrentConvertSpeed = 1f;
-                        break;
-                    case BlockCollector.ModEffectTypes.Count:
-                        __instance.CurrentConvertCount = 1;
-                        break;
-                }
+                // IsModdedConvertItem / CurrentConvertSpeed / CurrentConvertCount removed in new TileEntityCollector API
             }
         }
     }

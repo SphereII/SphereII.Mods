@@ -19,7 +19,7 @@
                 if (targetType == TileEntityType.None) // Not a tile entity.
                     continue;
 
-                var tileEntity = _context.World.GetTileEntity(0, vector);
+                var tileEntity = _context.World.GetTileEntity(vector);
                 if (tileEntity == null) continue;
                 if (targetType == TileEntityType.None) continue;
 
@@ -30,13 +30,17 @@
                     {
                         // If the loot containers were already touched, don't path to them.
                         case TileEntityType.Loot:
-                            if (!((TileEntityLootContainer)tileEntity).bTouched)
-                                return 1f;
+                        {
+                            var s = ((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>();
+                            if (s == null || !s.bTouched) return 1f;
                             break;
+                        }
                         case TileEntityType.SecureLoot:
-                            if (!((TileEntitySecureLootContainer)tileEntity).bTouched)
-                                return 1f;
+                        {
+                            var s = ((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>();
+                            if (s == null || !s.bTouched) return 1f;
                             break;
+                        }
                         default:
                             return 1f;
                     }

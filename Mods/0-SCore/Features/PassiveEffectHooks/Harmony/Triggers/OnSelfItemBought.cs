@@ -11,7 +11,7 @@ public static class OnBought
             ItemValue = ItemValue.None
         };
 
-        var currentTrader = GameManager.Instance.World.GetEntity(minEventParams.TileEntity.EntityId) as EntityNPC;
+        var currentTrader = TraderUtils.GetCurrentTraderEntity();
         minEventParams.Other = currentTrader;
 
         // We want to set the _item_value to something, just in case this is the first time.        
@@ -35,8 +35,8 @@ public static class OnBought
         minEventParams.Self.Buffs.AddCustomVar("_totalBought", count);
         minEventParams.Self.Buffs.AddCustomVar("_buyPrice", buyPrice);
 
-        var currentTrader = GameManager.Instance.World.GetEntity(minEventParams.TileEntity.EntityId) as EntityNPC;
-        minEventParams.Other = currentTrader;
+        var currentTrader2 = TraderUtils.GetCurrentTraderEntity();
+        minEventParams.Other = currentTrader2;
         minEventParams.Self.MinEventContext = minEventParams;
         minEventParams.Self.FireEvent(MinEventTypes.onSelfItemBought);
         minEventParams.Self.Buffs.AddCustomVar("_totalBought", 0f);

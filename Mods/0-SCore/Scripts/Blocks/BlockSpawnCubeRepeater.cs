@@ -1,11 +1,11 @@
-using Platform;
+﻿using Platform;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BlockSpawnCubeRepeater : BlockSpawnCube2SDX
 {
-    public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue,
+    public override bool UpdateTick(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue,
         bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
         // Spawning logic should only run on the server.
@@ -20,7 +20,7 @@ public class BlockSpawnCubeRepeater : BlockSpawnCube2SDX
 
             // If max spawns are NOT yet reached, attempt to spawn an entity.
             // All the complex spawning logic is now encapsulated in the base's TrySpawnEntity.
-            if (TrySpawnEntity(_world, _clrIdx, _blockPos, _blockValue))
+            if (TrySpawnEntity(_world,  _blockPos, _blockValue))
             {
                 // If an entity was successfully spawned this tick, increment the meta count.
                 // The TrySpawnEntity method itself does NOT increment meta, allowing derived classes to control it.
@@ -31,7 +31,7 @@ public class BlockSpawnCubeRepeater : BlockSpawnCube2SDX
 
             // In either case (spawn success or failure due to temporary conditions),
             // if max spawns are not reached, schedule another tick for the next attempt.
-            _world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, blockID, GetTickRate());
+            _world.GetWBT().AddScheduledBlockUpdate(_blockPos, blockID, GetTickRate());
             return true; // Keep the block ticking for future spawns.
         }
 

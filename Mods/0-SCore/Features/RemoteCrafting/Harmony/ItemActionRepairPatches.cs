@@ -30,33 +30,32 @@ namespace Features.RemoteCrafting {
                     return true;
 
                 var block = blockValue.Block;
+                if (!block.Properties.TryGetValue(Block.PropUpgradeBlockClass, Block.PropUpgradeBlockItemCount, out var itemCountStr) ||
+                    !int.TryParse(itemCountStr, out int num))
+                {
+                    return false;
+                }
                 var itemValue = ItemClass.GetItem(__instance.GetUpgradeItemName(block), false);
-                int num;
-                if (!int.TryParse(block.Properties.Values[Block.PropUpgradeBlockClassItemCount], out num))
+                var entityPlayerLocal = data.holdingEntity as EntityPlayerLocal;
+
+                // Pull from inventory first, then bag, tracking what's still owed.
+                var remaining = num;
+
+                var removedFromInventory = data.holdingEntity.inventory.DecItem(itemValue, remaining);
+                remaining -= removedFromInventory;
+                if (removedFromInventory > 0)
+                    entityPlayerLocal?.AddUIHarvestingItem(new ItemStack(itemValue, -removedFromInventory));
+
+                if (remaining > 0)
                 {
-                    return false;
+                    var removedFromBag = data.holdingEntity.bag.DecItem(itemValue, remaining);
+                    remaining -= removedFromBag;
+                    if (removedFromBag > 0)
+                        entityPlayerLocal?.AddUIHarvestingItem(new ItemStack(itemValue, -removedFromBag));
                 }
 
-                if (data.holdingEntity.inventory.DecItem(itemValue, num) == num)
+                if (remaining <= 0)
                 {
-                    var entityPlayerLocal = data.holdingEntity as EntityPlayerLocal;
-                    if (entityPlayerLocal != null && num != 0)
-                    {
-                        entityPlayerLocal.AddUIHarvestingItem(new ItemStack(itemValue, -num));
-                    }
-
-                    __result = true;
-                    return false;
-                }
-
-                if (data.holdingEntity.bag.DecItem(itemValue, num) == num)
-                {
-                    var entityPlayerLocal2 = data.holdingEntity as EntityPlayerLocal;
-                    if (entityPlayerLocal2 != null)
-                    {
-                        entityPlayerLocal2.AddUIHarvestingItem(new ItemStack(itemValue, -num));
-                    }
-
                     __result = true;
                     return false;
                 }
@@ -68,18 +67,9 @@ namespace Features.RemoteCrafting {
                     distance = StringParsers.ParseFloat(strDistance);
                 var tileEntities = RemoteCraftingUtils.GetTileEntities(primaryPlayer, distance, true);
 
-                // counter quantity needed from item
-                var q = num;
+                // counter quantity still needed from nearby containers
+                var q = remaining;
 
-                var itemStack = new ItemStack(ItemClass.GetItem(__instance.GetUpgradeItemName(block)), num);
-
-                //check player inventory for materials and reduce counter
-                var slots = primaryPlayer.bag.GetSlots();
-                q = q - slots
-                    .Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass)
-                    .Sum(y => y.count);
-
-                // check storage boxes
                 foreach (var tileEntity in tileEntities)
                 {
                     if (q <= 0) break;
@@ -88,13 +78,15 @@ namespace Features.RemoteCrafting {
                         continue;
 
                     // If there's no items in this container, skip.
-                    if (!lootTileEntity.HasItem(itemStack.itemValue)) continue;
+                    if (!lootTileEntity.HasItem(itemValue)) continue;
 
                     for (var y = 0; y < lootTileEntity.items.Length; y++)
                     {
+                        if (q <= 0) break;
+
                         var item = lootTileEntity.items[y];
                         if (item.IsEmpty()) continue;
-                        if (item.itemValue.ItemClass != itemStack.itemValue.ItemClass) continue;
+                        if (item.itemValue.ItemClass != itemValue.ItemClass) continue;
 
                         // If we can completely satisfy the result, let's do that.
                         if (item.count >= q)
@@ -104,14 +96,8 @@ namespace Features.RemoteCrafting {
                         }
                         else
                         {
-                            // Otherwise, let's just count down until we meet the requirement.
-                            while (q >= 0)
-                            {
-                                item.count--;
-                                q--;
-                                if (item.count <= 0)
-                                    break;
-                            }
+                            q -= item.count;
+                            item.count = 0;
                         }
 
                         //Update the slot on the container, and do the Setmodified(), so that the dedis can get updated.
@@ -123,7 +109,15 @@ namespace Features.RemoteCrafting {
                     }
                 }
 
-                primaryPlayer.AddUIHarvestingItem(new ItemStack(itemValue, -num));
+                if (q > 0)
+                {
+                    // Not enough resources were actually available - don't report success.
+                    __result = false;
+                    return false;
+                }
+
+                var removedFromContainers = remaining - q;
+                primaryPlayer.AddUIHarvestingItem(new ItemStack(itemValue, -removedFromContainers));
 
                 __result = true;
 
@@ -147,8 +141,9 @@ namespace Features.RemoteCrafting {
 
                 var block = blockValue.Block;
                 var upgradeItemName = __instance.GetUpgradeItemName(block);
-        
-                if (!int.TryParse(block.Properties.Values[Block.PropUpgradeBlockClassItemCount], out int quantity)) return;
+
+                if (!block.Properties.TryGetValue(Block.PropUpgradeBlockClass, Block.PropUpgradeBlockItemCount, out var itemCountStr) ||
+                    !int.TryParse(itemCountStr, out int quantity)) return;
                 var itemValue = ItemClass.GetItem(upgradeItemName);
 
                 // CHECK FOR ENEMIES
@@ -161,7 +156,7 @@ namespace Features.RemoteCrafting {
                         // If enemies are nearby, we ONLY allow the result to be true if it's in the bag/inventory
                         var hasInPerson = data.holdingEntity.inventory.GetItemCount(itemValue) >= quantity ||
                                            data.holdingEntity.bag.GetItemCount(itemValue) >= quantity;
-                
+
                         if (!hasInPerson) {
                             GameManager.ShowTooltip(primaryPlayer, Localization.Get("xuiCraftFromContainersSCore"));
                             __result = false;
@@ -169,21 +164,24 @@ namespace Features.RemoteCrafting {
                         }
                     }
                 }
-              
-                if (!int.TryParse(block.Properties.Values[Block.PropUpgradeBlockClassItemCount], out quantity))
+
+                var heldCount = data.holdingEntity.inventory.GetItemCount(itemValue) +
+                                data.holdingEntity.bag.GetItemCount(itemValue);
+                var needed = quantity - heldCount;
+                if (needed <= 0)
                 {
+                    __result = true;
                     return;
                 }
 
-                var itemStack = new ItemStack(ItemClass.GetItem(upgradeItemName), quantity);
                 var distance = 30f;
                 var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
                 if (!string.IsNullOrEmpty(strDistance))
                     distance = StringParsers.ParseFloat(strDistance);
                 var totalCount = RemoteCraftingUtils
-                    .SearchNearbyContainers(primaryPlayer, itemStack.itemValue, distance).Sum(y => y.count);
+                    .SearchNearbyContainers(primaryPlayer, itemValue, distance).Sum(y => y.count);
 
-                if (totalCount >= quantity)
+                if (totalCount >= needed)
                 {
                     __result = true;
                     return;

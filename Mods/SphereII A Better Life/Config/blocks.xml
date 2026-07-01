@@ -15,7 +15,7 @@
 		  <drop event="Destroy" name="resourceYuccaFibers" count="1"/>
 		  <drop event="Fall" name="resourceClayLump" count="30" prob="0.5" stick_chance="0"/>
 		  <property name="CanMobsSpawnOn" value="true"/>
-		  <property name="Map.Color" value="107,78,57"/>
+		  <!--property name="Map.Color" value="107,78,57"/-->
 		  <property name="EconomicValue" value="5"/>
 		  <property name="EconomicBundleSize" value="1"/>
 		  <property name="SellableToTrader" value="false"/>

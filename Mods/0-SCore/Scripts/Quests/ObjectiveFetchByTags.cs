@@ -73,7 +73,7 @@ public class ObjectiveFetchByTags :  ObjectiveFetch
         }
         
         if ( properties.Values.ContainsKey("Description"))
-            localizationDesc = properties.GetStringValue("Description");
+            localizationDesc = properties.GetString("Description");
     }
 
 }

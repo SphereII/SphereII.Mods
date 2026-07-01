@@ -1,4 +1,4 @@
-using GamePath;
+﻿using GamePath;
 using Platform;
 using System;
 using System.Collections.Generic;
@@ -107,10 +107,7 @@ namespace UAI
                 if (EntityTargetingUtilities.IsEnemy(context.Self, entity))
                     continue;
 
-                if (context.Self
-                        .GetActivationCommands(new Vector3i(context.Self.position), lookEntity as EntityAlive)
-                        .Length > 0)
-                    lookEntity = entity;
+                lookEntity = entity;
             }
 
             if (lookEntity == null) return;
@@ -595,11 +592,11 @@ namespace UAI
                                     continue;
                                 // If the loot containers were already touched, don't path to them.
                                 case TileEntityType.Loot:
-                                    if (((TileEntityLootContainer) tileEntity).bTouched && ignoreTouch == false)
+                                    if ((((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>()?.bTouched ?? false) && ignoreTouch == false)
                                         continue;
                                     break;
                                 case TileEntityType.SecureLoot:
-                                    if (((TileEntitySecureLootContainer) tileEntity).bTouched && ignoreTouch == false)
+                                    if ((((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>()?.bTouched ?? false) && ignoreTouch == false)
                                         continue;
                                     break;
                             }
@@ -811,18 +808,14 @@ namespace UAI
             var blockPos = _context.Self.moveHelper.HitInfo.hit.blockPos;
             var block = GameManager.Instance.World.GetBlock(blockPos);
 
-            if (!Block.list[block.type].HasTag(BlockTags.Door) || BlockDoor.IsDoorOpen(block.meta)) return false;
+            if (!Block.list[block.type].HasTag(BlockTags.Door) || (block.meta & 1) != 0) return false;
 
             var canOpenDoor = true;
-            if (GameManager.Instance.World.GetTileEntity(0, blockPos) is TileEntitySecureDoor tileEntitySecureDoor)
+            var doorComposite = GameManager.Instance.World.GetTileEntity(blockPos) as TileEntityComposite;
+            var doorLockable = doorComposite?.GetFeature<TEFeatureLockable>();
+            if (doorLockable != null && doorLockable.IsLocked())
             {
-                if (tileEntitySecureDoor.IsLocked())
-                {
-                    canOpenDoor = false;
-                    if (tileEntitySecureDoor.GetOwner() == PlatformManager.InternalLocalUserIdentifier)
-
-                        canOpenDoor = false;
-                }
+                canOpenDoor = false;
             }
 
             if (!canOpenDoor)
@@ -893,24 +886,26 @@ namespace UAI
             private Entity self;
         }
 
-        public static void GetItemFromContainer(Context _context, TileEntityLootContainer tileLootContainer)
+        public static void GetItemFromContainer(Context _context, TileEntityComposite tileLootContainer)
         {
             var blockPos = tileLootContainer.ToWorldPos();
-            if (string.IsNullOrEmpty(tileLootContainer.lootListName))
+            var storage = tileLootContainer.GetFeature<TEFeatureStorage>();
+            if (storage == null) return;
+            if (string.IsNullOrEmpty(storage.lootListName))
                 return;
-            if (tileLootContainer.bTouched)
+            if (storage.bTouched)
                 return;
 
-            tileLootContainer.bTouched = true;
-            tileLootContainer.bWasTouched = true;
+            storage.bTouched = true;
+            storage.bWasTouched = true;
 
             // Nothing to loot.
-            if (tileLootContainer.items == null) return;
+            if (storage.items == null) return;
             _context.Self.SetLookPosition(blockPos);
             _context.Self.MinEventContext.TileEntity = tileLootContainer;
             _context.Self.FireEvent(MinEventTypes.onSelfOpenLootContainer);
 
-            var lootContainer = LootContainer.GetLootContainer(tileLootContainer.lootListName);
+            var lootContainer = LootContainer.GetLootContainer(storage.lootListName);
             if (lootContainer == null)
             {
                 _context.Self.SetLookPosition(Vector3.zero);
@@ -921,14 +916,14 @@ namespace UAI
             var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityPlayer;
             if (leader != null)
             {
-                lootgameStage =leader.unModifiedGameStage;
+                lootgameStage = leader.unModifiedGameStage;
             }
-            //            var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, 0f, null, new FastTags(), false);
-            var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length,
-                (float) lootgameStage, 0f, leader, new FastTags<TagGroup.Global>(), lootContainer.UniqueItems, true);
+            var array = lootContainer.Spawn(_context.Self.rand, storage.items.Length,
+                (float) lootgameStage, 0f, leader, new FastTags<TagGroup.Global>(), lootContainer.UniqueItems, true, false);
+            var selfSDX = _context.Self as EntityAliveSDX;
             for (var i = 0; i < array.Count; i++)
             {
-                _context.Self.lootContainer.AddItem(array[i].Clone());
+                selfSDX?.lootContainer?.AddItem(array[i].Clone());
             }
 
             _context.Self.FireEvent(MinEventTypes.onSelfLootContainer);
@@ -955,13 +950,13 @@ namespace UAI
             if (sqrMagnitude2 > 1f)
                 return false;
 
-            var tileEntity = _context.Self.world.GetTileEntity(Voxel.voxelRayHitInfo.hit.clrIdx, new Vector3i(_vector));
+            var tileEntity = _context.Self.world.GetTileEntity(new Vector3i(_vector));
             switch (tileEntity)
             {
                 // if the TileEntity is a loot container, then loot it.
-                case TileEntityLootContainer tileEntityLootContainer:
+                case TileEntityComposite TileEntityComposite:
 
-                    GetItemFromContainer(_context, tileEntityLootContainer);
+                    GetItemFromContainer(_context, TileEntityComposite);
                     break;
             }
 

@@ -2,6 +2,6 @@
 {
     public override void PerformAction(EntityPlayer player)
     {
-        player.Buffs.RemoveBuff(base.ID, true);
+        player.Buffs.RemoveBuff(base.ID);
     }
 }

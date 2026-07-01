@@ -6,7 +6,7 @@
 
     public override void Init()
     {
-        ID = windowGroup.ID;
+        ID = windowGroup.Id;
         base.Init();
         txtPassword = (XUiC_TextInput)GetChildById("txtPassword");
         txtPassword.OnSubmitHandler += TxtPassword_OnSubmitHandler;
@@ -17,7 +17,7 @@
 
     private void TextInput_OnInputAbortedHandler(XUiController _sender)
     {
-        xui.playerUI.windowManager.Close(WindowGroup.ID);
+        xui.playerUI.windowManager.Close(WindowGroup.Id);
     }
 
     private void TxtPassword_OnSubmitHandler(XUiController _sender, string _text)
@@ -36,12 +36,12 @@
         EntityUtilities.GetNewPositon(myEntity.entityId);
         EntityUtilities.SetCurrentOrder(myEntity.entityId, EntityUtilities.Orders.Wander);
         GameManager.ShowTooltip(xui.playerUI.entityPlayer, "Pathing Code Set");
-        xui.playerUI.windowManager.Close(WindowGroup.ID);
+        xui.playerUI.windowManager.Close(WindowGroup.Id);
     }
 
     private void BtnCancel_OnPressed(XUiController _sender, int _mouseButton)
     {
-        xui.playerUI.windowManager.Close(WindowGroup.ID);
+        xui.playerUI.windowManager.Close(WindowGroup.Id);
     }
 
     public override void OnOpen()

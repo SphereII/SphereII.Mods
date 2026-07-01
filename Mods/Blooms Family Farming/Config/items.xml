@@ -29,7 +29,10 @@
             <property name="Class" value="MakeFertile"/>
             <property name="Sphere" value=".1"/>
             <property name="Sound_start" value="axe_stone_swing"/>
-            <property name="ToolCategory.Butcher" value="0" param1="4"/><!-- damage vs entity corpses -->
+            <property class="ToolCategory">
+                <property name="Butcher" value="0" param1="4"/>
+            </property>
+
             <property name="GrazeStart" value=".15"/>
             <property name="GrazeEnd" value=".3"/>
             <property name="SwingDegrees" value="45"/>

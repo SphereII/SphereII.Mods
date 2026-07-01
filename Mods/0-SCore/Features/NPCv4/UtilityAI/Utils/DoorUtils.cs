@@ -34,15 +34,14 @@ namespace UAI
             var blockPos = context.Self.moveHelper.HitInfo.hit.blockPos;
             var block    = GameManager.Instance.World.GetBlock(blockPos);
 
-            if (!Block.list[block.type].HasTag(BlockTags.Door) || BlockDoor.IsDoorOpen(block.meta))
+            if (!Block.list[block.type].HasTag(BlockTags.Door) || (block.meta & 1) != 0)
                 return false;
 
             // Respect locks.
-            if (GameManager.Instance.World.GetTileEntity(0, blockPos) is TileEntitySecureDoor securedDoor)
-            {
-                if (securedDoor.IsLocked())
-                    return false;
-            }
+            var doorComposite = GameManager.Instance.World.GetTileEntity(blockPos) as TileEntityComposite;
+            var doorLockable = doorComposite?.GetFeature<TEFeatureLockable>();
+            if (doorLockable != null && doorLockable.IsLocked())
+                return false;
 
             SphereCache.AddDoor(context.Self.entityId, blockPos);
             EntityUtilities.OpenDoor(context.Self.entityId, blockPos);

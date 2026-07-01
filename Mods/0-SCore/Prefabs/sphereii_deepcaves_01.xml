@@ -9,9 +9,12 @@
   <property name="ShowQuestClearCount" value="1" />
   <property name="TraderArea" value="False" />
   <property name="RotationToFaceNorth" value="2" />
+  <property name="PrefabSize" value="5, 6, 6" />
+  <property name="Zoning" value="none" />
   <property class="Stats">
-    <property name="TotalVertices" value="9386" />
-    <property name="TotalTriangles" value="12242" />
+    <property name="LightsVolume" value="0" />
+    <property name="TotalVertices" value="9224" />
+    <property name="TotalTriangles" value="11994" />
     <property class="BlockEntities">
       <property name="Vertices" value="9224" />
       <property name="Triangles" value="11994" />
@@ -40,21 +43,10 @@
       <property name="Vertices" value="0" />
       <property name="Triangles" value="0" />
     </property>
-    <property class="ChunkMeshes6">
-      <property name="Vertices" value="0" />
-      <property name="Triangles" value="0" />
-    </property>
-    <property class="ChunkMeshes7">
-      <property name="Vertices" value="162" />
-      <property name="Triangles" value="248" />
-    </property>
-    <property class="ChunkMeshes8">
-      <property name="Vertices" value="0" />
-      <property name="Triangles" value="0" />
-    </property>
-    <property class="ChunkMeshes9">
-      <property name="Vertices" value="0" />
-      <property name="Triangles" value="0" />
+  </property>
+  <property class="IndexedBlockOffsets">
+    <property class="challenge_gore">
+      <property name="0" value="2, 1, 4" />
     </property>
   </property>
 </prefab>

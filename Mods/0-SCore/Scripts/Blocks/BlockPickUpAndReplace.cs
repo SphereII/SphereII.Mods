@@ -73,10 +73,10 @@ public class BlockTakeAndReplace : Block {
     }
 
     // Override the on Block activated, so we can pop up our timer
-    public override bool OnBlockActivated(WorldBase world, int clrIdx, Vector3i blockPos,
+    public override bool OnBlockActivated(WorldBase world, Vector3i blockPos,
         BlockValue blockValue, EntityPlayerLocal player) {
         if (!ValidMaterialCheck(blockValue, player)) return false;
-        TakeItemWithTimer(clrIdx, blockPos, blockValue, player);
+        TakeItemWithTimer(0, blockPos, blockValue, player);
         return true;
     }
 
@@ -105,7 +105,7 @@ public class BlockTakeAndReplace : Block {
         if (triggerHarvest)
         {
             Harvest(block, entityPlayerLocal);
-            DamageBlock(world, clrIdx, vector3I, block, block.Block.blockMaterial.MaxDamage, entityPlayerLocal.entityId);
+            DamageBlock(world, vector3I, block, block.Block.blockMaterial.MaxDamage, entityPlayerLocal.entityId);
             return;
         }
 
@@ -125,7 +125,7 @@ public class BlockTakeAndReplace : Block {
             uiforPlayer.xui.PlayerInventory.DropItem(itemStack);
 
         // Damage the block for its full health 
-        DamageBlock(world, clrIdx, vector3I, block, block.Block.blockMaterial.MaxDamage, entityPlayerLocal.entityId);
+        DamageBlock(world, vector3I, block, block.Block.blockMaterial.MaxDamage, entityPlayerLocal.entityId);
     
     }
 
@@ -171,7 +171,7 @@ public class BlockTakeAndReplace : Block {
             _blockPos,
             _player
         };
-        timerEventData.Event += TakeTarget;
+        timerEventData.FullTimeFinishEvent += TakeTarget;
 
         var newTakeTime = fTakeDelay;
 
@@ -199,7 +199,7 @@ public class BlockTakeAndReplace : Block {
             break;
         }
 
-        xuiCTimer.SetTimer(newTakeTime, timerEventData);
+        xuiCTimer.setTimer(newTakeTime, timerEventData);
     }
 
     private bool ValidMaterialCheck(BlockValue blockValue, EntityAlive entityAlive) {
@@ -220,7 +220,7 @@ public class BlockTakeAndReplace : Block {
         return entityAlive.inventory.holdingItem.HasAnyTags(FastTags<TagGroup.Global>.Parse(blockMaterial.id));
     }
 
-    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos,
+    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos,
         EntityAlive _entityFocusing) {
         if (!ValidMaterialCheck(_blockValue, _entityFocusing))
             return string.Empty;

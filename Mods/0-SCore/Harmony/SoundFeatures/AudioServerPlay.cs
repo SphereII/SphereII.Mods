@@ -6,7 +6,7 @@ namespace Harmony.SoundFeatures
 {
     [HarmonyPatch(typeof(Manager))]
     [HarmonyPatch("Play")]
-    [HarmonyPatch(new[] { typeof(Entity), typeof(string), typeof(float), typeof(bool) })]
+    [HarmonyPatch(new[] { typeof(Entity), typeof(string), typeof(float), typeof(bool)})]
     public class AudioServerPlay
     {
         private static readonly string AdvFeatureClass = "AdvancedSoundFeatures";

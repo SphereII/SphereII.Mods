@@ -83,9 +83,9 @@ public class EntityZombieFlyingSDX : EntityFlying
     }
 
     // pet properties
-    public override void Init(int _entityClass)
+    public override void Init(int _entityClass, EntityInstanceAssets _assets, EModelInstanceAssets _eModelAssets)
     {
-        base.Init(_entityClass);
+        base.Init(_entityClass, _assets, _eModelAssets);
         emodel.SetVisible(true, true);
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
             getNavigator().setCanDrown(true);
@@ -161,14 +161,6 @@ public class EntityZombieFlyingSDX : EntityFlying
             bool.TryParse(entityClass.Properties.Values["UseVanillaAI"], out useVanillaAI);
                 
         auxList = null;
-    }
-
-    public override void InitFromPrefab(int _entityClass)
-    {
-        base.InitFromPrefab(_entityClass);
-        emodel.SetVisible(true, true);
-        getNavigator().setCanDrown(true);
-        //base.getNavigator().setInWater(false);
     }
 
     public override void PostInit()

@@ -95,7 +95,7 @@ class SphereII_LegacyDistantTerrain
         {
             if (DistantTerrain.Instance != null && !GameManager.IsSplatMapAvailable())
             {
-                GameManager.Instance.World.ChunkClusters[0].OnChunkVisibleDelegates -= ___chunkClusterVisibleDelegate;
+                GameManager.Instance.World.ChunkCache.OnChunkVisibleDelegates -= ___chunkClusterVisibleDelegate;
                 DistantTerrain.Instance.Cleanup();
                 DistantTerrain.Instance = null;
             }
@@ -112,7 +112,7 @@ class SphereII_LegacyDistantTerrain
             if (DistantTerrain.Instance == null)
                 return true;
 
-            ChunkCluster chunkCluster = GameManager.Instance.World.ChunkClusters[0];
+            ChunkCluster chunkCluster = GameManager.Instance.World.ChunkCache;
             if (chunkCluster == null)
                 return true;
 
@@ -205,7 +205,7 @@ class SphereII_LegacyDistantTerrain
             if (!GameManager.IsDedicatedServer && !GameManager.IsSplatMapAvailable())
             {
                 Debug.Log("Creating Legacy Distant Terrain");
-                if (DistantTerrain.Instance == null && !GameManager.Instance.World.ChunkClusters[0].IsFixedSize)
+                if (DistantTerrain.Instance == null && !GameManager.Instance.World.ChunkCache.IsFixedSize)
                 {
                     DistantTerrain.cShiftHiResChunks = new Vector3(0f, 0.5f, 0f);
                     DistantTerrain.Instance = new DistantTerrain();

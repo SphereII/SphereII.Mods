@@ -14,28 +14,28 @@ public class DediPatches
     }
 
 
-
-    [HarmonyPatch(typeof(BlockShapeModelEntity))]
-    [HarmonyPatch("Init")]
-    public class SphereII_BlockShapeModelEntity
-    {
-        private static bool Prefix(ref Block _block)
-        {
-            if (!GameManager.IsDedicatedServer)
-                return true;
-
-            var model = _block.Properties.Values["Model"];
-            if (model == null)
-                return true;
-
-            if (model.Contains("modfolder"))
-            {
-                Log.Out($"Converting {model} to Placeholder.");
-                _block.Properties.Values["Model"] = "Entities/Misc/block_missingPrefab";
-            }
-            return true;
-        }
-    }
+    //
+    // [HarmonyPatch(typeof(BlockShapeModelEntity))]
+    // [HarmonyPatch("Init")]
+    // public class SphereII_BlockShapeModelEntity
+    // {
+    //     private static bool Prefix(ref Block _block)
+    //     {
+    //         if (!GameManager.IsDedicatedServer)
+    //             return true;
+    //
+    //         var model = _block.Properties.Values["Model"];
+    //         if (model == null)
+    //             return true;
+    //
+    //         if (model.Contains("modfolder"))
+    //         {
+    //             Log.Out($"Converting {model} to Placeholder.");
+    //             _block.Properties.Values["Model"] = "Entities/Misc/block_missingPrefab";
+    //         }
+    //         return true;
+    //     }
+    // }
 
     [HarmonyPatch(typeof(EntityClass))]
     [HarmonyPatch("Init")]

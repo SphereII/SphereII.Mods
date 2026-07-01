@@ -49,9 +49,10 @@ namespace UAI
                         var startsWith = ID.Split('*')[0];
                         var endsWith = ID.Split('*')[1];
 
-                        if (_context.Self.lootContainer != null)
+                        var selfSDX = _context.Self as EntityAliveSDX;
+                        if (selfSDX?.lootContainer != null)
                         {
-                            foreach (var items in _context.Self.lootContainer.items)
+                            foreach (var items in selfSDX.lootContainer.items)
                             {
                                 var itemName = items.itemValue.ItemClass.GetItemName();
                                 if (itemName.StartsWith(startsWith) && itemName.EndsWith(endsWith))
@@ -69,8 +70,9 @@ namespace UAI
                         if (_context.Self.bag.GetItemCount(item) > 0)
                             return 1f;
 
-                        if (_context.Self.lootContainer != null)
-                            if (_context.Self.lootContainer.HasItem(item))
+                        var selfSDX2 = _context.Self as EntityAliveSDX;
+                        if (selfSDX2?.lootContainer != null)
+                            if (selfSDX2.lootContainer.HasItem(item))
                                 return 1f;
                     }
                 }

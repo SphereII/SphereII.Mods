@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Audio;
@@ -21,7 +21,7 @@ namespace SCore.Harmony.TileEntities
                     return true;
             }
 
-            var currentStack = itemStack.xui.dragAndDrop?.CurrentStack;
+            var currentStack = itemStack.xui.DragAndDropWindow?.itemStack;
             if (currentStack == null || currentStack.IsEmpty()) return true;
 
             // Check NoStorage before any container-specific guard so items like stored NPCs
@@ -30,9 +30,9 @@ namespace SCore.Harmony.TileEntities
             if (!CheckItemsForContainer(currentStack)) return false;
 
             // Only run tag-based checks on loot containers and their slots.
-            if (itemStack.xui.lootContainer == null) return true;
+            if (itemStack.xui.LootContainer == null) return true;
             if (itemStack.StackLocation != XUiC_ItemStack.StackLocationTypes.LootContainer) return true;
-            var blockValue = GameManager.Instance.World.GetBlock(itemStack.xui.lootContainer.ToWorldPos());
+            var blockValue = GameManager.Instance.World.GetBlock(itemStack.xui.LootContainer.ToWorldPos());
             var block = blockValue.Block;
             return CanPlaceItemInContainerViaTags(block, currentStack, true);
         }
@@ -147,42 +147,42 @@ namespace SCore.Harmony.TileEntities
             }
         }
 
-        public class TileEntityContainerStoragePatch
-        {
-            [HarmonyPatch(typeof(TileEntityLootContainer))]
-            [HarmonyPatch("TryStackItem")]
-            public class TEFeatureStorageTryStackItem
-            {
-                public static bool Prefix(TileEntityLootContainer __instance, ItemStack _itemStack)
-                {
-                    if (__instance is ITileEntityLootable tileEntityLootable)
-                    {
-                        if (tileEntityLootable.GetChunk() != null)
-                            return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _itemStack);
-                        return CanPlaceItemInContainerViaTags(null, _itemStack);
-                    }
-
-                    return true;
-                }
-            }
-
-            [HarmonyPatch(typeof(TileEntityLootContainer))]
-            [HarmonyPatch("AddItem")]
-            public class TEFeatureStorageAddItem
-            {
-                public static bool Prefix(TileEntityLootContainer __instance, ItemStack _item)
-                {
-                    if (__instance is ITileEntityLootable tileEntityLootable)
-                    {
-                        if ( tileEntityLootable.GetChunk() != null )
-                            return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _item);
-                        return CanPlaceItemInContainerViaTags(null, _item);
-                    }
-
-                    return true;
-                }
-            }
-        }
+        // public class TileEntityContainerStoragePatch
+        // {
+        //     [HarmonyPatch(typeof(TileEntityComposite))]
+        //     [HarmonyPatch("TryStackItem")]
+        //     public class TEFeatureStorageTryStackItem
+        //     {
+        //         public static bool Prefix(TileEntityComposite __instance, ItemStack _itemStack)
+        //         {
+        //             if (__instance is ITileEntityLootable tileEntityLootable)
+        //             {
+        //                 if (tileEntityLootable.GetChunk() != null)
+        //                     return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _itemStack);
+        //                 return CanPlaceItemInContainerViaTags(null, _itemStack);
+        //             }
+        //
+        //             return true;
+        //         }
+        //     }
+        //
+        //     [HarmonyPatch(typeof(TileEntityComposite))]
+        //     [HarmonyPatch("AddItem")]
+        //     public class TEFeatureStorageAddItem
+        //     {
+        //         public static bool Prefix(TileEntityComposite __instance, ItemStack _item)
+        //         {
+        //             if (__instance is ITileEntityLootable tileEntityLootable)
+        //             {
+        //                 if ( tileEntityLootable.GetChunk() != null )
+        //                     return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _item);
+        //                 return CanPlaceItemInContainerViaTags(null, _item);
+        //             }
+        //
+        //             return true;
+        //         }
+        //     }
+        // }
 
         // For other methods, such as automatic stashing, dragging and dropping, etc.
         [HarmonyPatch]
@@ -214,8 +214,8 @@ namespace SCore.Harmony.TileEntities
             {
                 public static bool Prefix(ItemStack _itemStack, XUi _xui)
                 {
-                    if (_xui.lootContainer == null) return true;
-                    var blockValue = GameManager.Instance.World.GetBlock(_xui.lootContainer.ToWorldPos());
+                    if (_xui.LootContainer == null) return true;
+                    var blockValue = GameManager.Instance.World.GetBlock(_xui.LootContainer.ToWorldPos());
                     var block = blockValue.Block;
                     return CanPlaceItemInContainerViaTags(block, _itemStack, true);
                 }
@@ -223,10 +223,10 @@ namespace SCore.Harmony.TileEntities
         }
 
         // public class TileEntityLootContainerItemStackPatch {
-        //     [HarmonyPatch(typeof(TileEntityLootContainer))]
+        //     [HarmonyPatch(typeof(TileEntityComposite))]
         //     [HarmonyPatch("AddItem")]
         //     public class XTileEntityLootContainerItemStackPatchItemStackPatchAddItem {
-        //         public static bool Prefix(TileEntityLootContainer __instance, ItemStack _item) {
+        //         public static bool Prefix(TileEntityComposite __instance, ItemStack _item) {
         //             var block = __instance?.blockValue.Block;
         //             if ( block == null ) return true;
         //             return CanPlaceItemInContainerViaTags(block, _item, true);
@@ -250,7 +250,7 @@ namespace SCore.Harmony.TileEntities
                     {
                         var display = block.Properties.GetString("AllowTags");
                         __instance.lootContainerName = $"{_lootContainerName} ( Tag Limited: {display} )";
-                        __instance.RefreshBindings(true);
+                        __instance.RefreshBindings();
                         return;
                     }
 
@@ -258,7 +258,7 @@ namespace SCore.Harmony.TileEntities
                     {
                         var display = block.Properties.GetString("DisallowTags");
                         __instance.lootContainerName = $"{_lootContainerName} ( Blocked Tags: {display} )";
-                        __instance.RefreshBindings(true);
+                        __instance.RefreshBindings();
                     }
                 }
             }

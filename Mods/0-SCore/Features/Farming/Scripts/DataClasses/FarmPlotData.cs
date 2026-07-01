@@ -215,22 +215,17 @@ public List<Block.SItemDropProb> Manage(EntityAlive entityAlive)
         string seedToPlant = seedFromPlant; // Use seed from harvested plant first
 
         // If no seed from harvest, try to find one in NPC inventory.
-        // Modifying a stack's count in-place is safe for both TileEntityLootContainer and
+        // Modifying a stack's count in-place is safe for both TileEntityComposite and
         // TileEntityTrader — it doesn't replace the items[] array reference, so it cannot
         // trigger the TileEntityTrader setter that would corrupt TraderData.PrimaryInventory.
         if (string.IsNullOrEmpty(seedToPlant))
         {
             ItemStack[] inventoryItems = null;
-            TileEntityLootContainer containerToMark = null;
+            SCoreLootContainer containerToMark = null;
 
-            if (entityAlive is EntityTrader && HarvestManager.Has(entityAlive.entityId))
+            if (HarvestManager.Has(entityAlive.entityId))
             {
                 containerToMark = HarvestManager.GetOrCreate(entityAlive.entityId);
-                inventoryItems = containerToMark.items;
-            }
-            else if (entityAlive.lootContainer != null)
-            {
-                containerToMark = entityAlive.lootContainer;
                 inventoryItems = containerToMark.items;
             }
 

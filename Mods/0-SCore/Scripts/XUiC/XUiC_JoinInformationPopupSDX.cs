@@ -39,7 +39,7 @@
     private void BtnCancelHireInformation_OnPressed(XUiController _sender, int _mouseButton)
     {
         hireInformationPanel.IsVisible = false;
-        xui.playerUI.windowManager.Close(windowGroup.ID);
+        xui.playerUI.windowManager.Close(windowGroup.Id);
     }
 
     private void BtnConfirmHireInformation_OnPressed(XUiController _sender, int _mouseButton)
@@ -57,6 +57,6 @@
         if (myEntity != null)
             EntityUtilities.SetOwner(entityID, player.entityId);
 
-        xui.playerUI.windowManager.Close(windowGroup.ID);
+        xui.playerUI.windowManager.Close(windowGroup.Id);
     }
 }

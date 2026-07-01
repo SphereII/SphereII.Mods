@@ -25,7 +25,7 @@ namespace SCore.Features.Caves.Scripts {
 
         public static void CreateEmptyPrefab(Chunk chunk, Vector3i position) {
             var prefab = new Prefab(new Vector3i(3, 3, 3));
-            prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, position, true);
+            prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, position, true, FastTags<TagGroup.Global>.none);
         }
 
 
@@ -70,7 +70,7 @@ namespace SCore.Features.Caves.Scripts {
             prefabClone.Tags = FastTags<TagGroup.Poi>.Parse("SKIP_HARMONY_COPY_INTO_LOCAL");
             prefabClone.yOffset = 0;
             prefabClone.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, position,
-                true);
+                true, FastTags<TagGroup.Global>.none);
             var entityInstanceIds = new List<int>();
             prefabClone.CopyEntitiesIntoChunkStub(chunk, position, entityInstanceIds, true);
 

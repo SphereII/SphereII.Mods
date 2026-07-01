@@ -260,7 +260,7 @@ public static class HeightMapTunneler
         if (position.y < height)
             height = position.y;
         var prefab = new Prefab(new Vector3i(3, 4, 3));
-        prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, position, true);
+        prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, position, true, FastTags<TagGroup.Global>.none);
     }
 
     // Changes the blocks. This works better when doing the cave openings, vs the prefab
@@ -358,19 +358,17 @@ public static class HeightMapTunneler
     // Helper method is check the prefab decorator first to see if its there, then create it if it does not exist.
     public static Prefab FindOrCreatePrefab(string strPOIname)
     {
-        // Check if the prefab already exists.
-        var prefab = GameManager.Instance.GetDynamicPrefabDecorator().GetPrefab(strPOIname, true, true, true);
-        if (prefab != null)
-            return prefab;
+        var allPrefabs = new System.Collections.Generic.List<PrefabInstance>();
+        GameManager.Instance.GetDynamicPrefabDecorator().GetAllPrefabs(allPrefabs);
+        foreach (var pi in allPrefabs)
+            if (pi.name == strPOIname && pi.prefab != null)
+                return pi.prefab;
 
         // If it's not in the prefab decorator, load it up.
-        prefab = new Prefab();
+        var prefab = new Prefab();
         prefab.Load(strPOIname, true, true, true);
         var location = PathAbstractions.PrefabsSearchPaths.GetLocation(strPOIname);
         prefab.LoadXMLData(location);
-
-     //   if (string.IsNullOrEmpty(prefab.PrefabName))
-       //     prefab.PrefabName = strPOIname;
 
         return prefab;
     }
@@ -496,7 +494,7 @@ public static class HeightMapTunneler
                         prefab.Tags  = FastTags<TagGroup.Poi>.Parse("SKIP_HARMONY_COPY_INTO_LOCAL");
                         prefab.yOffset = 0;
                         prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, prefabDestination,
-                            true);
+                            true, FastTags<TagGroup.Global>.none);
                         var entityInstanceIds = new List<int>();
                         prefab.CopyEntitiesIntoChunkStub(chunk, prefabDestination, entityInstanceIds, true);
 

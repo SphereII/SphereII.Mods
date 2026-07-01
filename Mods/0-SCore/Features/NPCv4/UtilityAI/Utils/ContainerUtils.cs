@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace UAI
@@ -95,19 +95,10 @@ namespace UAI
                             var targetType = EnumUtils.Parse<TileEntityType>(filterEntry.Trim(), true);
                             if (tileEntity.GetTileEntityType() != targetType) continue;
 
-                            switch (tileEntity.GetTileEntityType())
-                            {
-                                case TileEntityType.None:
-                                    continue;
-                                case TileEntityType.Loot:
-                                    if (!ignoreTouch && ((TileEntityLootContainer) tileEntity).bTouched)
-                                        continue;
-                                    break;
-                                case TileEntityType.SecureLoot:
-                                    if (!ignoreTouch && ((TileEntitySecureLootContainer) tileEntity).bTouched)
-                                        continue;
-                                    break;
-                            }
+                            if (tileEntity.GetTileEntityType() == TileEntityType.None) continue;
+                            if (!ignoreTouch && tileEntity is TileEntityComposite tec &&
+                                tec.GetFeature<TEFeatureStorage>()?.bTouched == true)
+                                continue;
 
                             if (!string.IsNullOrEmpty(blockNames) &&
                                 !blockNames.Contains(tileEntity.blockValue.Block.GetBlockName()))
@@ -132,23 +123,26 @@ namespace UAI
         /// Loots items from <paramref name="tileContainer"/> into the entity's own loot inventory,
         /// scaling loot game-stage from the leader player if one exists.
         /// </summary>
-        public static void GetItemFromContainer(Context context, TileEntityLootContainer tileContainer)
+        public static void GetItemFromContainer(Context context, TileEntityComposite tileContainer)
         {
+            var storage = tileContainer.GetFeature<TEFeatureStorage>();
+            if (storage == null) return;
+
             var blockPos = tileContainer.ToWorldPos();
 
-            if (string.IsNullOrEmpty(tileContainer.lootListName)) return;
-            if (tileContainer.bTouched) return;
+            if (string.IsNullOrEmpty(storage.lootListName)) return;
+            if (storage.bTouched) return;
 
-            tileContainer.bTouched    = true;
-            tileContainer.bWasTouched = true;
+            storage.bTouched    = true;
+            storage.bWasTouched = true;
 
-            if (tileContainer.items == null) return;
+            if (storage.items == null) return;
 
             context.Self.SetLookPosition(blockPos);
             context.Self.MinEventContext.TileEntity = tileContainer;
             context.Self.FireEvent(MinEventTypes.onSelfOpenLootContainer);
 
-            var lootContainer = LootContainer.GetLootContainer(tileContainer.lootListName);
+            var lootContainer = LootContainer.GetLootContainer(storage.lootListName);
             if (lootContainer == null)
             {
                 context.Self.SetLookPosition(Vector3.zero);
@@ -160,16 +154,16 @@ namespace UAI
 
             var items = lootContainer.Spawn(
                 context.Self.rand,
-                tileContainer.items.Length,
+                storage.items.Length,
                 lootGameStage,
                 0f,
                 leader,
                 new FastTags<TagGroup.Global>(),
                 lootContainer.UniqueItems,
-                true);
+                true, false);
 
             for (var i = 0; i < items.Count; i++)
-                context.Self.lootContainer.AddItem(items[i].Clone());
+                context.Self.bag?.AddItem(items[i].Clone());
 
             context.Self.FireEvent(MinEventTypes.onSelfLootContainer);
             context.Self.SetLookPosition(Vector3.zero);
@@ -202,10 +196,9 @@ namespace UAI
             if (distSq > AIConstants.ContainerReachDistSq)
                 return false;
 
-            var tileEntity = context.Self.world.GetTileEntity(
-                Voxel.voxelRayHitInfo.hit.clrIdx, new Vector3i(position));
+            var tileEntity = context.Self.world.GetTileEntity(new Vector3i(position));
 
-            if (tileEntity is TileEntityLootContainer lootContainer)
+            if (tileEntity is TileEntityComposite lootContainer)
                 GetItemFromContainer(context, lootContainer);
 
             EntityUtilities.Stop(context.Self.entityId);

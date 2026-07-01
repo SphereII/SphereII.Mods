@@ -34,7 +34,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
             _signText = Properties.Values["Config"];
     }
 
-    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos,
+    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos,
         EntityAlive _entityFocusing)
     {
         return "";
@@ -48,7 +48,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         if (GameManager.Instance.IsEditMode()) return;
 
         // Schedule an initial tick for the block
-        _world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, blockID, (ulong)1UL);
+        _world.GetWBT().AddScheduledBlockUpdate(_blockPos, blockID, (ulong)1UL);
     }
 
     // Made public virtual by your previous request, which is good for overriding.
@@ -56,10 +56,10 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
     {
         var keep = PathingCubeParser.GetValue(_signText, "keep");
         if (string.IsNullOrEmpty(keep))
-            DamageBlock(GameManager.Instance.World, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage,
-                -1, null, false);
+            DamageBlock(GameManager.Instance.World, new BlockValueRef(_blockPos), _blockValue, Block.list[_blockValue.type].MaxDamage,
+                -1, default(ItemActionAttack.AttackHitInfo), false);
         else
-            GameManager.Instance.World.GetWBT().AddScheduledBlockUpdate(0, _blockPos, blockID, (ulong)10000UL);
+            GameManager.Instance.World.GetWBT().AddScheduledBlockUpdate(_blockPos, blockID, (ulong)10000UL);
     }
 
     // Made public virtual by your previous request, which is good for overriding.
@@ -96,7 +96,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         }
 
         // We are using the tile entity to transfer the owner ID from the client to the player.
-        var tileEntity = GameManager.Instance.World.GetTileEntity(0, _blockPos) as TileEntityPoweredTrigger;
+        var tileEntity = GameManager.Instance.World.GetTileEntity(_blockPos) as TileEntityPoweredTrigger;
         if (tileEntity != null)
         {
             var persistentPlayerList = GameManager.Instance.GetPersistentPlayerList();
@@ -125,7 +125,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
     /// Does NOT handle _blockValue.meta increment or scheduling.
     /// </summary>
     /// <returns>True if an entity was successfully created and spawned, false otherwise.</returns>
-    protected virtual bool TrySpawnEntity(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    protected virtual bool TrySpawnEntity(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
         var size = Vector3.one * 2f;
         if (isMultiBlock)
@@ -133,7 +133,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
             size = multiBlockPos.dim;
         }
 
-        var chunkCluster = _world.ChunkClusters[_clrIdx];
+        var chunkCluster = _world.ChunkCache;
         if (chunkCluster == null) return false;
         if ((Chunk)chunkCluster.GetChunkFromWorldPos(_blockPos) == null) return false;
 
@@ -200,7 +200,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
 
     // The base class's default UpdateTick behavior:
     // Spawns one entity, increments meta, schedules next tick, and destroys itself if maxSpawned is reached.
-    public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue,
+    public override bool UpdateTick(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue,
         bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
@@ -212,7 +212,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
             }
 
             // Attempt to spawn an entity using the common logic
-            if (TrySpawnEntity(_world, _clrIdx, _blockPos, _blockValue))
+            if (TrySpawnEntity(_world, _blockPos, _blockValue))
             {
                 // If successful, increment meta and update block RPC
                 _blockValue.meta++;

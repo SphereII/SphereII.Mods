@@ -81,9 +81,9 @@ public class EntityZombieFlockSDX : EntityZombie
     private bool targetPlayers; // the entity will target players on sight
     private Vector3 Waypoint;
 
-    public override void Init(int _entityClass)
+    public override void Init(int _entityClass, EntityInstanceAssets _assets, EModelInstanceAssets _eModelAssets)
     {
-        base.Init(_entityClass);
+        base.Init(_entityClass, _assets, _eModelAssets);
 
         var entityClass = EntityClass.list[_entityClass];
 
@@ -274,7 +274,7 @@ public class EntityZombieFlockSDX : EntityZombie
             var v = new Vector3i(position);
             if (v.x < 0) v.x -= 1;
             if (v.z < 0) v.z -= 1;
-            lightLevel = GameManager.Instance.World.ChunkClusters[0].GetLight(v, Chunk.LIGHT_TYPE.SUN);
+            lightLevel = GameManager.Instance.World.ChunkCache.GetLight(v, Chunk.LIGHT_TYPE.SUN);
 
             // If the Idle Sleep flag is set, then we'll do a check to see if the zombie can go to sleep or not.
             if (blIdleSleep)

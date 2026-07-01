@@ -72,7 +72,7 @@ namespace Harmony.PlayerFeatures {
 
             
             // This is how the code determines if it's a trader/EntityAliveSDX (vs. a drone)
-            if (GameManager.Instance.World.GetTileEntity(npc.entityId) is not TileEntityTrader)
+            if (npc is not ITrader)
                 return;
 
 

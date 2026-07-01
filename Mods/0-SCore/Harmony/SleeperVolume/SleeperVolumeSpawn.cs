@@ -3,22 +3,28 @@
 namespace SCore.Harmony.SleeperVolume
 {
     [HarmonyPatch(typeof(global::SleeperVolume))]
-    [HarmonyPatch("Spawn")]
+    [HarmonyPatch("AddEnemyToWorld")]
     public class SleeperVolumeSpawn
     {
         private static bool _initialized;
         private static bool _enabled;
 
-        public static void Postfix(ref EntityAlive __result, int ___flags)
+        // Spawn now creates entities async; AddEnemyToWorld is the callback where
+        // the entity is first available. ___flags is an ETriggerType bitmask on SleeperVolume.
+        public static void Postfix(object[] __args, int ___flags)
         {
             if (!Enabled())
                 return;
 
-            // ___flags has an int representation of ETriggerType; "Attack" is 2
+            var entity = __args[1] as EntityAlive;
+            if (entity == null)
+                return;
+
+            // ETriggerType "Attack" is 2
             int trigger = ___flags & 7;
-            if (trigger == 2 && (__result is IEntityAliveSDX || __result is EntityEnemySDX))
+            if (trigger == 2 && (entity is IEntityAliveSDX || entity is EntityEnemySDX))
             {
-                __result.ConditionalTriggerSleeperWakeUp();
+                entity.ConditionalTriggerSleeperWakeUp();
             }
         }
 

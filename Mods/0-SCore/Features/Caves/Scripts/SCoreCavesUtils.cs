@@ -64,13 +64,15 @@ namespace SCore.Features.Caves.Scripts {
         }
         
         public static Prefab FindOrCreatePrefab(string strPOIname) {
-            // Check if the prefab already exists.
-            var prefab = GameManager.Instance.GetDynamicPrefabDecorator().GetPrefab(strPOIname, true, true, true);
-            if (prefab != null)
-                return prefab;
+            // Search existing prefabs by name
+            var allPrefabs = new System.Collections.Generic.List<PrefabInstance>();
+            GameManager.Instance.GetDynamicPrefabDecorator().GetAllPrefabs(allPrefabs);
+            foreach (var pi in allPrefabs)
+                if (pi.name == strPOIname && pi.prefab != null)
+                    return pi.prefab;
 
-            // If it's not in the prefab decorator, load it up.
-            prefab = new Prefab();
+            // If not found, load from disk.
+            var prefab = new Prefab();
             prefab.Load(strPOIname, true, true, true);
             var location = PathAbstractions.PrefabsSearchPaths.GetLocation(strPOIname);
             prefab.LoadXMLData(location);

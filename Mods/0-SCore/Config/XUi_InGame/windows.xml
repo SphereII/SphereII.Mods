@@ -196,6 +196,23 @@
             </panel>
         </window>
 
+        <!-- Hire confirmation popup — opened by DialogActionOpenDialogSDX and PhraseTriggerHandler.Hire -->
+        <window name="windowHireInformationPopup" depth="99" width="400" height="160"
+                pos="-200,0" anchor="CenterCenter" cursor_area="true"
+                controller="XUiC_HireInformationPopupSDX, SCore">
+            <panel name="HireInformationPopup" depth="3" pos="0,0" width="400" height="160"
+                   backgroundspritename="ui_game_panel_header" createuipanel="true">
+                <sprite depth="1" name="bg" sprite="menu_empty" type="sliced" color="0,0,0,220"
+                        pos="0,0" width="400" height="160"/>
+                <label depth="5" name="HireInformationLabel" pos="20,-15" width="360" height="80"
+                       text="Hire NPC?" font_size="18" justify="center" style="label_outline"
+                       max_line_count="2"/>
+                <simplebutton depth="5" name="btnConfirm" pos="60,-110" width="110" height="36"
+                              caption="Hire" font_size="16"/>
+                <simplebutton depth="5" name="btnCancel" pos="230,-110" width="110" height="36"
+                              caption="Cancel" font_size="16"/>
+            </panel>
+        </window>
     </append>
 
     <append xpath="/windows/window[@name='windowLooting']//rect[@controller='ContainerStandardControls']">

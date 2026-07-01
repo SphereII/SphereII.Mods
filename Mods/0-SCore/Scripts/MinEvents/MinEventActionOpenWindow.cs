@@ -12,7 +12,7 @@ public class MinEventActionOpenWindow : MinEventActionRemoveBuff
         if (_params.Self is not EntityPlayerLocal player) return;
         
         var uiforPlayer = LocalPlayerUI.GetUIForPlayer(player);
-        uiforPlayer.windowManager.OpenIfNotOpen(window, true);
+        uiforPlayer.windowManager.Open(window, true);
     }
     
     public override bool ParseXmlAttribute(XAttribute _attribute)

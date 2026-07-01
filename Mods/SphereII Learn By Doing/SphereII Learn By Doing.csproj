@@ -159,7 +159,7 @@
 		<Content Include="Config\Strength\SkullCrusher.xml"/>
 		<Content Include="Config\Strength\Strength.xml"/>
 		<Content Include="Config\Strength\StrengthMastery.xml"/>
-		<Content Include="Config\XUi\controls.xml"/>
+		<Content Include="Config\XUi_InGame\controls.xml" />
 		<Content Include="LearnByDoing.md"/>
 		<Content Include="ModInfo.xml"/>
 		<Content Include="Properties\AssemblyInfo.tt">

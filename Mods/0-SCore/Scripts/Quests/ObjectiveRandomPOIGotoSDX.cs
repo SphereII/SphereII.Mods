@@ -94,7 +94,7 @@ public class ObjectiveRandomPOIGotoSDX : ObjectiveGoto
 		{
 			//Log.Out("ObjectiveRandomPOIGotoSDX-GetPosition-current position: x:" + entityAlive.position.x + ", z:" + entityAlive.position.z);
 			PrefabInstance prefabInstance;
-			prefabInstance = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetRandomPOINearWorldPos(new Vector2(entityAlive.position.x, entityAlive.position.z), 1000, 4000000, base.OwnerQuest.QuestTags, base.OwnerQuest.QuestClass.DifficultyTier, usedPOILocations, entityIDforQuests, this.biomeFilterType, this.biomeFilter);
+			prefabInstance =DynamicPrefabDecorator.GetRandomPOINearWorldPos(new Vector2(entityAlive.position.x, entityAlive.position.z), 1000, 4000000, base.OwnerQuest.QuestTags, base.OwnerQuest.QuestClass.DifficultyTier, usedPOILocations, entityIDforQuests, this.biomeFilterType, this.biomeFilter);
 
 			float numPlayerX = entityAlive.position.x;
 			float numPlayerZ = entityAlive.position.z;
@@ -145,7 +145,7 @@ public class ObjectiveRandomPOIGotoSDX : ObjectiveGoto
 				for (int j = 0; j < 15; j++)
 				{
 					PrefabInstance prefabInstance2;
-					prefabInstance2 = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetRandomPOINearWorldPos(new Vector2(entityAlive.position.x, entityAlive.position.z), 1000, 4000000, base.OwnerQuest.QuestTags, base.OwnerQuest.QuestClass.DifficultyTier, usedPOILocations, entityIDforQuests, this.biomeFilterType, this.biomeFilter);
+					prefabInstance2 =DynamicPrefabDecorator.GetRandomPOINearWorldPos(new Vector2(entityAlive.position.x, entityAlive.position.z), 1000, 4000000, base.OwnerQuest.QuestTags, base.OwnerQuest.QuestClass.DifficultyTier, usedPOILocations, entityIDforQuests, this.biomeFilterType, this.biomeFilter);
 
 					Vector2 vector3b = new Vector2((float)prefabInstance2.boundingBoxPosition.x + (float)prefabInstance2.boundingBoxSize.x / 2f, (float)prefabInstance2.boundingBoxPosition.z + (float)prefabInstance2.boundingBoxSize.z / 2f);
 

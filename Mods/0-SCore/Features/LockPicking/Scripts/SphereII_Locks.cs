@@ -21,7 +21,7 @@ public class SphereLocks
         var lockPrefab = "";
         if (blockValue.type != 0)
             if (blockValue.Block.Properties.Contains("LockPrefab"))
-                lockPrefab = blockValue.Block.Properties.GetStringValue("LockPrefab");
+                lockPrefab = blockValue.Block.Properties.GetString("LockPrefab");
 
 
         // Load up the default.

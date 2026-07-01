@@ -19,7 +19,7 @@ namespace SCore.Features.ItemDegradation.Harmony.General
             var tintVector = StringParsers.ParseVector3i(brokenTint);
             if (itemClass.Properties.Contains("BrokenTint"))
             {
-                tintVector = StringParsers.ParseVector3i(itemClass.Properties.GetStringValue("BrokenTint"));
+                tintVector = StringParsers.ParseVector3i(itemClass.Properties.GetString("BrokenTint"));
             }
 
             if (tintVector == new Vector3i(255, 255, 255)) return;

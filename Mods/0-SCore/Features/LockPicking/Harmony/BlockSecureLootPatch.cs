@@ -9,17 +9,16 @@ namespace Features.LockPicking
         private static readonly string Feature = "AdvancedLocks";
 
 
-        [HarmonyPatch(typeof(BlockSecureLoot))]
+        [HarmonyPatch(typeof(BlockCompositeTileEntity))]
         [HarmonyPatch("OnBlockActivated")]
         [HarmonyPatch(new[]
         {
-            typeof(string), typeof(WorldBase), typeof(int), typeof(Vector3i), typeof(BlockValue), typeof(EntityPlayerLocal)
+            typeof(string), typeof(WorldBase), typeof(Vector3i), typeof(BlockValue), typeof(EntityPlayerLocal)
         })]
         public class BlockSecureLootOnBlockActivated
         {
-            public static bool Prefix(ref Block __instance, string _commandName, WorldBase _world, int _cIdx,
-                Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player
-                , string ___lockPickItem, BlockActivationCommand[] ___cmds)
+            public static bool Prefix(ref Block __instance, string _commandName, WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player
+               ,BlockActivationCommand[] ___cmds)
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
@@ -33,17 +32,18 @@ namespace Features.LockPicking
                     return true;
 
                 if (_blockValue.ischild) return true;
-                if (_world.GetTileEntity(_cIdx, _blockPos) is not TileEntitySecureLootContainer tileEntitySecureLootContainer) return false;
+                var lockable = (_world.GetTileEntity(_blockPos) as TileEntityComposite)?.GetFeature<TEFeatureLockable>();
+                if (lockable == null) return false;
 
-                if (!tileEntitySecureLootContainer.IsLocked() &&
-                    tileEntitySecureLootContainer.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
+                if (!lockable.IsLocked() &&
+                    lockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                 {
-                    __instance.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player as EntityPlayerLocal);
+                    __instance.OnBlockActivated(_commandName, _world, _blockPos, _blockValue, _player);
                     return false;
                 }
 
                 // Check if the player has lock picks.
-                var playerUI = (_player as EntityPlayerLocal)?.PlayerUI;
+                var playerUI = _player?.PlayerUI;
                 if (playerUI == null)
                     return false;
                 var playerInventory = playerUI.xui.PlayerInventory;
@@ -51,12 +51,12 @@ namespace Features.LockPicking
                 if (playerInventory.GetItemCount(item) == 0)
                 {
                     playerUI.xui.CollectedItemList.AddItemStack(new ItemStack(item, 0), true);
-                    GameManager.ShowTooltip((EntityPlayerLocal) _player, Localization.Get("ttLockpickMissing"));
+                    GameManager.ShowTooltip(_player, Localization.Get("ttLockpickMissing"));
                     return false;
                 }
 
-                tileEntitySecureLootContainer.SetLocked(true);
-                XUiC_PickLocking.Open(playerUI, tileEntitySecureLootContainer, _blockValue, _blockPos);
+                lockable.SetLocked(true);
+                XUiC_PickLocking.Open(playerUI, lockable, _blockValue, _blockPos);
                 return false;
             }
         }

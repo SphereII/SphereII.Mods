@@ -1,4 +1,4 @@
-using Audio;
+﻿using Audio;
 using Platform;
 using System.Collections.Generic;
 using System.Threading;
@@ -70,32 +70,32 @@ public class BlockPoweredPortal : BlockPowered
     public override void PlaceBlock(WorldBase _world, BlockPlacement.Result _result, EntityAlive _ea)
     {
         base.PlaceBlock(_world, _result, _ea);
-        var tileEntity = _world.GetTileEntity(_result.clrIdx, _result.blockPos) as TileEntityPoweredPortal;
+        var tileEntity = _world.GetTileEntity(_result.blockPos) as TileEntityPoweredPortal;
         tileEntity?.SetOwner(PlatformManager.InternalLocalUserIdentifier);
         RegisterChunkObserver(_result.blockPos);
     }
 
-    public override bool CanPlaceBlockAt(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bOmitCollideCheck = false)
+    public override bool CanPlaceBlockAt(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, bool _bOmitCollideCheck = false)
     {
         if (_blockPos.y > 253) return false;
         if (!GameManager.Instance.IsEditMode() && ((World)_world).IsWithinTraderArea(_blockPos)) return false;
         var block = _blockValue.Block;
         return (!block.isMultiBlock || _blockPos.y + block.multiBlockPos.dim.y < 254)
-            && (GameManager.Instance.IsEditMode() || _bOmitCollideCheck || !overlapsWithOtherBlock(_world, _clrIdx, _blockPos, _blockValue));
+            && (GameManager.Instance.IsEditMode() || _bOmitCollideCheck || !overlapsWithOtherBlock(_world, _blockPos, _blockValue));
     }
 
-    private bool overlapsWithOtherBlock(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    private bool overlapsWithOtherBlock(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
         if (!isMultiBlock)
         {
-            int type = _world.GetBlock(_clrIdx, _blockPos).type;
+            int type = _world.GetBlock(_blockPos).type;
             return type != 0 && !Block.list[type].blockMaterial.IsGroundCover && !_world.IsWater(_blockPos);
         }
         byte rotation = _blockValue.rotation;
         for (int i = multiBlockPos.Length - 1; i >= 0; i--)
         {
             Vector3i pos = _blockPos + multiBlockPos.Get(i, _blockValue.type, (int)rotation);
-            int type2 = _world.GetBlock(_clrIdx, pos).type;
+            int type2 = _world.GetBlock(pos).type;
             if (type2 != 0 && !Block.list[type2].blockMaterial.IsGroundCover && !_world.IsWater(pos))
                 return true;
         }
@@ -123,9 +123,9 @@ public class BlockPoweredPortal : BlockPowered
         RegisterChunkObserver(_blockPos);
     }
 
-    public override void OnBlockLoaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockLoaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
-        base.OnBlockLoaded(_world, _clrIdx, _blockPos, _blockValue);
+        base.OnBlockLoaded(_world, _blockPos, _blockValue);
         if (_blockValue.ischild) return;
         PortalManager.Instance.AddPosition(_blockPos);
         RegisterChunkObserver(_blockPos);
@@ -139,9 +139,9 @@ public class BlockPoweredPortal : BlockPowered
         UnregisterChunkObserver(_blockPos);
     }
 
-    public override void OnBlockUnloaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockUnloaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
-        base.OnBlockUnloaded(_world, _clrIdx, _blockPos, _blockValue);
+        base.OnBlockUnloaded(_world, _blockPos, _blockValue);
         if (_blockValue.ischild) return;
         UnregisterChunkObserver(_blockPos);
     }
@@ -160,7 +160,7 @@ public class BlockPoweredPortal : BlockPowered
 
     public void TeleportPlayer(EntityAlive _player, Vector3i _blockPos)
     {
-        var tileEntity = GameManager.Instance.World.GetTileEntity(0, _blockPos) as TileEntityPoweredPortal;
+        var tileEntity = GameManager.Instance.World.GetTileEntity(_blockPos) as TileEntityPoweredPortal;
         if (tileEntity == null) return;
         if (requiredPower > 0 && !tileEntity.IsPowered) return;
         if (!CanUseTeleport(_player, _blockPos)) return;
@@ -172,7 +172,7 @@ public class BlockPoweredPortal : BlockPowered
         if (destBase == Vector3i.zero) return;
 
         // Verify the destination portal is powered (if required)
-        var destTile = GameManager.Instance.World.GetTileEntity(0, destBase) as TileEntityPoweredPortal;
+        var destTile = GameManager.Instance.World.GetTileEntity(destBase) as TileEntityPoweredPortal;
         if (destTile != null && requiredPower > 0 && !destTile.IsPowered) return;
 
         // Force-load the destination chunk (true = require loaded) so the player
@@ -215,29 +215,29 @@ public class BlockPoweredPortal : BlockPowered
         new BlockActivationCommand("keypad", "keypad", false, false)
     };
 
-    public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
+    public override bool OnBlockActivated(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
         if (_blockValue.ischild)
         {
             Vector3i parentPos = _blockValue.Block.multiBlockPos.GetParentPos(_blockPos, _blockValue);
-            return OnBlockActivated(_world, _cIdx, parentPos, _world.GetBlock(parentPos), _player);
+            return OnBlockActivated(_world, parentPos, _world.GetBlock(parentPos), _player);
         }
-        var tileEntity = (TileEntityPoweredPortal)_world.GetTileEntity(_cIdx, _blockPos);
+        var tileEntity = _world.GetTileEntity(_blockPos) as TileEntityPoweredPortal;
         if (tileEntity == null) return false;
 
         _player.AimingGun = false;
-        _world.GetGameManager().TELockServer(_cIdx, tileEntity.ToWorldPos(), tileEntity.entityId, _player.entityId, null);
+        XUiC_KeypadWindow.Open(LocalPlayerUI.GetUIForPlayer(_player), tileEntity);
         return true;
     }
 
-    public override bool OnBlockActivated(string commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
+    public override bool OnBlockActivated(string commandName, WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
         if (_blockValue.ischild)
         {
             Vector3i parentPos = _blockValue.Block.multiBlockPos.GetParentPos(_blockPos, _blockValue);
-            return OnBlockActivated(commandName, _world, _cIdx, parentPos, _world.GetBlock(parentPos), _player);
+            return OnBlockActivated(commandName, _world, parentPos, _world.GetBlock(parentPos), _player);
         }
-        var tileEntity = _world.GetTileEntity(_cIdx, _blockPos) as TileEntityPoweredPortal;
+        var tileEntity = _world.GetTileEntity(_blockPos) as TileEntityPoweredPortal;
         if (tileEntity == null) return false;
 
         switch (commandName)
@@ -253,7 +253,7 @@ public class BlockPoweredPortal : BlockPowered
                 if (GameManager.Instance.IsEditMode() || !tileEntity.IsLocked() || tileEntity.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                 {
                     if (string.IsNullOrEmpty(location))
-                        return OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
+                        return OnBlockActivated(_world, _blockPos, _blockValue, _player);
                 }
                 Manager.BroadcastPlayByLocalPlayer(_blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/locked");
                 return false;
@@ -276,15 +276,15 @@ public class BlockPoweredPortal : BlockPowered
         }
     }
 
-    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
-        var tileEntity = _world.GetTileEntity(_clrIdx, _blockPos) as TileEntityPoweredPortal;
+        var tileEntity = _world.GetTileEntity(_blockPos) as TileEntityPoweredPortal;
         if (tileEntity == null) return new BlockActivationCommand[0];
 
         PlatformUserIdentifierAbs localUser = PlatformManager.InternalLocalUserIdentifier;
         PersistentPlayerData playerData = _world.GetGameManager().GetPersistentPlayerList().GetPlayerData(tileEntity.GetOwner());
         bool isOwner = tileEntity.LocalPlayerIsOwner();
-        bool isACL = !isOwner && playerData?.ACL != null && playerData.ACL.Contains(localUser);
+        bool isACL = !isOwner && playerData.IsAlly(localUser);
 
         cmds[0].enabled = true;
         cmds[1].enabled = string.IsNullOrEmpty(location);
@@ -303,7 +303,7 @@ public class BlockPoweredPortal : BlockPowered
         var ebcd = GameManager.Instance.World.GetChunkFromWorldPos(blockPos)?.GetBlockEntity(blockPos);
         if (ebcd == null || ebcd.transform == null) return;
 
-        var tileEntity = GameManager.Instance.World.GetTileEntity(0, blockPos) as TileEntityPoweredPortal;
+        var tileEntity = GameManager.Instance.World.GetTileEntity(blockPos) as TileEntityPoweredPortal;
         if (tileEntity == null) return;
 
         var animator = ebcd.transform.GetComponentInChildren<Animator>();
@@ -320,15 +320,15 @@ public class BlockPoweredPortal : BlockPowered
         animator.SetBool("portalOff", !isOn);
     }
 
-    public override void OnBlockEntityTransformAfterActivated(WorldBase _world, Vector3i _blockPos, int _cIdx, BlockValue _blockValue, BlockEntityData _ebcd)
+    public override void OnBlockEntityTransformAfterActivated(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, BlockEntityData _ebcd)
     {
         if (GameManager.IsDedicatedServer) return;
         if (_ebcd == null || _blockValue.ischild) return;
 
         _ebcd.bHasTransform = false;
-        base.OnBlockEntityTransformAfterActivated(_world, _blockPos, _cIdx, _blockValue, _ebcd);
+        base.OnBlockEntityTransformAfterActivated(_world, _blockPos, _blockValue, _ebcd);
 
-        var tileEntity = _world.GetTileEntity(_cIdx, _blockPos) as TileEntityPoweredPortal;
+        var tileEntity = _world.GetTileEntity(_blockPos) as TileEntityPoweredPortal;
         if (tileEntity != null)
         {
             // _blockPos is already the parent (ischild was checked above); use it directly.
@@ -340,19 +340,19 @@ public class BlockPoweredPortal : BlockPowered
         _ebcd.bHasTransform = true;
     }
 
-    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         if (!display) return "";
 
         if (_blockValue.ischild)
         {
             var parentPos = _blockValue.Block.multiBlockPos.GetParentPos(_blockPos, _blockValue);
-            return GetActivationText(_world, _world.GetBlock(parentPos), _clrIdx, parentPos, _entityFocusing);
+            return GetActivationText(_world, _world.GetBlock(parentPos), parentPos, _entityFocusing);
         }
 
         if (requiredPower > 0)
         {
-            var tileEntity = GameManager.Instance.World.GetTileEntity(0, _blockPos) as TileEntityPoweredPortal;
+            var tileEntity = GameManager.Instance.World.GetTileEntity(_blockPos) as TileEntityPoweredPortal;
             if (tileEntity == null) return "";
             if (!tileEntity.IsPowered)
             {

@@ -74,7 +74,7 @@ public static class Configuration
         if (ConfigurationFeatureBlock.Block.Properties.Classes.ContainsKey(strClass))
         {
             var dynamicProperties3 = ConfigurationFeatureBlock.Block.Properties.Classes[strClass];
-            foreach (var keyValuePair in dynamicProperties3.Values.Dict)
+            foreach (var keyValuePair in dynamicProperties3.Values)
                 if (string.Equals(keyValuePair.Key, strFeature, StringComparison.CurrentCultureIgnoreCase))
                     result = StringParsers.ParseBool(dynamicProperties3.Values[keyValuePair.Key]);
         }
@@ -97,7 +97,7 @@ public static class Configuration
         if (ConfigurationFeatureBlock.Block.Properties.Classes.ContainsKey(strClass))
         {
             var dynamicProperties3 = ConfigurationFeatureBlock.Block.Properties.Classes[strClass];
-            foreach (var keyValuePair in dynamicProperties3.Values.Dict)
+            foreach (var keyValuePair in dynamicProperties3.Values)
                 if (keyValuePair.Key == strFeature)
                     return keyValuePair.Value.ToString();
         }

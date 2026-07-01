@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 
-public class BlockMusicBox : BlockLoot
+public class BlockMusicBox : BlockCompositeTileEntity
 {
     private readonly BlockActivationCommand[] cmds =
     {
@@ -83,13 +83,13 @@ public class BlockMusicBox : BlockLoot
         shape.OnBlockAdded(world, _chunk, _blockPos, _blockValue);
         if (isMultiBlock) multiBlockPos.AddChilds(world, _chunk, _blockPos, _blockValue);
 
-        if (!(world.GetTileEntity(_chunk.ClrIdx, _blockPos) is TileEntitySecureLootContainer))
+        if (!(world.GetTileEntity(_blockPos) is TileEntityComposite))
         {
-            var tileEntityLootContainer = new TileEntityLootContainer(_chunk);
-            tileEntityLootContainer.localChunkPos = World.toBlock(_blockPos);
-            tileEntityLootContainer.lootListName = "cntDropBag";
-            tileEntityLootContainer.SetContainerSize(vLootContainerSize);
-            _chunk.AddTileEntity(tileEntityLootContainer);
+            var TileEntityComposite = new TileEntityComposite(_chunk);
+            TileEntityComposite.localChunkPos = World.toBlock(_blockPos);
+            var teStorage = TileEntityComposite.GetFeature<TEFeatureStorage>();
+            if (teStorage != null) { teStorage.lootListName = "cntDropBag"; teStorage.SetContainerSize(vLootContainerSize); }
+            _chunk.AddTileEntity(TileEntityComposite);
         }
 
         _chunk.AddEntityBlockStub(new BlockEntityData(_blockValue, _blockPos)
@@ -102,7 +102,7 @@ public class BlockMusicBox : BlockLoot
 
 
     // Display custom messages for turning on and off the music box, based on the block's name.
-    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos,
+    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos,
         EntityAlive _entityFocusing)
     {
         #region GetActivationText
@@ -136,8 +136,7 @@ public class BlockMusicBox : BlockLoot
     }
 
 
-    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue,
-        int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         cmds[0].enabled = true;
         cmds[1].enabled = true;
@@ -158,17 +157,17 @@ public class BlockMusicBox : BlockLoot
         var vector3i = (Vector3i)array[2];
         var block = world.GetBlock(vector3i);
         var entityPlayerLocal = array[3] as EntityPlayerLocal;
-        var tileEntityLootContainer = world.GetTileEntity(clrIdx, vector3i) as TileEntityLootContainer;
-        if (tileEntityLootContainer == null)
+        var TileEntityComposite = world.GetTileEntity(vector3i) as TileEntityComposite;
+        if (TileEntityComposite != null)
             world.GetGameManager()
-                .DropContentOfLootContainerServer(blockValue, vector3i, tileEntityLootContainer.entityId);
+                .DropContentOfLootContainerServer(blockValue, vector3i);
 
         // Pick up the item and put it inyor your inventory.
         var uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
         var itemStack = new ItemStack(block.ToItemValue(), 1);
         if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack, true))
             uiforPlayer.xui.PlayerInventory.DropItem(itemStack);
-        world.SetBlockRPC(clrIdx, vector3i, BlockValue.Air);
+        world.SetBlockRPC(vector3i, BlockValue.Air);
 
         #endregion
     }
@@ -196,15 +195,15 @@ public class BlockMusicBox : BlockLoot
             _blockPos,
             _player
         };
-        timerEventData.Event += EventData_Event;
-        childByType.SetTimer(TakeDelay, timerEventData);
+        timerEventData.FullTimeFinishEvent += EventData_Event;
+        childByType.setTimer(TakeDelay, timerEventData);
 
         #endregion
     }
 
 
     // Play the music when its activated. We stop the sound broadcasting, in case they want to restart it again; otherwise we can get two sounds playing.
-    public bool OnBlockActivated(string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos,
+    public bool OnBlockActivated(string _commandName, WorldBase _world, Vector3i _blockPos,
         BlockValue _blockValue, EntityAlive _player)
     {
         #region OnBlockActivated
@@ -228,10 +227,10 @@ public class BlockMusicBox : BlockLoot
             case "light":
                 break;
             case "take":
-                TakeItemWithTimer(_cIdx, _blockPos, _blockValue, _player);
+                TakeItemWithTimer(0, _blockPos, _blockValue, _player);
                 return true;
             case "search":
-                base.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player as EntityPlayerLocal);
+                base.OnBlockActivated(_world, _blockPos, _blockValue, _player as EntityPlayerLocal);
                 return true;
         }
 
@@ -253,11 +252,12 @@ public class BlockMusicBox : BlockLoot
             var mySounds = new List<string>();
             var myVideos = new List<string>();
 
-            var tileLootContainer = (TileEntityLootContainer)_world.GetTileEntity(_cIdx, _blockPos);
+            var tileLootContainer = _world.GetTileEntity(_blockPos) as TileEntityComposite;
+            var tileLootStorage = tileLootContainer?.GetFeature<TEFeatureStorage>();
 
-            if (tileLootContainer.items != null)
+            if (tileLootStorage?.items != null)
             {
-                var array = tileLootContainer.items;
+                var array = tileLootStorage.items;
                 for (var i = 0; i < array.Length; i++)
                 {
                     if (array[i].IsEmpty())

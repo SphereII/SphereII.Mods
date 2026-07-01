@@ -64,7 +64,7 @@
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
     <ItemGroup>
-      <Content Include="Config\XUi\windows.xml" />
+      <Content Include="Config\XUi_InGame\windows.xml" />
       <Content Include="ModInfo.xml" />
       <Content Include="README.md" />
     </ItemGroup>

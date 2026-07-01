@@ -21,10 +21,10 @@ public class BlockWaterPipeSDX : BlockBaseWaterSystem // Assumes BlockBaseWaterS
     }
 
     // Called when the block is loaded into the world
-    public override void OnBlockLoaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockLoaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
     {
         InvalidateAll(_blockPos);
-        base.OnBlockLoaded(_world, _clrIdx, _blockPos, _blockValue);
+        base.OnBlockLoaded(_world, _blockPos, _blockValue);
     }
 
     // Called when the block is first placed by a player/entity
@@ -35,10 +35,10 @@ public class BlockWaterPipeSDX : BlockBaseWaterSystem // Assumes BlockBaseWaterS
     }
 
     // Called when a neighboring block changes
-    public override void OnNeighborBlockChange(WorldBase world, int _clrIdx, Vector3i _myBlockPos, BlockValue _myBlockValue,
+    public override void OnNeighborBlockChange(WorldBase world, Vector3i _myBlockPos, BlockValue _myBlockValue,
                                            Vector3i _blockPosThatChanged, BlockValue _newNeighborBlockValue, BlockValue _oldNeighborBlockValue)
     {
-        base.OnNeighborBlockChange(world, _clrIdx, _myBlockPos, _myBlockValue, _blockPosThatChanged, _newNeighborBlockValue, _oldNeighborBlockValue);
+        base.OnNeighborBlockChange(world, _myBlockPos, _myBlockValue, _blockPosThatChanged, _newNeighborBlockValue, _oldNeighborBlockValue);
         InvalidateAll(_myBlockPos);
     }
 

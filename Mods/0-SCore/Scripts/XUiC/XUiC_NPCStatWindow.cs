@@ -228,7 +228,7 @@ public class XUiC_NPCStatWindow : XUiController
         {
             this.updateTime = Time.time + 0.25f;
             if ( entityAliveSDX)
-                base.RefreshBindings(this.IsDirty);
+                base.RefreshBindings();
             if (this.IsDirty)
             {
                 this.IsDirty = false;

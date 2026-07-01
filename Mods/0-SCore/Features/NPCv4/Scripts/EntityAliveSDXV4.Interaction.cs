@@ -1,4 +1,4 @@
-using UAI;
+﻿using UAI;
 using UnityEngine;
 
 public partial class EntityAliveSDXV4
@@ -13,12 +13,13 @@ public partial class EntityAliveSDXV4
     public override string GetLootList()
         => IsOnMission() ? "" : base.GetLootList();
 
-    public override EntityActivationCommand[] GetActivationCommands(Vector3i _tePos, EntityAlive _entityFocusing)
+    public new EntityActivationCommand[] GetActivationCommands()
     {
         if (IsDead() || NPCInfo == null)
-            return new[] { new EntityActivationCommand("Search", "search", true) };
+            return new[] { new EntityActivationCommand("Search", "search") { enabled = true } };
 
-        if (EntityTargetingUtilities.IsEnemy(this, _entityFocusing))
+        var _entityFocusing = GameManager.Instance.World.GetPrimaryPlayer();
+        if (_entityFocusing != null && EntityTargetingUtilities.IsEnemy(this, _entityFocusing))
             return new EntityActivationCommand[0];
 
         if (!EntityUtilities.IsHuman(entityId))
@@ -28,43 +29,43 @@ public partial class EntityAliveSDXV4
         if (target != null && EntityTargetingUtilities.CanDamage(this, target))
             return new EntityActivationCommand[0];
 
-        return new[] { new EntityActivationCommand("Greet " + EntityName, "talk", true) };
+        return new[] { new EntityActivationCommand("Greet " + EntityName, "talk") { enabled = true } };
     }
 
-    public override bool OnEntityActivated(int indexInBlockActivationCommands, Vector3i tePos,
-        EntityAlive entityFocusing)
+    public override void OnEntityActivated(EntityActivationCommand _command, EntityPlayerLocal _playerFocusing)
     {
-        var localPlayer = entityFocusing as EntityPlayerLocal;
-
         if (IsDead())
         {
-            GameManager.Instance.TELockServer(0, tePos, entityId, entityFocusing.entityId, null);
-            return true;
+            if (_playerFocusing != null)
+                if (lootContainer != null) EntityUtilities.OpenContainer(_playerFocusing, lootContainer);
+            return;
         }
 
-        if (EntityTargetingUtilities.IsEnemy(this, entityFocusing))
+        if (_playerFocusing != null && EntityTargetingUtilities.IsEnemy(this, _playerFocusing))
         {
-            if (localPlayer != null)
-                GameManager.ShowTooltip(localPlayer, Localization.Get("entityaliveSDXEnemy"));
-            return false;
+            GameManager.ShowTooltip(_playerFocusing, Localization.Get("entityaliveSDXEnemy"));
+            return;
         }
 
         if (_enemyDistanceToTalk > 0 && SCoreUtils.IsEnemyNearby(this, _enemyDistanceToTalk))
         {
-            if (localPlayer != null)
-                GameManager.ShowTooltip(localPlayer, Localization.Get("entityaliveSDXEnemyNearby"));
-            return false;
+            if (_playerFocusing != null)
+                GameManager.ShowTooltip(_playerFocusing, Localization.Get("entityaliveSDXEnemyNearby"));
+            return;
         }
 
         Buffs.SetCustomVar("Persist", 1);
-        SetLookPosition(entityFocusing.getHeadPosition());
+        if (_playerFocusing != null)
+            SetLookPosition(_playerFocusing.getHeadPosition());
 
-        entityFocusing.Buffs.SetCustomVar("CurrentNPC", entityId);
-        Buffs.SetCustomVar("CurrentPlayer", entityFocusing.entityId);
+        if (_playerFocusing != null)
+        {
+            _playerFocusing.Buffs.SetCustomVar("CurrentNPC", entityId);
+            Buffs.SetCustomVar("CurrentPlayer", _playerFocusing.entityId);
+            var ui = LocalPlayerUI.GetUIForPlayer(_playerFocusing);
+            ui.xui.Dialog.Respondent = this;
+        }
 
-        var ui = LocalPlayerUI.GetUIForPlayer(entityFocusing as EntityPlayerLocal);
-        ui.xui.Dialog.Respondent = this;
-
-        return base.OnEntityActivated(indexInBlockActivationCommands, tePos, entityFocusing);
+        base.OnEntityActivated(_command, _playerFocusing);
     }
 }

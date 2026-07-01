@@ -86,20 +86,18 @@ public static class Sebastian
     // Helper method is check the prefab decorator first to see if its there, then create it if it does not exist.
     public static Prefab FindOrCreatePrefab(string strPOIname)
     {
-        // Check if the prefab already exists.
-        var prefab = GameManager.Instance.GetDynamicPrefabDecorator().GetPrefab(strPOIname, true, true, true);
-        if (prefab != null)
-            return prefab;
+        // Check if the prefab already exists in the dynamic decorator.
+        var allPrefabs = new System.Collections.Generic.List<PrefabInstance>();
+        GameManager.Instance.GetDynamicPrefabDecorator().GetAllPrefabs(allPrefabs);
+        foreach (var pi in allPrefabs)
+            if (pi.name == strPOIname && pi.prefab != null)
+                return pi.prefab;
 
         // If it's not in the prefab decorator, load it up.
-        prefab = new Prefab();
+        var prefab = new Prefab();
         prefab.Load(strPOIname, true, true, true);
         var location = PathAbstractions.PrefabsSearchPaths.GetLocation(strPOIname);
         prefab.LoadXMLData(location);
-
-     //   if (string.IsNullOrEmpty(prefab.PrefabName))
-       //     prefab.PrefabName = strPOIname;
-
         return prefab;
     }
     public static void AddDecorationsToCave(Chunk chunk)

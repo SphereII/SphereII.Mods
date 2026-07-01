@@ -8,8 +8,8 @@ namespace Features.LockPicking
         private static readonly string Feature = "AdvancedLocks";
 
         // This resets for the quest activations
-        [HarmonyPatch(typeof(TileEntityLootContainer))]
-        [HarmonyPatch(nameof(TileEntityLootContainer.Reset))]
+        [HarmonyPatch(typeof(TileEntityComposite))]
+        [HarmonyPatch(nameof(TileEntityComposite.Reset))]
         public class TileEntityLootContainerReset
         {
             private static bool IsSupposedToBeLocked(Vector3i position)
@@ -47,36 +47,28 @@ namespace Features.LockPicking
                 return false;
             }
 
-            public static bool Prefix(TileEntityLootContainer __instance)
+            public static bool Prefix(TileEntityComposite __instance)
             {
-                if (__instance.bPlayerStorage || __instance.bPlayerBackpack)
+                // Skip player-owned containers — quest resets don't apply lock logic to them.
+                var storage = __instance.GetFeature<TEFeatureStorage>();
+                if (storage?.bPlayerStorage == true)
                     return true;
 
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "QuestFullReset"))
                     return true;
 
-                switch (__instance)
-                {
-                    case TileEntitySecure tileEntity when tileEntity.IsLocked():
-                        return true;
-                    case TileEntitySecure tileEntity:
-                    {
-                        if (IsSupposedToBeLocked(__instance.ToWorldPos())) // Check the meta of the original blockvalue.
-                            tileEntity.SetLocked(true);
-                        return true;
-                    }
-                    case TileEntitySecureLootContainer secureLootContainer when secureLootContainer.IsLocked():
-                        return true;
-                    case TileEntitySecureLootContainer secureLootContainer
-                        : // All non-player secure containers are locked by default.
-                    {
-                        secureLootContainer.SetLocked(true);
-                        return true;
-                    }
-                    default:
-                        return true;
-                }
+                var lockPickable = __instance.GetFeature<TEFeatureLockPickable>();
+                if (lockPickable == null)
+                    return true; // No lock-pick feature, let reset proceed normally.
+
+                // Still locked — let reset proceed; the locked state is preserved by the feature.
+                if (lockPickable.NeedsLockpicking())
+                    return true;
+
+                // Container was picked open. If the prefab had it locked, suppress the reset
+                // so the loot doesn't silently restock while the block is in its unlocked state.
+                return !IsSupposedToBeLocked(__instance.ToWorldPos());
             }
         }
     }

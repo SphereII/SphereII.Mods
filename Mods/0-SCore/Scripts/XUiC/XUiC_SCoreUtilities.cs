@@ -33,7 +33,7 @@ public class XUiC_SCoreUtilities : XUiController {
 
     public override void Init() {
         base.Init();
-        ID = WindowGroup.ID;
+        ID = WindowGroup.Id;
 
         if (GetChildById("SCorebtnSubmit") is XUiC_SimpleButton xuiC_SimpleButton)
         {
@@ -47,7 +47,7 @@ public class XUiC_SCoreUtilities : XUiController {
             _entityPlayerLocal.Buffs.SetCustomVar(toggle.CVarName, toggle.Value ? 1 : 0);
         }
 
-        xui.playerUI.windowManager.Close(this.windowGroup.ID);
+        xui.playerUI.windowManager.Close(this.windowGroup.Id);
     }
 
     public override bool GetBindingValueInternal(ref string value, string bindingName)

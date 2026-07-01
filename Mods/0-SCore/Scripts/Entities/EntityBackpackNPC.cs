@@ -11,6 +11,8 @@ public class EntityBackpackNPC : EntityItem
         float num = 5f;
         entityClass.Properties.ParseFloat(EntityClass.PropTimeStayAfterDeath, ref num);
         this.ticksStayAfterDeath = (int)(num * 20f);
+        if (entityClass.Properties.Values.ContainsKey("LootListOnDeath"))
+            this.lootListOnDeath = entityClass.Properties.Values["LootListOnDeath"];
     }
 
     public override void Start()
@@ -24,10 +26,6 @@ public class EntityBackpackNPC : EntityItem
             collider.gameObject.GetOrAddComponent<RootTransformRefEntity>().RootTransform = base.transform;
         }
         this.SetDead();
-        if (this.lootContainer != null)
-        {
-            this.lootContainer.entityId = this.entityId;
-        }
     }
 
     public override void OnUpdateEntity()
@@ -35,7 +33,7 @@ public class EntityBackpackNPC : EntityItem
         base.OnUpdateEntity();
         if (this.deathUpdateTicks > 0)
         {
-            if (!this.bRemoved && this.lootContainer != null && !this.lootContainer.IsUserAccessing() && this.lootContainer.IsEmpty())
+            if (!this.bRemoved && this.bag != null && !LockManager.Instance.IsLockedServer(this, 0) && this.bag.IsEmpty())
             {
                 this.RemoveBackpack("empty");
             }
@@ -92,6 +90,8 @@ public class EntityBackpackNPC : EntityItem
 
 
     public int RefPlayerId = -1;
+
+    private string lootListOnDeath = string.Empty;
 
     private int deathUpdateTicks;
 

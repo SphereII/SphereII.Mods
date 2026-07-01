@@ -33,7 +33,7 @@ namespace UAI
                 if (targetType == TileEntityType.None) // Not a tile entity.
                     continue;
 
-                var tileEntity = _context.World.GetTileEntity(0, vector);
+                var tileEntity = _context.World.GetTileEntity(vector);
                 if (tileEntity.GetTileEntityType() == targetType)
                 {
                     float num = UAIUtils.DistanceSqr(_context.Self.position, vector);
@@ -44,13 +44,17 @@ namespace UAI
                     {
                         // If the loot containers were already touched, don't path to them.
                         case TileEntityType.Loot:
-                            if (!((TileEntityLootContainer)tileEntity).bTouched)
-                                return scoreClamp;
+                        {
+                            var s = ((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>();
+                            if (s == null || !s.bTouched) return scoreClamp;
                             break;
+                        }
                         case TileEntityType.SecureLoot:
-                            if (!((TileEntitySecureLootContainer)tileEntity).bTouched)
-                                return scoreClamp;
+                        {
+                            var s = ((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>();
+                            if (s == null || !s.bTouched) return scoreClamp;
                             break;
+                        }
                         default:
                             //  var temp = _context.Self.rand.RandomFloat;
                             //Debug.Log($"\tRandomScore: {Mathf.Clamp01(temp)}");

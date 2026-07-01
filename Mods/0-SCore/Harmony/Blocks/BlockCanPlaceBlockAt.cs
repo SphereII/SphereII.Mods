@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using UnityEngine;
 
 namespace SCore.Harmony.Blocks
@@ -18,7 +18,7 @@ namespace SCore.Harmony.Blocks
 
             private static DynamicPrefabDecorator dynamicPrefabDecorator;
 
-            public static bool Postfix(bool __result, WorldBase _world, int _clrIdx, Vector3i _blockPos)
+            public static bool Postfix(bool __result, WorldBase _world, Vector3i _blockPos)
             {
                 if (__result == false) return false;
 
