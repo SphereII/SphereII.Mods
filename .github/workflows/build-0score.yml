@@ -1,0 +1,76 @@
+name: Build 0-SCore
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - main
+      - milestone/**
+      - gsd/**
+    paths:
+      - '.github/workflows/build-0score.yml'
+      - 'Mods/0-SCore/**'
+      - '7DaysToDie_Data/Managed/**'
+      - 'Mods/0_TFP_Harmony/**'
+  pull_request:
+    paths:
+      - '.github/workflows/build-0score.yml'
+      - 'Mods/0-SCore/**'
+      - '7DaysToDie_Data/Managed/**'
+      - 'Mods/0_TFP_Harmony/**'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore Mods/0-SCore/packages.config -PackagesDirectory Mods/0-SCore/packages -NonInteractive -Verbosity detailed
+
+      - name: Verify required build references
+        shell: pwsh
+        run: |
+          $required = @(
+            'Mods/0_TFP_Harmony/0Harmony.dll',
+            '7DaysToDie_Data/Managed/Assembly-CSharp.dll',
+            '7DaysToDie_Data/Managed/Assembly-CSharp-firstpass.dll',
+            '7DaysToDie_Data/Managed/AstarPathfindingProject.dll',
+            '7DaysToDie_Data/Managed/InControl.dll',
+            '7DaysToDie_Data/Managed/LogLibrary.dll',
+            '7DaysToDie_Data/Managed/System.dll',
+            '7DaysToDie_Data/Managed/System.Xml.dll',
+            '7DaysToDie_Data/Managed/System.Xml.Linq.dll',
+            '7DaysToDie_Data/Managed/mscorlib.dll',
+            '7DaysToDie_Data/Managed/UnityEngine.dll',
+            '7DaysToDie_Data/Managed/UnityEngine.CoreModule.dll'
+          )
+          $missing = $required | Where-Object { -not (Test-Path $_) }
+          if ($missing.Count -gt 0) {
+            Write-Error "Missing required local game/Harmony references:`n$($missing -join "`n")`nThis workflow expects the 7DTD managed DLLs and 0Harmony.dll to be present in the repository at the paths above."
+          }
+
+      - name: Build 0-SCore
+        shell: pwsh
+        run: |
+          msbuild Mods/0-SCore/0-SCore.csproj /t:Build /p:Configuration=Debug /nologo /bl:Mods/0-SCore/build.binlog
+
+      - name: Upload build outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: 0-SCore-build
+          path: |
+            Mods/0-SCore/SCore.dll
+            Mods/0-SCore/SCore.pdb
+            Mods/0-SCore/build.binlog
+            Mods/0-SCore/packages
+          if-no-files-found: warn
