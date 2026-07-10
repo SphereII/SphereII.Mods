@@ -518,8 +518,12 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
             LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(_playerFocusing);
             uiforPlayer.xui.Dialog.Respondent = this;
         }
-
-        base.OnEntityActivated(_command, _playerFocusing);
+        // Skip base's IsTraderActivitiesOpen gate - NPCs aren't schedule-restricted vendors and
+        // shouldn't refuse to talk or trade overnight.
+        if (_playerFocusing != null && (!_playerFocusing.PlayerUI.windowManager.IsModalWindowOpen() || _playerFocusing.PlayerUI.windowManager.GetModalWindow().Id == "radial"))
+        {
+            LockManager.Instance.LockRequestLocal(this, new EntityTrader.EntityTraderLockContext(_command.commandId.ToString(), this.TraderData), 0);
+        }
     }
 
 
@@ -1690,7 +1694,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
     /// scanning upward from terrain height through any player-placed blocks (e.g. farm plots).
     /// Unlike GetHeightAt, this accounts for structures built on top of terrain.
     /// </summary>
-    private static int GetSurfaceY(float x, float z)
+    public static int GetSurfaceY(float x, float z)
     {
         var world = GameManager.Instance.World;
         int y = (int)world.GetHeightAt(x, z);

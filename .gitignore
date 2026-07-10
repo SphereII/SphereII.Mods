@@ -13,3 +13,16 @@
 *.zip
 obj
 !docs/**
+/Mods/0-SCore/cs
+Mods/0-SCore/de/Microsoft.VisualStudio.TextTemplating.resources.dll
+Mods/0-SCore/es/Microsoft.VisualStudio.TextTemplating.resources.dll
+Mods/0-SCore/fr/Microsoft.VisualStudio.TextTemplating.resources.dll
+Mods/0-SCore/it/Microsoft.VisualStudio.TextTemplating.resources.dll
+Mods/0-SCore/ja/Microsoft.VisualStudio.TextTemplating.resources.dll
+Mods/0-SCore/ko/Microsoft.VisualStudio.TextTemplating.resources.dll
+Mods/0-SCore/pl/Microsoft.VisualStudio.TextTemplating.resources.dll
+Mods/0-SCore/pt-BR/Microsoft.VisualStudio.TextTemplating.resources.dll
+Mods/0-SCore/ru/Microsoft.VisualStudio.TextTemplating.resources.dll
+Mods/0-SCore/tr/Microsoft.VisualStudio.TextTemplating.resources.dll
+Mods/0-SCore/zh-Hans/Microsoft.VisualStudio.TextTemplating.resources.dll
+Mods/0-SCore/zh-Hant/Microsoft.VisualStudio.TextTemplating.resources.dll

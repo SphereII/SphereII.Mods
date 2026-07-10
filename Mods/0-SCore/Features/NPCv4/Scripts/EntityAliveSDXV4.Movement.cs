@@ -153,7 +153,7 @@ public partial class EntityAliveSDXV4
     /// scanning upward from terrain height through any player-placed blocks (e.g. farm plots).
     /// Unlike GetHeightAt, this accounts for structures built on top of terrain.
     /// </summary>
-    private static int GetSurfaceY(float x, float z)
+    public static int GetSurfaceY(float x, float z)
     {
         var world = GameManager.Instance.World;
         int y = (int)world.GetHeightAt(x, z);

@@ -161,6 +161,8 @@ namespace UAI
 
         public static void CheckJump(Context _context)
         {
+            if (EntityUtilities.GetCurrentOrder(_context.Self.entityId) == EntityUtilities.Orders.Follow) return;
+
             if (!_context.Self.onGround || _context.Self.Jumping)
                 return;
 

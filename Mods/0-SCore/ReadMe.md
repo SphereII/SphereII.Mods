@@ -32,6 +32,49 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 3.0.25.912
+
+	[ NPC Interaction - Remove Trader Hours Restriction ]
+		- EntityAliveSDX.OnEntityActivated / EntityAliveSDXV4.OnEntityActivated: no longer call
+		  base.OnEntityActivated (EntityTrader), which gated the whole interaction behind
+		  TraderData.TraderInfo.IsTraderActivitiesOpen and showed a "come back later" tooltip
+		  instead of opening dialog/trade outside of trader hours. NPCs built on these classes
+		  aren't schedule-restricted vendors, so both methods now reproduce only the rest of the
+		  base behavior (the modal-window check and LockManager.Instance.LockRequestLocal call),
+		  letting NPCs talk and trade at any time of day.
+
+Version: 3.0.24.1327
+
+	[ Utility AI - Wander/Follow Recovery ]
+		- UAITaskWanderSDX: task instances are singletons (one per <task> XML element, shared by
+		  every entity using the package), so per-entity state (target, stuck count, redirect
+		  cooldown) is now tracked in entityId-keyed dictionaries instead of plain fields, which
+		  were being silently clobbered/shared across every wandering NPC. On blocked movement
+		  (wall/ledge/corner), NPCs now escalate through widening search attempts and redirect to
+		  a new target instead of getting stuck forever.
+		- UAITaskFollowSDX: while blocked, hired NPCs now retry pathing to their leader every 1s
+		  instead of only waiting out the full 5s teleport timer with no recalculation attempt.
+		- UAISCoreUtils.CheckJump: no longer runs its edge/ledge jump-safety check while the entity
+		  is on a Follow order, so it can no longer clear a following NPC's path out from under it.
+		- EntityAliveSDX/EntityAliveSDXV4: GetSurfaceY (terrain-plus-placed-blocks height lookup)
+		  is now public instead of private, so it can be reused by external callers.
+
+	[ Lock Picking - TEFeatureLockPickable Support ]
+		- Fixed a NullReferenceException when picking a block secured only by TEFeatureLockPickable
+		  (chests, cars, etc. without a full TEFeatureLockable) - the code resolved the feature but
+		  then called SetLocked() on a still-null TEFeatureLockable reference.
+		- TEFeatureLockPickable-backed blocks now route through SCore's own pick-lock minigame
+		  (XUiC_PickLocking) instead of vanilla's timer/break-chance UI, using the block's own
+		  configured lock-pick item. On success it replicates vanilla's own completion (marks
+		  fully unlocked, swaps to the configured downgrade block, fires the configured success
+		  event) instead of the ILockable-only SetLocked(false) path.
+
+	[ Quality - Debug Logging ]
+		- Re-enabled QualityTroublshooting.cs, a set of Harmony log taps across the crafting-quality
+		  pipeline (recipe queue input, tile entity sync, HandleRecipeQueue, AddCraftComplete) used
+		  to trace custom quality levels through crafting. Gated behind
+		  AdvancedItemFeatures.CustomQualityLevels, same as the rest of the custom quality system.
+
 Version: 3.0.16.732 
 
 	[ Prefabs ]

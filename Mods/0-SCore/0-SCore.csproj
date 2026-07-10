@@ -1153,6 +1153,7 @@
     </Reference>
     <Reference Include="AstarPathfindingProject">
       <HintPath>..\..\7DaysToDie_Data\Managed\AstarPathfindingProject.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="InControl">
       <HintPath>..\..\7DaysToDie_Data\Managed\InControl.dll</HintPath>
@@ -1165,6 +1166,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.TextTemplating, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.VisualStudio.TextTemplating.17.10.40170\lib\net472\Microsoft.VisualStudio.TextTemplating.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="netstandard" />
 
@@ -1212,6 +1214,7 @@
     </Reference>
     <Reference Include="UnityEngine.ParticleSystemModule">
       <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.Physics2DModule">
       <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
@@ -1223,6 +1226,7 @@
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
       <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.UI.dll</HintPath>

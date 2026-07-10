@@ -65,7 +65,12 @@ public partial class EntityAliveSDXV4
             var ui = LocalPlayerUI.GetUIForPlayer(_playerFocusing);
             ui.xui.Dialog.Respondent = this;
         }
-
-        base.OnEntityActivated(_command, _playerFocusing);
+        
+        // Skip base's IsTraderActivitiesOpen gate - NPCs aren't schedule-restricted vendors and
+        // shouldn't refuse to talk or trade overnight.
+        if (_playerFocusing != null && (!_playerFocusing.PlayerUI.windowManager.IsModalWindowOpen() || _playerFocusing.PlayerUI.windowManager.GetModalWindow().Id == "radial"))
+        {
+            LockManager.Instance.LockRequestLocal(this, new EntityTrader.EntityTraderLockContext(_command.commandId.ToString(), this.TraderData), 0);
+        }
     }
 }

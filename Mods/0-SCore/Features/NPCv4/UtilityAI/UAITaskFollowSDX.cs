@@ -19,6 +19,8 @@ namespace UAI
         private float _stuckTimer;
         private float _pathRecalculateTimer;
         private const float PathRecalculateInterval = 0.5f; // Only pathfind every 0.5 seconds max
+        private float _pathRetryTimer;
+        private const float PathRetryInterval = 1f; // while stuck, retry pathing this often
 
         public override void initializeParameters()
         {
@@ -80,6 +82,18 @@ namespace UAI
             if (PathingUtils.IsBlocked(context))
             {
                 _stuckTimer += Time.deltaTime;
+
+                // While stuck, retry pathing toward the leader more aggressively than the normal
+                // 0.5s/1m-moved gate in UpdatePathing() - the cached path may itself be why we're
+                // stuck (a locally bad route), and that gate would otherwise never recalculate it
+                // as long as the leader stays still.
+                _pathRetryTimer -= Time.deltaTime;
+                if (_pathRetryTimer <= 0f)
+                {
+                    MoveToLeader(context);
+                    _pathRetryTimer = PathRetryInterval;
+                }
+
                 if (_stuckTimer >= _teleportDelay)
                 {
                     PathingUtils.TeleportToLeader(context, false);
@@ -92,6 +106,7 @@ namespace UAI
             {
                 // Reset stuck timer if we are moving freely
                 _stuckTimer = 0f;
+                _pathRetryTimer = 0f; // reset so the next stuck episode retries immediately
             }
 
             // 2. MOVEMENT LOGIC
