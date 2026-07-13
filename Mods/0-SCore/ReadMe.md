@@ -32,6 +32,114 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 3.0.28.1654
+
+	[ NPC Dialogue - Lockup After Declining Hire Offer or Early ESC/Tab Close ]
+		- Declining the "Hire for N Dukes" prompt (or closing the dialogue early with ESC/Tab
+		  instead of finishing it normally) left the NPC's second conversation completely
+		  dead: no dialogue menu appeared at all, and the player stayed movement-locked until
+		  forcing the dialogue closed again with ESC/Tab.
+		- Root cause traced through the decompiled engine: EntityAliveSDX.OnEntityActivated
+		  only sends a new talk lock request when
+		  `!windowManager.IsModalWindowOpen() || GetModalWindow().Id == "radial"` - if the
+		  window manager still thinks a modal window is open from the previous conversation,
+		  every later interaction attempt silently no-ops (no lock request, no dialog, no
+		  unlock, so the player also stays movement-locked - matching both symptoms).
+	
+
+	[ Crafting - CraftingManager.GetRecipe(hash) No Longer Valid ]
+		- The engine's CraftingManager no longer exposes a way to fetch a specific Recipe by
+		  its hash code alone, breaking RecipeHasIngredients (Scripts/Buffs/RecipeHasIngredients.cs),
+		  which relied on `CraftingManager.GetRecipe(recipeHash)` to look back up the exact
+		  recipe that was just crafted.
+		- RecipeStackOutputStackOnRecipeCrafted (Features/PassiveEffectHooks/Harmony/Triggers/
+		  OnRecipeCrafted.cs) now also stamps a "RecipeName" string metadata entry
+		  (__instance.recipe.GetName()) alongside the existing "Recipe" hash-code metadata.
+		- RecipeHasIngredients.IsValid reads both back: it calls
+		  CraftingManager.GetAllRecipes(recipeName) to get every recipe registered under that
+		  name, then walks the results comparing GetHashCode() against the stored hash to find
+		  the exact recipe that was crafted (multiple recipes can share the same name, so the
+		  name alone isn't a unique enough lookup key).
+
+	[ NPC Corpse Bags - NullReferenceException Opening bagStorage Window ]
+		- Looting an NPC's dropped bag (BackpackNPC/EntityBackpackNPC) threw a
+		  NullReferenceException in XUiC_BagContainer's GetLockedSlotsFromStorage delegate
+		  (get_LockedSlots -> OnOpen) the moment the loot window opened. Root cause traced
+		  through the decompiled engine: Entity.OnLockedLocal resolves
+		  `LootContainer.GetLootContainer(GetLootList())` and passes it into
+		  XUiC_BagStorageWindowGroup.Open, which calls XUiC_BagContainer.SetBag(bag,
+		  lootContainer, ...) - vanilla SetBag silently no-ops (never assigns its Bag
+		  property) if either the bag or the resolved LootContainer is null. The window still
+		  opens regardless, so the later OnOpen chain always ran against a null Bag.
+		- EntityBackpackNPC.GetLootList() returns a separate `lootListOnDeath` field instead
+		  of the entity class's LootList property, and CopyPropertiesFromEntityClass() only
+		  populated that field from an entity-class property named "LootListOnDeath" - which
+		  the BackpackNPC entity_class (0-XNPCCore/Config/entityclasses.xml) never defines,
+		  only "LootList" (="playerBackpack"). So GetLootList() always returned an empty
+		  string for NPC bags, LootContainer.GetLootContainer("") resolved to null, and
+		  SetBag's guard silently swallowed the bag assignment - all while the player's own
+		  death backpack (plain vanilla EntityItem, no GetLootList override) worked fine.
+		- CopyPropertiesFromEntityClass() now falls back to the entity class's "LootList"
+		  property when "LootListOnDeath" isn't explicitly set, so NPC bags resolve the same
+		  loot container definition already configured for their contents/sizing and open
+		  without crashing.
+
+	[ Lock Picking - Cop Car Downgrading to Alarm Variant ]
+		- XUiC_PickLocking.OnClose: picking a lock successfully (on the ILockable path,
+		  LockedFeature == null) chose the downgrade block with
+		  `if (!LockpickDowngradeBlock.isair) blockValue = LockpickDowngradeBlock; else if
+		  (!DowngradeBlock.isair) blockValue = DowngradeBlock;` - prefer the pick-specific
+		  downgrade, fall back to the generic one only if it isn't set. For the cop car
+		  (cntPoliceCar01), LockpickDowngradeBlock is its safe "picked, bonus loot" variant
+		  and DowngradeBlock is its alarm-triggering variant, so this was already the correct
+		  preference order.
+		- Restored that preference order (a prior edit had turned the else-if into two
+		  sequential ifs, which reassigned blockValue to DowngradeBlock immediately after
+		  setting it to LockpickDowngradeBlock - LockpickDowngradeBlock could never actually
+		  win). With the fix, a successfully picked cop car now downgrades to its bonus-loot
+		  variant instead of the alarm variant that triggers a call.
+
+	[ Multiplayer - HarvestManager Loot Window Auto-Closing on Dedicated Server ]
+		- NetPackageHarvestInventoryData.ProcessPackage (dedicated-server client: opens a
+		  trader NPC's harvest inventory delivered from the server) built its own
+		  SCoreLootContainer with only a chunk reference and never set localChunkPos, so it
+		  defaulted to the chunk's bedrock corner - tens of meters from the player/NPC. The
+		  loot window's distance-based auto-close read that bogus position and closed the
+		  window (at a constant ~63m) the instant it opened, regardless of the player's real
+		  distance to the NPC. HarvestManager.GetOrCreate already carried the equivalent fix
+		  for the listen-server/local path (PositionAtEntity, stamping chunk/localChunkPos
+		  onto the NPC's live position) but it was never applied to this client-rebuilt
+		  container.
+		- HarvestManager.PositionAtEntity is now public, and
+		  NetPackageHarvestInventoryData.ProcessPackage calls it on the container right after
+		  construction, so the dedicated-server client path gets the same live-position fix.
+
+	[ Multiplayer - HarvestManager OpenContainer NullReferenceException on Dedicated Server ]
+		- EntityUtilities.ExecuteCMD's "OpenInventory" case branched only on
+		  ConnectionManager.IsServer to decide whether to open a trader NPC's harvest
+		  container directly (OpenContainer(player as EntityPlayerLocal, ...)) or request it
+		  from the server. IsServer is true for dedicated servers too, and
+		  DialogActionExecuteCommandSDX declares ActionType => AddBuff, which rides the
+		  vanilla dialog engine's buff-action replication - so this case also runs
+		  authoritatively on a headless dedicated server, where there is no EntityPlayerLocal
+		  at all. `player as EntityPlayerLocal` was always null there, and
+		  OpenContainer(null, ...) threw a NullReferenceException inside
+		  LocalPlayerUI.GetUIForPlayer(null).
+		- Added a `player is EntityPlayerLocal playerLocal` guard inside the IsServer branch:
+		  if the replay's player isn't local (dedicated server, or a listen-server host
+		  replaying a remote guest's action), it's now a safe no-op instead of a crash - the
+		  owning client's own ExecuteCMD call (running in its own process, where IsServer is
+		  false) still sends the request packet independently. Listen-server hosts and real
+		  remote clients are unaffected.
+
+	[ Multiplayer - Weapon Swap Sync Fix ]
+		- NetPackageWeaponSwap.ProcessPackage: the server branch previously returned immediately
+		  without applying the swap or relaying it, so a client-initiated weapon swap only ever
+		  updated the sending client and was silently dropped everywhere else. The server now
+		  applies the swap to its own EntityAliveSDX like any other recipient, then relays the
+		  package to all other clients (excluding the original sender) so weapon swaps stay in
+		  sync across the whole server.
+
 Version: 3.0.25.912
 
 	[ NPC Interaction - Remove Trader Hours Restriction ]

@@ -15,14 +15,29 @@ public class RecipeHasIngredients : TargetedCompareRequirementBase
         if (!base.IsValid(minEventParams) || minEventParams.ItemValue == null) return false;
         if (string.IsNullOrEmpty(_ingredients)) return false;
 
+        // GetRecipe() changed. It used to take a hash, so we could precisely grab a specific recipe.
+        // We'll now store the RecipeName, then loop through all the recipes to see if it matches our hash code
+        // Multiple recipes could exist with the same name.
         if (!minEventParams.ItemValue.HasMetadata("Recipe", TypedMetadataValue.TypeTag.Integer)) return false;
         if (minEventParams.ItemValue.GetMetadata("Recipe") is not int recipeHash) return false;
 
-        var recipe = CraftingManager.GetRecipe(recipeHash);
-        if (recipe == null) return false;
+        if (!minEventParams.ItemValue.HasMetadata("RecipeName", TypedMetadataValue.TypeTag.String)) return false;
+        if (minEventParams.ItemValue.GetMetadata("RecipeName") is not string recipeName) return false;
+
+        Recipe targetRecipe = null;
+        foreach (var recipe in CraftingManager.GetAllRecipes(recipeName))
+        {
+            if (recipe.GetHashCode() == recipeHash)
+            {
+                targetRecipe = recipe;
+                break;
+            };
+        }
+        if (targetRecipe == null) return false;
+        
 
 
-        foreach (var ingredient in recipe.ingredients)
+        foreach (var ingredient in targetRecipe.ingredients)
         {
             foreach (var search in _ingredients.Split(","))
             {

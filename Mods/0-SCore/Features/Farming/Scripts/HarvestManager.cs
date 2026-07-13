@@ -87,8 +87,10 @@ public static class HarvestManager
     /// <summary>
     /// Point the container's tile-entity position at the entity's current block position so
     /// the loot window's distance auto-close measures against the NPC, not the chunk origin.
+    /// Public so callers that build their own SCoreLootContainer (e.g.
+    /// NetPackageHarvestInventoryData on a dedicated-server client) can apply the same fix.
     /// </summary>
-    private static void PositionAtEntity(SCoreLootContainer container, int entityId)
+    public static void PositionAtEntity(SCoreLootContainer container, int entityId)
     {
         var world = GameManager.Instance?.World;
         var entity = world?.GetEntity(entityId);

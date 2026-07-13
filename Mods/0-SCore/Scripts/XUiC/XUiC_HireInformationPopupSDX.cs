@@ -1,4 +1,6 @@
-﻿internal class XUiC_HireInformationPopupSDX : XUiController
+﻿using System.Collections;
+
+internal class XUiC_HireInformationPopupSDX : XUiController
 {
     public XUiV_Label hireInformationLabel;
     public XUiV_Panel hireInformationPanel;
@@ -47,19 +49,15 @@
         if (myEntity != null)
             EntityUtilities.Hire(entityID, player as EntityPlayerLocal);
 
-        xui.playerUI.windowManager.Close(windowGroup.Id);
+        xui.playerUI.windowManager.Close(windowGroup);
+
     }
 
     private void BtnCancelHireInformation_OnPressed(XUiController _sender, int _mouseButton)
     {
-        hireInformationPanel.IsVisible = false;
-        xui.playerUI.windowManager.Close(windowGroup.Id);
+  //      
+       xui.playerUI.windowManager.Close(windowGroup);
     }
 
-    public override void OnClose()
-    {
-        if (xui.playerUI.windowManager.IsWindowOpen("dialog"))
-            xui.playerUI.windowManager.Close("dialog");
-        base.OnClose();
-    }
+   
 }

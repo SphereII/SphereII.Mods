@@ -1377,11 +1377,26 @@ public static class EntityUtilities
                     // the container directly. On a dedicated server the dictionary lives on the
                     // server process while this dialog action runs on the client, so we send a
                     // request packet and let the server respond with the item data.
+                    //
+                    // IsServer alone isn't enough to tell "listen-server host with a UI to open"
+                    // apart from "dedicated server with none": this action type (AddBuff) is
+                    // replayed authoritatively on the server, including on a headless dedicated
+                    // server, where 'player' is a plain (non-local) EntityPlayer proxy for the
+                    // remote client and there is no EntityPlayerLocal/UI to open at all. Guard
+                    // on the player actually being local so that replay is a safe no-op instead
+                    // of NREing inside OpenContainer -> LocalPlayerUI.GetUIForPlayer(null).
                     if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
                     {
-                        AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Opening HarvestManager container (listen server)");
-                        var harvestContainer = HarvestManager.GetOrCreate(entityAlive.entityId);
-                        OpenContainer(player as EntityPlayerLocal, harvestContainer);
+                        if (player is EntityPlayerLocal playerLocal)
+                        {
+                            AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Opening HarvestManager container (listen server)");
+                            var harvestContainer = HarvestManager.GetOrCreate(entityAlive.entityId);
+                            OpenContainer(playerLocal, harvestContainer);
+                        }
+                        else
+                        {
+                            AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Server-side replay for a remote player, no local UI to open - skipping");
+                        }
                     }
                     else
                     {

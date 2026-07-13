@@ -13,6 +13,8 @@ public class EntityBackpackNPC : EntityItem
         this.ticksStayAfterDeath = (int)(num * 20f);
         if (entityClass.Properties.Values.ContainsKey("LootListOnDeath"))
             this.lootListOnDeath = entityClass.Properties.Values["LootListOnDeath"];
+        else if (entityClass.Properties.Values.ContainsKey("LootList"))
+            this.lootListOnDeath = entityClass.Properties.Values["LootList"];
     }
 
     public override void Start()
@@ -33,7 +35,12 @@ public class EntityBackpackNPC : EntityItem
         base.OnUpdateEntity();
         if (this.deathUpdateTicks > 0)
         {
-            if (!this.bRemoved && this.bag != null && !LockManager.Instance.IsLockedServer(this, 0) && this.bag.IsEmpty())
+            var isLocked = false;
+            if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+                isLocked = LockManager.Instance.IsLockedServer(this, 0);
+            else
+                isLocked = LockManager.Instance.IsLockedByLocalPlayer(this, 0);
+            if (!this.bRemoved && this.bag != null && !isLocked && this.bag.IsEmpty())
             {
                 this.RemoveBackpack("empty");
             }

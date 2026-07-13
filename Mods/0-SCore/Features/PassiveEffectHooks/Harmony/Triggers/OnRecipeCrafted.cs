@@ -18,6 +18,7 @@ namespace SCore.Features.PassiveEffectHooks
            
             itemValue.SetMetadata("Tags", __instance.recipe.tags.ToString(), TypedMetadataValue.TypeTag.String);
             itemValue.SetMetadata("Recipe", __instance.recipe.GetHashCode(), TypedMetadataValue.TypeTag.Integer);
+            itemValue.SetMetadata("RecipeName", __instance.recipe.GetName(), TypedMetadataValue.TypeTag.String);
 
             var minEventParams = new MinEventParams {
                 TileEntity = TraderUtils.GetCurrentTraderTileEntity(),

@@ -39,20 +39,18 @@ public class NetPackageWeaponSwap : NetPackage
             return;
         }
 
-        // If you are the server, send it out to the clients.
-        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
-        {
-            // var entity = _world.GetEntity(entityId) as EntityAlive;
-            // SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
-            //     NetPackageManager.GetPackage<NetPackageWeaponSwap>().Setup(entity, item), false, -1,
-            //     base.Sender.entityId);
-            return;
-        }
-
         var entityAlive = _world.GetEntity(entityId) as EntityAliveSDX;
         if (!entityAlive) return;
         var itemValue = ItemClass.GetItem(item);
         entityAlive.UpdateWeapon(itemValue);
+
+        // If you are the server, relay the swap out to the other clients.
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+                NetPackageManager.GetPackage<NetPackageWeaponSwap>().Setup(entityAlive, item), false, -1,
+                base.Sender.entityId);
+        }
     }
 
     public override int GetLength()

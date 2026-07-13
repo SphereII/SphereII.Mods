@@ -56,6 +56,11 @@ public class NetPackageHarvestInventoryData : NetPackage
         container.bTouched       = true;   // suppress vanilla loot generation
         container.bPlayerStorage = true;  // suppress loot-respawn tick
 
+        // Without this, localChunkPos defaults to the chunk's bedrock corner, tens of
+        // meters from the player/NPC, which trips the loot window's distance auto-close
+        // the instant it opens (see HarvestManager.GetOrCreate for the original fix).
+        HarvestManager.PositionAtEntity(container, _npcEntityId);
+
         for (int i = 0; i < items.Length && i < container.items.Length; i++)
             container.items[i] = items[i];
 
