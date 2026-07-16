@@ -1,0 +1,5 @@
+﻿<configs>
+  <append xpath="/doc/tips" >
+    <tip key="loadingTipDisableSpecialAttack" />
+  </append>
+</configs>

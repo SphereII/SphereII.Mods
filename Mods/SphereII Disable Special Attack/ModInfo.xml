@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+    <Name value="SphereII_DisableSpecialAttack_sphereii"/>
+    <DisplayName value="SphereII Disable Special Attack"/>
+    <Description
+            value="This game will disable the special ranged attack on the Rancher and Chuck."/>
+    <Author value="sphereii"/>
+    <Version value="3.0.0.0"/>
+</xml>

@@ -1,0 +1,7 @@
+<configs>
+	<!-- Remove the ranged boulder-throw task from Chuck's AITask list so it only melees.
+	     Wildcard match, since the entry carries its own params (startAnimType=, cooldown=, etc). -->
+	<csv xpath="/entity_classes/entity_class[@name='zombieChuck']/property[@name='AITask']/@value" delim="|" op="remove">RangedAttackTarget*</csv>
+		<csv xpath="/entity_classes/entity_class[@name='zombieRancher']/property[@name='AITask']/@value" delim="|" op="remove">RangedAttackTarget*</csv>
+
+</configs>

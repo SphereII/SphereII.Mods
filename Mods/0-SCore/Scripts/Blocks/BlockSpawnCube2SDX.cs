@@ -51,6 +51,16 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         _world.GetWBT().AddScheduledBlockUpdate(_blockPos, blockID, (ulong)1UL);
     }
 
+    // BlockMotionSensor.OnBlockAdded creates a TileEntityPoweredTrigger for us, but never
+    // removes it on our behalf - every other custom TE-owning block in this codebase does
+    // this cleanup explicitly, so we need to as well or a stale TE survives block destruction
+    // and corrupts the chunk save.
+    public override void OnBlockRemoved(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
+    {
+        base.OnBlockRemoved(world, _chunk, _blockPos, _blockValue);
+        _chunk.RemoveTileEntityAt<TileEntityPoweredTrigger>((World)world, World.toBlock(_blockPos));
+    }
+
     // Made public virtual by your previous request, which is good for overriding.
     public virtual void DestroySelf(Vector3i _blockPos, BlockValue _blockValue)
     {
@@ -219,8 +229,15 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
                 GameManager.Instance.World.SetBlockRPC(_blockPos, _blockValue);
                 // Debug.Log($"BlockSpawnCube2SDX: Spawned entity. Current meta: {_blockValue.meta}"); // For debugging
             }
-            DestroySelf(_blockPos, _blockValue);
 
+            if (_blockValue.meta >= _maxSpawned)
+            {
+                DestroySelf(_blockPos, _blockValue);
+            }
+            else
+            {
+                _world.GetWBT().AddScheduledBlockUpdate(_blockPos, blockID, GetTickRate());
+            }
         }
 
         // For clients, just ensure the block remains in the world.

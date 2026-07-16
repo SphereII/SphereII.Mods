@@ -1,0 +1,11 @@
+<configs>
+
+	<!-- Remove the ranged special attack (Action1) from the Rancher zombie's hand item,
+	     so it can no longer spawn its insect swarm at range. -->
+	<remove xpath="//item[starts-with(@name,'meleeHandZombieRancher')]/property[@class='Action1']"/>
+
+	<!-- Remove the ranged special attack (Action1) from the Chuck zombie's hand item,
+	     so it can no longer throw its boulder projectile at range. -->
+	<remove xpath="//item[starts-with(@name,'meleeHandZombieChuck')]/property[@class='Action1']"/>
+
+</configs>

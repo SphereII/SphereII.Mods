@@ -200,6 +200,12 @@ namespace UAI
         /// <summary>Sets the entity's crouching state.</summary>
         public static void SetCrouching(Context context, bool crouch = false)
         {
+            // Let a mod pin an NPC's stance regardless of the leader mirror.
+            //   0 / absent = normal (mirror leader)   1 = force crouch   2 = force stand
+            float over = context.Self.Buffs.GetCustomVar("CrouchOverride");
+            if (over == 1f) crouch = true;
+            else if (over == 2f) crouch = false;
+
             context.Self.Crouching = crouch;
         }
 

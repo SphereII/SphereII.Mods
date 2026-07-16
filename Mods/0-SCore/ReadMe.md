@@ -32,6 +32,59 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 3.0.31.1019
+	[ SphereII Disable Special Attack ]
+		- A small modlet to disable the ranged special attacks on Chuck and the Rancher, so they only melee.
+			- Removes Chuck's ranged boulder-throw attack (AITask + Action1 on its hand item)
+			- Removes the Rancher's ranged insect-swarm attack (AITask + Action1 on its hand item)
+
+	[ NPC Utility AI - CrouchOverride Cvar to Pin Commanded Stance ]
+		- NPC crouching was mirrored from the leader's stance every UAI tick
+		  (SetCrouching in Scripts/UtilityAI/UAISCoreUtils.cs and Features/NPCv4/
+		  UtilityAI/Utils/CombatUtils.cs), so any stance set externally (e.g. a
+		  voice-command mod telling a hired NPC to take cover) was overwritten on
+		  the next tick regardless of which UAI task called SetCrouching.
+		- Both SetCrouching chokepoints now check a "CrouchOverride" entity cvar
+		  before applying the mirrored value: 0/absent = unchanged (mirror leader,
+		  default behavior), 1 = force crouch, 2 = force stand. Since every call
+		  site funnels through these two methods, this covers Follow, Idle, Loot,
+		  ApproachSpot, AttackTargetEntity, BackupFromTarget, and MoveToExplore
+		  without any changes to the individual UAI tasks.
+		- Lets other mods pin a hired/commanded NPC's stance independently of the
+		  player's own stance, persisting across save/load since it's a normal
+		  entity cvar. Requested by the NPCVoiceControl mod team for squad-tactics
+		  stance commands.
+
+	[ BlockSpawnCube2SDX - Chunk Corruption From Stale TileEntityPoweredTrigger ]
+		- Revisiting a POI whose spawn cube had already fired could corrupt the
+		  chunk on save/reload, later throwing "Specified cast is not valid" out
+		  of TileEntityPoweredTrigger.CreatePowerItem while loading the chunk
+		  (Chunk.load -> TileEntityPowered.OnReadComplete ->
+		  InitializePowerData -> CreatePowerItemForTileEntity), and could snowball
+		  into further corrupted regions afterward.
+		- BlockSpawnCube2SDX extends BlockMotionSensor, which creates a
+		  TileEntityPoweredTrigger in OnBlockAdded, but the class never overrode
+		  OnBlockRemoved to clean it up - unlike every other custom TE-owning
+		  block in this codebase (BlockPoweredWorkstation, BlockDecoAoE,
+		  BlockMortSpawner, the water blocks, the portal blocks), which all
+		  explicitly remove their tile entity on removal. The leftover TE could
+		  survive block destruction and get serialized into the chunk save,
+		  mismatched against whatever block now occupies that position.
+		- UpdateTick also unconditionally called DestroySelf() after every tick
+		  regardless of whether MaxSpawned had been reached, immediately firing a
+		  SetBlockRPC(meta++) followed back-to-back by DestroySelf's own
+		  DamageBlock/SetBlockRPC call on the same block position in the same
+		  tick - two rapid consecutive writes to one position while its TE still
+		  existed, the likely source of the save race. This also silently broke
+		  MaxSpawned > 1 configs, which died after their first spawn instead of
+		  continuing to spawn.
+		- Fixed by adding an explicit OnBlockRemoved override that calls
+		  _chunk.RemoveTileEntityAt<TileEntityPoweredTrigger>(...), and by only
+		  calling DestroySelf() once meta >= MaxSpawned, rescheduling via
+		  GetTickRate() otherwise so multi-spawn configs actually spawn more than
+		  once before the block destroys itself.
+
+[ Change Log ]
 Version: 3.0.28.1654
 
 	[ NPC Dialogue - Lockup After Declining Hire Offer or Early ESC/Tab Close ]
