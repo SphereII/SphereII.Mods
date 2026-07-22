@@ -241,6 +241,43 @@
                 <!-- Protects against a block entity data that does not have a valid transform, causing a null ref -->
                 <property name="BlockEntityDataGetRenderers" value="false"/>
 
+                <!-- Serializes RegionFileV2.OptimizeLayout with chunk reads/writes. The vanilla compaction runs
+                     without the region file's instance lock, so a chunk load overlapping it can read garbage
+                     ("EXCEPTION: In load chunk" / "Wrong chunk header!") and the chunk is then deleted and regenerated. -->
+                <property name="RegionFileOptimizeLayoutLock" value="true"/>
+                <!-- Logs whenever OptimizeLayout had to wait on a concurrent read/write (i.e. the race was prevented) -->
+                <property name="LogRegionFileOptimizeLayoutLock" value="false"/>
+
+                <!-- Mutes the "Unexpected case in Sign Data Manager: signRenderer is null" warning spam.
+                     Pathing cubes and other programming sign blocks have no visual renderer on purpose;
+                     vanilla already skips them safely, it just logs a warning for each one. -->
+                <property name="MuteSignRendererWarnings" value="true"/>
+
+                <!-- Logs an error naming any entity whose serialized data exceeds the vanilla 65535 byte
+                     record limit. Such a record corrupts its chunk's entity list on the next load (the
+                     chunk gets deleted), so this names the culprit before that happens. -->
+                <property name="LogOversizedEntityData" value="true"/>
+
+                <!-- Serializes the chunk-load path (ChunkSnapshotUtil.LoadChunk). Vanilla shares one read
+                     buffer/decompressor across all chunk loads with no locking; chunk resets (regionreset,
+                     worldchunkreset, game events) load chunks from the main thread while the generation
+                     thread is also loading, tearing reads ("invalid distance too far back") and deleting
+                     the affected chunk. -->
+                <property name="RegionFileLoadChunkLock" value="true"/>
+                <!-- Logs whenever a chunk load had to wait on a concurrent load (i.e. the race was prevented).
+                     Can be noisy during mass chunk resets. -->
+                <property name="LogRegionFileLoadChunkLock" value="false"/>
+
+                <!-- Dedicated servers only: warns in the log when rendermap / the web map's full render runs
+                     while a game is loaded. That opens a second region file reader over the live save and can
+                     tear chunk reads, causing chunks to be deleted and regenerated. -->
+                <property name="WarnRenderMapLiveServer" value="true"/>
+
+                <!-- Fixes the vanilla companion HUD list creeping down the screen: CompanionEntryList
+                     shifts its grid down one row per companion beyond the first, on top of the correct
+                     per-party-member offset. Keeps companions stacked directly under the party rows. -->
+                <property name="FixCompanionEntryListDrift" value="true"/>
+
 
             </property>
 

@@ -173,6 +173,34 @@ This class provides settings to manage and mitigate various in-game errors and e
   operations.
 * **`BlockEntityDataGetRenderers`**: `false` - If `true`, protects against null reference errors when block entity data
   does not have a valid transform.
+* **`RegionFileOptimizeLayoutLock`**: `true` - If `true`, serializes the vanilla region file compaction
+  (`RegionFileV2.OptimizeLayout`) with chunk reads/writes. The vanilla method compacts a region file in place without
+  taking the lock that reads and writes use, so a chunk load overlapping a compaction can fail with
+  `EXCEPTION: In load chunk` / `Wrong chunk header!` and the affected chunk is then deleted and regenerated.
+* **`LogRegionFileOptimizeLayoutLock`**: `false` - If `true`, logs whenever a compaction had to wait on a concurrent
+  read/write of the same region file (i.e. the race was actually prevented).
+* **`MuteSignRendererWarnings`**: `true` - If `true`, mutes the vanilla
+  `Unexpected case in Sign Data Manager: signRenderer is null` warning spam. Pathing cubes and other programming
+  sign blocks have no visual renderer on purpose; vanilla already skips them safely, it just warns for each one.
+* **`LogOversizedEntityData`**: `true` - If `true`, logs an error naming any entity whose serialized data exceeds
+  the vanilla 65,535 byte record limit (`EntityCreationData` truncates the length prefix but writes the full data,
+  which corrupts the chunk's entity list on the next load and gets the chunk deleted). Detection only; SCore's own
+  NPCs additionally shed save components to stay under the limit.
+* **`RegionFileLoadChunkLock`**: `true` - If `true`, serializes the chunk-load path
+  (`ChunkSnapshotUtil.LoadChunk`). Vanilla shares one read buffer and decompressor across all chunk loads with no
+  locking; chunk resets (`regionreset`, `worldchunkreset`, `ActionResetRegions` game events) load chunks from the
+  main thread while the generation thread is also loading, which tears reads (`invalid distance too far back`) and
+  deletes the affected chunk.
+* **`LogRegionFileLoadChunkLock`**: `false` - If `true`, logs whenever a chunk load had to wait on a concurrent
+  load from another thread (i.e. the race was actually prevented). Can be noisy during mass chunk resets.
+* **`WarnRenderMapLiveServer`**: `true` - Dedicated servers only. If `true`, warns in the log when `rendermap` or
+  the web map's full render runs while a game is loaded: it opens a second region file reader over the live save,
+  which can tear chunk reads and cause chunks to be deleted and regenerated. Run it with no players connected, or
+  take a backup first.
+* **`FixCompanionEntryListDrift`**: `true` - If `true`, fixes the vanilla companion HUD list drifting down the
+  screen as companions are added. Vanilla `XUiC_CompanionEntryList` offsets its grid one row per companion beyond
+  the first (on top of the correct per-party-member offset); this keeps companions stacked directly under the
+  party rows instead. Also respects the grid's `cell_height` rather than vanilla's hardcoded 40 pixels.
 
 ## 14. Advanced UI (`<property class="AdvancedUI">`)
 

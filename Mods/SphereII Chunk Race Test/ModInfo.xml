@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+    <Name value="SphereII_ChunkRaceTest_sphereii"/>
+    <DisplayName value="SphereII Chunk Race Test"/>
+    <Description
+            value="DESTRUCTIVE debug tool: reproduces the vanilla chunk-load thread race on demand. Throwaway saves only. Never install on a real world."/>
+    <Author value="sphereii"/>
+    <Version value="1.0.0.0"/>
+</xml>

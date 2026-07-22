@@ -93,7 +93,13 @@
     <Compile Include="Features\DynamicBones\Scripts\DynamicBonePlaneCollider.cs" />
     <Compile Include="Features\EntityPooling\Harmony\EntityFactoryPatch.cs" />
     <Compile Include="Features\EntityPooling\Scripts\EntityFactoryPool.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\ChunkSnapshotUtilLoadChunkLock.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\CompanionEntryListDrift.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\EntityCreationDataOversized.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\EntityGroupsIsEnemyGroup.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\MapRendererRenderFullMapWarning.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\RegionFileOptimizeLayoutLock.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\SignDataManagerTryApplyRenderingData.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\TileEntityCopyFrom.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\TraderDataReadInventoryData.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\BlockCropControlPanel.cs" />
@@ -647,6 +653,7 @@
     <Compile Include="Scripts\Entities\IEntityOrderReceiverSDX.cs" />
     <Compile Include="Scripts\Entities\LegacyEntityClasses.cs" />
     <Compile Include="Scripts\Entities\ModGeneralUtilities.cs" />
+    <Compile Include="Scripts\Entities\SdxEntityPersistence.cs" />
     <Compile Include="Scripts\Events\EventOnClientKill.cs" />
     <Compile Include="Scripts\Events\EventOnCVarAdded.cs" />
     <Compile Include="Scripts\Events\EventOnSleeperVolumeClearedUpdate.cs" />

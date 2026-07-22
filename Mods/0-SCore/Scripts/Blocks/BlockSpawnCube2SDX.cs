@@ -1,10 +1,22 @@
 ﻿using Platform;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class BlockSpawnCube2SDX : BlockMotionSensor
 {
+    // Diagnostic logging to confirm whether these calls ever run off the main Unity thread
+    // (e.g. from chunk generation) - remove once the chunk-corruption bug is root-caused.
+    private static void LogThreadInfo(string tag, Vector3i _blockPos)
+    {
+        return;
+        Debug.LogWarning($"[SpawnCubeThreadDiag] {tag} pos={_blockPos} " +
+            $"mainThread={ThreadManager.IsMainThread()} " +
+            $"threadId={Thread.CurrentThread.ManagedThreadId} " +
+            $"time={DateTime.Now:HH:mm:ss.fff}");
+    }
+
     private int OwnerID = -1;
     private float _tickRate = 10UL; // Default tick rate
     protected int _maxSpawned = 1;    // Max entities to spawn
@@ -44,10 +56,31 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         PlatformUserIdentifierAbs _addedByPlayer)
     {
         base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue, _addedByPlayer);
+        LogThreadInfo("OnBlockAdded", _blockPos);
+
+        // POI-decorated spawn cubes get OnBlockAdded from the chunk generation worker thread,
+        // not the main thread - scheduling/damaging/removing a TE from there races the
+        // generation thread still serializing this same chunk and corrupts the save. Only
+        // self-schedule here when we're actually on the main thread (i.e. a player just placed
+        // this block live); OnBlockLoaded below is the safe trigger for the generation case.
+        if (!ThreadManager.IsMainThread()) return;
+
+        ScheduleInitialTick(_world, _blockPos);
+    }
+
+    public override void OnBlockLoaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
+    {
+        base.OnBlockLoaded(_world, _blockPos, _blockValue);
+        LogThreadInfo("OnBlockLoaded", _blockPos);
+
+        ScheduleInitialTick(_world, _blockPos);
+    }
+
+    private void ScheduleInitialTick(WorldBase _world, Vector3i _blockPos)
+    {
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
         if (GameManager.Instance.IsEditMode()) return;
 
-        // Schedule an initial tick for the block
         _world.GetWBT().AddScheduledBlockUpdate(_blockPos, blockID, (ulong)1UL);
     }
 
@@ -58,12 +91,14 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
     public override void OnBlockRemoved(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
         base.OnBlockRemoved(world, _chunk, _blockPos, _blockValue);
+        LogThreadInfo("OnBlockRemoved", _blockPos);
         _chunk.RemoveTileEntityAt<TileEntityPoweredTrigger>((World)world, World.toBlock(_blockPos));
     }
 
     // Made public virtual by your previous request, which is good for overriding.
     public virtual void DestroySelf(Vector3i _blockPos, BlockValue _blockValue)
     {
+        LogThreadInfo("DestroySelf", _blockPos);
         var keep = PathingCubeParser.GetValue(_signText, "keep");
         if (string.IsNullOrEmpty(keep))
             DamageBlock(GameManager.Instance.World, new BlockValueRef(_blockPos), _blockValue, Block.list[_blockValue.type].MaxDamage,
@@ -213,6 +248,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
     public override bool UpdateTick(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue,
         bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
+        LogThreadInfo("UpdateTick", _blockPos);
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             if (_blockValue.meta >= _maxSpawned)

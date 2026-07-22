@@ -746,57 +746,62 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
         // 1. Base Class Data (Health, Inventory, Bag, Position, Rotation)
         base.Write(_bw, bNetworkWrite);
 
-        // 2. SDX Specific Data
-        _bw.Write(_strMyName);
-        _bw.Write(guardPosition.ToString());
-        _bw.Write(factionId);
-        _bw.Write(guardLookPosition.ToString());
-        
-        // 3. Quest Journal
-        questJournal.Write(_bw as PooledBinaryWriter);
+        // 2. SDX section: component-framed so one failing component is dropped whole instead
+        //    of half-written, and so the record can shed components (journal first, loot last)
+        //    to stay under EntityCreationData's 64KB record limit — an oversized record
+        //    corrupts the whole chunk on its next load.
+        var section = new SdxEntityPersistence.Section("EntityAliveSDX");
 
-        // 4. Patrol Coordinates
-        string strPatrolCoordinates = "";
-        for (int i = 0; i < patrolCoordinates.Count; i++)
-        {
-            if (i > 0) strPatrolCoordinates += ";";
-            strPatrolCoordinates += patrolCoordinates[i].ToString();
-        }
-        _bw.Write(strPatrolCoordinates);
+        section.Add(SdxEntityPersistence.ComponentIdentity, "identity", SdxEntityPersistence.NeverDrop, bw => {
+            bw.Write(_strMyName);
+            bw.Write(guardPosition.ToString());
+            bw.Write(factionId);
+            bw.Write(guardLookPosition.ToString());
+        });
 
-        // 5. Buffs & Progression
-        try
-        {
-            Buffs.Write(_bw);
-            if (Progression != null) Progression.Write(_bw);
-        }
-        catch (Exception ex)
-        {
-            Log.Error($"EntityAliveSDX.Write Failed to save Buffs/Progression: {ex.Message}");
-        }
+        section.Add(SdxEntityPersistence.ComponentQuestJournal, "quest journal", 0, bw => questJournal.Write(bw));
 
-        // 6. Visuals (Current Weapon)
-        // We save this string so we can restore the visual model immediately on load
-        string holdingItemName = inventory.holdingItem != null ? inventory.holdingItem.GetItemName() : "";
-        _bw.Write(holdingItemName);
+        section.Add(SdxEntityPersistence.ComponentPatrol, "patrol", SdxEntityPersistence.NeverDrop, bw => {
+            string strPatrolCoordinates = "";
+            for (int i = 0; i < patrolCoordinates.Count; i++)
+            {
+                if (i > 0) strPatrolCoordinates += ";";
+                strPatrolCoordinates += patrolCoordinates[i].ToString();
+            }
+            bw.Write(strPatrolCoordinates);
+        });
 
-        // 7. Loot Container (The "Backpack" Storage)
+        section.Add(SdxEntityPersistence.ComponentBuffsProgression, "buffs/progression", 1, bw => {
+            Buffs.Write(bw);
+            bw.Write(Progression != null);
+            if (Progression != null) Progression.Write(bw);
+        });
+
+        // We save the weapon name so we can restore the visual model immediately on load
+        section.Add(SdxEntityPersistence.ComponentWeapon, "weapon", SdxEntityPersistence.NeverDrop,
+            bw => bw.Write(inventory.holdingItem != null ? inventory.holdingItem.GetItemName() : ""));
+
+        // Loot Container (The "Backpack" Storage)
         // For EntityTrader-based entities the player-accessible bag lives in HarvestManager.
         // Prefer that when present; fall back to lootContainer for any non-trader subclass.
-        if (HarvestManager.Has(entityId))
-        {
-            _bw.Write(true);
-            GameUtils.WriteItemStack(_bw, HarvestManager.GetOrCreate(entityId).GetItems());
-        }
-        else if (lootContainer != null)
-        {
-            _bw.Write(true);
-            GameUtils.WriteItemStack(_bw, lootContainer.GetItems());
-        }
-        else
-        {
-            _bw.Write(false);
-        }
+        section.Add(SdxEntityPersistence.ComponentLoot, "loot", 2, bw => {
+            if (HarvestManager.Has(entityId))
+            {
+                bw.Write(true);
+                GameUtils.WriteItemStack(bw, HarvestManager.GetOrCreate(entityId).GetItems());
+            }
+            else if (lootContainer != null)
+            {
+                bw.Write(true);
+                GameUtils.WriteItemStack(bw, lootContainer.GetItems());
+            }
+            else
+            {
+                bw.Write(false);
+            }
+        });
+
+        section.WriteTo(_bw);
     }
 
     public override void Read(byte _version, BinaryReader _br)
@@ -804,6 +809,78 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
         // 1. Base Class Data (Reads Inventory, Bag, etc.)
         base.Read(_version, _br);
 
+        // Defaults first: a component that is absent (dropped on write or skipped on a failed
+        // read) leaves these in a sane state instead of stale or garbage values.
+        questJournal = new QuestJournal();
+        patrolCoordinates.Clear();
+
+        if (!SdxEntityPersistence.TryReadSection(_br, "EntityAliveSDX", ReadSdxComponent))
+            ReadLegacy(_br);
+    }
+
+    private void ReadSdxComponent(byte id, PooledBinaryReader br)
+    {
+        switch (id)
+        {
+            case SdxEntityPersistence.ComponentIdentity:
+                _strMyName = br.ReadString();
+                guardPosition = ModGeneralUtilities.StringToVector3(br.ReadString());
+                factionId = br.ReadByte();
+                guardLookPosition = ModGeneralUtilities.StringToVector3(br.ReadString());
+                break;
+
+            case SdxEntityPersistence.ComponentQuestJournal:
+                questJournal = new QuestJournal();
+                questJournal.Read(br);
+                break;
+
+            case SdxEntityPersistence.ComponentPatrol:
+                patrolCoordinates.Clear();
+                string strPatrol = br.ReadString();
+                if (!string.IsNullOrEmpty(strPatrol))
+                {
+                    foreach (var strPatrolPoint in strPatrol.Split(';'))
+                    {
+                        Vector3 temp = ModGeneralUtilities.StringToVector3(strPatrolPoint);
+                        if (temp != Vector3.zero) patrolCoordinates.Add(temp);
+                    }
+                }
+                break;
+
+            case SdxEntityPersistence.ComponentBuffsProgression:
+                Buffs.Read(br);
+                if (br.ReadBoolean())
+                    Progression.Read(br, this);
+                break;
+
+            case SdxEntityPersistence.ComponentWeapon:
+                _currentWeapon = br.ReadString();
+                if (!string.IsNullOrEmpty(_currentWeapon))
+                    UpdateWeapon(_currentWeapon);
+                break;
+
+            case SdxEntityPersistence.ComponentLoot:
+                // Items are restored into HarvestManager so that OpenInventory finds them under
+                // the entity's ID.  PostInit will set up lootContainer separately.
+                if (br.ReadBoolean())
+                {
+                    ItemStack[] lootItems = GameUtils.ReadItemStack(br);
+                    if (lootItems != null)
+                    {
+                        var hc = HarvestManager.GetOrCreate(entityId);
+                        for (int i = 0; i < lootItems.Length && i < hc.items.Length; i++)
+                            hc.items[i] = lootItems[i];
+                    }
+                }
+                break;
+
+            // Unknown component ids (from a newer SCore) are skipped by the framing.
+        }
+    }
+
+    // Pre-framing record layout; still hit for saves written before this format existed.
+    private void ReadLegacy(BinaryReader _br)
+    {
         // 2. SDX Specific Data
         _strMyName = _br.ReadString();
         guardPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());

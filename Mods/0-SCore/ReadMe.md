@@ -32,6 +32,137 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 3.0.36.1849
+
+	[  EntityAliveSDX / EntityAliveSDXV4 Save Record Hardening ]
+		- NPC records are now written as a versioned, component-framed section
+		  (identity, quest journal, patrol, buffs/progression, weapon, loot)
+		  instead of one fragile sequential stream. Each component serializes
+		  into its own length-prefixed frame, so a component that fails to
+		  write is dropped whole (with an error log) instead of half-written,
+		  and a component that fails to read is skipped without misaligning
+		  the ones after it. Previously a mid-write failure in Buffs (where
+		  hired/leader cvars live) silently corrupted everything after it -
+		  on reload the NPC lost its owner and wandered off or despawned,
+		  reported by users as NPCs disappearing across save/load.
+		- Guards against a vanilla chunk killer: EntityCreationData stores
+		  each entity's data behind a ushort length prefix but writes the full
+		  byte array. Any entity record over 65,535 bytes saves a wrapped
+		  around length, and the next Chunk.load misparses the chunk's entity
+		  list - ChunkSnapshotUtil.LoadChunk then DELETES the whole chunk
+		  (NPC, player builds and all). Long-lived NPCs with big quest
+		  journals, cvar-heavy buffs and full backpacks can plausibly cross
+		  that limit. The new writer measures the total record and sheds
+		  components to stay under it - quest journal first, then
+		  buffs/progression, loot last - logging each drop, so the chunk
+		  always stays loadable.
+		- Old saves load transparently via a legacy fallback reader (records
+		  upgrade to the new format on their next save). Note: not forward
+		  compatible - a downgraded SCore cannot read records saved by this
+		  version, and server/client must run matching SCore versions for
+		  NPC spawn sync.
+		- Also fixed a latent asymmetry: progression was written only when
+		  present but read unconditionally; the new format stores an explicit
+		  flag.
+		- New ErrorHandling property in blocks.xml: LogOversizedEntityData
+		  (default true) logs an error naming ANY entity (vanilla or modded)
+		  whose record exceeds the 65,535 byte limit, so oversized records
+		  can be traced before their chunk dies.
+
+	[ ErrorHandling - Companion HUD List Drift Fix ]
+		- Vanilla XUiC_CompanionEntryList.RefreshPartyList repositions its
+		  own grid by (party members - 1) rows PLUS (companions - 1) rows.
+		  The party term is correct (the companion grid shares its XML
+		  position with the party grid and must sit below the party rows),
+		  but the companion term shifts the whole companion block down one
+		  extra row for every companion beyond the first - on the
+		  top-anchored, downward-stacking HUD grid the list visibly marches
+		  down the screen as companions are added. XUiC_PartyEntryList never
+		  repositions itself, which is why party entries don't drift.
+		- New postfix recomputes the offset with only the party-row term,
+		  keeping companions stacked directly under the party rows. Reads
+		  the row height from the grid's cell_height instead of vanilla's
+		  hardcoded 40 pixels, so custom HUD layouts with different row
+		  heights lay out correctly too.
+		- Not fixable from XML alone: the 40px step and the companion count
+		  offset are hardcoded in the vanilla controller.
+		- New ErrorHandling property in blocks.xml:
+		  FixCompanionEntryListDrift (default true).
+
+	[ ErrorHandling - Chunk Load Path Race Protection ]
+		- Second thread-safety hole in the same family as the OptimizeLayout
+		  race: RegionFileManager's chunk-load path shares ONE read buffer,
+		  cached decompressor and load stream across every caller with no
+		  locking. Chunk loads normally run on the generation thread only,
+		  but chunk resets (regionreset / worldchunkreset console commands,
+		  ActionResetRegions game events - commonly scheduled on live
+		  servers) load chunks from the MAIN thread through the same shared
+		  reader. Overlapping loads tear the shared buffers mid
+		  decompression ("EXC invalid distance too far back", "Wrong chunk
+		  header!") and the failed load then deletes the chunk - and every
+		  NPC standing in it - from the region file.
+		- New Harmony prefix/finalizer holds a per-instance lock across all
+		  of ChunkSnapshotUtil.LoadChunk (the shared load stream is still
+		  being parsed by chunk.load after the raw read returns, so the
+		  lock must span the whole method).
+		- New ErrorHandling properties in blocks.xml:
+			- RegionFileLoadChunkLock (default true) enables the guard.
+			- LogRegionFileLoadChunkLock logs each time a load had to wait
+			  on a concurrent load (each hit is a prevented corruption);
+			  can be noisy during mass chunk resets.
+
+	[ ErrorHandling - rendermap Live Server Warning ]
+		- The web panel / rendermap full-map render opens a SECOND
+		  RegionFileManager over the live save's region files. Region file
+		  locking is per-instance and files open shared, so its reads tear
+		  against the live manager's writes, its failed loads delete chunks
+		  from the live save, and its cleanup compacts region files the
+		  live manager has cached sector tables for.
+		- SCore now logs a clear warning when a full map render starts
+		  while a game is loaded: run rendermap with no players connected,
+		  or take a backup first. Warning only; the render is not blocked.
+		- The patch resolves its target lazily and disables itself on
+		  clients (MapRenderer needs Webserver.dll, which only ships with
+		  dedicated servers), so client installs are unaffected.
+		- New ErrorHandling property in blocks.xml: WarnRenderMapLiveServer
+		  (default true).
+
+
+
+	[ ErrorHandling - RegionFileV2.OptimizeLayout Race Protection ]
+		- Field reports of chunk corruption ("EXCEPTION: In load chunk",
+		  "Wrong chunk header!", negative read counts, "Memory stream is not
+		  expandable") traced to a base-game thread-safety hole: vanilla
+		  RegionFileV2.OptimizeLayout compacts a region file in place
+		  (truncate + rewrite) without taking the instance lock that
+		  ReadData/WriteData hold, and the chunk load path (GenerateChunksThread
+		  -> RegionFileManager.GetChunkSync) takes no saveLock. A chunk load
+		  overlapping a compaction on the save thread reads garbage from the
+		  half-rewritten file, and the failed load then DELETES that chunk from
+		  the region file and regenerates it - losing player builds.
+		- New Harmony prefix/finalizer pair holds the region file's instance
+		  lock for the whole compaction, making it mutually exclusive with the
+		  already-locked reads and writes. Does not repair regions corrupted
+		  before the patch, and cannot protect against the process being killed
+		  mid-compaction.
+		- New ErrorHandling properties in blocks.xml:
+			- RegionFileOptimizeLayoutLock (default true) enables the guard.
+			- LogRegionFileOptimizeLayoutLock logs each time a compaction had
+			  to wait on a concurrent read/write - every hit is a corruption
+			  event that was prevented, useful for confirming the race in the
+			  field.
+
+	[ ErrorHandling - Mute Sign Data Manager Renderer Warnings ]
+		- Pathing cubes and other "programming" sign blocks have no visual
+		  renderer on purpose, so vanilla SignDataManager.TryApplyRenderingData
+		  spammed "Unexpected case in Sign Data Manager: signRenderer is null"
+		  for every update. Vanilla already skips null renderers safely; the
+		  warning was the only effect.
+		- A feature-gated prefix reruns the identical vanilla logic without
+		  logging for null signRenderer / signRenderer.Renderer entries.
+		- New ErrorHandling property in blocks.xml: MuteSignRendererWarnings
+		  (default true). Set to false to restore the vanilla warnings.
+
 Version: 3.0.31.1019
 	[ SphereII Disable Special Attack ]
 		- A small modlet to disable the ranged special attacks on Chuck and the Rancher, so they only melee.

@@ -13,48 +13,133 @@ public partial class EntityAliveSDXV4
     {
         base.Write(_bw, bNetworkWrite);
 
-        _bw.Write(_strMyName);
-        _bw.Write(GuardPosition.ToString());
-        _bw.Write(factionId);
-        _bw.Write(GuardLookPosition.ToString());
+        // SDX section: component-framed so one failing component is dropped whole instead of
+        // half-written, and so the record can shed components (journal first, loot last) to
+        // stay under EntityCreationData's 64KB record limit — an oversized record corrupts the
+        // whole chunk on its next load.
+        var section = new SdxEntityPersistence.Section("EntityAliveSDXV4");
 
-        questJournal.Write(_bw as PooledBinaryWriter);
+        section.Add(SdxEntityPersistence.ComponentIdentity, "identity", SdxEntityPersistence.NeverDrop, bw => {
+            bw.Write(_strMyName);
+            bw.Write(GuardPosition.ToString());
+            bw.Write(factionId);
+            bw.Write(GuardLookPosition.ToString());
+        });
+
+        section.Add(SdxEntityPersistence.ComponentQuestJournal, "quest journal", 0, bw => questJournal.Write(bw));
 
         // ── Patrol coordinates — string.Join avoids the O(n²) concatenation of the original
-        _bw.Write(string.Join(";", PatrolCoordinates));
+        section.Add(SdxEntityPersistence.ComponentPatrol, "patrol", SdxEntityPersistence.NeverDrop,
+            bw => bw.Write(string.Join(";", PatrolCoordinates)));
 
-        try
-        {
-            Buffs.Write(_bw);
-            if (Progression != null) Progression.Write(_bw);
-        }
-        catch (Exception ex)
-        {
-            Log.Error($"EntityAliveSDXV4.Write Failed to save Buffs/Progression: {ex.Message}");
-        }
+        section.Add(SdxEntityPersistence.ComponentBuffsProgression, "buffs/progression", 1, bw => {
+            Buffs.Write(bw);
+            bw.Write(Progression != null);
+            if (Progression != null) Progression.Write(bw);
+        });
 
-        _bw.Write(inventory.holdingItem != null ? inventory.holdingItem.GetItemName() : "");
+        section.Add(SdxEntityPersistence.ComponentWeapon, "weapon", SdxEntityPersistence.NeverDrop,
+            bw => bw.Write(inventory.holdingItem != null ? inventory.holdingItem.GetItemName() : ""));
 
-        if (HarvestManager.Has(entityId))
-        {
-            _bw.Write(true);
-            GameUtils.WriteItemStack(_bw, HarvestManager.GetOrCreate(entityId).GetItems());
-        }
-        else if (lootContainer != null)
-        {
-            _bw.Write(true);
-            GameUtils.WriteItemStack(_bw, lootContainer.GetItems());
-        }
-        else
-        {
-            _bw.Write(false);
-        }
+        section.Add(SdxEntityPersistence.ComponentLoot, "loot", 2, bw => {
+            if (HarvestManager.Has(entityId))
+            {
+                bw.Write(true);
+                GameUtils.WriteItemStack(bw, HarvestManager.GetOrCreate(entityId).GetItems());
+            }
+            else if (lootContainer != null)
+            {
+                bw.Write(true);
+                GameUtils.WriteItemStack(bw, lootContainer.GetItems());
+            }
+            else
+            {
+                bw.Write(false);
+            }
+        });
+
+        section.WriteTo(_bw);
     }
 
     public override void Read(byte _version, BinaryReader _br)
     {
         base.Read(_version, _br);
 
+        // Defaults first: a component that is absent (dropped on write or skipped on a failed
+        // read) leaves these in a sane state instead of stale or garbage values.
+        questJournal = new QuestJournal();
+        _patrolCoordinatesLegacy = new List<Vector3>();
+
+        if (!SdxEntityPersistence.TryReadSection(_br, "EntityAliveSDXV4", ReadSdxComponent))
+            ReadLegacy(_br);
+    }
+
+    private void ReadSdxComponent(byte id, PooledBinaryReader br)
+    {
+        switch (id)
+        {
+            case SdxEntityPersistence.ComponentIdentity:
+                _strMyName = br.ReadString();
+                _cachedDisplayNameKey = null; // invalidate display-name cache
+
+                // Components may not be ready yet during Read (called before PostInit in some
+                // paths). Store into legacy fields; PostInit will flush them into the patrol
+                // component.
+                _guardPositionLegacy     = ModGeneralUtilities.StringToVector3(br.ReadString());
+                factionId                = br.ReadByte();
+                _guardLookPositionLegacy = ModGeneralUtilities.StringToVector3(br.ReadString());
+                break;
+
+            case SdxEntityPersistence.ComponentQuestJournal:
+                questJournal = new QuestJournal();
+                questJournal.Read(br);
+                break;
+
+            case SdxEntityPersistence.ComponentPatrol:
+                _patrolCoordinatesLegacy = new List<Vector3>();
+                var strPatrol = br.ReadString();
+                if (!string.IsNullOrEmpty(strPatrol))
+                {
+                    foreach (var pt in strPatrol.Split(';'))
+                    {
+                        var v = ModGeneralUtilities.StringToVector3(pt);
+                        if (v != Vector3.zero) _patrolCoordinatesLegacy.Add(v);
+                    }
+                }
+                break;
+
+            case SdxEntityPersistence.ComponentBuffsProgression:
+                Buffs.Read(br);
+                if (br.ReadBoolean())
+                    Progression.Read(br, this);
+                break;
+
+            case SdxEntityPersistence.ComponentWeapon:
+                _currentWeapon = br.ReadString();
+                if (!string.IsNullOrEmpty(_currentWeapon))
+                    UpdateWeapon(_currentWeapon);
+                break;
+
+            case SdxEntityPersistence.ComponentLoot:
+                if (br.ReadBoolean())
+                {
+                    var items = GameUtils.ReadItemStack(br);
+                    if (items != null)
+                    {
+                        var hc = HarvestManager.GetOrCreate(entityId);
+                        for (int i = 0; i < items.Length && i < hc.items.Length; i++)
+                            hc.items[i] = items[i];
+                    }
+                }
+                break;
+
+            // Unknown component ids (from a newer SCore) are skipped by the framing.
+        }
+    }
+
+    // Pre-framing record layout; still hit for saves written before this format existed.
+    private void ReadLegacy(BinaryReader _br)
+    {
         _strMyName         = _br.ReadString();
         _cachedDisplayNameKey = null; // invalidate display-name cache
 
