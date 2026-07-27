@@ -345,8 +345,10 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
             (Buffs.GetCustomVar("PathingCode") < 0 || Buffs.GetCustomVar("PathingCode") > 0))
             return;
 
-        // Check if pathing blocks are defined.
-        var blocks = EntityUtilities.ConfigureEntityClass(entityId, "PathingBlocks");
+        // Check if pathing blocks are defined. Pass the entity, not its id: this runs from
+        // PostInit and from the spawn cubes, both before the entity is in the world, so an
+        // id lookup would come back null and silently fall through to the default list.
+        var blocks = EntityUtilities.ConfigureEntityClass(this, "PathingBlocks");
         if (blocks == null || blocks.Count == 0)
             blocks = new List<string> { "PathingCube", "PathingCube2" };
 

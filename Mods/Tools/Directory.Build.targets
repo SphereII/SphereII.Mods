@@ -36,6 +36,15 @@
 					..\Tools\bin\sed.exe -i "s/Version value=\"*.*.*.*\"/Version value=\"@(VersionNumber)\"/g" ModInfo.xml
 				)
 			)
+
+			:: Stamp the newest ReadMe.md changelog entry with the 7 Days To Die version
+			:: this was built against (read from the installed Assembly-CSharp.dll). No-op
+			:: if there's no ReadMe.md, no reader tool, or the entry is already stamped.
+			IF EXIST $(ProjectDir)\ReadMe.md (
+				IF EXIST ..\Tools\bin\GameVersionReader.exe (
+					..\Tools\bin\GameVersionReader.exe "$(ProjectDir)ReadMe.md"
+				)
+			)
 		</PostBuildEvent>
 	</PropertyGroup>
 	<!-- Automatic versioning -->

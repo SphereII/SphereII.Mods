@@ -201,6 +201,19 @@ This class provides settings to manage and mitigate various in-game errors and e
   screen as companions are added. Vanilla `XUiC_CompanionEntryList` offsets its grid one row per companion beyond
   the first (on top of the correct per-party-member offset); this keeps companions stacked directly under the
   party rows instead. Also respects the grid's `cell_height` rather than vanilla's hardcoded 40 pixels.
+* **`FixOrphanedPoweredTileEntities`**: `true` - If `true`, protects chunks from orphaned powered tile entities.
+  A powered TE whose block is gone (e.g. a spawn cube overwritten raw during POI decoration, where
+  `OnBlockRemoved` never fires) throws `Specified cast is not valid` in `TileEntityPoweredTrigger.CreatePowerItem`
+  during `Chunk.read`, and vanilla deletes the entire chunk in response. This flag drives two guards: a load-side
+  guard that skips the orphan's power init and removes it (healing chunks already corrupt on disk), and a
+  save-side sweep on `Chunk.save` that drops orphaned powered TEs before serialization, so a chunk corrupted at
+  generation time is never written to disk or sent to clients in the first place. Both log a warning naming the
+  position.
+* **`FixLegacyTileEntityNullChunk`**: `true` - If `true`, guards `TileEntity.setModified` against a null chunk.
+  Loading a prefab that contains a legacy-format sign crashes in the vanilla sign-to-composite migration
+  (`ReadLegacySignIntoComposite` builds a chunkless composite TE and calls `SetModified`, which dereferences the
+  missing chunk via `blockValue`), and the whole prefab's active block data is skipped. With this enabled a
+  chunkless `setModified` is a no-op, so legacy prefabs load their signs and containers instead of dropping them.
 
 ## 14. Advanced UI (`<property class="AdvancedUI">`)
 

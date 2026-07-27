@@ -6,6 +6,20 @@
             <property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/>
             <!--property name="Model" value="Entities/Crafting/sign_wood_1x1_Prefab"/-->
             <property name="Class" value="SpawnCubeSDX, SCore"/>
+
+            <!-- The spawn definition lives in the sign text (either seeded from Config below or
+                 typed by a prefab designer), so the block needs a composite tile entity to hold
+                 it. The model carries no text mesh and the block is hidden anyway, but
+                 TEFeatureSignable logs an error unless all four values are present and positive. -->
+            <property class="CompositeFeatures">
+                <property class="TEFeatureSignable">
+                    <property name="FontSize" value="110"/>
+                    <property name="LineCount" value="3"/>
+                    <property name="LineWidth" value="0.8"/>
+                    <property name="LineSpacing" value="1"/>
+                </property>
+            </property>
+
             <property name="CreativeMode" value="Player"/>
             <property name="Shape" value="ModelEntity"/>
             <property name="HandleFace" value="South"/>

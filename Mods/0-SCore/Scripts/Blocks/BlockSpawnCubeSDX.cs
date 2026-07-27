@@ -1,59 +1,88 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-internal class BlockSpawnCubeSDX : BlockSign
+// A spawn cube is a POI programming marker: an invisible sign block whose text describes what to
+// spawn ("ec=zombieBoe;task=Stay;pc=4"), consumed by CheckForSpawn below.
+//
+// This used to extend BlockSign, which the game abandoned in 3.0 - it creates no tile entity, so
+// every GetFeature<TEFeatureSignable>() here returned null and CheckForSpawn bailed at its second
+// line. Spawn cubes could not spawn anything. The sign text now lives in the composite tile entity
+// declared in SpawnCubeBlocks.xml.
+//
+// Activation stays gated to editor/debug: in normal play this block offers no commands at all, so
+// players can't retarget a POI's spawners by editing the sign.
+internal class BlockSpawnCubeSDX : BlockCompositeTileEntity
 {
-    // public string SpawnGroup;
-    // public string task = "Wander";
+    private const string TriggerCommand = "Trigger";
 
-    private readonly BlockActivationCommand[] cmds =
+    private readonly BlockActivationCommand triggerCmd = new BlockActivationCommand(TriggerCommand, "trigger", true);
+    private BlockActivationCommand[] designerCmds;
+
+    // Spawn cubes are POI wiring, not player-facing blocks - only expose them to prefab designers.
+    private static bool IsDesignerMode(WorldBase _world)
     {
-        new BlockActivationCommand("edit", "pen", true),
-        new BlockActivationCommand("Trigger", "trigger", true)
-    };
+        return _world.IsEditor() || GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled);
+    }
+
+    private static TEFeatureSignable GetSignable(WorldBase _world, Vector3i _blockPos)
+    {
+        return (_world.GetTileEntity(_blockPos) as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
+    }
+
+    // Seed the sign from the block's Config property, but never overwrite text that is already
+    // there: CheckForSpawn writes the spawned entity id and the respawn throttle back into it, and
+    // this runs again every time the block's transform is rebuilt (i.e. on every chunk load).
+    private void SeedConfigText(WorldBase _world, Vector3i _blockPos)
+    {
+        if (!Properties.Values.ContainsKey("Config")) return;
+
+        var signable = GetSignable(_world, _blockPos);
+        if (signable == null) return;
+        if (!string.IsNullOrEmpty(signable.signText?.Text)) return;
+
+        signable.SetText(Properties.Values["Config"]);
+    }
+
+    public override bool HasBlockActivationCommands(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
+    {
+        // Trigger is always offered to designers, so don't defer to the feature commands' enabled state.
+        return IsDesignerMode(_world);
+    }
+
+    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
+    {
+        if (!IsDesignerMode(_world)) return BlockActivationCommand.Empty;
+
+        // "edit" comes from TEFeatureSignable; append the SCore-only force-spawn command.
+        var featureCmds = base.GetBlockActivationCommands(_world, _blockValue, _blockPos, _entityFocusing);
+        if (designerCmds == null || designerCmds.Length != featureCmds.Length + 1)
+            designerCmds = new BlockActivationCommand[featureCmds.Length + 1];
+
+        Array.Copy(featureCmds, designerCmds, featureCmds.Length);
+        designerCmds[featureCmds.Length] = triggerCmd;
+        return designerCmds;
+    }
 
     public override bool OnBlockActivated(string commandName, WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
-        if (_blockValue.ischild)
+        if (!IsDesignerMode(_world)) return false;
+
+        // Compared case-insensitively: the command is registered as "Trigger" but the old switch
+        // tested for "trigger", so force-spawn never actually ran even when it was reachable.
+        if (string.Equals(commandName, TriggerCommand, StringComparison.OrdinalIgnoreCase))
         {
-            var parentPos = list[_blockValue.type].multiBlockPos.GetParentPos(_blockPos, _blockValue);
-            var block = _world.GetBlock(parentPos);
-            return base.OnBlockActivated(commandName, _world, parentPos, block, _player);
+            CheckForSpawn(_world, _blockPos, _blockValue, true);
+            return true;
         }
 
-        var composite = _world.GetTileEntity(_blockPos) as TileEntityComposite;
-        if (composite == null) return false;
-        switch (commandName)
-        {
-            case "edit":
-                return OnBlockActivated(_world, _blockPos, _blockValue, _player);
-            case "trigger":
-                CheckForSpawn(_world, _blockPos, _blockValue, true);
-                break;
-            default:
-                return false;
-        }
-
-        return true;
+        return base.OnBlockActivated(commandName, _world, _blockPos, _blockValue, _player);
     }
 
     public override string GetActivationText(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
-        if (_world.IsEditor() || GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
-            return base.GetActivationText(_world, _blockValue, _blockPos, _entityFocusing);
-        return "";
-    }
-
-    //private BlockActivationCommand[] cmds = new BlockActivationCommand[0];
-    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
-    {
-        var composite = _world.GetTileEntity(_blockPos) as TileEntityComposite;
-        if (composite == null) return new BlockActivationCommand[0];
-        if (_world.IsEditor() || GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled)) return cmds;
-
-        //        Debug.Log("No commands.");
-        return new BlockActivationCommand[0];
+        if (!IsDesignerMode(_world)) return "";
+        return base.GetActivationText(_world, _blockValue, _blockPos, _entityFocusing);
     }
 
     public string SetValue(string signText, string key, string value)
@@ -103,14 +132,14 @@ internal class BlockSpawnCubeSDX : BlockSign
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
             return;
 
-        var TEFeatureSignable = (_world.GetTileEntity(_blockPos) as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
+        var TEFeatureSignable = GetSignable(_world, _blockPos);
         if (TEFeatureSignable == null)
             return;
 
         var signText = TEFeatureSignable.signText.Text;
         var entityClassID = PathingCubeParser.GetValue(signText, "entityid");
 
-        // If there's already an entityID, check 
+        // If there's already an entityID, check
         if (!string.IsNullOrEmpty(entityClassID))
             // make sure its an int.
             if (StringParsers.TryParseSInt32(entityClassID, out var entityid))
@@ -156,19 +185,19 @@ internal class BlockSpawnCubeSDX : BlockSign
             }
 
              var rotation = new Vector3(0f, (float)(90 * (_blockValue.rotation & 3)), 0f);
-  
+
               // If the class is empty, check to see if we have a group to spawn from.
               if (string.IsNullOrEmpty(entityClass))
               {
                   // No entity class or group? Do nothing.
                   if (string.IsNullOrEmpty(entityGroup))
                       return;
-  
+
                   var ClassID = 0;
                   var EntityID = EntityGroups.GetRandomFromGroup(entityGroup, ref ClassID);
                   if (EntityID == 0) // Invalid group.
                       return;
-  
+
                   myEntity = EntityFactory.CreateEntity(EntityID, _blockPos.ToVector3(), rotation) as EntityAlive;
               }
               else
@@ -199,9 +228,11 @@ internal class BlockSpawnCubeSDX : BlockSign
                 }
             }
 
-            // Update the sign with the new entity ID.
+            // Update the sign with the new entity ID. The throttle has to be layered onto the
+            // result of the first call - writing both from signText dropped the entity id, which
+            // is what stops the cube respawning while its entity is still alive.
             var newSign = SetValue(signText, "entityid", myEntity.entityId.ToString());
-            newSign = SetValue(signText, "time", (GameManager.Instance.World.GetWorldTime() + 5000).ToString());
+            newSign = SetValue(newSign, "time", (GameManager.Instance.World.GetWorldTime() + 5000).ToString());
             TEFeatureSignable.SetText(newSign);
 
             var entityCreationData = new EntityCreationData(myEntity);
@@ -255,29 +286,20 @@ internal class BlockSpawnCubeSDX : BlockSign
 
     public override BlockValue OnBlockPlaced(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, GameRandom _rnd)
     {
-        var blockValue= base.OnBlockPlaced(_world, _blockPos, _blockValue, _rnd);
-        var TEFeatureSignable = (_world.GetTileEntity(_blockPos) as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
-        if (TEFeatureSignable != null)
-        {
-            if (Properties.Values.ContainsKey("Config"))
-            {
-                TEFeatureSignable.SetText(Properties.Values["Config"]);
-                CheckForSpawn(_world, _blockPos, _blockValue, true);
-            }
-        }
+        var blockValue = base.OnBlockPlaced(_world, _blockPos, _blockValue, _rnd);
+
+        // The composite tile entity is created in OnBlockAdded, so it usually does not exist yet
+        // here; SeedConfigText no-ops in that case and OnBlockAdded does the work.
+        SeedConfigText(_world, _blockPos);
+        CheckForSpawn(_world, _blockPos, _blockValue, true);
         return blockValue;
     }
+
     public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
         base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue,_addedByPlayer);
-        var TEFeatureSignable = (_world.GetTileEntity(_blockPos) as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
-        if (TEFeatureSignable != null)
-            if (Properties.Values.ContainsKey("Config"))
-            { 
-                TEFeatureSignable.SetText(Properties.Values["Config"]);
-                CheckForSpawn(_world, _blockPos, _blockValue, true);
-            }
-        
+        SeedConfigText(_world, _blockPos);
+        CheckForSpawn(_world, _blockPos, _blockValue, true);
     }
 
     public override void OnBlockLoaded(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue)
@@ -291,15 +313,16 @@ internal class BlockSpawnCubeSDX : BlockSign
         if (_ebcd == null)
             return;
 
-        var TEFeatureSignable = (_world.GetTileEntity(_blockPos) as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
-        if (TEFeatureSignable != null && Properties.Values.ContainsKey("Config"))
-            TEFeatureSignable.SetText(Properties.Values["Config"]);
-
         // Hide the sign, so its not visible. Without this, it errors out.
+        // This also keeps TEFeatureSignable from wiring a text mesh onto a model that has none -
+        // it skips the whole setup when bHasTransform is false. The base call still builds and
+        // registers the composite tile entity.
         _ebcd.bHasTransform = false;
         base.OnBlockEntityTransformAfterActivated(_world, _blockPos, _blockValue, _ebcd);
 
         // Re-show the transform. This won't have a visual effect, but fixes when you pick up the block, the outline of the block persists.
         _ebcd.bHasTransform = true;
+
+        SeedConfigText(_world, _blockPos);
     }
 }

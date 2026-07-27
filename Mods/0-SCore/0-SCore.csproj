@@ -93,14 +93,18 @@
     <Compile Include="Features\DynamicBones\Scripts\DynamicBonePlaneCollider.cs" />
     <Compile Include="Features\EntityPooling\Harmony\EntityFactoryPatch.cs" />
     <Compile Include="Features\EntityPooling\Scripts\EntityFactoryPool.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\ChunkSaveOrphanedPoweredTESweep.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\ChunkSnapshotUtilLoadChunkLock.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\CompanionEntryListDrift.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\EntityCreationDataOversized.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\EntityGroupsIsEnemyGroup.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\MapRendererRenderFullMapWarning.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\OrphanedPoweredTileEntity.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\RegionFileOptimizeLayoutLock.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\SignDataManagerTryApplyRenderingData.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\TileEntityCopyFrom.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\TileEntitySetModifiedNullChunk.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\TileEntityPoweredOnReadComplete.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\TraderDataReadInventoryData.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\BlockCropControlPanel.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\BlockFarmPlotSDX.cs" />
@@ -1274,6 +1278,15 @@
 					:: Sort out the version number from the Configuration, and grab the last digits of the Version number
 					echo Updating Version number to @(VersionNumber)
 					..\Tools\bin\sed.exe -i "s/Version value=\"*.*.*.*\"/Version value=\"@(VersionNumber)\"/g" ModInfo.xml
+				)
+			)
+
+			:: Stamp the newest ReadMe.md changelog entry with the 7 Days To Die version
+			:: this was built against (read from the installed Assembly-CSharp.dll). No-op
+			:: if there's no ReadMe.md, no reader tool, or the entry is already stamped.
+			IF EXIST $(ProjectDir)\ReadMe.md (
+				IF EXIST ..\Tools\bin\GameVersionReader.exe (
+					..\Tools\bin\GameVersionReader.exe "$(ProjectDir)ReadMe.md"
 				)
 			)
 		</PostBuildEvent>

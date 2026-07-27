@@ -263,7 +263,7 @@
                      worldchunkreset, game events) load chunks from the main thread while the generation
                      thread is also loading, tearing reads ("invalid distance too far back") and deleting
                      the affected chunk. -->
-                <property name="RegionFileLoadChunkLock" value="true"/>
+                <property name="RegionFileLoadChunkLock" value="false"/>
                 <!-- Logs whenever a chunk load had to wait on a concurrent load (i.e. the race was prevented).
                      Can be noisy during mass chunk resets. -->
                 <property name="LogRegionFileLoadChunkLock" value="false"/>
@@ -277,6 +277,18 @@
                      shifts its grid down one row per companion beyond the first, on top of the correct
                      per-party-member offset. Keeps companions stacked directly under the party rows. -->
                 <property name="FixCompanionEntryListDrift" value="true"/>
+
+                <!-- A powered tile entity left behind at a position whose block is no longer powered
+                     (e.g. a spawn cube overwritten during POI decoration) throws "Specified cast is not
+                     valid" during Chunk.read, and vanilla then DELETES the whole chunk. This skips power
+                     init for the orphan and removes it instead, keeping the chunk loadable. -->
+                <property name="FixOrphanedPoweredTileEntities" value="true"/>
+
+                <!-- Loading a prefab with a legacy-format sign crashes in the sign-to-composite migration
+                     (chunkless TileEntity.setModified dereferences a null chunk), and the whole prefab's
+                     tile entities are skipped. This guards setModified against a null chunk so legacy
+                     prefabs load their signs/containers instead of dropping them. -->
+                <property name="FixLegacyTileEntityNullChunk" value="true"/>
 
 
             </property>

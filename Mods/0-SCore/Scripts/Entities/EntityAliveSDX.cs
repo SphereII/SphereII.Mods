@@ -136,7 +136,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
     public string Title
     {
         get { return Localization.Get(_strTitle); }
-        set => throw new NotImplementedException();
+        set => _strTitle = value;
     }
 
     public string FirstName
@@ -678,8 +678,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
             (Buffs.GetCustomVar("PathingCode") < 0 || Buffs.GetCustomVar("PathingCode") > 0))
             return;
 
-        // Check if pathing blocks are defined.
-        var blocks = EntityUtilities.ConfigureEntityClass(entityId, "PathingBlocks");
+        // Check if pathing blocks are defined. Pass the entity, not its id: this runs from
+        // PostInit and from the spawn cubes, both before the entity is in the world, so an
+        // id lookup would come back null and silently fall through to the default list.
+        var blocks = EntityUtilities.ConfigureEntityClass(this, "PathingBlocks");
         if (blocks.Count == 0)
             blocks = new List<string> { "PathingCube", "PathingCube2" };
 
@@ -694,7 +696,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
         if (TEFeatureSignable == null) return;
 
         // Since signs can have multiple codes, splite with a ,, parse each one.
-        var text = TEFeatureSignable.signText.Text;
+        var text = TEFeatureSignable.signText?.Text;
+
+        // Bail before writing anything if the cube has no text yet. Otherwise the PathingCode
+        // set below latches at -1, and the guard at the top of this method then blocks every
+        // later re-scan - permanently, since the cvar is saved with the entity. A cube can
+        // legitimately read empty here: its text may not have synced to a client yet, or it
+        // may predate the composite tile entity and have lost its text entirely.
+        if (string.IsNullOrEmpty(text)) return;
 
         // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
         var Task = PathingCubeParser.GetValue(text, "task");

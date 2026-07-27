@@ -376,51 +376,71 @@ public static class ModGeneralUtilities
             for (var j = -1; j < 2; j++)
             {
                 var chunk = (Chunk)GameManager.Instance.World.GetChunkSync(num + j, num2 + i);
-                if (chunk != null)
+                if (chunk == null)
+                    continue;
+
+                var tileEntities = chunk.GetTileEntities();
+                for (var k = 0; k < tileEntities.list.Count; k++)
                 {
-                    var tileEntities = chunk.GetTileEntities();
-                    for (var k = 0; k < tileEntities.list.Count; k++)
+                    var tileEntity = tileEntities.list[k];
+                    TargetBlockPosition = tileEntity.ToWorldPos();
+
+                    if (maxDistance > 0)
                     {
-                        var tileEntity = tileEntities.list[k];
-                        TargetBlockPosition = tileEntity.ToWorldPos();
-
-                        if (maxDistance > 0)
-                        {
-                            if (myEntity.GetDistanceSq(TargetBlockPosition) > maxDistance)
-                                continue;
-                        }
-                        // If it's a sign, check to see if there's a code on it.
-                        var TEFeatureSignable = (tileEntity as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
-                        if (TEFeatureSignable != null)
-                        {
-                            // If the sign is empty and the code is 0, then accept it as a path
-                            var text = TEFeatureSignable.signText.Text;
-                            if (string.IsNullOrEmpty(text) && code == 0)
-                            {
-                                localLists.Add(TargetBlockPosition.ToVector3());
-                                continue;
-                            }
-
-                            foreach (var temp in text.Split(','))
-                                if (code.ToString() == temp || code == 0)
-                                {
-                                    localLists.Add(TargetBlockPosition.ToVector3());
-                                    break;
-                                }
-                        }
-                        //else
-                        //    continue;
-
-
-                        //// if its not a listed block, then keep searching.
-                        //if (!lstBlocks.Contains(block.Block.GetBlockName()))
-                        //    continue;
-                        //localLists.Add(TargetBlockPosition.ToVector3());
+                        if (myEntity.GetDistanceSq(TargetBlockPosition) > maxDistance)
+                            continue;
                     }
+
+                    // Only listed pathing blocks count. Now that pathing cubes are composite tile
+                    // entities, every vanilla sign in these nine chunks also carries a
+                    // TEFeatureSignable, so without this check the entity paths to POI signage.
+                    var block = GameManager.Instance.World.GetBlock(TargetBlockPosition);
+                    if (block.ischild)
+                        continue;
+                    if (!lstBlocks.Contains(block.Block.GetBlockName()))
+                        continue;
+
+                    // If it's a sign, check to see if there's a code on it.
+                    var TEFeatureSignable = (tileEntity as TileEntityComposite)?.GetFeature<TEFeatureSignable>();
+                    if (TEFeatureSignable == null)
+                        continue;
+
+                    var text = TEFeatureSignable.signText?.Text;
+
+                    // An unassigned entity takes any pathing block it finds, blank or not.
+                    if (code == 0)
+                    {
+                        localLists.Add(TargetBlockPosition.ToVector3());
+                        continue;
+                    }
+
+                    if (string.IsNullOrEmpty(text))
+                        continue;
+
+                    if (MatchesPathingCode(text, code))
+                        localLists.Add(TargetBlockPosition.ToVector3());
                 }
             }
 
         return localLists;
+    }
+
+    // Pathing cubes are written in the "task=Wander;pc=3" format that PathingCubeParser reads, but
+    // older cubes carry a bare comma-separated list of codes ("3,4"). Accept both. Matching with
+    // Split(',') alone never worked on the current format: "task=Wander;pc=3" is a single element
+    // and never equals "3", so any entity with a non-zero code found no waypoints at all.
+    private static bool MatchesPathingCode(string signText, float code)
+    {
+        var pc = PathingCubeParser.GetValue(signText, "pc");
+        if (!string.IsNullOrEmpty(pc))
+            return StringParsers.TryParseFloat(pc, out var signCode) && signCode == code;
+
+        // Legacy format: the whole sign is the code list.
+        foreach (var temp in signText.Split(','))
+            if (StringParsers.TryParseFloat(temp.Trim(), out var legacyCode) && legacyCode == code)
+                return true;
+
+        return false;
     }
 
     public static List<Vector3> ScanAutoConfigurationBlocks(Vector3 centerPosition, List<string> lstBlocks, int MaxDistance = 4)

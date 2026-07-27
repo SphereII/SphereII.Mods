@@ -1823,8 +1823,14 @@ public static class EntityUtilities
 
     public static List<string> ConfigureEntityClass(int EntityID, string strKey)
     {
+        // Only usable once the entity is in the world; callers that run during spawn
+        // (PostInit, spawn cubes) must use the EntityAlive overload below instead.
+        return ConfigureEntityClass(GameManager.Instance.World.GetEntity(EntityID) as EntityAlive, strKey);
+    }
+
+    public static List<string> ConfigureEntityClass(EntityAlive myEntity, string strKey)
+    {
         var TempList = new List<string>();
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity == null)
             return TempList;
 

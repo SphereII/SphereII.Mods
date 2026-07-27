@@ -2,22 +2,36 @@
 <configs>
     <append xpath="/blocks">
         <block name="PathingCube">
+            <property name="Class" value="PathFinding, SCore"/>
+
+            <!-- The sign text is the pathing code, so the block needs a composite tile entity to
+                 store it in. Values mirror vanilla's playerSignWood1x1, which uses the same model
+                 and dimensions. TEFeatureSignable supplies the "edit" command, TEFeatureLockable
+                 supplies lock/unlock/keypad - all with their own owner and ACL checks. -->
+            <property class="CompositeFeatures">
+                <property class="TEFeatureSignable">
+                    <property name="FontSize" value="110"/>
+                    <property name="LineCount" value="3"/>
+                    <property name="LineWidth" value="0.8"/>
+                    <property name="LineSpacing" value="1"/>
+                </property>
+                <property class="TEFeatureLockable"/>
+            </property>
+
             <property name="Shape" value="ModelEntity"/>
             <!--property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/-->
-            <!--<property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/>-->
-
             <property name="Model" value="@:Entities/Crafting/sign_wood_1x1_Prefab.prefab"/>
+
+            <!-- The old "1,2,1 broke block destruction" note was really BlockSign: it stamped a raw
+                 duplicate of the block one cell above (UpwardsCount, default 1) regardless of this
+                 value, so the cube always occupied two cells. Off the BlockSign base, 1,1,1 is
+                 genuinely one cell. -->
             <property name="MultiBlockDim" value="1,1,1"/>
 
-            <property name="Class" value="PathFinding, SCore"/>
             <property name="Material" value="Mair"/>
             <property name="CreativeMode" value="Player"/>
             <property name="CanPickup" value="true"/>
             <property name="Collide" value="sight"/>
-            <!-- At 1,2,1, it was causing issues with destroying blocks. Maybe it had to do with the rotation of the cube? -->
-            <!--<property name="MultiBlockDim" value="1,1,1"/>-->
-
-
         </block>
 
         <block name="PathingCube2">

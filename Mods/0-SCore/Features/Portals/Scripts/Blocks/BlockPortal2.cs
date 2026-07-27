@@ -1,5 +1,6 @@
-﻿using Audio;
+using Audio;
 using Platform;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -16,14 +17,32 @@ Feature request: destination blocks.  No teleporting capabilities, just used as 
 Give buff value equals property that gives a buff when used. Then I can specify different visual scenes while transporting
 
 */
-public class BlockPortal2 : BlockSign
+
+// The sign-based portal: its name is the sign text, which PortalManager reads to link portal pairs.
+//
+// This used to extend BlockSign, which the game abandoned in 3.0 - it creates no tile entity, so
+// GetTileEntity(...) as TileEntityComposite was always null here. OnBlockActivated returned false
+// before reaching any command, and the SetText(location) in OnBlockAdded silently did nothing, so
+// portals registered with PortalManager under an empty name and never linked.
+//
+// Lock/unlock/keypad and the sign editor now come from the TEFeatureLockable and TEFeatureSignable
+// features declared in PortalBlocks.xml, which own their own permission checks. Only the
+// portalActivate command is SCore's.
+public class BlockPortal2 : BlockCompositeTileEntity
 {
+    private const string PortalActivateCommand = "portalActivate";
+    private const string EditCommand = "edit";
+
     private string buffCooldown = "buffTeleportCooldown";
     private int delay = 1000;
     private string location;
     private bool display = false;
     private string buffActivate = "";
     private string displayBuff = "";
+
+    private readonly BlockActivationCommand portalActivateCmd =
+        new BlockActivationCommand(PortalActivateCommand, "pen", true, true);
+    private BlockActivationCommand[] portalCmds;
 
     public override void Init()
     {
@@ -48,14 +67,18 @@ public class BlockPortal2 : BlockSign
         base.Init();
     }
 
-    private BlockActivationCommand[] cmds = new BlockActivationCommand[]
+    private static TEFeatureLockable GetLockable(WorldBase _world, Vector3i _blockPos)
     {
-        new BlockActivationCommand("portalActivate", "pen", true, true),
-        new BlockActivationCommand("edit", "pen", false, false),
-        new BlockActivationCommand("lock", "lock", false, false),
-        new BlockActivationCommand("unlock", "unlock", false, false),
-        new BlockActivationCommand("keypad", "keypad", false, false)
-    };
+        return (_world.GetTileEntity(_blockPos) as TileEntityComposite)?.GetFeature<TEFeatureLockable>();
+    }
+
+    // A locked portal still teleports for the owner and anyone on its ACL.
+    private static bool IsUnlockedFor(TEFeatureLockable _lockable)
+    {
+        if (GameManager.Instance.IsEditMode()) return true;
+        if (_lockable == null || !_lockable.IsLocked()) return true;
+        return _lockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier);
+    }
 
     public override void OnBlockRemoved(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
@@ -74,13 +97,15 @@ public class BlockPortal2 : BlockSign
     public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue, PlatformUserIdentifierAbs _addedByPlayer)
     {
         base.OnBlockAdded(world, _chunk, _blockPos, _blockValue, _addedByPlayer);
-        if (!string.IsNullOrEmpty(location))
-        {
-            // Set text first so AddPosition reads the correct name from the tile entity.
-            var teComposite = world.GetTileEntity(_blockPos) as TileEntityComposite;
-            teComposite?.GetFeature<TEFeatureSignable>()?.SetText(location);
-            PortalManager.Instance.AddPosition(_blockPos, location);
-        }
+
+        // Only the parent cell owns the tile entity, and PortalManager keys off the parent anyway.
+        if (_blockValue.ischild) return;
+        if (string.IsNullOrEmpty(location)) return;
+
+        // Set text first so AddPosition reads the correct name from the tile entity.
+        var teComposite = world.GetTileEntity(_blockPos) as TileEntityComposite;
+        teComposite?.GetFeature<TEFeatureSignable>()?.SetText(location);
+        PortalManager.Instance.AddPosition(_blockPos, location);
     }
 
     // --- Teleportation ---
@@ -146,60 +171,49 @@ public class BlockPortal2 : BlockSign
             Vector3i parentPos = _blockValue.Block.multiBlockPos.GetParentPos(_blockPos, _blockValue);
             return OnBlockActivated(commandName, _world, parentPos, _world.GetBlock(parentPos), _player);
         }
-        var composite = _world.GetTileEntity(_blockPos) as TileEntityComposite;
-        if (composite == null) return false;
-        var lockable = composite.GetFeature<TEFeatureLockable>();
 
-        switch (commandName)
+        if (commandName == PortalActivateCommand)
         {
-            case "portalActivate":
-                if (GameManager.Instance.IsEditMode() || lockable == null || !lockable.IsLocked() || lockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
-                    TeleportPlayer(_player, _blockPos);
-                return false;
-            case "edit":
-                if (GameManager.Instance.IsEditMode() || lockable == null || !lockable.IsLocked() || lockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
-                {
-                    if (string.IsNullOrEmpty(location))
-                        return OnBlockActivated(_world, _blockPos, _blockValue, _player);
-                }
-                Manager.BroadcastPlayByLocalPlayer(_blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/locked");
-                return false;
-            case "lock":
-                lockable?.SetLocked(true);
-                Manager.BroadcastPlayByLocalPlayer(_blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/locking");
-                GameManager.ShowTooltip(_player, "containerLocked");
-                return true;
-            case "unlock":
-                lockable?.SetLocked(false);
-                Manager.BroadcastPlayByLocalPlayer(_blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/unlocking");
-                GameManager.ShowTooltip(_player, "containerUnlocked");
-                return true;
-            case "keypad":
-                if (string.IsNullOrEmpty(location))
-                    XUiC_KeypadWindow.Open(LocalPlayerUI.GetUIForPlayer(_player), lockable);
-                return true;
-            default:
-                return false;
+            if (IsUnlockedFor(GetLockable(_world, _blockPos)))
+                TeleportPlayer(_player, _blockPos);
+            return false;
         }
+
+        // A hard-coded Location fixes the portal name at placement, so the sign editor stays shut.
+        if (commandName == EditCommand && !string.IsNullOrEmpty(location))
+        {
+            Manager.BroadcastPlayByLocalPlayer(_blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/locked");
+            return false;
+        }
+
+        // edit / lock / unlock / keypad are all feature-owned from here.
+        return base.OnBlockActivated(commandName, _world, _blockPos, _blockValue, _player);
+    }
+
+    public override bool HasBlockActivationCommands(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
+    {
+        // portalActivate is always offered, so don't defer to the feature commands' enabled state.
+        return true;
     }
 
     public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
-        var composite2 = _world.GetTileEntity(_blockPos) as TileEntityComposite;
-        if (composite2 == null) return new BlockActivationCommand[0];
-        var lockable2 = composite2.GetFeature<TEFeatureLockable>();
+        var featureCmds = base.GetBlockActivationCommands(_world, _blockValue, _blockPos, _entityFocusing);
 
-        PlatformUserIdentifierAbs localUser = PlatformManager.InternalLocalUserIdentifier;
-        PersistentPlayerData playerData = _world.GetGameManager().GetPersistentPlayerList().GetPlayerData(lockable2?.GetOwner());
-        bool isOwner = lockable2?.LocalPlayerIsOwner() ?? true;
-        bool isACL = !isOwner && playerData.IsAlly(localUser);
+        if (portalCmds == null || portalCmds.Length != featureCmds.Length + 1)
+            portalCmds = new BlockActivationCommand[featureCmds.Length + 1];
 
-        cmds[0].enabled = true;
-        cmds[1].enabled = string.IsNullOrEmpty(location);
-        cmds[2].enabled = (lockable2 == null || !lockable2.IsLocked()) && (isOwner || isACL);
-        cmds[3].enabled = (lockable2?.IsLocked() ?? false) && isOwner;
-        cmds[4].enabled = (lockable2 != null && !lockable2.IsUserAllowed(localUser) && lockable2.HasPassword() && lockable2.IsLocked()) || isOwner;
-        return cmds;
+        // BlockActivationCommand is a struct, so these are copies - toggling one below cannot
+        // corrupt the array the base class caches and reuses.
+        Array.Copy(featureCmds, portalCmds, featureCmds.Length);
+        portalCmds[featureCmds.Length] = portalActivateCmd;
+
+        if (!string.IsNullOrEmpty(location))
+            for (var i = 0; i < featureCmds.Length; i++)
+                if (portalCmds[i].text == EditCommand)
+                    portalCmds[i].enabled = false;
+
+        return portalCmds;
     }
 
     // --- Visuals ---
@@ -221,6 +235,9 @@ public class BlockPortal2 : BlockSign
     public override void OnBlockEntityTransformAfterActivated(WorldBase _world, Vector3i _blockPos, BlockValue _blockValue, BlockEntityData _ebcd)
     {
         if (_ebcd == null) return;
+
+        // Suppress the sign text mesh (the portal model has none) while still letting the base
+        // class build and register the composite tile entity.
         _ebcd.bHasTransform = false;
         base.OnBlockEntityTransformAfterActivated(_world, _blockPos, _blockValue, _ebcd);
         _ebcd.bHasTransform = true;

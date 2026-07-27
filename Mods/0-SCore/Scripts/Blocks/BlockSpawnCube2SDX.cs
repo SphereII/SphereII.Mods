@@ -100,11 +100,39 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
     {
         LogThreadInfo("DestroySelf", _blockPos);
         var keep = PathingCubeParser.GetValue(_signText, "keep");
-        if (string.IsNullOrEmpty(keep))
-            DamageBlock(GameManager.Instance.World, new BlockValueRef(_blockPos), _blockValue, Block.list[_blockValue.type].MaxDamage,
-                -1, default(ItemActionAttack.AttackHitInfo), false);
-        else
+        if (!string.IsNullOrEmpty(keep))
+        {
+            // "keep" leaves the cube block in place, so its TileEntityPoweredTrigger stays
+            // valid - just re-schedule and return.
             GameManager.Instance.World.GetWBT().AddScheduledBlockUpdate(_blockPos, blockID, (ulong)10000UL);
+            return;
+        }
+
+        // Remove our TileEntityPoweredTrigger explicitly before the block goes away. OnBlockRemoved
+        // also does this, but only if the block change actually routes through it; DamageBlock can
+        // downgrade to a non-powered block (or the write can race a background chunk save) and leave
+        // the trigger TE orphaned on a non-powered block, which corrupts the chunk on its next load.
+        // Doing it here, on the main thread, guarantees the TE and block never desync.
+        RemovePoweredTrigger(_blockPos);
+
+        DamageBlock(GameManager.Instance.World, new BlockValueRef(_blockPos), _blockValue, Block.list[_blockValue.type].MaxDamage,
+            -1, default(ItemActionAttack.AttackHitInfo), false);
+    }
+
+    // Idempotent with OnBlockRemoved's cleanup; safe to call from either.
+    private void RemovePoweredTrigger(Vector3i _blockPos)
+    {
+        if (!ThreadManager.IsMainThread())
+        {
+            // TE removal must not run off the main thread; defer it.
+            ThreadManager.AddSingleTaskMainThread("SCore.SpawnCube.RemovePoweredTrigger",
+                delegate { RemovePoweredTrigger(_blockPos); });
+            return;
+        }
+
+        var world = GameManager.Instance.World;
+        if (world.GetChunkFromWorldPos(_blockPos) is Chunk chunk)
+            chunk.RemoveTileEntityAt<TileEntityPoweredTrigger>((World)world, World.toBlock(_blockPos));
     }
 
     // Made public virtual by your previous request, which is good for overriding.

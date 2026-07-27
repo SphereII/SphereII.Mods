@@ -32,6 +32,346 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+
+	*** MIGRATION NOTICE - POI DESIGNERS - PATHING AND SPAWN CUBE CONFIGURATION ***
+
+	Existing pathing cube, spawn cube and sign portal configuration is NOT
+	carried forward. Plan on re-entering it.
+
+	These blocks keep their programming (task=, buff=, pc=, ec=, eg=, Location)
+	in their sign text, and the sign text lives in the block's tile entity.
+	Through 3.0 they extended BlockSign, which creates no tile entity at all, so
+	there was nowhere for that text to be stored or saved. Any cube placed - or
+	any POI opened and re-saved - while that was the case has no sign data left
+	to recover. Nothing in SCore can reconstruct it; the text was never written.
+
+	What this means in practice:
+		- Walk your POIs, re-enter the configuration on each cube, and re-save
+		  the prefab. A blank cube is silent: it now loads cleanly and applies
+		  nothing, so NPCs spawn with no orders rather than logging an error.
+		- One case does survive automatically. A prefab still carrying
+		  pre-3.0 legacy sign data has that data migrated into the new
+		  composite tile entity on load, which the old block class refused to
+		  do. If a POI has not been re-saved since before 3.0, check it before
+		  replacing anything - its cubes may already be intact.
+		- Check the cubes themselves as well as their text: off the BlockSign
+		  base they no longer stamp a phantom duplicate one cell above, so a
+		  cube declared "1,1,1" now genuinely occupies one cell.
+
+Version: 3.1.8.1454
+	Game Version: v3.1.0 (b13)
+	[ ErrorHandling - FixOrphanedPoweredTileEntities Deleted Working Power Sources ]
+		- Field report: placing a generator and switching it on logged
+		  "dropped an orphaned powered tile entity ... (block is not powered)",
+		  then "TileEntityPowerSource not found", then an unhandled
+		  NullReferenceException in TileEntityPowerSource.CurrentFuel while the
+		  power source window was binding. The tile entity was not corrupt; the
+		  guard deleted it.
+		- Root cause: both halves of the guard tested "block is BlockPowered".
+		  BlockPowerSource does not derive from BlockPowered - it derives
+		  straight from Block - so BlockGenerator, BlockSolarPanel and
+		  BlockBatteryBank all failed the test and were treated as orphans.
+		  SCore's own BlockPoweredWorkstationSDX (a BlockWorkstation hosting a
+		  TileEntityPoweredWorkstationSdx) had the same shape and was equally
+		  exposed.
+		- The Chunk.save sweep removes from the chunk's live tile entity list,
+		  not from a serialization copy, so this was not merely "skip writing
+		  it" - the tile entity was destroyed in the running game. That is why
+		  the UI threw immediately afterwards: the window had bound to a tile
+		  entity that had just been removed underneath it.
+		- Both guards now share OrphanedPoweredTileEntity.IsOrphaned, which
+		  tests Block.HasTileEntity - the engine's own "this block owns a tile
+		  entity" flag, set in the constructors of BlockPowered,
+		  BlockPowerSource and BlockWorkstation alike. That matches the actual
+		  corruption case (a block overwritten raw by a decoration pass, so the
+		  position is air or plain terrain and owns no tile entity at all) and
+		  needs no class whitelist kept in sync as blocks are added.
+		- The predicate is deliberately conservative: anything that claims a
+		  tile entity is left alone even if the pairing looks odd. Leaving a
+		  questionable pair in place is no worse than vanilla, while dropping
+		  it destroys player equipment.
+		- Corrected an inaccurate comment on the load-side guard: it claimed
+		  CreatePowerItem casts the block to BlockPowered and throws. It does
+		  not - it dispatches on PowerItemType, and there is no
+		  "castclass BlockPowered" anywhere in Assembly-CSharp. The real path
+		  is InitializePowerData leaving PowerItem null and CheckForNewWires
+		  then dereferencing it.
+		- DATA LOSS WARNING: any generator, solar panel or battery bank already
+		  swept in an earlier session is gone from the save. The block remains,
+		  but its fuel and wiring state are not recoverable by this fix.
+
+	[ NPCs - Pathing Cube Configuration Not Being Read ]
+		- Follow-up to the composite tile entity migration below. That work was
+		  a prerequisite, not a regression: while the cubes extended BlockSign
+		  they had no tile entity at all, so every
+		  "GetTileEntity(pos) as TileEntityComposite" in the scan returned null
+		  and SetupAutoPathingBlocks bailed before reading anything. The read
+		  path could not have worked in 3.0 under the old base class. These are
+		  the bugs that were sitting behind it.
+		- PathingCode latched permanently on an empty cube. The method set
+		  PathingCode to -1 before checking whether the sign had any text, and
+		  the guard at the top treats any non-zero code as "already
+		  configured". A cube whose text had not synced yet (client) or had
+		  been lost with the old tile entity therefore locked the NPC out of
+		  every later re-scan - permanently, since the cvar is saved with the
+		  entity. Now bails before writing anything when the sign is empty.
+		  Fixed in EntityAliveSDX, EntityAliveSDXV4 and EntityEnemySDX;
+		  EntityNPCBandit already had the guard and needed no change.
+		- The PathingBlocks entity class property was silently ignored.
+		  EntityUtilities.ConfigureEntityClass resolved the entity through
+		  World.GetEntity(entityId), but SetupAutoPathingBlocks runs from
+		  PostInit and from the spawn cubes, both before the entity is in the
+		  world. The lookup returned null, the list came back empty, and the
+		  hardcoded { PathingCube, PathingCube2 } default was used every time.
+		  Added an EntityAlive overload and pointed all four callers at it; the
+		  int overload now delegates to it and is still used by the callers
+		  that genuinely run after the entity is in the world.
+
+	[ NPCs - Runtime Pathing Code Waypoint Scan ]
+		- ModGeneralUtilities.ScanForTileEntityInChunksListHelper is the other
+		  half of the feature: SetupAutoPathingBlocks stores the code, this is
+		  what EAIWanderSDX and the Utility AI patrol tasks call through
+		  EntityUtilities.GetNewPositon to pick the next waypoint. It had never
+		  been updated for the "task=Wander;pc=3" sign format and was only
+		  reachable now that pathing cubes have composite tile entities.
+		- A non-zero pathing code could never match. The matcher ran
+		  code.ToString() against text.Split(','), which expects the sign to be
+		  a bare comma-separated code list ("3,4"). "task=Wander;pc=3" is a
+		  single element and never equals "3", so an NPC with a code assigned
+		  found no waypoints at all. Now parsed with PathingCubeParser, with a
+		  fallback to the bare list so cubes authored in the older format keep
+		  working.
+		- The block name filter was commented out, so lstBlocks was accepted,
+		  defaulted and then never used. While cubes had no tile entity this
+		  was masked; now that they are composites, every vanilla sign in the
+		  surrounding nine chunks also carries a TEFeatureSignable and would
+		  have been treated as a waypoint. Restored as a live check, with an
+		  ischild skip.
+		- Null-guarded signText, matching the setup half.
+		- Unchanged and worth knowing: maxDistance still defaults to -1 and
+		  GetNewPositon does not pass one, so the scan covers all nine chunks
+		  (roughly 144x144 blocks). Far less harmful now that only pathing
+		  cubes qualify, but an NPC can still choose a distant waypoint.
+
+
+
+Version: 3.1.6.1507
+	Game Version: v3.1.0 (b13)
+	[ Blocks - Composite Tile Entity Migration: Pathing Cubes, Spawn Cubes, Sign Portals ]
+		- Field report (arramus): loading a POI containing SCore pathing cubes
+		  logged "TileEntityComposite.ReadLegacySignIntoComposite: failed to
+		  convert legacy TE data into a composite TE.", then "Skipping loading
+		  of active block data for <prefab>" and a NullReferenceException in
+		  Prefab.readTileEntities - once per affected cube.
+		- Root cause: BlockPathFinding, BlockSpawnCubeSDX and BlockPortal2 all
+		  extended BlockSign. The game abandoned that class in 3.0: no vanilla
+		  block uses it any more (0 blocks, against 805 now declaring
+		  CompositeFeatures), and it neither sets HasTileEntity nor creates a
+		  tile entity. Every "GetTileEntity(pos) as TileEntityComposite" in
+		  these three blocks therefore returned null, and vanilla's legacy
+		  sign-to-composite migration refuses to convert a saved sign whose
+		  block is not a BlockCompositeTileEntity - so it returned null and
+		  Prefab.readTileEntities dereferenced it.
+		- This was not cosmetic. The legacy tile entity holds the sign text,
+		  and for these blocks the sign text IS the programming (task=, buff=,
+		  pc=, ec=, eg=). Every failed conversion silently discarded a cube's
+		  configuration, so NPCs in those POIs loaded with no orders.
+		- All three blocks now extend BlockCompositeTileEntity and declare
+		  their features in XML. The edit / lock / unlock / keypad commands
+		  come from TEFeatureSignable and TEFeatureLockable, which carry their
+		  own owner and ACL checks, so a large amount of hand-rolled (and
+		  unreachable) command plumbing was deleted with them.
+		- Side effect worth knowing when checking existing POIs: BlockSign also
+		  stamped a raw duplicate of itself UpwardsCount cells above, defaulting
+		  to 1 and independent of MultiBlockDim. That is why a cube declared
+		  "1,1,1" visually occupied two blocks. Off the BlockSign base it is
+		  genuinely one cell, so already-placed cubes lose their phantom upper
+		  cell. This also explains the long-standing "at 1,2,1 it caused issues
+		  with destroying blocks" note in PathingBlocks.xml.
+		- Pairs with FixLegacyTileEntityNullChunk (below), which now becomes
+		  load-bearing rather than merely defensive: with the block-class check
+		  passing, the migration proceeds to SetOwner -> SetModified on a
+		  still-chunkless tile entity, which is exactly the null-chunk case
+		  that guard handles. Keep it enabled.
+
+		[ Blocks affected ]
+		- PathingCube (Class "PathFinding, SCore"): all five activation
+		  commands were unreachable, so the block offered no interact prompt
+		  at all.
+		- SpawnCube (Class "SpawnCubeSDX, SCore"): CheckForSpawn returned at
+		  its second line, so spawn cubes could never spawn anything.
+		  Activation stays restricted to the prefab editor / debug menu, so
+		  players still cannot retarget a POI's spawners in normal play.
+		- samplePortal05 (Class "Portal2, SCore"): OnBlockActivated returned
+		  before any command ran, and SetText(Location) was a no-op, so sign
+		  portals registered with PortalManager under an empty name and never
+		  linked to their pair.
+
+		[ Latent bugs fixed while migrating ]
+		- Spawn cube force-spawn never ran: the command is registered as
+		  "Trigger" but the handler tested for "trigger". Now compared
+		  case-insensitively.
+		- Spawn cube respawn guard was broken: the throttle was written from
+		  the original sign text instead of the text that had just received
+		  the entity id, discarding the id that the "is my entity still alive"
+		  check reads.
+		- Spawn cube configuration was clobbered on every chunk load:
+		  OnBlockEntityTransformAfterActivated unconditionally re-wrote the
+		  block's Config property over the sign, wiping the entity id and
+		  respawn throttle that CheckForSpawn had just stored. The Config seed
+		  now only applies when the sign is empty.
+		- Sign portal null reference removed: GetBlockActivationCommands
+		  looked up PersistentPlayerData for the lock owner and called
+		  IsAlly on it without a null check. A POI-placed portal has no owner,
+		  so this would have thrown the moment the block started working.
+		  Delegating the lock commands to TEFeatureLockable removes the whole
+		  owner/ACL computation.
+
+		[ XML - required for third party mods ]
+		- SCore's own blocks are already updated; no action is needed for
+		  PathingCube, SpawnCube, samplePortal05, or for any block that
+		  Extends one of them without overriding Class (CompositeFeatures is
+		  inherited through Extends, the same way the DropBox blocks inherit
+		  theirs from cntWoodWritableCrate).
+		- BREAKING for any third party block that sets Class to
+		  "PathFinding, SCore", "SpawnCubeSDX, SCore" or "Portal2, SCore"
+		  directly without extending an SCore block. A BlockCompositeTileEntity
+		  with no CompositeFeatures property throws during block init
+		  ("uses class BlockCompositeTileEntity but has no CompositeFeatures
+		  property"). Add the feature block to those definitions:
+
+		      <property class="CompositeFeatures">
+		          <property class="TEFeatureSignable">
+		              <property name="FontSize" value="110"/>
+		              <property name="LineCount" value="3"/>
+		              <property name="LineWidth" value="0.8"/>
+		              <property name="LineSpacing" value="1"/>
+		          </property>
+		          <property class="TEFeatureLockable"/>
+		      </property>
+
+		  TEFeatureSignable is required on all three (it stores the text).
+		  TEFeatureLockable is only needed where lock / unlock / keypad are
+		  wanted - SpawnCube omits it. All four sign values must be present
+		  and greater than zero or TEFeatureSignable logs an error, even on
+		  blocks whose model has no text mesh.
+		- Blocks that Extend SpawnCube but override Class to
+		  "SpawnCube2SDX, SCore" or "SpawnCubeRepeater, SCore" are unaffected:
+		  those derive from BlockMotionSensor, not from the composite base, so
+		  the inherited CompositeFeatures property is simply ignored.
+
+		[ Still to re-test ]
+		- Load a POI that previously logged ReadLegacySignIntoComposite errors
+		  and confirm both that the errors are gone AND that the NPCs actually
+		  receive their tasks - the errors disappearing alone does not prove
+		  the codes were recovered.
+		- Check an existing POI for holes or odd collision where cubes lost
+		  their phantom upper cell.
+		- Place a spawn cube, let its chunk unload and reload, and confirm it
+		  spawns exactly once.
+		- Place two samplePortal05 blocks and confirm they link by name, and
+		  that activating an outer cell of the 3x3x3 still teleports.
+
+Version: 3.0.40.1018
+	Game Version: v3.0.1 (b4)
+	Re-build 3.1.6.1010 against 3.0.1 stable.
+
+Version:  3.1.6.1010 ( Experimental )
+	Game Version: v3.1.0 (b11)
+	[ EntityAliveSDX ]
+		- Fixed an issue where sphereii was an idiot and set_Title to not implemented.
+
+	
+
+Version: 3.1.3.1815 ( experimental )
+	- Fix run-time linking against 3.1.x
+	
+	[ ErrorHandling - Legacy Prefab Sign Migration Null Chunk Guard ]
+		- Loading a prefab containing a legacy-format sign threw a
+		  NullReferenceException and the game skipped ALL of that prefab's
+		  active block data ("Skipping loading of active block data for
+		  <prefab>"), so its signs, containers and other tile entities
+		  never loaded.
+		- Root cause is a vanilla bug in the sign-to-composite migration:
+		  Prefab.readTileEntities -> TileEntityLegacyUtils
+		  .ReadLegacySignIntoComposite builds a chunkless TileEntityComposite
+		  and immediately calls SetOwner -> SetModified -> setModified, which
+		  (on a host) builds a NetPackageTileEntity. That reads
+		  TileEntity.blockValue - a computed property, this.chunk.GetBlock(..)
+		  - and the chunk is null during a prefab read. Vanilla forgets to
+		  set bDisableModifiedCheck on this path the way its other chunkless
+		  construction paths do.
+		- New prefix on TileEntity.setModified returns early when the tile
+		  entity has no chunk. A chunkless TE only exists mid-read and has no
+		  chunk-scoped context to broadcast (SetChunkModified already
+		  null-guards chunk), so skipping it is safe and lets legacy prefabs
+		  load their tile entities instead of dropping them. Fixes every
+		  legacy prefab, not just ones re-saved in the current editor.
+		- New ErrorHandling property in blocks.xml:
+		  FixLegacyTileEntityNullChunk (default true).
+
+	[ ErrorHandling - Orphaned Powered TE: Save-Side Sweep + Spawn Cube Hardening ]
+		- Follow-up to the load-side guard below. Root-caused the orphan's
+		  origin: powered tile entities are NOT stored in prefabs
+		  (IsTileEntitySavedInPrefab is false for BlockPowered), so vanilla
+		  regenerates them from the block via OnBlockAdded during
+		  Prefab.CopyIntoLocal - on the generation thread. The mismatch is
+		  created when the spawn cube's block later leaves without its TE
+		  (a decoration overwrite during generation, or the cube's own
+		  self-destruct), and the corrupt {non-powered block + trigger TE}
+		  is written straight to the region file at generation time, before
+		  the chunk is ever loaded. That is why it reproduces on brand-new
+		  worlds.
+		- Save-side sweep: a prefix on Chunk.save drops orphaned powered TEs
+		  from the tile entity list before serialization, so a chunk
+		  corrupted during generation is never written to disk or sent to
+		  clients. Combined with the load-side guard (which heals chunks
+		  already corrupt on disk), new corruption stops being produced and
+		  old corruption is repaired on contact. Removal is a plain
+		  collection drop with no world side effects, safe on the save
+		  thread. Reuses the FixOrphanedPoweredTileEntities flag.
+		- BlockSpawnCube2SDX self-destruct hardening: DestroySelf now removes
+		  its TileEntityPoweredTrigger explicitly (on the main thread, via a
+		  deferred task if called off-thread) BEFORE damaging the block, so
+		  the trigger TE and the block can never desync even if the block
+		  change downgrades to a non-powered block or races a background
+		  save. The "keep" path returns early and leaves the cube (and its
+		  valid TE) in place.
+
+	[ ErrorHandling - Orphaned Powered Tile Entity Chunk Protection ]
+		- Field reports (bdubyah, Thee_Legion): "EXCEPTION: In load chunk"
+		  with "Specified cast is not valid" out of
+		  TileEntityPoweredTrigger.CreatePowerItem when loading chunks
+		  containing NPC spawn cube POIs, on NEW worlds with all prior
+		  fixes installed.
+		- Root cause: CreatePowerItem casts the block at the tile entity's
+		  position to BlockPowered. A powered trigger TE can outlive its
+		  block - POI decoration overwrites blocks raw without firing
+		  OnBlockRemoved, so a TE created when a prefab placed a spawn cube
+		  (BlockMotionSensor.OnBlockAdded) survives at a position whose
+		  block is now air or unpowered. The cast throws during Chunk.read
+		  and ChunkSnapshotUtil.LoadChunk responds by DELETING the entire
+		  chunk - POI, player builds and NPCs included. The 3.0.31 spawn
+		  cube fix closed the SetBlock-routed paths but could not cover raw
+		  decoration overwrites, which never notify the block.
+		- New prefix on TileEntityPowered.OnReadComplete: if the block at the
+		  TE's position is not a BlockPowered, the whole read-completion is
+		  skipped (a null PowerItem is a state vanilla already tolerates -
+		  client side powered TEs never have one), a warning names the
+		  position and block, and the orphaned TE is removed on the main
+		  thread so it is not saved again. The chunk loads normally. Covers
+		  every powered TE type and any mod's stale powered tile entities,
+		  not just SCore's spawn cubes.
+		- The guard sits at OnReadComplete, not the deeper InitializePowerData:
+		  OnReadComplete runs InitializePowerData (whose CreatePowerItem casts
+		  the block to BlockPowered and throws) AND then CheckForNewWires
+		  (which dereferences the null PowerItem and throws). Guarding only
+		  the init left the second call to NRE (reported by bdubyah), so the
+		  guard covers the whole method; base.OnReadComplete is empty, so
+		  skipping it for an orphan loses nothing.
+		- New ErrorHandling property in blocks.xml:
+		  FixOrphanedPoweredTileEntities (default true).
+
 Version: 3.0.36.1849
 
 	[  EntityAliveSDX / EntityAliveSDXV4 Save Record Hardening ]

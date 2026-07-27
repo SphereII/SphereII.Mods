@@ -158,6 +158,21 @@
         <block name="samplePortal05">
             <property name="Extends" value="portalMaster"/>
             <property name="Class" value="Portal2, SCore"/>
+
+            <!-- The portal name is the sign text, so this block needs a composite tile entity to
+                 store it in - PortalManager reads the name back out to link portal pairs.
+                 TEFeatureSignable supplies the "edit" command (suppressed below, since Location
+                 hard-codes the name) and TEFeatureLockable supplies lock/unlock/keypad. -->
+            <property class="CompositeFeatures">
+                <property class="TEFeatureSignable">
+                    <property name="FontSize" value="110"/>
+                    <property name="LineCount" value="3"/>
+                    <property name="LineWidth" value="0.8"/>
+                    <property name="LineSpacing" value="1"/>
+                </property>
+                <property class="TEFeatureLockable"/>
+            </property>
+
             <property name="DisplayType" value="blockMulti"/>
             <property name="MultiBlockDim" value="3,3,3"/>
             <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
