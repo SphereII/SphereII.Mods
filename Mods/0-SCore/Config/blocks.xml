@@ -244,7 +244,7 @@
                 <!-- Serializes RegionFileV2.OptimizeLayout with chunk reads/writes. The vanilla compaction runs
                      without the region file's instance lock, so a chunk load overlapping it can read garbage
                      ("EXCEPTION: In load chunk" / "Wrong chunk header!") and the chunk is then deleted and regenerated. -->
-                <property name="RegionFileOptimizeLayoutLock" value="true"/>
+                <property name="RegionFileOptimizeLayoutLock" value="false"/>
                 <!-- Logs whenever OptimizeLayout had to wait on a concurrent read/write (i.e. the race was prevented) -->
                 <property name="LogRegionFileOptimizeLayoutLock" value="false"/>
 
@@ -271,7 +271,7 @@
                 <!-- Dedicated servers only: warns in the log when rendermap / the web map's full render runs
                      while a game is loaded. That opens a second region file reader over the live save and can
                      tear chunk reads, causing chunks to be deleted and regenerated. -->
-                <property name="WarnRenderMapLiveServer" value="true"/>
+                <property name="WarnRenderMapLiveServer" value="false"/>
 
                 <!-- Fixes the vanilla companion HUD list creeping down the screen: CompanionEntryList
                      shifts its grid down one row per companion beyond the first, on top of the correct

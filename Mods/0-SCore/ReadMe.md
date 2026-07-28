@@ -58,6 +58,122 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.1.9.1528
+	Game Version: v3.1.0 (b13)
+	[ EntitySyncUtils - ItemValue Stats And Mod Serialization ]
+		- ItemValue gained a Stats array (ItemValue.Stat[]) holding special
+		  modifiers. EntitySyncUtils serializes an NPC into the pickup item's
+		  metadata when a companion is collected, so anything it does not write
+		  is lost when that NPC is put back down. Stats were not written, so a
+		  collected NPC's gear came back stripped of them.
+		- ItemValue.Stat is a struct of (PassiveEffects type, bool isBoosted,
+		  short value). Its constructor takes (_type, _base, _added) but stores
+		  only the sum and "was anything added", so the base/added split cannot
+		  be recovered. The three fields are round-tripped directly rather than
+		  through the constructor, which would have meant inventing a split.
+		- Mods were serialized as a bare item name, so a modded weapon returned
+		  with default mods: the mod's own quality, durability and Stats were
+		  all discarded. A mod now carries all four.
+		- Mods are also written positionally. Empty slots used to be skipped,
+		  so [scope, empty, silencer] came back as a two element array with the
+		  silencer at index 0. An empty slot is now an empty entry, preserving
+		  both array length and mod indexes. An item whose slots are all empty
+		  still serializes as an empty field, exactly as before.
+		- Mod ItemValues are rebuilt with the (id, _bCreateDefaultParts: false)
+		  constructor so the restored state is not overwritten by default parts.
+
+		[ Slot string format ]
+		- Each slot gained a sixth comma separated field:
+		      name,count,quality,useTimes,mods,stats
+		- Separator hierarchy, outermost first. Mods nesting their own stats
+		  means every level needs its own character:
+		      ';'  slots
+		      ','  fields within a slot
+		      '|'  mods within the mods field
+		      '@'  fields within one mod: name@quality@useTimes@stats
+		      '~'  stats within any stats field (a slot's own, or a mod's)
+		      ':'  fields within one stat: type:isBoosted:value
+		- Backward compatible in both directions. Strings written before this
+		  change have five fields and a name-only mods list; every field past
+		  the first is optional on read, and Stats is left null, which is the
+		  state a freshly constructed ItemValue already carries. An older build
+		  reading a new string ignores the extra field.
+		- An effect name this build no longer knows is dropped rather than
+		  parsed loosely: a failed Enum.TryParse would leave the type at
+		  PassiveEffects 0, which is a real effect, and would silently apply
+		  the wrong modifier to the restored gear.
+
+		[ Bug fixed while extending the format ]
+		- UseTimes and Quality were written and parsed at the current culture
+		  inside a COMMA delimited field. On any locale that formats decimals
+		  with a comma (de-DE, fr-FR, most of Europe), a UseTimes of 1.5 was
+		  written as "1,5", which split into two columns and corrupted every
+		  field after it in that slot - mods included. All numeric writes and
+		  parses in EntitySyncUtils are now CultureInfo.InvariantCulture. This
+		  affected the existing item level fields, not only the new mod ones.
+
+	[ LockPicking - A Successful Pick On A Cop Car Set Off The Alarm ]
+		- Picking a cntPoliceCar01 open left the alarm variant behind. The car
+		  became cntPoliceCar01AlarmLocked - jammed, loot list policeCarsBonus,
+		  policeCarAlarmPrefab - instead of the cntPoliceCar01PickedLockBonus
+		  it had correctly been downgraded to a moment earlier. Nothing was
+		  wrong with the block definition; it is what vanilla ships. The alarm
+		  was also not DowngradeEvent firing, which only runs from
+		  Block.OnBlockDamaged. The alarm block was simply being placed.
+		- XUiC_PickLocking.OnClose ran twice per pick. Its own last lines call
+		  windowManager.Close(ID), and GUIWindowManager.Close ->
+		  XUiWindowGroup.OnClose -> Controller.OnClose re-enters the method
+		  that called it.
+		- The second pass still saw the lock as solved. SphereLocks.Disable
+		  only did SetActive(false); Keyhole.LockComplete() was untouched, and
+		  GetComponent still resolves on an inactive object, so IsLockOpened()
+		  kept returning true. ResetLock() only ever ran from Enable().
+		- By then LockedFeature had been cleared, so the guard that keeps the
+		  generic block level downgrade out of the TEFeatureLockPickable path
+		  no longer applied, and that downgrade overwrote the block the
+		  feature had just placed. onSelfLockpickSuccess fired twice as well.
+		- Two fixes. SphereLocks.Disable now calls Keyhole.ResetLock() before
+		  deactivating, so a closed window never reports a solved lock; the
+		  null check on the component matters, because Init() calls Disable()
+		  before the Keyhole is attached. XUiC_PickLocking gained a `closing`
+		  flag around OnClose's body, in a try/finally so the non main thread
+		  early return still clears it - the re-entrant call now runs
+		  base.OnClose() and returns.
+
+		[ Block.LockpickDowngradeBlock is dead in V2 ]
+		- That downgrade preferred currentBlock.Block.LockpickDowngradeBlock
+		  and fell back to DowngradeBlock. The field still exists on Block,
+		  but nothing parses it from XML any more - the only
+		  "LockPickDowngradeBlock" string left in Assembly-CSharp belongs to
+		  TEFeatureLockPickable - so it is always air, and the fallback could
+		  only ever resolve to DowngradeBlock. On a block whose DowngradeBlock
+		  is a damage state (cars, safes) that is the wrong block to place on
+		  success. The dead branch has been removed.
+		- What remains of that swap now only runs on the ILockable path,
+		  secure doors and containers, where SetLocked(false) has already done
+		  the unlocking. It is A21 era leftover and worth revisiting - a
+		  secure wood door's DowngradeBlock is its damaged variant - but it
+		  was left alone rather than changing door behaviour as part of a cop
+		  car fix.
+
+	[ Config - Two Region File Guards Now Ship Off ]
+		- RegionFileOptimizeLayoutLock and WarnRenderMapLiveServer now default
+		  to false in Config/blocks.xml. Neither patch changed; they are opt
+		  in now, and setting either back to true restores the previous
+		  behaviour exactly.
+		- RegionFileOptimizeLayoutLock serializes RegionFileV2.OptimizeLayout
+		  against chunk reads and writes. Vanilla runs that compaction without
+		  the region file's instance lock, so a chunk load overlapping it can
+		  read garbage ("EXCEPTION: In load chunk" / "Wrong chunk header!")
+		  and the chunk is then deleted and regenerated. Off by default now
+		  puts it in line with RegionFileLoadChunkLock, the other region file
+		  lock, which has always shipped off.
+		- WarnRenderMapLiveServer is dedicated server only and log only. It
+		  warns when rendermap or the web map's full render runs while a game
+		  is loaded, which opens a second region file reader over the live
+		  save and can tear chunk reads. Turn it on when diagnosing chunks
+		  that keep coming back regenerated on a server that renders maps.
+
 Version: 3.1.8.1454
 	Game Version: v3.1.0 (b13)
 	[ ErrorHandling - FixOrphanedPoweredTileEntities Deleted Working Power Sources ]

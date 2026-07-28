@@ -81,44 +81,57 @@ public class XUiC_PickLocking : XUiController {
         xui.playerUI.entityPlayer.PlayOneShot("open_sign");
     }
 
+    // windowManager.Close(ID) below re-enters this method: GUIWindowManager.Close ->
+    // XUiWindowGroup.OnClose -> Controller.OnClose. On that second pass LockedFeature is already
+    // null, so the success handling below would run again and downgrade the block a second time -
+    // for a cop car that replaced the picked-lock bonus variant with cntPoliceCar01AlarmLocked.
+    private bool closing;
+
     public override void OnClose() {
-        if (Lock.IsLockOpened())
+        if (closing)
         {
-            // adding trigger
-            OnLootContainerPicked.onLootContainerPicked(currentBlock);
-
-            // TEFeatureLockPickable already swapped the block itself via DowngradeToUnlockedVariant
-            // in Update() above - don't also run the generic Block-level downgrade below.
-            if (LockedFeature == null)
-            {
-                var blockValue = BlockValue.Air;
-                if (!currentBlock.Block.LockpickDowngradeBlock.isair)
-                {
-                    blockValue = currentBlock.Block.LockpickDowngradeBlock;
-                }
-                else if (!currentBlock.Block.DowngradeBlock.isair)
-                {
-                    blockValue = currentBlock.Block.DowngradeBlock;
-                }
-
-                if (!blockValue.isair)
-                {
-                    blockValue = BlockPlaceholderMap.Instance.Replace(blockValue,
-                        GameManager.Instance.World.GetGameRandom(), blockPos.x, blockPos.z, false);
-                    blockValue.rotation = currentBlock.rotation;
-                    blockValue.meta = currentBlock.meta;
-                    GameManager.Instance.World.SetBlockRPC(new BlockValueRef(blockPos), blockValue, blockValue.Block.Density);
-                }
-            }
+            base.OnClose();
+            return;
         }
 
-        Lock.Disable();
-        LockedItem = null;
-        LockedFeature = null;
-        base.OnClose();
-        xui.playerUI.windowManager.Close(ID);
-        if (!ThreadManager.IsMainThread()) return;
-        xui.playerUI.entityPlayer.PlayOneShot("close_sign");
+        closing = true;
+        try
+        {
+            if (Lock.IsLockOpened())
+            {
+                // adding trigger
+                OnLootContainerPicked.onLootContainerPicked(currentBlock);
+
+                // TEFeatureLockPickable already swapped the block itself via DowngradeToUnlockedVariant
+                // in Update() above - don't also run the generic Block-level downgrade below.
+                if (LockedFeature == null)
+                {
+                    // Block.LockpickDowngradeBlock is dead in V2 - the field still exists but nothing
+                    // parses it from XML anymore, so it is always air. Only DowngradeBlock is left.
+                    var blockValue = currentBlock.Block.DowngradeBlock;
+                    if (!blockValue.isair)
+                    {
+                        blockValue = BlockPlaceholderMap.Instance.Replace(blockValue,
+                            GameManager.Instance.World.GetGameRandom(), blockPos.x, blockPos.z, false);
+                        blockValue.rotation = currentBlock.rotation;
+                        blockValue.meta = currentBlock.meta;
+                        GameManager.Instance.World.SetBlockRPC(new BlockValueRef(blockPos), blockValue, blockValue.Block.Density);
+                    }
+                }
+            }
+
+            Lock.Disable();
+            LockedItem = null;
+            LockedFeature = null;
+            base.OnClose();
+            xui.playerUI.windowManager.Close(ID);
+            if (!ThreadManager.IsMainThread()) return;
+            xui.playerUI.entityPlayer.PlayOneShot("close_sign");
+        }
+        finally
+        {
+            closing = false;
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 
@@ -281,6 +282,110 @@ public static class EntitySyncUtils
     // HELPERS: String Serialization for ItemStacks
     // -------------------------------------------------------------------------
 
+    // ItemValue.Stat is a struct of (PassiveEffects type, bool isBoosted, short value). Its
+    // constructor takes (_type, _base, _added) but only stores the sum and "was anything added",
+    // so the base/added split cannot be recovered. The fields are therefore round-tripped
+    // directly instead of through the constructor, which would force a guess at the split.
+    //
+    // Separator hierarchy for a slot string, outermost first. Every level needs its own
+    // character because mods now nest their own stats:
+    //
+    //     ';'  slots
+    //     ','  fields within a slot: name,count,quality,useTimes,mods,stats
+    //     '|'  mods within the mods field
+    //     '@'  fields within one mod: name@quality@useTimes@stats
+    //     '~'  stats within a stats field (the slot's own, or a mod's)
+    //     ':'  fields within one stat: type:isBoosted:value
+    //
+    // None of these can appear in an item name, an enum name or an invariant number, so no
+    // escaping is needed.
+    private const char ModSeparator = '|';
+    private const char ModFieldSeparator = '@';
+    private const char StatSeparator = '~';
+    private const char StatFieldSeparator = ':';
+
+    public static string SerializeStats(ItemValue.Stat[] stats)
+    {
+        if (stats == null || stats.Length == 0) return "";
+
+        List<string> serialized = new List<string>(stats.Length);
+        foreach (var stat in stats)
+            serialized.Add($"{stat.type}{StatFieldSeparator}{(stat.isBoosted ? 1 : 0)}{StatFieldSeparator}{stat.value}");
+
+        return string.Join(StatSeparator.ToString(), serialized);
+    }
+
+    public static ItemValue.Stat[] DeserializeStats(string data)
+    {
+        // Null rather than an empty array: that is what an ItemValue carries when it has no
+        // stats, and what the game's own reader leaves in place.
+        if (string.IsNullOrEmpty(data)) return null;
+
+        List<ItemValue.Stat> result = new List<ItemValue.Stat>();
+        foreach (var entry in data.Split(StatSeparator))
+        {
+            if (string.IsNullOrEmpty(entry)) continue;
+
+            string[] fields = entry.Split(StatFieldSeparator);
+            if (fields.Length != 3) continue;
+
+            // An effect name this build no longer knows is dropped rather than allowed to fall
+            // back to PassiveEffects 0, which is a real effect and would apply a wrong modifier.
+            if (!Enum.TryParse(fields[0], out PassiveEffects type)) continue;
+            if (!short.TryParse(fields[2], out short value)) continue;
+
+            result.Add(new ItemValue.Stat
+            {
+                type = type,
+                isBoosted = fields[1] == "1",
+                value = value
+            });
+        }
+
+        return result.Count > 0 ? result.ToArray() : null;
+    }
+
+    // A mod carries its own quality, durability and stats, so a name alone loses everything a
+    // player cares about on a modded weapon. An empty string stands for an empty mod slot, which
+    // keeps the remaining mods on their original indexes.
+    private static string SerializeMod(ItemValue mod)
+    {
+        if (mod == null || mod.IsEmpty() || mod.ItemClass == null) return "";
+
+        return string.Join(ModFieldSeparator.ToString(),
+            mod.ItemClass.GetItemName(),
+            mod.Quality.ToString(CultureInfo.InvariantCulture),
+            mod.UseTimes.ToString(CultureInfo.InvariantCulture),
+            SerializeStats(mod.Stats));
+    }
+
+    private static ItemValue DeserializeMod(string data)
+    {
+        if (string.IsNullOrEmpty(data)) return ItemValue.None.Clone();
+
+        string[] fields = data.Split(ModFieldSeparator);
+
+        ItemClass modClass = ItemClass.GetItemClass(fields[0]);
+        if (modClass == null) return ItemValue.None.Clone();
+
+        // false: restore the saved state exactly rather than letting the constructor install
+        // default parts over it.
+        ItemValue mod = new ItemValue(modClass.Id, false);
+
+        // Strings written before mods carried their own data hold just the name, so every field
+        // past the first is optional.
+        if (fields.Length > 1 && ushort.TryParse(fields[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out ushort quality))
+            mod.Quality = quality;
+
+        if (fields.Length > 2 && float.TryParse(fields[2], NumberStyles.Float, CultureInfo.InvariantCulture, out float useTimes))
+            mod.UseTimes = useTimes;
+
+        if (fields.Length > 3)
+            mod.Stats = DeserializeStats(fields[3]);
+
+        return mod;
+    }
+
     public static string SerializeItemStackArray(ItemStack[] stacks)
     {
         if (stacks == null || stacks.Length == 0) return "";
@@ -295,32 +400,47 @@ public static class EntitySyncUtils
                 continue;
             }
 
-            // Base Item Data
-            string itemStr = $"{stack.itemValue.ItemClass.GetItemName()},{stack.count},{stack.itemValue.Quality},{stack.itemValue.UseTimes}";
+            // Base Item Data. UseTimes is written invariant: it lands in a comma-delimited
+            // field, so a locale that formats decimals with a comma would split one value
+            // across two columns and corrupt every field after it.
+            string itemStr = string.Join(",",
+                stack.itemValue.ItemClass.GetItemName(),
+                stack.count.ToString(CultureInfo.InvariantCulture),
+                stack.itemValue.Quality.ToString(CultureInfo.InvariantCulture),
+                stack.itemValue.UseTimes.ToString(CultureInfo.InvariantCulture));
 
-            // Mods (Attachments)
-            if (stack.itemValue.Modifications != null && stack.itemValue.Modifications.Length > 0)
+            // Mods (Attachments). Written positionally - an empty slot becomes an empty entry -
+            // so mods keep the indexes the item's mod slots gave them.
+            string modStr = "";
+            var modifications = stack.itemValue.Modifications;
+            if (modifications != null && modifications.Length > 0)
             {
-                List<string> mods = new List<string>();
-                foreach (var mod in stack.itemValue.Modifications)
+                bool anyMod = false;
+                foreach (var mod in modifications)
                 {
-                    if (mod != null && !mod.IsEmpty())
-                        mods.Add(mod.ItemClass.GetItemName());
+                    if (mod == null || mod.IsEmpty()) continue;
+                    anyMod = true;
+                    break;
                 }
-                if (mods.Count > 0)
+
+                // An item with only empty slots still serializes as an empty field, the same as
+                // an item with no mod array at all.
+                if (anyMod)
                 {
-                    itemStr += "," + string.Join("|", mods);
-                }
-                else
-                {
-                    itemStr += ","; 
+                    List<string> serializedMods = new List<string>(modifications.Length);
+                    foreach (var mod in modifications)
+                        serializedMods.Add(SerializeMod(mod));
+
+                    modStr = string.Join(ModSeparator.ToString(), serializedMods);
                 }
             }
-            else
-            {
-                itemStr += ",";
-            }
-            
+
+            itemStr += "," + modStr;
+
+            // Stats (special modifiers). Always written, even when empty, so the field count
+            // per slot stays fixed and the column positions above never shift.
+            itemStr += "," + SerializeStats(stack.itemValue.Stats);
+
             serializedSlots.Add(itemStr);
         }
 
@@ -362,26 +482,25 @@ public static class EntitySyncUtils
 
             ItemValue itemValue = new ItemValue(itemClass.Id, false);
             
-            if (parts.Length > 2 && ushort.TryParse(parts[2], out ushort quality))
+            if (parts.Length > 2 && ushort.TryParse(parts[2], NumberStyles.Integer, CultureInfo.InvariantCulture, out ushort quality))
                 itemValue.Quality = quality;
-                
-            if (parts.Length > 3 && float.TryParse(parts[3], out float useTimes))
+
+            if (parts.Length > 3 && float.TryParse(parts[3], NumberStyles.Float, CultureInfo.InvariantCulture, out float useTimes))
                 itemValue.UseTimes = useTimes;
 
             // Mods
             if (parts.Length > 4 && !string.IsNullOrEmpty(parts[4]))
             {
-                string[] modNames = parts[4].Split('|');
-                itemValue.Modifications = new ItemValue[modNames.Length];
-                for(int m=0; m < modNames.Length; m++)
-                {
-                    ItemClass modClass = ItemClass.GetItemClass(modNames[m]);
-                    if (modClass != null)
-                        itemValue.Modifications[m] = new ItemValue(modClass.Id);
-                    else
-                        itemValue.Modifications[m] = ItemValue.None.Clone();
-                }
+                string[] modEntries = parts[4].Split(ModSeparator);
+                itemValue.Modifications = new ItemValue[modEntries.Length];
+                for (int m = 0; m < modEntries.Length; m++)
+                    itemValue.Modifications[m] = DeserializeMod(modEntries[m]);
             }
+
+            // Stats. Absent on strings written before stats were serialized, which leaves
+            // Stats null - the same state a freshly constructed ItemValue has.
+            if (parts.Length > 5)
+                itemValue.Stats = DeserializeStats(parts[5]);
 
             result[i] = new ItemStack(itemValue, count);
         }

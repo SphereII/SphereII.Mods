@@ -163,6 +163,14 @@ public class SphereLocks
 
     public void Disable()
     {
-        if (_lockPick != null) _lockPick.SetActive(false);
+        if (_lockPick == null) return;
+
+        // Reset before deactivating: SetActive(false) leaves LockComplete() true, and GetComponent
+        // still resolves on an inactive object, so IsLockOpened() would keep reporting success long
+        // after the window closed. Init() calls Disable() before the Keyhole is attached, hence the check.
+        var keyhole = _lockPick.GetComponent<Keyhole>();
+        if (keyhole != null) keyhole.ResetLock();
+
+        _lockPick.SetActive(false);
     }
 }
