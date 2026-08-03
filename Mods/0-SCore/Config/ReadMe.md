@@ -214,6 +214,17 @@ This class provides settings to manage and mitigate various in-game errors and e
   (`ReadLegacySignIntoComposite` builds a chunkless composite TE and calls `SetModified`, which dereferences the
   missing chunk via `blockValue`), and the whole prefab's active block data is skipped. With this enabled a
   chunkless `setModified` is a no-op, so legacy prefabs load their signs and containers instead of dropping them.
+* **`LogDroppedTileEntityDetail`**: `false` - If `true`, expands vanilla's `Dropping TE with unknown/outdated type: X`
+  warning, which otherwise names no position. `Chunk.read` reads a tile entity's type and hands it to
+  `TileEntity.InstantiateFromRead`, which on an unrecognised type logs that warning and returns `null` **without
+  consuming the record's payload**. The reader is left mid-record, so the next iteration reads payload bytes as a
+  type: one bad tile entity desyncs the remainder of the chunk, and every warning after the first is misread data
+  with a meaningless type number. It is also what usually ends in `Outdated loot data`, when a garbage type lands
+  on a legacy loot type and the parser consumes noise as a container. This flag adds the chunk and its block range,
+  the POI, the stream offset, and - by peeking the unconsumed payload for a tile entity header - the offending
+  block's own world position and block name. The first drop in each chunk is labelled as the real culprit and the
+  rest as cascade. Exceptions escaping the read are also logged with the same context before propagating. Purely
+  diagnostic: the tile entity is still dropped and load behaviour is unchanged. Leave off unless investigating.
 
 ## 14. Advanced UI (`<property class="AdvancedUI">`)
 

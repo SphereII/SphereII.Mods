@@ -103,6 +103,7 @@
     <Compile Include="Features\ErrorChecks\Harmony\RegionFileOptimizeLayoutLock.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\SignDataManagerTryApplyRenderingData.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\TileEntityCopyFrom.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\TileEntityDroppedTypeDiagnostics.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\TileEntitySetModifiedNullChunk.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\TileEntityPoweredOnReadComplete.cs" />
     <Compile Include="Features\ErrorChecks\Harmony\TraderDataReadInventoryData.cs" />
@@ -943,6 +944,7 @@
     <Content Include="Documentation\XPath\Includes.md" />
     <Content Include="Documentation\XPath\XPath.md" />
     <Content Include="Features\Challenges\ReadMe.md" />
+    <Content Include="Features\ErrorChecks\ReadMe.md" />
     <Content Include="Features\FireV2\Readme.md" />
     <Content Include="Features\FireV2\Scripts\MinEvent\MinEventActionCheckFireProximity.cs.bak" />
     <Content Include="Features\FoodSpoilageV2\ReadMe.md" />

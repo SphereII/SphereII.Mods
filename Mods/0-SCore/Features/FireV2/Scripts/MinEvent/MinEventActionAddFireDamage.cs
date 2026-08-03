@@ -51,12 +51,21 @@ public class MinEventActionAddFireDamage : MinEventActionRemoveBuff
         }
 
         AdvLogging.DisplayLog(AdvFeatureClass, $"Executing AddFireDamage() at {position}  Self: {@params.Self.position} Range: {maxRange}  Delay: {_delayTime}");
+
+        // ContinueWith runs on a thread pool thread. AddFire reads the world, writes the fire map
+        // and spawns particles, none of which are safe off the main thread, so the continuation
+        // only queues the work back onto it.
         Task.Delay((int) _delayTime)
-            .ContinueWith(_ => AddFire(position, entityId));
+            .ContinueWith(t =>
+                ThreadManager.AddSingleTaskMainThread("SCore.FireV2.AddFireDamage",
+                    delegate { AddFire(position, entityId); }));
     }
 
     private void AddFire(Vector3 position, int entityId)
     {
+        // The delay means the world may have been torn down since Execute() checked this.
+        if (FireManager.Instance == null) return;
+
         var range = (int) maxRange;
         for (var x = -range; x <= range; x++)
         {

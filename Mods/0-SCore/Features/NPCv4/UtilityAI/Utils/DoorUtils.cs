@@ -46,8 +46,13 @@ namespace UAI
             SphereCache.AddDoor(context.Self.entityId, blockPos);
             EntityUtilities.OpenDoor(context.Self.entityId, blockPos);
 
+            // ContinueWith runs on a thread pool thread. CloseDoor activates the door block and
+            // writes SphereCache.DoorCache, both of which the AI touches from the main thread every
+            // tick, so the continuation only queues the close back onto the main thread.
             Task.Delay(AIConstants.DoorAutoCloseDelayMs)
-                .ContinueWith(_ => CloseDoor(context, blockPos));
+                .ContinueWith(t =>
+                    ThreadManager.AddSingleTaskMainThread("SCore.UAI.CloseDoor",
+                        delegate { CloseDoor(context, blockPos); }));
 
             context.Self.moveHelper.ClearBlocked();
             return true;

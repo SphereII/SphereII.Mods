@@ -290,6 +290,14 @@
                      prefabs load their signs/containers instead of dropping them. -->
                 <property name="FixLegacyTileEntityNullChunk" value="true"/>
 
+                <!-- Vanilla's "Dropping TE with unknown/outdated type: X" warning names no position, and
+                     because a dropped tile entity's payload is never consumed, the reader desyncs and
+                     every warning after the first in that chunk is misread data. This adds the chunk,
+                     POI, stream offset and (peeked from the unread payload) the tile entity's own block
+                     position and block name, and marks which warning is the real one. Diagnostics only;
+                     the tile entity is still dropped. Turn on when tracking down legacy TE spam. -->
+                <property name="LogDroppedTileEntityDetail" value="false"/>
+
 
             </property>
 

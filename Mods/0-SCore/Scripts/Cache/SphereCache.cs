@@ -171,26 +171,36 @@ public static class SphereCache
         }
     }
 
+    // Callers are expected to be on the main thread, but a single stray off-thread write
+    // permanently corrupts a Dictionary's bucket chain, so guard the mutations.
+    private static readonly object CacheLock = new object();
+
     public static void AddDoor(int EntityID, Vector3i doorPos)
     {
-        if (DoorCache.ContainsKey(EntityID))
+        lock (CacheLock)
         {
-            DisplayLog(EntityID, " Cache Hit. Replacing Door Vector.");
-            DoorCache[EntityID] = doorPos;
-        }
-        else
-        {
-            DisplayLog(EntityID, " No Door Cache Exists. Adding for " + EntityID);
-            DoorCache.Add(EntityID, doorPos);
+            if (DoorCache.ContainsKey(EntityID))
+            {
+                DisplayLog(EntityID, " Cache Hit. Replacing Door Vector.");
+                DoorCache[EntityID] = doorPos;
+            }
+            else
+            {
+                DisplayLog(EntityID, " No Door Cache Exists. Adding for " + EntityID);
+                DoorCache.Add(EntityID, doorPos);
+            }
         }
     }
 
     public static Vector3i GetDoor(int EntityID)
     {
-        if (DoorCache.ContainsKey(EntityID))
+        lock (CacheLock)
         {
-            DisplayLog(EntityID, " Cache Hit. returning Door Position: " + DoorCache[EntityID]);
-            return DoorCache[EntityID];
+            if (DoorCache.TryGetValue(EntityID, out var doorPos))
+            {
+                DisplayLog(EntityID, " Cache Hit. returning Door Position: " + doorPos);
+                return doorPos;
+            }
         }
 
         //  DisplayLog(EntityID, " No Door Record.");
@@ -199,7 +209,7 @@ public static class SphereCache
 
     public static void RemoveDoor(int EntityID, Vector3i doorPos)
     {
-        if (DoorCache.ContainsKey(EntityID))
+        lock (CacheLock)
             DoorCache.Remove(EntityID);
     }
 
@@ -217,24 +227,30 @@ public static class SphereCache
 
     public static void AddPaths(int EntityID, List<Vector3> Paths)
     {
-        if (PathingCache.ContainsKey(EntityID))
+        lock (CacheLock)
         {
-            DisplayLog(EntityID, " Cache Hit. Updating Paths. New Length: " + Paths.Count);
-            PathingCache[EntityID] = Paths;
-        }
-        else
-        {
-            DisplayLog(EntityID, " No Cache Entry, Adding Paths. New Length: " + Paths.Count);
-            PathingCache.Add(EntityID, Paths);
+            if (PathingCache.ContainsKey(EntityID))
+            {
+                DisplayLog(EntityID, " Cache Hit. Updating Paths. New Length: " + Paths.Count);
+                PathingCache[EntityID] = Paths;
+            }
+            else
+            {
+                DisplayLog(EntityID, " No Cache Entry, Adding Paths. New Length: " + Paths.Count);
+                PathingCache.Add(EntityID, Paths);
+            }
         }
     }
 
     public static List<Vector3> GetPaths(int EntityID)
     {
-        if (PathingCache.ContainsKey(EntityID))
+        lock (CacheLock)
         {
-            DisplayLog(EntityID, " Cache Hit. Returning Paths: " + PathingCache[EntityID].Count);
-            return PathingCache[EntityID];
+            if (PathingCache.TryGetValue(EntityID, out var paths))
+            {
+                DisplayLog(EntityID, " Cache Hit. Returning Paths: " + paths.Count);
+                return paths;
+            }
         }
 
         DisplayLog(EntityID, " No Paths for this Entity.");
@@ -243,11 +259,13 @@ public static class SphereCache
 
     public static void RemovePaths(int EntityID)
     {
-        if (PathingCache.ContainsKey(EntityID))
+        lock (CacheLock)
         {
-            DisplayLog(EntityID, "Removing Entity from Cache");
-            PathingCache.Remove(EntityID);
-            return;
+            if (PathingCache.Remove(EntityID))
+            {
+                DisplayLog(EntityID, "Removing Entity from Cache");
+                return;
+            }
         }
 
         DisplayLog(EntityID, " Entity is not in the cache.");
@@ -256,10 +274,13 @@ public static class SphereCache
 
     public static Vector3 GetRandomPath(int EntityID)
     {
-        if (PathingCache.ContainsKey(EntityID))
+        lock (CacheLock)
         {
-            DisplayLog(EntityID, " Getting Random Cache from pool of " + PathingCache[EntityID].Count);
-            return PathingCache[EntityID][random.Next(PathingCache[EntityID].Count)];
+            if (PathingCache.TryGetValue(EntityID, out var paths) && paths.Count > 0)
+            {
+                DisplayLog(EntityID, " Getting Random Cache from pool of " + paths.Count);
+                return paths[random.Next(paths.Count)];
+            }
         }
 
         return Vector3.zero;
@@ -267,14 +288,17 @@ public static class SphereCache
 
     public static void RemovePath(int EntityID, Vector3 vector)
     {
-        if (PathingCache.ContainsKey(EntityID))
+        lock (CacheLock)
         {
-            DisplayLog(EntityID, " Pathing to " + vector + ". Removing from cache.");
-            PathingCache[EntityID].Remove(vector);
+            if (PathingCache.TryGetValue(EntityID, out var paths))
+            {
+                DisplayLog(EntityID, " Pathing to " + vector + ". Removing from cache.");
+                paths.Remove(vector);
 
-            if (PathingCache[EntityID].Count == 0)
-                PathingCache.Remove(EntityID);
-            return;
+                if (paths.Count == 0)
+                    PathingCache.Remove(EntityID);
+                return;
+            }
         }
 
         DisplayLog(EntityID, " Pathing Vector not in Cache...");
