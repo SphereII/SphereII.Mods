@@ -59,6 +59,98 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
   
+Version: 3.1.20.1347
+	Game Version: v3.1.0 (b14)
+
+	[ TileEntities - AoE And Powered Portal Reads Corrupted The Chunk ]
+		- Field report from bdubyah: a brand new world spawned in fine, but
+		  reloading it threw a chunk load exception preceded by a run of
+		  "Dropping TE with unknown/outdated type", "chunk sleeper volumeId
+		  invalid", and an IndexOutOfRangeException that then spammed from
+		  EntityPlayerLocal.BlockRadiusEffectsTick until the save was
+		  reloaded. The POI being spawned into contained DecoAoE blocks.
+		- Root cause is SCore's own InstantiateFromRead prefix. Chunk.save
+		  writes each tile entity as its type followed by its payload, and
+		  InstantiateFromRead is contracted to construct the tile entity and
+		  read that payload back off the stream. The prefix constructed
+		  TileEntityAoE and TileEntityPoweredPortal and returned immediately,
+		  never calling read.
+		- The payload stayed in the stream, so the reader was left parked mid
+		  record and everything after it was interpreted at the wrong offset.
+		  The next tile entity's "type" was really payload bytes, and the
+		  sleeper and wall volume sections after the tile entity list desynced
+		  along with it. A single AoE block was enough: its inherited base
+		  payload is 22 bytes in Persistency mode.
+		- Nothing in the resulting log pointed back at the cause. The dropped
+		  type warnings, the invalid volume ids, the GetBlock failure with a
+		  nonsense y of 1179648, and the exception that made vanilla discard
+		  the chunk were all downstream of a tile entity that had loaded
+		  "successfully" and logged nothing.
+		- The prefix now calls read on the tile entity it builds, matching the
+		  branch of the vanilla method it replaces. Neither type is a
+		  TileEntityComposite, so the plain read overload is correct.
+		- A later report showed the same desync surfacing as "An item with the
+		  same key has already been added. Key: 0, 0, 0" from Chunk.read. That
+		  is triggerData.Add, the trigger section that follows the tile entity
+		  list, reading zeros out of misaligned data. Same fault, further
+		  downstream, not a separate bug.
+		- Region files written by a clean load are valid; the write side was
+		  always symmetric. But a chunk that desynced without throwing was
+		  held in memory with its tile entities collapsed onto local (0,0,0)
+		  and its trigger and volume data wrong, and Chunk.save would write
+		  that back. A world loaded and re-saved under the broken build can be
+		  damaged on disk. Test on a world created after this fix.
+		- Found with LogDroppedTileEntityDetail. Its "payload did not decode"
+		  line was the clue: it means the reader was already at the wrong
+		  offset on arrival, so the fault lay upstream of every block named.
+
+	[ ErrorHandling - A Bare DestroyFX Made Blocks Indestructible ]
+		- Follow up from the same report: after the chunk errors cleared,
+		  hitting a DecoAoE block threw a single IndexOutOfRangeException from
+		  Block.SpawnFX per swing, and the block never broke.
+		- Block.SpawnFX splits its effect name on a comma and indexes the
+		  second token without checking. Every vanilla DestroyFX value is a
+		  particle and a sound, so vanilla never trips it, but a modded block
+		  whose DestroyFX is a bare particle name throws.
+		- Not a cosmetic failure. Block.OnBlockDamaged fires the destroyed
+		  quest event, calls SpawnDestroyFX, and only then runs
+		  SetBlockRPC(_bvRef, BlockValue.Air). The throw lands between the
+		  last two, so the block absorbs the killing blow and is never
+		  cleared. To the player it is an indestructible block that errors on
+		  every hit, and its block-destroyed event has already fired.
+		- New FixMalformedDestroyFX flag, on by default, skips the malformed
+		  effect so destruction completes, and logs the block name, position
+		  and offending value once per bad string.
+		- This is a guard, not a fix for the block. The correct DestroyFX is
+		  "particleName,soundName" - for example
+		  "blockdestroy_wood,trapWoodDestroy". SCore's own DecoAoE test block
+		  does not set DestroyFX and was never affected; the value comes from
+		  the block's own XML or whatever it extends.
+
+	[ ErrorHandling - Dropped TE Warning Read As A Block Position ]
+		- Reworded the failed-peek line of LogDroppedTileEntityDetail after it
+		  misled its first reader. Each drop prints the chunk's block extent,
+		  and when the peek fails there is no position at all - but the two
+		  together read as a coordinate, and the extent's low corner got taken
+		  for the offending block's location. An afternoon went into
+		  inspecting an innocent door standing at that corner.
+		- The line now states outright that no block position is known, that
+		  the coordinates are the chunk's extent and not a location, and that
+		  the fault is upstream: something earlier in the chunk read fewer
+		  bytes than it wrote. It also names the shape of that fault, since it
+		  is invisible on its own - a tile entity that loads successfully
+		  without consuming its payload logs nothing at all.
+		- Features/ErrorChecks/ReadMe.md carries the same warning, and its
+		  "Acting on it" section now splits on whether the payload decoded.
+		  The AoE bug above is written up there as the worked example of a
+		  payload that did not.
+
+	[ Challenges - GatherTags Objective Used The Wrong Player UI ]
+		- ChallengeObjectiveGatherTags.HandleAddHooks resolved the inventory
+		  through LocalPlayerUI.GetUIForPlayer(Owner.Owner.Player). It now
+		  uses LocalPlayerUI.GetUIForPrimaryPlayer(), so the backpack and
+		  toolbelt change hooks bind to the primary local player's UI.
+
 Version: 3.1.15.1235
 	Game Version: v3.1.0 (b14)
 

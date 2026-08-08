@@ -85,13 +85,18 @@ bytes and sanity-checks them (version ≤ 64, local x/z within 0-15, y within 0-
 names the exact world position and the block standing there. The peek saves and restores the stream position, and
 `PooledBinaryReader` reads exact byte counts with no look-ahead, so it is invisible to the caller.
 
-If the peek reports that the payload did not decode, that is itself informative: the chunk's tile entity section
-was already out of sync **before** that entry, so suspect whatever was written just ahead of it rather than the
-tile entity named.
+If the peek reports that the payload did not decode, that is itself informative, and it points somewhere quite
+different - see below.
+
+**When the peek fails there is no block position at all.** The only coordinates on the line are the chunk's block
+extent, and its low corner is not a location - nothing is known to be wrong there. Reading it as one sends you to
+an arbitrary block that happens to sit at the chunk boundary, which has already cost one person an afternoon
+inspecting an innocent door. The line says so explicitly for that reason.
 
 ### Acting on it
 
-`worldPos` and `block` identify the block whose tile entity can no longer be read. Usually one of:
+**If the payload decoded**, `worldPos` and `block` identify the block whose tile entity can no longer be read.
+Usually one of:
 
 * A block from a mod that is no longer installed. Reinstalling it lets the save load cleanly so the block can be
   removed properly, which is the tidiest route.
@@ -100,6 +105,21 @@ tile entity named.
   the stale record is the fix.
 
 Deleting the region file containing that chunk also clears it, at the cost of everything else in the region.
+
+**If the payload did not decode**, the tile entity named is not the problem - the reader was already at the wrong
+offset when it reached it. The usual cause is a *successfully* loaded tile entity earlier in the same chunk whose
+payload was never consumed, which produces no warning of its own because a tile entity was returned. Look for a
+custom `TileEntity.InstantiateFromRead` patch that constructs its type and returns without calling
+`read(_br, _eStreamMode)`.
+
+That is not hypothetical: SCore's own patch for `TileEntityAoE` and `TileEntityPoweredPortal` did exactly this
+until 3.1.15. `Chunk.save` writes every tile entity as a type followed by a payload, and `InstantiateFromRead` is
+contracted to read that payload back. Skipping it left the stream short by the size of the record - 22 bytes for a
+plain AoE - so one `DecoAoE` block in a POI desynced the rest of the chunk, taking the tile entity section, the
+sleeper volumes and the wall volumes with it. Every visible symptom appeared downstream of the actual fault.
+
+The tell is worth remembering: **a first drop whose payload does not decode means look upstream, not at the block
+named.** Anything that constructs a tile entity in that patch owes the stream a `read`.
 
 ### Limits
 

@@ -27,8 +27,7 @@ namespace Challenges
         public override void HandleAddHooks()
         {
             EntityPlayerLocal player = this.Owner.Owner.Player;
-            XUiM_PlayerInventory playerInventory =
-                LocalPlayerUI.GetUIForPlayer(this.Owner.Owner.Player).xui.PlayerInventory;
+            XUiM_PlayerInventory playerInventory = LocalPlayerUI.GetUIForPrimaryPlayer().xui.PlayerInventory;
             playerInventory.Backpack.OnBackpackItemsChangedInternal -= CheckItems;
             playerInventory.Toolbelt.OnToolbeltItemsChangedInternal -= CheckItems;
             playerInventory.Backpack.OnBackpackItemsChangedInternal += CheckItems;

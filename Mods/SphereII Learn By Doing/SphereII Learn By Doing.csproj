@@ -128,6 +128,7 @@
 		<Content Include="Config\Intellect\Physician.xml"/>
 		<Content Include="Config\Intellect\RoboticTurrets.xml"/>
 		<Content Include="Config\items.xml" />
+		<Content Include="Config\Localization.csv" />
 		<Content Include="Config\Localization.txt" />
 		<Content Include="Config\Perception\AnimalTracker.xml"/>
 		<Content Include="Config\Perception\Cooldowns.xml"/>

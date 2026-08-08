@@ -225,6 +225,15 @@ This class provides settings to manage and mitigate various in-game errors and e
   block's own world position and block name. The first drop in each chunk is labelled as the real culprit and the
   rest as cascade. Exceptions escaping the read are also logged with the same context before propagating. Purely
   diagnostic: the tile entity is still dropped and load behaviour is unchanged. Leave off unless investigating.
+* **`FixMalformedDestroyFX`**: `true` - If `true`, guards `Block.SpawnFX` against an effect name that is not two
+  comma-separated tokens. `SpawnFX` splits the name and indexes `array[1]` unconditionally, so a block whose
+  `DestroyFX` is a bare particle name with no sound throws `IndexOutOfRangeException`. Every vanilla `DestroyFX` is
+  `particle,sound`, so only modded blocks hit this. The consequence is larger than a missing particle:
+  `Block.OnBlockDamaged` calls `SpawnDestroyFX` on the killing blow and only *afterwards* runs
+  `SetBlockRPC(_bvRef, BlockValue.Air)`, so the throw leaves the block in place. It reads as an indestructible
+  block that logs an error on every hit, having already fired its block-destroyed quest event. With this enabled
+  the malformed effect is skipped so destruction completes, and the block name, position and offending value are
+  logged once per bad string so the XML can be fixed.
 
 ## 14. Advanced UI (`<property class="AdvancedUI">`)
 

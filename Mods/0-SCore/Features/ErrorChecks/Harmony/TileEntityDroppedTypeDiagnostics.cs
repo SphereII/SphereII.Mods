@@ -114,8 +114,12 @@ namespace SCore.Features.ErrorChecks.Harmony {
             else {
                 Log.Warning(
                     "[SCore]   payload did not decode as a tile entity header, so this chunk's TE " +
-                    "section was already out of sync before this entry. Suspect the block/entity " +
-                    "data written just before it.");
+                    "section was already out of sync before this entry. NO BLOCK POSITION IS KNOWN " +
+                    "for this entry - the coordinates above are the whole chunk's extent, not a " +
+                    "location, so do not go looking at the block sitting there. The fault is " +
+                    "upstream: something earlier in this chunk read fewer bytes than it wrote. " +
+                    "A tile entity that loads successfully without consuming its payload does this " +
+                    "and logs nothing.");
             }
 
             Log.Warning(
