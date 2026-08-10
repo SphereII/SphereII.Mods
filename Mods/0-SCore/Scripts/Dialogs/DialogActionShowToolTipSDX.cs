@@ -2,7 +2,7 @@
 {
     public override void PerformAction(EntityPlayer player)
     {
-        var uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
+        var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         uiforPlayer.xui.ToolTipWindow.ToolTip = ID;
     }
 }

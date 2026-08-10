@@ -62,7 +62,7 @@ public partial class EntityAliveSDXV4
         {
             _playerFocusing.Buffs.SetCustomVar("CurrentNPC", entityId);
             Buffs.SetCustomVar("CurrentPlayer", _playerFocusing.entityId);
-            var ui = LocalPlayerUI.GetUIForPlayer(_playerFocusing);
+            var ui = LocalPlayerUI.GetUIForPrimaryPlayer();
             ui.xui.Dialog.Respondent = this;
         }
         

@@ -36,6 +36,14 @@ namespace UAI
         /// <summary>Y-delta above which ladder edge-alignment is applied in GetMoveToLocation.</summary>
         public const float LadderYDeltaThreshold = 1.5f;
 
+        /// <summary>
+        /// Horizontal distance within which GetMoveToLocation treats the entity as having
+        /// arrived and returns its own position instead of the destination. Must stay below
+        /// the 5f early-out, or every short-range move is reported as "already arrived" and
+        /// the approach branch becomes unreachable.
+        /// </summary>
+        public const float MoveToArrivalDistance = 1f;
+
         /// <summary>Minimum drop distance (units) before a low jump is preferred over a standard one.</summary>
         public const float LowJumpDropThreshold = 2f;
 

@@ -2,7 +2,7 @@
 {
     public override void PerformAction(EntityPlayer player)
     {
-        var playerUI = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
+        var playerUI = LocalPlayerUI.GetUIForPrimaryPlayer();
         var myEntity = playerUI.xui.Dialog.Respondent as IEntityAliveSDX;
         if (myEntity == null) return;
 

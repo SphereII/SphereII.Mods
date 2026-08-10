@@ -103,20 +103,34 @@ namespace UAI
                 return;
             }
 
-            // The entity hasn't moved very much, keep going.
-            if (Vector3.Distance(entityAlive.position, _position) < 2f)
-            {
-                context.Self.SetLookPosition(_position);
-                context.Self.RotateTo(entityAlive, 30f, 30f);
-                context.Self.moveHelper.SetMoveTo(_position, true);
-                return;
-            }
-
-            // We are close enough
+            // We are close enough. Tested before the "hasn't moved" branch below, which returns
+            // early -- against a stationary target that kept arrival from ever being reached.
             if (Vector3.Distance(context.Self.position, entityAlive.position) < 1.2)
             {
                 Stop(context);
                 return;
+            }
+
+            // The entity hasn't moved very much, so there's no need to re-path.
+            if (Vector3.Distance(entityAlive.position, _position) < 2f)
+            {
+                context.Self.SetLookPosition(_position);
+                context.Self.RotateTo(entityAlive, 30f, 30f);
+
+                // A path is already running, or one is being calculated: let the navigator
+                // follow it. Steering straight at the target instead is what walked us into
+                // walls -- against a stationary target this branch ran every tick, so we
+                // never asked for a path at all.
+                if (!context.Self.getNavigator().noPathAndNotPlanningOne())
+                    return;
+
+                // No path. Direct steering is only safe for the last stretch; further out,
+                // fall through and ask for a path instead.
+                if (Vector3.Distance(context.Self.position, entityAlive.position) < 2.1f)
+                {
+                    context.Self.moveHelper.SetMoveTo(_position, true);
+                    return;
+                }
             }
 
             _position = entityAlive.position;

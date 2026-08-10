@@ -4,7 +4,7 @@ public class DialogActionPickUpNPC : BaseDialogAction
 {
     public override void PerformAction(EntityPlayer player)
     {
-        var playerUI = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
+        var playerUI = LocalPlayerUI.GetUIForPrimaryPlayer();
         var myEntity = playerUI.xui.Dialog.Respondent as EntityAlive;
         if (myEntity == null || myEntity is not IEntityAliveSDX) return;
 

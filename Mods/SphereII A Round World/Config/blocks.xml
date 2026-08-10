@@ -29,9 +29,43 @@
             <property name="DescriptionKey" value="cntSphereDropBoxDesc"/>
             <property name="DropBox" value="true" />
 
+            <!-- Mirror vanilla's crate upgrade path, but stay in the drop box family -->
+            <property class="UpgradeBlock">
+                <property name="ToBlock" value="cntSphereDropBoxIron"/>
+                <property name="Item" value="resourceForgedIron"/>
+                <property name="ItemCount" value="10"/>
+                <property name="UpgradeHitCount" value="4"/>
+            </property>
         </block>
 
-      
+        <!-- The drop box, iron tier -->
+        <block name="cntSphereDropBoxIron">
+            <property name="Extends" value="cntIronWritableCrate"/>
+            <property name="Class" value="DropBoxContainer, SCore"/>
+            <property name="LootList" value="playerIronWritableStorage"/>
+            <property name="CustomIcon" value="cntIronWritableCrate"/>
+            <property name="DescriptionKey" value="cntSphereDropBoxDesc"/>
+            <property name="DropBox" value="true" />
+
+            <property class="UpgradeBlock">
+                <property name="ToBlock" value="cntSphereDropBoxSteel"/>
+                <property name="Item" value="resourceForgedSteel"/>
+                <property name="ItemCount" value="10"/>
+                <property name="UpgradeHitCount" value="4"/>
+            </property>
+        </block>
+
+        <!-- The drop box, steel tier. End of the upgrade path, same as vanilla. -->
+        <block name="cntSphereDropBoxSteel">
+            <property name="Extends" value="cntSteelWritableCrate"/>
+            <property name="Class" value="DropBoxContainer, SCore"/>
+            <property name="LootList" value="playerSteelWritableStorage"/>
+            <property name="CustomIcon" value="cntSteelWritableCrate"/>
+            <property name="DescriptionKey" value="cntSphereDropBoxDesc"/>
+            <property name="DropBox" value="true" />
+        </block>
+
+
     </append>
 </configs>
 	

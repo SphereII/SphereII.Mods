@@ -515,7 +515,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
             SetLookPosition(_playerFocusing.getHeadPosition());
             _playerFocusing.Buffs.SetCustomVar("CurrentNPC", entityId);
             Buffs.SetCustomVar("CurrentPlayer", _playerFocusing.entityId);
-            LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(_playerFocusing);
+            LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
             uiforPlayer.xui.Dialog.Respondent = this;
         }
         // Skip base's IsTraderActivitiesOpen gate - NPCs aren't schedule-restricted vendors and

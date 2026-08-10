@@ -75,12 +75,14 @@ namespace UAI
 
         /// <summary>
         /// Resolves a world-space move destination that accounts for ladders and
-        /// slope geometry. When the destination is within <paramref name="maxDist"/>
-        /// units, a flattened XZ position is returned (preserving the target's Y);
-        /// otherwise the vector is clamped to <paramref name="maxDist"/> and snapped
-        /// to a valid surface via physics raycast.
+        /// slope geometry. Beyond 5 units the destination is returned unchanged. Within
+        /// <paramref name="maxDist"/> the entity has arrived, so its own XZ is returned
+        /// (preserving the target's Y) to hold it in place; between the two the vector is
+        /// clamped to <paramref name="maxDist"/> short of the target and snapped to a valid
+        /// surface via physics raycast.
         /// </summary>
-        public static Vector3 GetMoveToLocation(Context context, Vector3 position, float maxDist = 10f)
+        public static Vector3 GetMoveToLocation(Context context, Vector3 position,
+            float maxDist = AIConstants.MoveToArrivalDistance)
         {
             var resolved = context.Self.world.FindSupportingBlockPos(position);
 

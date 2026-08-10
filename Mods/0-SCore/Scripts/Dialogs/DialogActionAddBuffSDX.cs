@@ -4,7 +4,7 @@ public class DialogActionAddBuffSDX : BaseDialogAction
 {
     public override void PerformAction(EntityPlayer player)
     {
-        LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
+        LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         if (!string.IsNullOrEmpty(Value) && Value.ToLower() == "self")
         {
             var entityNPC = uiforPlayer.xui.Dialog.Respondent;

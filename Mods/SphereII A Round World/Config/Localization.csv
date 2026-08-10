@@ -1,6 +1,8 @@
 key,english
 cntSphereDropBox,"Drop Box"
 cntSphereDropBoxDesc,"A box that will auto-sort items placed inside of it into nearby matching containers."
+cntSphereDropBoxIron,"Iron Drop Box"
+cntSphereDropBoxSteel,"Steel Drop Box"
 drinkJarCoffeeCold,"Cold Coffee."
 drinkJarCoffeeColdDesc,"Cold Coffee isn't as effective as hot coffee, but it'll do in a pinch."
 drinkJarBlackStrapCoffeeCold,"Cold Black Strap Coffee"

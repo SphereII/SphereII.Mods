@@ -120,7 +120,7 @@ public class BlockTakeAndReplace : Block {
             itemStack = CreateItemStack(pickupBlock);
         }
 
-        var uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
+        var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack, true))
             uiforPlayer.xui.PlayerInventory.DropItem(itemStack);
 
@@ -149,7 +149,7 @@ public class BlockTakeAndReplace : Block {
             var count = (int)(GameUtils.random.RandomRange(itemDropProb[i].minCount, itemDropProb[i].maxCount + 1) * num2);
             if (count <= 0) continue;
             var itemStack = new ItemStack(itemValue, count);
-            var uiforPlayer = LocalPlayerUI.GetUIForPlayer(player);
+            var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
             var playerInventory = uiforPlayer.xui.PlayerInventory;
             QuestEventManager.Current.HarvestedItem(itemValue, itemStack, blockValue);
             if (playerInventory.AddItem(itemStack)) continue;

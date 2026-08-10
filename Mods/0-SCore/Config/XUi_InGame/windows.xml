@@ -16,12 +16,12 @@
                 controller="PickLocking, SCore" cursor_area="true">
 
             <!-- Full screen background to dim everything, and make sure nothing is accessible -->
-            <panel depth="2" createuipanel="true" disableautobackground="true">
-                <panel name="outclick" pos="-2000,2000" width="8000" height="8000" depth="10" createuipanel="true"
-                       on_press="true" disableautobackground="true" gamepad_selectable="false"/>
+            <panel depth="2">
+                <panel name="outclick" pos="-2000,2000" width="8000" height="8000" depth="10"
+                       on_press="true" gamepad_selectable="false"/>
 
-                <panel name="noclick" depth="10" createuipanel="true" on_press="true" pos="-2000,2000" width="8000"
-                       height="8000" disableautobackground="true" gamepad_selectable="false">
+                <panel name="noclick" depth="10" on_press="true" pos="-2000,2000" width="8000"
+                       height="8000" gamepad_selectable="false">
                     <texture name="bgTexture" depth="0" texture="Textures/UI/news_background" color="255,255,255,140"
                              anchor_left="#cam,0,-5" anchor_right="#cam,1,5" anchor_bottom="#cam,0,-5"
                              anchor_top="#cam,1,5"/>
@@ -29,8 +29,7 @@
             </panel>
 
             <!-- Depth must be higher than the depth of the panel for the background -->
-            <panel name="content" pos="50,-50" height="100" depth="15" backgroundspritename="ui_game_panel_header"
-                   createuipanel="true">
+            <panel name="content" pos="50,-50" height="100" depth="15">
                 <label depth="20" text="Advanced Lock Picking" width="900" height="32"
                        text_key="advancedlockpicking_title" font_size="32" justify="center"
                        style="label_outline, header.name"/>
@@ -43,19 +42,18 @@
 
         <window name="windowSCoreUtilities" depth="99" pos="0,400" width="1185" height="780" anchor="CenterCenter"
                 cursor_area="true" controller="SCoreUtilities, SCore">
-            <panel depth="2" createuipanel="true" disableautobackground="true">
-                <panel name="outclick" pos="-2000,2000" width="8000" height="8000" depth="1" createuipanel="true"
-                       on_press="true" disableautobackground="true" gamepad_selectable="false"/>
+            <panel depth="2">
+                <panel name="outclick" pos="-2000,2000" width="8000" height="8000" depth="1"
+                       on_press="true" gamepad_selectable="false"/>
 
-                <panel name="noclick" depth="2" createuipanel="true" on_press="true" pos="-2000,2000" width="8000"
-                       height="8000" disableautobackground="true" gamepad_selectable="false">
+                <panel name="noclick" depth="2" on_press="true" pos="-2000,2000" width="8000"
+                       height="8000" gamepad_selectable="false">
                     <texture name="bgTexture" depth="0" texture="Textures/UI/news_background" color="255,255,255,240"
                              anchor_left="#cam,0,-5" anchor_right="#cam,1,5" anchor_bottom="#cam,0,-5"
                              anchor_top="#cam,1,5"/>
                 </panel>
 
-                <panel name="content" pos="0,-350" width="400" height="600" depth="3" pivot="center"
-                       createuipanel="true" disableautobackground="true">
+                <panel name="content" pos="0,-350" width="400" height="600" depth="3" pivot="center">
                     <label depth="16" name="header.name" pos="0,330" width="350" pivot="center" justify="center"
                            style="label_outline" text_key="xuiSCoreUtilities" font_size="24" overflow="ShrinkContent"
                            upper_case="true"/>
@@ -149,7 +147,7 @@
 
         <window name="windowSCoreCompanions" width="900" height="746" panel="Center" cursor_area="true"
                 controller="SCoreCompanionList, SCore">
-            <panel name="header" height="43" depth="1" backgroundspritename="ui_game_panel_header">
+            <panel name="header" height="43" depth="1">
                 <sprite depth="1" name="windowIcon" style="icon32px" pos="4,-5" sprite="ui_game_symbol_players"/>
                 <label style="header.name" text="Companions" text_key="xuiSCoreCompanions"/>
             </panel>
@@ -157,12 +155,12 @@
                   arrangement="vertical" repeat_content="false">
                 <label style="header.name" text="NPC Settings" text_key="xuiSCoreNPCSettings" width="800"
                        height="300" font_size="24"/>
-                <togglebutton name="toggleNPCFootsteps" caption_key="xuiSCoreUtilsNPCFootSteps"
+                <togglebutton name="toggleNPCFootsteps" caption_key="xuiScoreUtilsNPCFootStep"
                               tooltip_key="xuiQuietNPCToolTip" width="290" height="32" depth="3" font_size="24"/>
             </grid>
 
 
-            <panel name="content" depth="1" pivot="center" disableautobackground="false">
+            <panel name="content" depth="1" pivot="center">
                 <score_companion_header/>
                 <grid name="companionList" rows="13" cols="1" pos="-3,-200" width="900" height="724" cell_width="900"
                       cell_height="46" repeat_content="true" arrangement="vertical">
@@ -200,8 +198,7 @@
         <window name="windowHireInformationPopup" depth="99" width="400" height="160"
                 pos="-200,0" anchor="CenterCenter" cursor_area="true"
                 controller="XUiC_HireInformationPopupSDX, SCore">
-            <panel name="HireInformationPopup" depth="3" pos="0,0" width="400" height="160"
-                   backgroundspritename="ui_game_panel_header" createuipanel="true">
+            <panel name="HireInformationPopup" depth="3" pos="0,0" width="400" height="160">
                 <sprite depth="1" name="bg" sprite="menu_empty" type="sliced" color="0,0,0,220"
                         pos="0,0" width="400" height="160"/>
                 <label depth="5" name="HireInformationLabel" pos="20,-15" width="360" height="80"

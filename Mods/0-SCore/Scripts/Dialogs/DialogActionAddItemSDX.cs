@@ -9,7 +9,7 @@ public class DialogActionAddItemSDX : DialogActionAddBuff
 
         int.TryParse(Value, out var flValue);
 
-        var uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
+        var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         var playerInventory = uiforPlayer.xui.PlayerInventory;
         if (playerInventory == null) return;
 

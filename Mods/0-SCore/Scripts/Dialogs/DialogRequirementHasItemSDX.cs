@@ -24,7 +24,7 @@ public class DialogRequirementHasItemSDX : BaseDialogRequirement
 
         float.TryParse(Value, out var flValue);
 
-        var uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
+        var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         var playerInventory = uiforPlayer.xui.PlayerInventory;
         var item = ItemClass.GetItem(ID);
         if (item != null)

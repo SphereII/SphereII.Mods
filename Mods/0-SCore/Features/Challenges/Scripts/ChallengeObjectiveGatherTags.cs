@@ -65,8 +65,8 @@ namespace Challenges
                 return;
             }
 
-            LocalPlayerUI.GetUIForPlayer(player);
-            XUiM_PlayerInventory playerInventory = LocalPlayerUI.GetUIForPlayer(player).xui.PlayerInventory;
+            LocalPlayerUI.GetUIForPrimaryPlayer();
+            XUiM_PlayerInventory playerInventory = LocalPlayerUI.GetUIForPrimaryPlayer().xui.PlayerInventory;
             playerInventory.Backpack.OnBackpackItemsChangedInternal -= CheckItems;
             playerInventory.Toolbelt.OnToolbeltItemsChangedInternal -= CheckItems;
             player.DragAndDropItemChanged -= CheckItems;
@@ -82,7 +82,7 @@ namespace Challenges
 
             var player = Owner.Owner.Player;
             if (player == null) return;
-            var xui = LocalPlayerUI.GetUIForPlayer(player).xui;
+            var xui = LocalPlayerUI.GetUIForPrimaryPlayer().xui;
             if (xui == null) return;
             if (xui.LootContainer == null) return;
             foreach (var loot in _lootList.Split(','))
@@ -102,7 +102,7 @@ namespace Challenges
             if (string.IsNullOrEmpty(this.itemTags)) return false;
             
             var tags = FastTags<TagGroup.Global>.Parse(itemTags);
-            var playerInventory = LocalPlayerUI.GetUIForPlayer(this.Owner.Owner.Player).xui.PlayerInventory;
+            var playerInventory = LocalPlayerUI.GetUIForPrimaryPlayer().xui.PlayerInventory;
             foreach (var item in playerInventory.Backpack.GetSlots())
             {
                 if (item.IsEmpty()) continue;

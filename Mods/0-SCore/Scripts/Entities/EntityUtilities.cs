@@ -731,7 +731,7 @@ public static class EntityUtilities
         if (myEntity == null)
             return result;
 
-        var uiforPlayer = LocalPlayerUI.GetUIForPlayer(_player);
+        var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         if (uiforPlayer)
         {
             if (uiforPlayer.xui.PlayerInventory.GetItemCount(GetHireCurrency(EntityID)) >= GetHireCost(EntityID))
@@ -1236,7 +1236,7 @@ public static class EntityUtilities
         var orderReceiver = myEntity as IEntityOrderReceiverSDX; // guard/patrol positions
         var entityAlive   = myEntity as EntityAlive;              // moveSpeed, moveHelper, lootContainer, Buffs, etc.
 
-        var uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
+        var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         var position = entityAlive.position;
 
         // Restore walk speed to default.
@@ -1384,7 +1384,7 @@ public static class EntityUtilities
                     // server, where 'player' is a plain (non-local) EntityPlayer proxy for the
                     // remote client and there is no EntityPlayerLocal/UI to open at all. Guard
                     // on the player actually being local so that replay is a safe no-op instead
-                    // of NREing inside OpenContainer -> LocalPlayerUI.GetUIForPlayer(null).
+                    // of NREing inside OpenContainer -> LocalPlayerUI.GetUIForPrimaryPlayer().
                     if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
                     {
                         if (player is EntityPlayerLocal playerLocal)
@@ -1860,7 +1860,7 @@ public static class EntityUtilities
 
     public static void OpenContainer(EntityPlayerLocal playerLocal, ITileEntityLootable _te)
     {
-        LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(playerLocal);
+        LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         uiforPlayer.windowManager.CloseAllOpenModalWindows();
         GUIWindow window = uiforPlayer.windowManager.GetWindow("looting");
         // 3.0: OpenLooting() defers the tile-entity binding behind a scavenge timer for

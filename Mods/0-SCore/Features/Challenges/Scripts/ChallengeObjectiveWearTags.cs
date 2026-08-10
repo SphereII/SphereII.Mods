@@ -38,7 +38,7 @@ namespace Challenges {
         }
 
         private void CheckItems() {
-            var xui = LocalPlayerUI.GetUIForPlayer(Owner.Owner.Player).xui;
+            var xui = LocalPlayerUI.GetUIForPrimaryPlayer().xui;
             foreach (var item in xui.PlayerEquipment.Equipment.GetItems())
             {
                 CheckItemMods(item);

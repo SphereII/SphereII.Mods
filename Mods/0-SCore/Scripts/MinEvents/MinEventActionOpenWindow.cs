@@ -11,7 +11,7 @@ public class MinEventActionOpenWindow : MinEventActionRemoveBuff
     {
         if (_params.Self is not EntityPlayerLocal player) return;
         
-        var uiforPlayer = LocalPlayerUI.GetUIForPlayer(player);
+        var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         uiforPlayer.windowManager.Open(window, true);
     }
     

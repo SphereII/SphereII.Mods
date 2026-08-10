@@ -226,7 +226,7 @@ public class BlockPoweredPortal : BlockPowered
         if (tileEntity == null) return false;
 
         _player.AimingGun = false;
-        XUiC_KeypadWindow.Open(LocalPlayerUI.GetUIForPlayer(_player), tileEntity);
+        XUiC_KeypadWindow.Open(LocalPlayerUI.GetUIForPrimaryPlayer(), tileEntity);
         return true;
     }
 
@@ -269,7 +269,7 @@ public class BlockPoweredPortal : BlockPowered
                 return true;
             case "keypad":
                 if (string.IsNullOrEmpty(location))
-                    XUiC_KeypadWindow.Open(LocalPlayerUI.GetUIForPlayer(_player), tileEntity);
+                    XUiC_KeypadWindow.Open(LocalPlayerUI.GetUIForPrimaryPlayer(), tileEntity);
                 return true;
             default:
                 return false;

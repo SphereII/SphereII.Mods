@@ -44,7 +44,7 @@ public class ObjectiveFetchByTags :  ObjectiveFetch
         {
             return;
         }
-        var playerInventory = LocalPlayerUI.GetUIForPlayer(base.OwnerQuest.OwnerJournal.OwnerPlayer).xui.PlayerInventory;
+        var playerInventory = LocalPlayerUI.GetUIForPrimaryPlayer().xui.PlayerInventory;
 
         currentCount = playerInventory.Backpack.GetItemCount(tags);
         currentCount += playerInventory.Toolbelt.GetItemCount(tags);

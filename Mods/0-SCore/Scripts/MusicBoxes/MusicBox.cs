@@ -163,7 +163,7 @@ public class BlockMusicBox : BlockCompositeTileEntity
                 .DropContentOfLootContainerServer(blockValue, vector3i);
 
         // Pick up the item and put it inyor your inventory.
-        var uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
+        var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         var itemStack = new ItemStack(block.ToItemValue(), 1);
         if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack, true))
             uiforPlayer.xui.PlayerInventory.DropItem(itemStack);

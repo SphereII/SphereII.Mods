@@ -18,7 +18,7 @@ public class RequirementRecipeHasLongCraftTime : TargetedCompareRequirementBase
 
         // --- 2. Safely Retrieve the Recipe Queue ---
         // Explicitly check each object in the chain to prevent NullReferenceException.
-        var uiForPlayer = LocalPlayerUI.GetUIForPlayer(minEventParams.Self as EntityPlayerLocal);
+        var uiForPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         if (uiForPlayer?.xui?.GetCraftingData() == null) return false;
 
         var recipeQueueItems = uiForPlayer.xui.GetCraftingData().RecipeQueueItems;

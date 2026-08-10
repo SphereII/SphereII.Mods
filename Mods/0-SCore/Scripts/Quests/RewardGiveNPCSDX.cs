@@ -64,7 +64,7 @@ internal class RewardGiveNPCSDX : BaseReward
             GameManager.Instance.World.SpawnEntityInWorld(NewEntity);
             if (NewEntity is EntityAliveSDX)
             {
-                var uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
+                var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
                 uiforPlayer.windowManager.Open("JoinInformation", true);
                 //(NewEntity as EntityAliveSDX).SetOwner(player as EntityPlayerLocal);
             }

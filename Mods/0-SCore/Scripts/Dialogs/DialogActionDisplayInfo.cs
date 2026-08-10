@@ -4,7 +4,7 @@ public class DialogActionDisplayInfo : DialogActionAddBuff
 {
     public override void PerformAction(EntityPlayer player)
     {
-        var uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
+        var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         var myEntity = uiforPlayer.xui.Dialog.Respondent as IEntityAliveSDX;
         if (myEntity == null) return;
         var entityAlive = myEntity as EntityAlive;

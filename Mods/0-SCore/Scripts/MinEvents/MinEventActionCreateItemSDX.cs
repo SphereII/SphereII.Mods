@@ -23,7 +23,7 @@ public class MinEventActionCreateItemSDX : MinEventActionBase
             if (!string.IsNullOrEmpty(_lootGroup2))
             {
                 var item2 = LootContainer.GetRewardItem(_lootGroup2, 1f);
-                if (!LocalPlayerUI.GetUIForPlayer(entityPlayer).xui.PlayerInventory.AddItem(item2, true))
+                if (!LocalPlayerUI.GetUIForPrimaryPlayer().xui.PlayerInventory.AddItem(item2, true))
                     entityPlayer.world.gameManager.ItemDropServer(item2, entityPlayer.GetPosition(), Vector3.zero);
                 return;
             }
@@ -32,7 +32,7 @@ public class MinEventActionCreateItemSDX : MinEventActionBase
 
             var array = container.Spawn(_params.Self.rand, _createItemCount, (float)_params.Self.Progression.GetLevel(), 0f, null, new FastTags<TagGroup.Global>(), container.UniqueItems, false, false);
             foreach (var t in array)
-                if (!LocalPlayerUI.GetUIForPlayer(entityPlayer).xui.PlayerInventory.AddItem(t, true))
+                if (!LocalPlayerUI.GetUIForPrimaryPlayer().xui.PlayerInventory.AddItem(t, true))
                     entityPlayer.world.gameManager.ItemDropServer(t, entityPlayer.GetPosition(), Vector3.zero);
             return;
         }
@@ -47,7 +47,7 @@ public class MinEventActionCreateItemSDX : MinEventActionBase
             return;
         }
         var itemStack = new ItemStack(item, _createItemCount);
-        if (!LocalPlayerUI.GetUIForPlayer(entityPlayer).xui.PlayerInventory.AddItem(itemStack, true))
+        if (!LocalPlayerUI.GetUIForPrimaryPlayer().xui.PlayerInventory.AddItem(itemStack, true))
             entityPlayer.world.gameManager.ItemDropServer(itemStack, entityPlayer.GetPosition(), Vector3.zero);
     }
 

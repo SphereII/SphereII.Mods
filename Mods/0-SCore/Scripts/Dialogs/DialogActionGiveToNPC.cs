@@ -7,7 +7,7 @@
 
         int.TryParse(Value, out var flValue);
 
-        var uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
+        var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         var playerInventory = uiforPlayer.xui.PlayerInventory;
 
         var itemStack = new ItemStack(ItemClass.GetItem(ID, false), flValue);

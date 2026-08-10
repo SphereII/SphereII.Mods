@@ -741,7 +741,10 @@ namespace UAI
         }
 
         // allows the NPC to climb ladders
-        public static Vector3 GetMoveToLocation(Context _context, Vector3 position, float maxDist = 10f)
+        // maxDist is the arrival distance: inside it the NPC is considered to have reached the
+        // destination and is held in place. It must stay below the 5f early-out below, otherwise
+        // every move inside 5m is reported as "already arrived" and the approach branch is dead.
+        public static Vector3 GetMoveToLocation(Context _context, Vector3 position, float maxDist = 1f)
         {
             var vector = _context.Self.world.FindSupportingBlockPos(position);
             if (!(maxDist > 0f)) return vector;

@@ -172,7 +172,7 @@ namespace Lockpicking
             if (player == null)
                 return;
 
-            var uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
+            var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
             var playerInventory = uiforPlayer.xui.PlayerInventory;
             var item = ItemClass.GetItem("resourceLockPick");
             if (item != null)

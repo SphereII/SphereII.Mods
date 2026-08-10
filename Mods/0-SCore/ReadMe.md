@@ -59,6 +59,82 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
   
+Version: 3.1.22.801
+	Game Version: v3.1.0 (b14)
+
+	[ Refactor ]
+		- Refactored all GetUIForPlayer(*) calls to GetUIForPrimaryPlayer().
+
+	[ XUi - Custom Controls Were Never Loading ]
+		- Config/XUi_InGame/controls.xml appended to /controls. The game no
+		  longer ships that file, and a mod XML file whose vanilla counterpart
+		  does not exist is skipped in full - no error, no warning, nothing
+		  applied.
+		- Everything it defined was therefore absent: score_companion_header,
+		  score_companion_entry2 and togglebuttonCVar. The last of those is
+		  instantiated 11 times by XUi_InGame/windows.xml across the SCore
+		  utilities window, so the lock pick, quiet NPC, mute trader,
+		  flickering lights, auto redeem challenges, weapon sway and memory
+		  budget toggles were all unresolved tags.
+		- Those controls are now templates. The file is
+		  Config/XUi_InGame/templates.xml appending to /templates. The markup
+		  is otherwise unchanged and windows.xml needed no edit, since it
+		  instantiates them by tag name either way.
+
+	[ XUi - Removed Attributes The Engine No Longer Knows ]
+		- disableautobackground, createuipanel, backgroundspritename and
+		  borderthickness appear in no shipped assembly, and in no vanilla XML
+		  apart from one stale backgroundspritename. They parse as unknown
+		  attributes and do nothing.
+		- Stripped from Config/XUi_InGame/windows.xml and templates.xml. The
+		  panels in those windows draw their backgrounds from explicit child
+		  sprites, so nothing was relying on them.
+
+	[ UtilityAI - Short Range Destinations Were Rewritten To The NPC's Own Position ]
+		- Reported by the NPCVoiceControl team (Xyth) and measured in game:
+		  NPCs failed to path whenever the goal was inside 5m, recorded at
+		  2.0m, 3.4m, 3.9m and 4.5m, and never once outside it.
+		- SCoreUtils.FindPath routes through GetMoveToLocation, which returns
+		  the NPC's own x/z for any destination within 5m horizontally and
+		  1.5m vertically. A* was being asked to path from where the NPC stood
+		  to where it already stood, and the calling task read the empty
+		  result as "no route". Follow and heal suffered worst, since their
+		  destinations are inside 5m by definition.
+		- The cause is the maxDist default rather than the ladder handling.
+		  The vanilla derived original this was copied from,
+		  UAITaskMoveToSDX.GetMoveToLocation, takes maxDist from its caller as
+		  the equipped weapon's range, roughly 0.75-1.0m. Returning the
+		  entity's own position is arrival logic at that scale - "you are
+		  already in range, stay put" - and is correct there. Defaulting
+		  maxDist to 10 while the early out stayed at 5 made every short move
+		  report as arrived and left the approach branch unreachable.
+		- maxDist now defaults to 1, which restores all three branches: past
+		  5m path to the destination, within 1m hold position, and in between
+		  clamp to 1m short of the target and snap to the surface. Changed in
+		  Scripts/UtilityAI/UAISCoreUtils.cs and in the NPCv4 copy at
+		  Features/NPCv4/UtilityAI/Utils/PathingUtils.cs, the latter through a
+		  new AIConstants.MoveToArrivalDistance.
+		- Worth watching: that clamp branch has never executed in a shipped
+		  build. It is live now for every move between 1m and 5m.
+
+	[ UtilityAI - MoveToTargetSDX Never Asked For A Path ]
+		- A separate fault behind the same reports of NPCs grinding into walls
+		  while approaching an enemy.
+		- Start sets _position from the target, and Update then took the
+		  "entity hasn't moved very much" branch, which steered straight at
+		  that position through moveHelper.SetMoveTo and returned. Against a
+		  stationary target the branch ran on every tick beginning with the
+		  first, so FindPath was never reached at all - not once across the
+		  task's whole lifetime.
+		- That shortcut is now gated on actually holding a path. If one is
+		  running or being calculated the navigator follows it; with no path,
+		  direct steering is confined to the last 2.1m and anything beyond
+		  falls through to FindPath.
+		- The "we are close enough" arrival test moved above that branch. It
+		  had been unreachable for the same reason, so against a stationary
+		  target the task never stopped and never handed off at melee range.
+		- Both Scripts/UtilityAI and the NPCv4 copy.
+
 Version: 3.1.20.1347
 	Game Version: v3.1.0 (b14)
 
@@ -147,7 +223,7 @@ Version: 3.1.20.1347
 
 	[ Challenges - GatherTags Objective Used The Wrong Player UI ]
 		- ChallengeObjectiveGatherTags.HandleAddHooks resolved the inventory
-		  through LocalPlayerUI.GetUIForPlayer(Owner.Owner.Player). It now
+		  through LocalPlayerUI.GetUIForPrimaryPlayer(). It now
 		  uses LocalPlayerUI.GetUIForPrimaryPlayer(), so the backpack and
 		  toolbelt change hooks bind to the primary local player's UI.
 
@@ -949,7 +1025,7 @@ Version: 3.0.28.1654
 		  authoritatively on a headless dedicated server, where there is no EntityPlayerLocal
 		  at all. `player as EntityPlayerLocal` was always null there, and
 		  OpenContainer(null, ...) threw a NullReferenceException inside
-		  LocalPlayerUI.GetUIForPlayer(null).
+		  LocalPlayerUI.GetUIForPrimaryPlayer().
 		- Added a `player is EntityPlayerLocal playerLocal` guard inside the IsServer branch:
 		  if the replay's player isn't local (dedicated server, or a listen-server host
 		  replaying a remote guest's action), it's now a safe no-op instead of a crash - the

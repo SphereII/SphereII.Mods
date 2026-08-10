@@ -35,7 +35,7 @@
         var tileEntityWorkstation = (TileEntityPoweredWorkstationSdx)_world.GetTileEntity(_blockPos);
         if (tileEntityWorkstation == null) return false;
         _player.AimingGun = false;
-     //   XUiC_KeypadWindow.Open(LocalPlayerUI.GetUIForPlayer(_player), tileEntityWorkstation);
+     //   XUiC_KeypadWindow.Open(LocalPlayerUI.GetUIForPrimaryPlayer(), tileEntityWorkstation);
         return true;
     }
 

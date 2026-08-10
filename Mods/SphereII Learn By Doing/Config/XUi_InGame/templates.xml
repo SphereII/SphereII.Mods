@@ -1,0 +1,43 @@
+<configs>
+
+	<!--
+		The skill/perk rows used to live in XUi_InGame/controls.xml under /controls/<name>/panel.
+		That file no longer ships with the game: the rows are now templates in
+		XUi_InGame/templates.xml, and each one's root element is the controller <rect>
+		itself (no more <panel> wrapper). Appending inside that rect keeps the
+		{LearnByDoing} / {LearnByDoingVisible} bindings resolving against the
+		SkillPerkLevel / SkillAttributeLevel / SkillEntry controllers.
+	-->
+
+	<!-- Perk -->
+	<append xpath="/templates/skill_perk_level/rect">
+		<rect depth="4" pos="2,-${height-8}" width="${width-8}" height="8" visible="{LearnByDoingVisible}">
+			<sprite depth="1" color="[mediumGrey]" sprite="menu_empty2px" globalopacity="false" type="sliced" foregroundlayer="true"/>
+			<filledsprite depth="2" pos="1,0" width="${width-10}" name="BarContent" color="0,255,54,128" globalopacity="false" type="filled" fill="{LearnByDoing}" foregroundlayer="true"/>
+			<sprite depth="3" color="[black]" sprite="menu_empty2px" globalopacity="false" type="sliced" fillcenter="false" foregroundlayer="true"/>
+		</rect>
+	</append>
+
+	<!-- main Attribute -->
+	<append xpath="/templates/skill_attribute_level/rect">
+		<rect depth="4" pos="2,-${height-8}" width="${width-8}" height="8" visible="{LearnByDoingVisible}">
+			<sprite depth="1" color="[mediumGrey]" sprite="menu_empty2px" globalopacity="false" type="sliced" foregroundlayer="true"/>
+			<filledsprite depth="2" pos="1,0" width="${width-10}" name="BarContent" color="0,255,54,128" globalopacity="false" type="filled" fill="{LearnByDoing}" foregroundlayer="true"/>
+			<sprite depth="3" color="[black]" sprite="menu_empty2px" globalopacity="false" type="sliced" fillcenter="false" foregroundlayer="true"/>
+		</rect>
+	</append>
+
+	<!--
+		Entire attribute tree view. skill_entry is instantiated by the "skills" grid with no
+		width/height parameters (<skill_entry name="0"/>), so ${width} / ${height} do not
+		resolve here. The row is a fixed 645x46, hence the literal sizes below.
+	-->
+	<append xpath="/templates/skill_entry/rect">
+		<rect depth="4" pos="2,-38" width="637" height="8" visible="{canpurchase}">
+			<sprite depth="1" color="[mediumGrey]" sprite="menu_empty2px" globalopacity="false" type="sliced" foregroundlayer="true"/>
+			<filledsprite depth="2" pos="1,0" width="635" name="BarContent" color="0,255,54,128" globalopacity="false" type="filled" fill="{LearnByDoing}" foregroundlayer="true"/>
+			<sprite depth="3" color="[black]" sprite="menu_empty2px" globalopacity="false" type="sliced" fillcenter="false" foregroundlayer="true"/>
+		</rect>
+	</append>
+
+</configs>

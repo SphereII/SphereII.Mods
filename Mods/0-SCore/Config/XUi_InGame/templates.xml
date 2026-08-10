@@ -1,5 +1,14 @@
 <configs>
-    <append xpath="/controls">
+
+    <!--
+        This was XUi_InGame/controls.xml appending to /controls. The game no longer ships
+        that file, so nothing in it was being loaded. Custom controls are now templates:
+        same markup, appended to /templates in XUi_InGame/templates.xml instead.
+
+        Consumers are unchanged - XUi_InGame/windows.xml instantiates these by tag name
+        (score_companion_header, score_companion_entry2, togglebuttonCVar).
+    -->
+    <append xpath="/templates">
         <score_companion_entry2>
             <rect depth="1" width="900" height="43" pos="-3,-6" disabled_color="[disabledLabelColor]"
                   alternating_color="[darkestGrey]" controller="SCoreCompanion, SCore">
@@ -39,8 +48,8 @@
         </score_companion_entry2>
 
         <score_companion_header>
-            
-            <panel name="header" depth="0" pos="-3,-150" height="746" disableautobackground="true"> 
+
+            <panel name="header" depth="0" pos="-3,-150" height="746">
                 <sprite depth="10" name="backgroundMain" sprite="menu_empty3px" pos="3,3" width="900" height="52" color="[black]" type="sliced" fillcenter="false" />
                 <sprite color="[mediumGrey]" type="sliced" pos="6,0" height="49" width="900" />
                 <rect depth="1" name="npcName" width="154" height="46" pos="6,-6">
@@ -55,9 +64,11 @@
                 <rect depth="1" name="npcOrderFollow" width="310" height="46" pos="300,-3">
                     <label depth="1" name="TextContent" pos="4, -15" width="310" height="38" text="Orders" font_size="26" pivot="left" justify="center" />
                 </rect>
-             
+
             </panel>
         </score_companion_header>
+
+        <!-- Mirrors vanilla's togglebutton (XUi_Common/templates.xml) with a cvar-backed controller. -->
         <togglebuttonCVar depth="3" pos="0,0" width="200" height="32"
                       enabled_font_color="[labelColor]" disabled_font_color="[disabledLabelColor]" visible="true" tooltip_key="" caption="" caption_key="" font_size="28" parse_actions="false">
             <rect name="${name}" depth="${depth}" pos="${pos}" width="${width}" height="${height}" enabled_font_color="${enabled_font_color}" cvar="${cvar}" disabled_font_color="${disabled_font_color}" controller="XUiC_ToggleButtonCVar, SCore" visible="${visible}">
@@ -70,6 +81,6 @@
         </togglebuttonCVar>
 
     </append>
-    
-    
+
+
 </configs>
