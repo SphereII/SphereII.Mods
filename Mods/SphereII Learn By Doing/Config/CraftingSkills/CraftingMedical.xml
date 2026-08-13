@@ -1,31 +1,33 @@
 <configs>
     <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
         <effect_group name="LBD Crafting Skill - Medical">
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Medical - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Medical - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingmedical_lbd_lastitem"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingmedical_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_ActionCoolDown"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingmedical_lbd_lastitem"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Medical - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Medical - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingmedical_lbd_xp" operation="add" value="@$lbd_xp_scrapping_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Medical - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Medical - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingmedical_lbd_xp" operation="add" value="@$lbd_xp_repairing_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
@@ -33,31 +35,31 @@
                 <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Medical - Applying Cooldown (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Medical - Applying Cooldown (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingMedical_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Medical - Applying Cooldown (Scrap)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Medical - Applying Cooldown (Scrap)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingMedical_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Medical - Applying Cooldown (Repair)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Medical - Applying Cooldown (Repair)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingMedical_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
@@ -65,37 +67,45 @@
                 <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Medical - Triggering Level Up Check (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Medical - Triggering Level Up Check (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="CVarCompare" cvar="$craftingmedical_lbd_xp" operation="GTE" value="@$craftingmedical_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingMedical_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="CVarCompare" cvar="$craftingmedical_lbd_xp" operation="GTE" value="@$craftingmedical_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Medical - Triggering Level Up Check (Scrap)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Medical - Triggering Level Up Check (Scrap)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="CVarCompare" cvar="$craftingmedical_lbd_xp" operation="GTE" value="@$craftingmedical_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingMedical_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="CVarCompare" cvar="$craftingmedical_lbd_xp" operation="GTE" value="@$craftingmedical_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Medical - Triggering Level Up Check (Repair)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Medical - Triggering Level Up Check (Repair)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingmedical_lbd_xp" operation="GTE" value="@$craftingmedical_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingMedical_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingmedical_lbd_xp" operation="GTE" value="@$craftingmedical_lbd_xptonext"/>
             </triggered_effect>
+            <!-- Remember what was just crafted. Ordered last so the awards above
+                 compare against the PREVIOUS craft, not this one. A queue of twenty
+                 identical items now scores once; twenty different items score twenty
+                 times. A cooldown cannot make that distinction - when an item takes
+                 longer to craft than the cooldown lasts, every craft in the queue
+                 scores regardless. -->
+            <triggered_effect trigger="onSelfItemCrafted" action="SetCVarFromItemType, SCore" cvar="$craftingmedical_lbd_lastitem"/>
+
         </effect_group>
 
     </append>
@@ -105,15 +115,18 @@
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="craftingMedical" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Medical - Level Up SUCCESS (craftingMedical)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingMedical" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingmedical_lbd_xp" operation="subtract" value="@$craftingmedical_lbd_xptonext"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingmedical_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingmedical_lbd_xptonext" operation="multiply" value="@$lbd_xp_crafting_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingMedical" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="craftingMedical" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Medical - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Medical - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

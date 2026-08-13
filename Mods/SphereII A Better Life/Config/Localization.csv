@@ -27,3 +27,11 @@ fishOctopus,Octopus
 fishPerch,Perch
 fishPike,Pike
 fishBabyShark,Baby Shark Doo Doo Doo
+
+ablHelpSection,"A Better Life"
+ablHelpOverview,"Overview"
+ablHelpOverviewBody,"A Better Life puts life into the water. Lakes and seas are no longer empty: nine species of fish swim in them, and the beds beneath are planted with weed, sponges and flowers.\n\nIt needs SCore. The fish use SCore's swimming entity class and the underwater spawners use its repeating spawn block, so without SCore none of this appears.\n\nNothing else about the game changes. This adds creatures and scenery to water; recipes, loot, progression and land spawns are all left alone."
+ablHelpFish,"Fish"
+ablHelpFishBody,"Nine species swim the lakes and seas. Sardine, clownfish, perch, salmon, sting ray and turtle keep to themselves. Octopus, pike and baby shark do not.\n\nThose three treat you as prey. They sit in the small aggressive animal faction and will close in and attack rather than flee, so deep water is no longer automatically safe to swim.\n\nThe other six run when hurt, and keep their distance from players, zombies and hostile animals, so getting a close look at one takes patience.\n\nAny of them can be harvested with a butchering tool for raw meat, the same as any other animal."
+ablHelpSeabed,"Seabed"
+ablHelpSeabedBody,"Lake and sea beds are planted. Pond weed, starfish and tube sponges are scattered through the underwater biome, along with lotus flowers, water lilies, pampas grass, orange and pink cosmos, violet sorrel, wood sorrel and broadleaf plantain.\n\nThey are deliberately sparse, so the bed reads as planted rather than carpeted, and there is a reason to look around down there.\n\nMixed in among them are spawner blocks you will not see. They keep the water stocked over time, rather than the fish being a single population placed once when the world was generated."

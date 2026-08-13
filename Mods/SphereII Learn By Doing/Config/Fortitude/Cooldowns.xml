@@ -5,6 +5,10 @@
 
         <!-- Cooldown for attFortitude -->
         <buff name="buffLBD_attFortitude_XPCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Movement awards tick on their own, longer throttle so walking cannot
+             outpace deliberate activity. The combat, harvesting and crafting awards
+             for this progression keep the 1s rate above. -->
+        <buff name="buffLBD_attFortitude_MoveCoolDown" hidden="true"><duration value="10"/></buff>
 
         <!-- Cooldown for perkBrawler -->
         <buff name="buffLBD_perkBrawler_XPCoolDown" hidden="true"><duration value="1"/></buff>
@@ -40,7 +44,10 @@
         <buff name="buffLBD_perkSlowMetabolism_RecoveryChecker" hidden="true"><duration value="0.1"/></buff>
 
         <!-- Cooldown for perkRuleOneCardio -->
-        <buff name="buffLBD_perkRuleOneCardio_XPCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Movement triggers fire continuously, so this duration is the XP tick rate.
+             At 1s this was among the fastest progressions in the mod on walking
+             alone. 10s matches Healing Factor's long standing movement throttle. -->
+        <buff name="buffLBD_perkRuleOneCardio_XPCoolDown" hidden="true"><duration value="10"/></buff>
 
     </append>
 </configs>

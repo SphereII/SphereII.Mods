@@ -32,7 +32,7 @@
             <!-- Logic for Lucky Looter Perk Decay -->
             <effect_group name="Lucky Looter Perk Decay">
                 <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkluckylooter_decay_counter" operation="add" value="1"/>
-                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkluckylooter_Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkLuckyLooter_Decay">
                     <requirement name="CVarCompare" cvar="$perkluckylooter_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
                 </triggered_effect>
             </effect_group>

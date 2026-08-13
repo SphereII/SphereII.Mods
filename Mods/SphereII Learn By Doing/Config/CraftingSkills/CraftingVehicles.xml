@@ -1,65 +1,75 @@
 <configs>
     <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
         <effect_group name="LBD Crafting Skill - Vehicles">
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Vehicles - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Vehicles - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingVehicles"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingvehicles_lbd_lastitem"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingvehicles_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingVehicles"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingvehicles_lbd_lastitem"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Vehicles - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Vehicles - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
                 <requirement name="ItemHasTags" tags="vehicle"/> <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingvehicles_lbd_xp" operation="add" value="@$lbd_xp_repairing_base">
                 <requirement name="ItemHasTags" tags="vehicle"/> <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Vehicles - Applying Cooldown (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Vehicles - Applying Cooldown (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingVehicles"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingVehicles_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingVehicles"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Vehicles - Applying Cooldown (Repair)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Vehicles - Applying Cooldown (Repair)">
                 <requirement name="ItemHasTags" tags="vehicle"/> <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingVehicles_ActionCoolDown">
                 <requirement name="ItemHasTags" tags="vehicle"/> <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Vehicles - Triggering Level Up Check (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Vehicles - Triggering Level Up Check (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingVehicles"/>
                 <requirement name="CVarCompare" cvar="$craftingvehicles_lbd_xp" operation="GTE" value="@$craftingvehicles_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingVehicles_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingVehicles"/>
                 <requirement name="CVarCompare" cvar="$craftingvehicles_lbd_xp" operation="GTE" value="@$craftingvehicles_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Vehicles - Triggering Level Up Check (Repair)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Vehicles - Triggering Level Up Check (Repair)">
                 <requirement name="ItemHasTags" tags="vehicle"/> <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingvehicles_lbd_xp" operation="GTE" value="@$craftingvehicles_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingVehicles_LevelUpCheck">
                 <requirement name="ItemHasTags" tags="vehicle"/> <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingvehicles_lbd_xp" operation="GTE" value="@$craftingvehicles_lbd_xptonext"/>
             </triggered_effect>
+            <!-- Remember what was just crafted. Ordered last so the awards above
+                 compare against the PREVIOUS craft, not this one. A queue of twenty
+                 identical items now scores once; twenty different items score twenty
+                 times. A cooldown cannot make that distinction - when an item takes
+                 longer to craft than the cooldown lasts, every craft in the queue
+                 scores regardless. -->
+            <triggered_effect trigger="onSelfItemCrafted" action="SetCVarFromItemType, SCore" cvar="$craftingvehicles_lbd_lastitem"/>
+
         </effect_group>
 
    
@@ -70,15 +80,18 @@
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="craftingVehicles" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Vehicles - Level Up SUCCESS (craftingVehicles)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingVehicles" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingvehicles_lbd_xp" operation="subtract" value="@$craftingvehicles_lbd_xptonext"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingvehicles_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingvehicles_lbd_xptonext" operation="multiply" value="@$lbd_xp_crafting_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingVehicles" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="craftingVehicles" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Vehicles - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Vehicles - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

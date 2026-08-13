@@ -230,7 +230,8 @@
             </triggered_effect>
             <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$attagility_decay_counter" operation="set" value="0">
                 <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
-                <requirement name="HasBuff" buff="buffLightArmorEquipped"/>
+                <!-- was HasBuff buffLightArmorEquipped, a buff that does not exist -->
+                <requirement name="CVarCompare" cvar=".ArmorLightWorn" operation="GTE" value="3"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$attagility_decay_counter" operation="set" value="0">
                 <requirements compare_type="or">
@@ -276,7 +277,10 @@
             <!-- Reset Decay Counter on perkLightArmor Activity -->
             <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$perklightarmor_decay_counter" operation="set" value="0">
                 <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
-                <requirement name="HasBuff" buff="buffLightArmorEquipped"/>
+                <!-- buffLightArmorEquipped does not exist in this mod or in vanilla, so
+                     HasBuff against it was always false and this reset never ran. The
+                     .ArmorLightWorn check below is the mod's working idiom for the same
+                     thing, used by General/Decay.xml for all three armour weights. -->
                 <requirement name="CVarCompare" cvar=".ArmorLightWorn" operation="GTE" value="3"/>
             </triggered_effect>
 

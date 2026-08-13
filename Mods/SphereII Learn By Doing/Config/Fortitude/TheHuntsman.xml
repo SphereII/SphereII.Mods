@@ -7,27 +7,27 @@
             <requirement name="EntityTagCompare" target="other" tags="animal"/>
 
             <!-- XP Gain: Fixed value for harvesting an animal -->
-            <triggered_effect trigger="onSelfHarvestOther" action="LogMessage" message="LBD DEBUG: The Huntsman - Attempting XP Gain (+@$lbd_xp_harvest_base)">
+            <triggered_effect trigger="onSelfHarvestOther" action="LogMessageCVars, SCore" message="LBD DEBUG: The Huntsman - Attempting XP Gain (+@$lbd_xp_harvest_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkTheHuntsman_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfHarvestOther" action="ModifyCVar" cvar="$perkthehuntsman_lbd_xp" operation="add" value="@$lbd_xp_harvest_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkTheHuntsman_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Cooldown Application -->
-            <triggered_effect trigger="onSelfHarvestOther" action="LogMessage" message="LBD DEBUG: The Huntsman - Applying Cooldown">
+            <triggered_effect trigger="onSelfHarvestOther" action="LogMessageCVars, SCore" message="LBD DEBUG: The Huntsman - Applying Cooldown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkTheHuntsman_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfHarvestOther" action="AddBuff" buff="buffLBD_perkTheHuntsman_XPCoolDown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkTheHuntsman_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Level Up Check -->
-            <triggered_effect trigger="onSelfHarvestOther" action="LogMessage" message="LBD DEBUG: The Huntsman - Triggering Level Up Check">
+            <triggered_effect trigger="onSelfHarvestOther" action="LogMessageCVars, SCore" message="LBD DEBUG: The Huntsman - Triggering Level Up Check">
                 <requirement name="CVarCompare" cvar="$perkthehuntsman_lbd_xp" operation="GTE" value="@$perkthehuntsman_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfHarvestOther" action="AddBuff" buff="buffLBD_perkTheHuntsman_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkthehuntsman_lbd_xp" operation="GTE" value="@$perkthehuntsman_lbd_xptonext"/>
@@ -41,6 +41,9 @@
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="perkTheHuntsman" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: The Huntsman - Level Up SUCCESS (perkTheHuntsman)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkTheHuntsman" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkthehuntsman_lbd_xp" operation="subtract" value="@$perkthehuntsman_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkthehuntsman_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
@@ -48,8 +51,8 @@
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkTheHuntsman" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: The Huntsman - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: The Huntsman - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

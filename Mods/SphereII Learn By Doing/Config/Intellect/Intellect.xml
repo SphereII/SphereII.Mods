@@ -4,11 +4,11 @@
         <effect_group name="Intellect">
 
             <!-- Synergy XP for any general Intellect action -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Intellect Attribute - General Use Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Intellect Attribute - General Use Synergy XP (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="HoldingItemHasTags" tags="attIntellect"/>
                 <requirement name="IsAlive" target="other"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attintellect_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
                 <requirement name="HoldingItemHasTags" tags="attIntellect"/>
@@ -17,19 +17,19 @@
             </triggered_effect>
 
             <!-- Synergy XP for turret damage (from Robotic Turrets) -->
-            <triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Intellect Attribute - Turret Ranged Damage Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+            <triggered_effect trigger="onSelfDamagedOther" action="LogMessageCVars, SCore" message="LBD DEBUG: Intellect Attribute - Turret Ranged Damage Synergy XP (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="HoldingItemHasTags" tags="turretRanged"/> <!-- Corrected -->
                 <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$attintellect_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
                 <requirement name="HoldingItemHasTags" tags="turretRanged"/> <!-- Corrected -->
                 <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Intellect Attribute - Turret Melee Damage Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Intellect Attribute - Turret Melee Damage Synergy XP (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="HoldingItemHasTags" tags="turretMelee"/> <!-- Corrected -->
                 <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attintellect_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
                 <requirement name="HoldingItemHasTags" tags="turretMelee"/> <!-- Corrected -->
@@ -37,11 +37,11 @@
             </triggered_effect>
 
             <!-- Synergy XP for healing (from Physician) -->
-            <triggered_effect trigger="onSelfPrimaryActionEnd" action="LogMessage" message="LBD DEBUG: Intellect Attribute - Healing Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="LogMessageCVars, SCore" message="LBD DEBUG: Intellect Attribute - Healing Synergy XP (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
                 <requirement name="HoldingItemHasTags" tags="medical"/> <!-- Corrected -->
 
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 <requirement name="CVarCompare" cvar="medicalRegHealthAmount" operation="GT" value="0"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$attintellect_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
@@ -51,41 +51,41 @@
             </triggered_effect>
 
             <!-- Synergy XP for crafting at workstations (from Advanced Engineering) -->
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Intellect Attribute - Advanced Crafting Synergy XP (+@($lbd_xp_attribute_synergy_base))">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Intellect Attribute - Advanced Crafting Synergy XP (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="RequirementRecipeCraftArea, SCore" craft_area="forge,workstation,chemistryStation"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$attintellect_lbd_xp" operation="add" value="@($lbd_xp_attribute_synergy_base)">
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$attintellect_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
                 <requirement name="RequirementRecipeCraftArea, SCore" craft_area="forge,workstation,chemistryStation"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Synergy XP for crafting vehicles/parts (from Grease Monkey) -->
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Intellect Attribute - Vehicle Crafting Synergy XP (+@($lbd_xp_attribute_synergy_base))">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Intellect Attribute - Vehicle Crafting Synergy XP (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="RequirementRecipeHasTags, SCore" tags="perkGreaseMonkey"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$attintellect_lbd_xp" operation="add" value="@($lbd_xp_attribute_synergy_base)">
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$attintellect_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
                 <requirement name="RequirementRecipeHasTags, SCore" tags="perkGreaseMonkey"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Synergy XP for trading (from Better Barter & Charismatic Nature) -->
-            <triggered_effect trigger="onSelfItemSold" action="LogMessage" message="LBD DEBUG: Intellect Attribute - Trading Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+            <triggered_effect trigger="onSelfItemSold" action="LogMessageCVars, SCore" message="LBD DEBUG: Intellect Attribute - Trading Synergy XP (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemSold" action="ModifyCVar" cvar="$attintellect_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
                 <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfItemBought" action="LogMessage" message="LBD DEBUG: Intellect Attribute - Trading Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+            <triggered_effect trigger="onSelfItemBought" action="LogMessageCVars, SCore" message="LBD DEBUG: Intellect Attribute - Trading Synergy XP (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemBought" action="ModifyCVar" cvar="$attintellect_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
                 <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
@@ -93,10 +93,10 @@
             </triggered_effect>
 
             <!-- Synergy XP for questing (from Daring Adventurer & Charismatic Nature) -->
-            <triggered_effect trigger="onSelfQuestComplete" action="LogMessage" message="LBD DEBUG: Intellect Attribute - Quest Synergy XP (+@$lbd_xp_synergy_quest_bonus)">
+            <triggered_effect trigger="onSelfQuestComplete" action="LogMessageCVars, SCore" message="LBD DEBUG: Intellect Attribute - Quest Synergy XP (+@$lbd_xp_synergy_quest_bonus)">
                 <requirement name="CVarCompare" cvar="$completedQuestTier" operation="GTE" value="1"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfQuestComplete" action="ModifyCVar" cvar="$attintellect_lbd_xp" operation="add" value="@$lbd_xp_synergy_quest_bonus">
                 <requirement name="CVarCompare" cvar="$completedQuestTier" operation="GTE" value="1"/>
@@ -171,6 +171,9 @@
             <effect_group>
                 <!-- We keep this check to respect future balance changes or other mods. -->
                 <requirement name="CanPurchasePerk, SCore" progression_name="attIntellect" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Intellect - Level Up SUCCESS (attIntellect)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attIntellect" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attintellect_lbd_xp" operation="subtract" value="@$attintellect_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attintellect_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
@@ -179,8 +182,8 @@
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="attIntellect" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Intellect - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Intellect - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

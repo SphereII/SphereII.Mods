@@ -7,13 +7,22 @@
 		itself (no more <panel> wrapper). Appending inside that rect keeps the
 		{LearnByDoing} / {LearnByDoingVisible} bindings resolving against the
 		SkillPerkLevel / SkillAttributeLevel / SkillEntry controllers.
+
+		The bar fill uses color="{color}", which those same three SCore postfixes supply
+		from the skill's $..._decay_counter: green while the skill is in use, yellow as it
+		goes idle, red once decay is close. It was a literal green here until the binding
+		was wired up, so a skill drifting toward decay gave no visual warning.
+
+		Requires the SCore build that formats those colours as Color32. An earlier version
+		built them with new Color(0, 255, 54, 128) - byte values in a float 0-1 constructor -
+		which Unity clamps per channel on the way to Color32, landing on opaque cyan.
 	-->
 
 	<!-- Perk -->
 	<append xpath="/templates/skill_perk_level/rect">
 		<rect depth="4" pos="2,-${height-8}" width="${width-8}" height="8" visible="{LearnByDoingVisible}">
 			<sprite depth="1" color="[mediumGrey]" sprite="menu_empty2px" globalopacity="false" type="sliced" foregroundlayer="true"/>
-			<filledsprite depth="2" pos="1,0" width="${width-10}" name="BarContent" color="0,255,54,128" globalopacity="false" type="filled" fill="{LearnByDoing}" foregroundlayer="true"/>
+			<filledsprite depth="2" pos="1,0" width="${width-10}" name="BarContent" color="{color}" globalopacity="false" type="filled" fill="{LearnByDoing}" foregroundlayer="true"/>
 			<sprite depth="3" color="[black]" sprite="menu_empty2px" globalopacity="false" type="sliced" fillcenter="false" foregroundlayer="true"/>
 		</rect>
 	</append>
@@ -22,7 +31,7 @@
 	<append xpath="/templates/skill_attribute_level/rect">
 		<rect depth="4" pos="2,-${height-8}" width="${width-8}" height="8" visible="{LearnByDoingVisible}">
 			<sprite depth="1" color="[mediumGrey]" sprite="menu_empty2px" globalopacity="false" type="sliced" foregroundlayer="true"/>
-			<filledsprite depth="2" pos="1,0" width="${width-10}" name="BarContent" color="0,255,54,128" globalopacity="false" type="filled" fill="{LearnByDoing}" foregroundlayer="true"/>
+			<filledsprite depth="2" pos="1,0" width="${width-10}" name="BarContent" color="{color}" globalopacity="false" type="filled" fill="{LearnByDoing}" foregroundlayer="true"/>
 			<sprite depth="3" color="[black]" sprite="menu_empty2px" globalopacity="false" type="sliced" fillcenter="false" foregroundlayer="true"/>
 		</rect>
 	</append>
@@ -35,9 +44,51 @@
 	<append xpath="/templates/skill_entry/rect">
 		<rect depth="4" pos="2,-38" width="637" height="8" visible="{canpurchase}">
 			<sprite depth="1" color="[mediumGrey]" sprite="menu_empty2px" globalopacity="false" type="sliced" foregroundlayer="true"/>
-			<filledsprite depth="2" pos="1,0" width="635" name="BarContent" color="0,255,54,128" globalopacity="false" type="filled" fill="{LearnByDoing}" foregroundlayer="true"/>
+			<filledsprite depth="2" pos="1,0" width="635" name="BarContent" color="{color}" globalopacity="false" type="filled" fill="{LearnByDoing}" foregroundlayer="true"/>
 			<sprite depth="3" color="[black]" sprite="menu_empty2px" globalopacity="false" type="sliced" fillcenter="false" foregroundlayer="true"/>
 		</rect>
 	</append>
+
+	<!--
+		Disable buying perks and attributes with skill points.
+
+		Both purchase paths live on a single control each: the btnBuy button inside
+		skill_attribute_level and skill_perk_level. XUiC_SkillAttributeLevel.Init /
+		XUiC_SkillPerkLevel.Init do:
+
+			btnBuy = (XUiV_Button)GetChildById("btnBuy").ViewComponent;
+
+		so the button must NOT be removed - a <remove> here null-refs on window init.
+		Instead we replace the {buyvisible} binding with a literal false. An invisible
+		XUiView deactivates its GameObject (no collider, so no click) and reports
+		IsNavigatable == false (so gamepad/controller navigation skips it too).
+
+		skill_book_level also has a "btnBuy", but it is a plain <sprite> status icon,
+		not a button, so it is deliberately left alone.
+	-->
+	<set xpath="/templates/skill_attribute_level/rect/button[@name='btnBuy']/@visible">false</set>
+	<set xpath="/templates/skill_perk_level/rect/button[@name='btnBuy']/@visible">false</set>
+
+	<!--
+		Clear out the "Cost" column contents in the left-hand skill list (skill_entry).
+
+		That column is shared between the three list tabs, and XUiC_SkillEntry.GetGroupPointCost()
+		returns a different thing for each:
+
+			attributes / perks -> "1 PT"          (the point price - we want this gone)
+			book groups        -> "3/7"           (books read - keep)
+			crafting skills    -> "Level 4/10"    (keep)
+
+		{canpurchase} is hard-coded true on the book and crafting tabs, so it cannot
+		distinguish them on its own. {isnormal} resolves up the controller chain to
+		XUiC_SkillListWindow (BindingItemNcalc.FindParameter walks Controller.Parent
+		until something answers), which is exactly the attributes/perks tab - so
+		"canpurchase and not isnormal" keeps the two useful columns and drops the price.
+
+		The check mark beside it is purely a "you cannot buy this level" indicator
+		({cannotpurchase} is already false for books/crafting), so it goes entirely.
+	-->
+	<set xpath="/templates/skill_entry/rect/label[@text='{grouppointcost}']/@visible">{# canpurchase and !isnormal }</set>
+	<set xpath="/templates/skill_entry/rect/sprite[@sprite='ui_game_symbol_check']/@visible">false</set>
 
 </configs>

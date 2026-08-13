@@ -1,12 +1,12 @@
 <configs>
     <append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
         <effect_group name="The Infiltrator">
-            <triggered_effect trigger="onSelfPlaceBlock" action="LogMessage"
+            <triggered_effect trigger="onSelfPlaceBlock" action="LogMessageCVars, SCore"
                               message="LBD DEBUG: The Infiltrator - TRAP PLACED! Attempting XP Gain (+75)">
                 <requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
                 <requirement name="CVarCompare" cvar="$infiltrator_placement_credits" operation="GT" value="0"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfPlaceBlock" action="ModifyCVar" cvar="$perkinfiltrator_lbd_xp"
                               operation="add" value="75">
@@ -19,11 +19,11 @@
                 <requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
                 <requirement name="CVarCompare" cvar="$infiltrator_placement_credits" operation="GT" value="0"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage"
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore"
                               message="LBD DEBUG: The Infiltrator - Trap Crafted! Attempting XP Gain (+20) and adding Placement Credit.">
                 <requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkinfiltrator_lbd_xp"
                               operation="add" value="20">
@@ -34,10 +34,10 @@
                               operation="add" value="1">
                 <requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfCloseLootContainer" action="LogMessage"
+            <triggered_effect trigger="onSelfCloseLootContainer" action="LogMessageCVars, SCore"
                               message="LBD DEBUG: The Infiltrator - Trap Looted! Adding Placement Credit.">
                 <requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar"
                               cvar="$infiltrator_placement_credits" operation="add" value="1">
@@ -65,6 +65,14 @@
         <stack_type value="ignore"/>
         <duration value="1"/>
         <effect_group>
+            <!-- This group had no requirement at all, so it granted a level even when the
+                 perk was locked, and the group below logged FAILED on every successful
+                 level up. Both now gate on CanPurchasePerk, matching the other 86 level
+                 up buffs in the mod. -->
+            <requirement name="CanPurchasePerk, SCore" progression_name="perkInfiltrator"/>
+            <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: The Infiltrator - Level Up SUCCESS (perkInfiltrator)">
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
             <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkInfiltrator" level="1"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkinfiltrator_lbd_xp" operation="subtract" value="@$perkinfiltrator_lbd_xptonext"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkinfiltrator_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
@@ -72,8 +80,9 @@
             <triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
         </effect_group>
         <effect_group>
-            <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: The Infiltrator - Level Up FAILED. Perk is locked by requirements.">
-                <requirement name="HasBuff" buff="god"/>
+            <requirement name="!CanPurchasePerk, SCore" progression_name="perkInfiltrator"/>
+            <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: The Infiltrator - Level Up FAILED. Perk is locked by requirements.">
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
         </effect_group>
     </buff>

@@ -8,12 +8,12 @@
 		<!-- === XP GAIN LOGIC === -->
 
 		<!-- High reward for a skillful kill (headshot OR sneak attack) -->
-		<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Attempting Skillful Kill XP (+30)">
+		<triggered_effect trigger="onSelfKilledOther" action="LogMessageCVars, SCore" message="LBD DEBUG: Animal Tracker - Attempting Skillful Kill XP (+30)">
 			<requirements compare_type="or">
 				<requirement name="HitLocation" body_part="Head"/>
 				<requirement name="CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
 			</requirements>
-			<requirement name="HasBuff" buff="god"/>
+			<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
 		</triggered_effect>
 		<triggered_effect trigger="onSelfKilledOther" action="ModifyCVar" cvar="$perkanimaltracker_lbd_xp" operation="add" value="30">
 			<requirements compare_type="or">
@@ -24,10 +24,10 @@
 		</triggered_effect>
 
 		<!-- Standard reward for any other kill -->
-		<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Attempting Standard Kill XP (+15)">
+		<triggered_effect trigger="onSelfKilledOther" action="LogMessageCVars, SCore" message="LBD DEBUG: Animal Tracker - Attempting Standard Kill XP (+15)">
 			<requirement name="!HitLocation" body_part="Head"/>
 			<requirement name="!CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
-			<requirement name="HasBuff" buff="god"/>
+			<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
 		</triggered_effect>
 		<triggered_effect trigger="onSelfKilledOther" action="ModifyCVar" cvar="$perkanimaltracker_lbd_xp" operation="add" value="15">
 			<requirement name="!HitLocation" body_part="Head"/>
@@ -38,8 +38,8 @@
 		<!-- === COOLDOWN APPLICATION === -->
 
 		<!-- Apply the kill cooldown -->
-		<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Attempting to Apply Kill Cooldown">
-			<requirement name="HasBuff" buff="god"/>
+		<triggered_effect trigger="onSelfKilledOther" action="LogMessageCVars, SCore" message="LBD DEBUG: Animal Tracker - Attempting to Apply Kill Cooldown">
+			<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
 		</triggered_effect>
 		<triggered_effect trigger="onSelfKilledOther" action="AddBuff" buff="buffLBD_perkAnimalTracker_KillCoolDown">
 			<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_KillCoolDown"/>
@@ -48,9 +48,9 @@
 		<!-- === LEVEL UP CHECK LOGIC === -->
 
 		<!-- Check for a level up after a kill -->
-		<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Triggering Level Up Check (from Kill)">
+		<triggered_effect trigger="onSelfKilledOther" action="LogMessageCVars, SCore" message="LBD DEBUG: Animal Tracker - Triggering Level Up Check (from Kill)">
 			<requirement name="CVarCompare" cvar="$perkanimaltracker_lbd_xp" operation="GTE" value="@$perkanimaltracker_lbd_xptonext"/>
-			<requirement name="HasBuff" buff="god"/>
+			<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
 		</triggered_effect>
 		<triggered_effect trigger="onSelfKilledOther" action="AddBuff" buff="buffLBD_perkAnimalTracker_LevelUpCheck">
 			<requirement name="CVarCompare" cvar="$perkanimaltracker_lbd_xp" operation="GTE" value="@$perkanimaltracker_lbd_xptonext"/>
@@ -63,6 +63,9 @@
 			<stack_type value="ignore"/><duration value="1"/>
 			<effect_group>
 				<requirement name="CanPurchasePerk, SCore" progression_name="perkAnimalTracker" />
+				<triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Animal Tracker - Level Up SUCCESS (perkAnimalTracker)">
+				    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+				</triggered_effect>
 				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkAnimalTracker" level="1"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkanimaltracker_lbd_xp" operation="subtract" value="@$perkanimaltracker_lbd_xptonext"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkanimaltracker_lbd_xptonext" operation="multiply" value="1.2"/>
@@ -70,8 +73,8 @@
 			</effect_group>
 			<effect_group>
 				<requirement name="!CanPurchasePerk, SCore" progression_name="perkAnimalTracker" />
-				<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Animal Tracker - Level Up FAILED. Perk is locked by requirements.">
-					<requirement name="HasBuff" buff="god"/>
+				<triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Animal Tracker - Level Up FAILED. Perk is locked by requirements.">
+					<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
 				</triggered_effect>
 			</effect_group>
 		</buff>

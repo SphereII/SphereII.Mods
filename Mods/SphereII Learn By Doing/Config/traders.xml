@@ -1,0 +1,14 @@
+<configs>
+
+    <!--
+        Traders stock skill magazines through a single group, referenced six times across
+        the trader_info entries. The references go first so the group is unreferenced by
+        the time it is removed, leaving nothing dangling.
+
+        No trader_items node is emptied by this - every one of the six also stocks other
+        groups - so no placeholder is needed on this side.
+    -->
+    <remove xpath="/traders/trader_info/trader_items/item[@group='skillMagazines']"/>
+    <remove xpath="/traders/trader_item_groups/trader_item_group[@name='skillMagazines']"/>
+
+</configs>

@@ -1,0 +1,19 @@
+<configs>
+
+	<!--
+		Learn By Doing levels perks through AddProgressionLevel triggered effects, which
+		never touch Progression.SkillPoints. Skill points therefore have nothing left to
+		buy once the btnBuy controls are disabled (see XUi_InGame/templates.xml), so stop
+		awarding them rather than letting players bank a pile they can never spend.
+
+		This is also a second line of defence: XUiC_SkillPerkLevel.btnBuy_OnPress and
+		XUiC_SkillAttributeLevel.btnBuy_OnPress both gate on
+		"Progression.SkillPoints >= CalculatedCostForLevel(level)", so with zero points
+		a purchase cannot go through even if the button were somehow reachable.
+
+		Caveat: this only stops NEW points from being granted. Points already banked in
+		an existing save stay on the character.
+	-->
+	<set xpath="/progression/level/@skill_points_per_level">0</set>
+
+</configs>

@@ -1,0 +1,39 @@
+<configs>
+    <!--
+        TEMPORARY DIAGNOSTIC - delete this file and its include in buffs.xml when done.
+
+        Names the block you just hit or crafted, with the tags it actually resolves to
+        at runtime. Block tags cannot be read reliably from the XML alone, because a
+        block with no Tags property of its own inherits its parent's through Extends,
+        and nothing in the log otherwise says which block was involved.
+
+        Wrench a POI light with $lbd_debug 1 and this prints, for example:
+
+          LBD BLOCK: lightPorchWhite (target) tags=[challenge_elec_parts]
+
+        Then we know exactly which tag the Crafting Electrician salvage path should be
+        matching, instead of inferring it. Craft a light and the craft line names the
+        block the recipe produced.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
+        <effect_group name="ZZ Block Name Diagnostic">
+
+            <!-- what am I hitting with a wrench? -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogTargetBlock, SCore" prefix="LBD BLOCK hit">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+
+            <!-- what did I just destroy? -->
+            <triggered_effect trigger="onSelfDestroyedBlock" action="LogTargetBlock, SCore" prefix="LBD BLOCK destroyed">
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+
+            <!-- what did I just craft, if it was a block? -->
+            <triggered_effect trigger="onSelfItemCrafted" action="LogTargetBlock, SCore" prefix="LBD BLOCK crafted">
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+
+        </effect_group>
+    </append>
+</configs>

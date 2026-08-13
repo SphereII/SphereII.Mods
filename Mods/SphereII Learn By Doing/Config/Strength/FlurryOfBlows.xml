@@ -22,19 +22,19 @@
                 <requirement name="CVarCompare" cvar="$perkflurryofblows_lbd_xp" operation="GTE" value="@$perkflurryofblows_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows Primary - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Blows Primary - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
                 <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows Power - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Blows Power - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
                 <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows Primary - Starting/Refreshing Combo Window">
-                <requirement name="HasBuff" buff="god"/>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Blows Primary - Starting/Refreshing Combo Window">
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows Power - Starting/Refreshing Combo Window">
-                <requirement name="HasBuff" buff="god"/>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Blows Power - Starting/Refreshing Combo Window">
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
         </effect_group>
     </append>
@@ -50,16 +50,19 @@
         <buff name="buffLBD_perkFlurryOfBlows_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="CanPurchasePerk, SCore" progression_name="perkFlurryOfBlows" />
-                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfBlows" level="1"/>
+                <requirement name="CanPurchasePerk, SCore" progression_name="perkFlurryOfStrength" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Blows - Level Up SUCCESS (perkFlurryOfStrength)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfStrength" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofblows_lbd_xp" operation="subtract" value="@$perkflurryofblows_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofblows_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkFlurryOfBlowsLeveledUp"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkFlurryOfStrengthLeveledUp"/>
             </effect_group>
             <effect_group>
-                <requirement name="!CanPurchasePerk, SCore" progression_name="perkFlurryOfBlows" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Flurry of Blows - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <requirement name="!CanPurchasePerk, SCore" progression_name="perkFlurryOfStrength" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Blows - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

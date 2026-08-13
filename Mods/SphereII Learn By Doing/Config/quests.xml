@@ -1,0 +1,26 @@
+
+<configs>
+
+    <!--
+        The loot.xml patch already stops quests handing out magazines - the reward groups
+        resolve to the resourcePaper placeholder instead. This file removes the reward
+        entries themselves so the player is never offered a paper option at turn-in.
+
+        Every magazine reward is ischosen="true", so all of them render as a selectable
+        reward in the quest UI.
+    -->
+
+    <!-- Rewards offering nothing but magazines: the whole node goes. 52 challenge and
+         animal-hunter rewards, plus 5 next-trader turn-ins. -->
+    <remove xpath="/quests/quest/reward[@id='groupChallengeRewardSkillMagazinesAll']"/>
+    <remove xpath="/quests/quest/reward[@id='groupQuestT1SkillMagazineBundle']"/>
+
+    <!--
+        The remaining 43 pair the magazine bundle with a real group in one comma separated
+        id, so the node has to stay or the player loses the resources and schematics.
+        Strip just the magazine token off the list. Runs after the removes above, so the
+        standalone nodes are already gone and cannot be left with an empty id.
+    -->
+    <csv xpath="/quests/quest/reward[contains(@id,'groupQuestT1SkillMagazineBundle')]/@id" delim="," op="remove">groupQuestT1SkillMagazineBundle</csv>
+
+</configs>

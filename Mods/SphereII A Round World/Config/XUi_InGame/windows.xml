@@ -1,0 +1,65 @@
+<configs>
+
+	<!--
+		=========================================================================
+		HELP SCREEN SECTION
+		=========================================================================
+
+		Adds an A Round World entry to the 0-Help Screens window: a button in its left
+		column, with these four pages as tabs along the top.
+
+		Wrapped in a conditional because the target window only exists if that modlet is
+		installed. mod_loaded() takes the ModInfo.xml <Name value="..."/>, not the folder
+		or display name: 0-Help Screens/ModInfo.xml declares "sphereii_help_screens".
+
+		Load order is what makes this work at all. Mods are applied in alphabetical order
+		of folder name, and "0-Help Screens" sorts well ahead of "SphereII A Round World",
+		so the window is already in the tree by the time this file is processed.
+
+		The xpath is anchored on rect[@name='nav'] deliberately - "tabsContents" alone
+		matches the one inside every section, including this one.
+
+		The shell is literal XML rather than a single template call because a template
+		instantiation may not have child nodes, and because XPath patching runs before
+		templates expand. Only the pages and the tab button are templates. See the
+		0-Help Screens ReadMe.
+
+		NOTE: this file lives in Config/XUi_InGame/. The existing Config/XUi/windows.xml
+		in this modlet is never loaded - the game only reads XUi_Common, XUi_InGame and
+		XUi_Menu - so nothing there would have applied.
+	-->
+	<conditional>
+		<if cond="mod_loaded('sphereii_help_screens')">
+
+			<append xpath="/windows/window[@name='helpScreens']//rect[@name='nav']/rect[@name='tabsContents']">
+
+				<rect name="sectionARoundWorld" controller="TabSelectorTab" tab_key="arwHelpSection">
+					<rect name="tabs" width="964" height="655" controller="TabSelector"
+					      select_tab_contents_on_open="false" select_tab_contents_on_change="false">
+
+						<rect name="tabsHeader" height="38" depth="0">
+							<grid name="tabButtons" pos="3,-2" depth="2" rows="1" cols="4"
+							      cell_width="240" cell_height="36" repeat_content="true"
+							      arrangement="horizontal">
+								<helpscreen_pagebutton />
+							</grid>
+						</rect>
+
+						<rect name="tabsContents" depth="2" pos="0,-40" width="964" height="615">
+							<sprite depth="0" name="pageBackground" sprite="menu_empty3px"
+							        color="[mediumGrey]" type="sliced" fillcenter="true" />
+
+							<helpscreen_page tab_key="arwHelpOverview" text_key="arwHelpOverviewBody" />
+							<helpscreen_page tab_key="arwHelpCrafting" text_key="arwHelpCraftingBody" />
+							<helpscreen_page tab_key="arwHelpParty"    text_key="arwHelpPartyBody" />
+							<helpscreen_page tab_key="arwHelpWorld"    text_key="arwHelpWorldBody" />
+						</rect>
+					</rect>
+				</rect>
+
+			</append>
+
+		</if>
+	</conditional>
+
+</configs>

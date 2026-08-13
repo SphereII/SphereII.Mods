@@ -67,7 +67,7 @@
     <append xpath="/buffs">
         <buff name="buffLBD_Perception_DecayManager" hidden="true">
             <duration value="0"/> <update_rate value="3000"/> <effect_group name="Manager Log" >
-            <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="Perception Decay is Active." />
+            <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="Perception Decay is Active." />
         </effect_group>
 
             <effect_group name="Perception Attribute Decay">
@@ -220,13 +220,13 @@
             </effect_group>
         </buff>
 
-        <buff name="buffLBD_perkThePenetrator_Decay" hidden="true">
+        <buff name="buffLBD_perkPenetrator_Decay" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="ProgressionLevel" progression_name="perkThePenetrator" operation="GT" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkThePenetrator" level="-1"/>
+                <requirement name="ProgressionLevel" progression_name="perkPenetrator" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkPenetrator" level="-1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpenetrator_decay_counter" operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkThePenetrator" sound="ui_skill_decay" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPenetrator" sound="ui_skill_decay" />
             </effect_group>
         </buff>
 
@@ -244,7 +244,7 @@
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="ProgressionLevel" progression_name="perkInfiltrator" operation="GT" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkinfiltrator" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkInfiltrator" level="-1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkinfiltrator_decay_counter" operation="set" value="0"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkInfiltrator" sound="ui_skill_decay" />
             </effect_group>

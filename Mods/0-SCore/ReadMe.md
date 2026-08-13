@@ -13,6 +13,33 @@ new features are enabled for modders and players to use.
 ### Direct Downloads
 Direct Download to the 0-SCore.zip https://github.com/SphereII/SphereII.Mods/releases/latest
 
+### Documentation and Worked Examples
+
+`Documentation/` holds the reference material for SCore's own features - `XPath/Conditionals.md`
+for `mod_loaded()` and friends, `Features/`, `MinEvents/`, `AI/`, `Challenges/`.
+
+For the game's UI system specifically, `Mods/Ideas/XUI_SYSTEM_REFERENCE.md` is a working reference
+derived from decompiling `Assembly-CSharp.dll` rather than from community guides: binding
+resolution, the XPath patch verbs, template limits, the scroll and tab recipes, `-debugxui`, and a
+collected list of the traps. Read it before building a new window.
+
+The modlets in this repo double as worked examples. If you are trying to do a thing, one of these
+has probably already done it:
+
+| Want to... | Look at |
+| ----------- | ----------- |
+| Build a whole new in-game window, with tabs and scrolling | `0-Help Screens/Config/XUi_InGame/windows.xml` |
+| Give a modded window its own controller from your own DLL | `0-Help Screens/Scripts/XUiC_HelpScreens.cs`, reached by `controller="HelpScreens, SphereIIHelpScreens"` |
+| Wire a button into a vanilla menu that hard-codes its own | `0-Help Screens/Harmony/XUiC_InGameMenuWindow_HelpButton.cs` |
+| Let other modlets extend your window without touching your files | `0-Help Screens/ReadMe.md` - the one-append contract |
+| Gate a patch on another modlet being installed | `SphereII Peace of Mind/Config/blocks.xml`, or any `Config/XUi_InGame/windows.xml` contributing a help section |
+| Read and display a value off a skill row | `0-SCore/Features/LearnByDoing/Harmony/`, consumed by `SphereII Learn By Doing/Config/XUi_InGame/templates.xml` |
+| Turn SCore features on without writing anything new | `SphereII A Round World/Config/blocks.xml` |
+
+Note the load-order rule that governs all of the above: modlets are applied in **alphabetical order
+of folder name**, and a modlet patching a file or node that does not exist yet is skipped in full,
+silently. A modlet that others extend has to sort ahead of them.
+
 ### Change Logs
 Summary for 2.0 Update:
 This release of 0-SCore introduces significant enhancements across several core systems, with a strong emphasis on **Shared Reading**, **NPC behaviors (including farming and combat)**, **block placement controls within POIs**, and **performance optimizations**.
@@ -59,6 +86,96 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
   
+Version: 3.1.25.1535
+	Game Version: v3.1.0 (b14)
+
+	[ New Modlet - 0-Help Screens ]
+		- An in-game help system that other modlets add their own pages to.
+		  ESC now carries a Help button beside Options and Sandbox Settings,
+		  opening a window with a scrolling column of modlets down the left and
+		  that modlet's pages as tabs along the top.
+		- The point of it is that no modlet ships UI of its own. 0-Help Screens
+		  owns the window; a contributor adds one <append> holding its section,
+		  plus a handful of Localization.csv keys. It never declares a button at
+		  either level - both strips fill themselves in from the pages found.
+		- Built on the game's own XUiC_TabSelector, one instance for the left
+		  column and one per section for the tabs. The only C# in the modlet is
+		  the ESC menu button, because XUiC_InGameMenuWindow.Init wires exactly
+		  ten buttons by name and an appended eleventh would otherwise be inert,
+		  and the window's own Close button. Because it ships an assembly it
+		  needs EAC disabled.
+		- Sections are wrapped in <conditional> on
+		  mod_loaded('sphereii_help_screens'), so a contributing modlet is a
+		  clean no-op for anyone who does not have Help Screens installed.
+		- Load order matters and is not optional: modlets apply in alphabetical
+		  order of folder name, and a modlet patching a window that does not
+		  exist yet is skipped in full, silently. The folder is named to sort
+		  near the front; a contributor's folder must sort after it.
+		- Supported so far by SphereII Learn By Doing, SphereII A Round World,
+		  SphereII Peace of Mind and SphereII A Better Life.
+		- The contract, with a block to copy, is in 0-Help Screens/ReadMe.md.
+		  For the underlying UI system see Mods/Ideas/XUI_SYSTEM_REFERENCE.md.
+
+	[ Learn By Doing - Overhaul ]
+		- Learn By Doing has had a heavy pass, around sixty changes, and almost
+		  all of it correctness rather than balance. The recurring theme is that
+		  the system fails silently: a mistyped buff name, a progression_name
+		  the game does not know, a cvar nothing ever set, or a requirement
+		  class that does not exist all resolve to "nothing happened" with no
+		  error. Seven progressions could never level at all, three decays never
+		  fired, and eight award paths granted nothing.
+		- Notable beyond the fixes: crafting skills were given their own, much
+		  longer XP curve instead of sharing the five-level perk curve; repeat
+		  crafting the same item is now caught by identity rather than by a
+		  cooldown, which could never throttle it; T0 starter gear scores up to
+		  level 10, closing the gap before T1 recipes unlock; movement XP is
+		  throttled; and attribute thresholds were cut from 5000 to 1200 after
+		  logging showed an attribute cost seventeen times what a perk did.
+		- Debug logging is now gated on a $lbd_debug cvar rather than on having
+		  the god buff, which had been making the player invulnerable and so
+		  hiding the damage-driven perks it was meant to observe. All 671 debug
+		  lines moved to LogMessageCVars, SCore, which expands @cvar tokens - the
+		  vanilla action logged the cvar's name instead of its value, so the
+		  lines could not answer the question they existed for.
+		- SCore classes this leans on: MinEventActionLogMessageCVars,
+		  MinEventActionSetCVarFromItemType, MinEventActionLogTargetBlock,
+		  RequirementCraftedItemMatchesCVar and RequirementCraftedBlockHasTags.
+		- Buying perks and attributes with skill points is switched off, and no
+		  skill points are awarded - progression is earned in play. The Cost and
+		  Buy columns and the points counter are hidden to match.
+		- A Testing folder was added: lbd_audit.py parses every config file and
+		  writes a per-level test plan plus a checklist of all award paths, and
+		  validates buff names, cvars, progressions, block tags and ", SCore"
+		  class references against what actually exists. lbd_logparse.py turns a
+		  Player.log into coverage and real per-level timings. Most of the bugs
+		  above were found by those two rather than by playing.
+		- Full detail, change by change, is in
+		  SphereII Learn By Doing/ReadMe.md.
+
+	[ Learn By Doing - Skill Bar Decay Colour ]
+		- The "color" binding on XUiC_SkillEntry, XUiC_SkillAttributeLevel and
+		  XUiC_SkillPerkLevel now returns a colour XUi can actually parse.
+		- All three built their values with new Color(0, 255, 54, 128) - byte
+		  values handed to a constructor that takes floats 0-1 - and
+		  CachedStringFormatterXuiRgbaColor takes a Color32, so Unity's implicit
+		  conversion ran every channel through Mathf.Clamp01 and produced opaque
+		  cyan (0,255,255,255) rather than translucent green. Yellow and red
+		  survived the conversion but came out fully opaque.
+		- The no-skill early out was worse. It assigned Color.ToString(), which
+		  yields "RGBA(0.000, 255.000, ...)" and is not a colour string at all.
+		- Thresholds and colours now live in one place,
+		  Features/LearnByDoing/Scripts/LbdDecayColor.cs, instead of being
+		  restated in each of the three postfixes - which is how three copies of
+		  the same bad literal came about. Green at a decay counter of 2 or
+		  below, yellow to 4, red beyond, all at alpha 128.
+		- Nothing had ever consumed this binding, so the bug was invisible: the
+		  skill progress bars were painted with a literal green and a skill
+		  drifting toward decay looked identical to one used daily. See
+		  SphereII Learn By Doing, Config/XUi_InGame/templates.xml, where the
+		  three BarContent sprites now bind color="{color}".
+		- Learn By Doing needs this build or later. An older SCore leaves those
+		  bars cyan rather than green - wrong, but not broken.
+
 Version: 3.1.22.801
 	Game Version: v3.1.0 (b14)
 

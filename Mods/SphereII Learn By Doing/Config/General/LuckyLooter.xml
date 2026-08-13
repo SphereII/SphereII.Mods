@@ -3,32 +3,58 @@
     <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
         <effect_group name="Lucky Looter">
 
-            <!-- XP Gain: Rewarding opening loot containers -->
-            <triggered_effect trigger="onSelfCloseLootContainer" action="LogMessage" message="LBD DEBUG: Lucky Looter - Attempting Looting XP (+@$lbd_xp_special_base)">
+            <!--
+                XP Gain: Rewarding opening loot containers.
+
+                Uses its own $lbd_xp_luckylooter_container_base rather than the shared
+                $lbd_xp_special_base, which ten other perks read and which must stay at 5.
+
+                onSelfCloseLootContainer fires for ANY container, so on its own this paid out
+                for opening and closing your own storage at base. The game keeps a running
+                total of loot XP in the built in _xpFromLoot, and that only moves when a
+                container actually pays out - never for player storage, and never for a
+                container you have already emptied. Comparing it against the mark taken at the
+                previous close tells us whether this was real looting. Vanilla uses the same
+                snapshot/delta idiom for its per-level XP breakdown in buffs.xml.
+
+                The mark is refreshed at the end of this group, so it must stay last.
+            -->
+            <triggered_effect trigger="onSelfCloseLootContainer" action="LogMessageCVars, SCore" message="LBD DEBUG: Lucky Looter - Attempting Looting XP (+@$lbd_xp_luckylooter_container_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkLuckyLooter_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="_xpFromLoot" operation="GT" value="@$perkluckylooter_lbd_lootxp_mark"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$perkluckylooter_lbd_xp" operation="add" value="@$lbd_xp_special_base">
+            <triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$perkluckylooter_lbd_xp" operation="add" value="@$lbd_xp_luckylooter_container_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkLuckyLooter_XPCoolDown"/>
+                <requirement name="CVarCompare" cvar="_xpFromLoot" operation="GT" value="@$perkluckylooter_lbd_lootxp_mark"/>
             </triggered_effect>
 
             <!-- Cooldown Application -->
-            <triggered_effect trigger="onSelfCloseLootContainer" action="LogMessage" message="LBD DEBUG: Lucky Looter - Applying Cooldown">
+            <triggered_effect trigger="onSelfCloseLootContainer" action="LogMessageCVars, SCore" message="LBD DEBUG: Lucky Looter - Applying Cooldown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkLuckyLooter_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="_xpFromLoot" operation="GT" value="@$perkluckylooter_lbd_lootxp_mark"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfCloseLootContainer" action="AddBuff" buff="buffLBD_perkLuckyLooter_XPCoolDown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkLuckyLooter_XPCoolDown"/>
+                <requirement name="CVarCompare" cvar="_xpFromLoot" operation="GT" value="@$perkluckylooter_lbd_lootxp_mark"/>
             </triggered_effect>
 
             <!-- Level Up Check -->
-            <triggered_effect trigger="onSelfCloseLootContainer" action="LogMessage" message="LBD DEBUG: Lucky Looter - Triggering Level Up Check">
+            <triggered_effect trigger="onSelfCloseLootContainer" action="LogMessageCVars, SCore" message="LBD DEBUG: Lucky Looter - Triggering Level Up Check">
                 <requirement name="CVarCompare" cvar="$perkluckylooter_lbd_xp" operation="GTE" value="@$perkluckylooter_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfCloseLootContainer" action="AddBuff" buff="buffLBD_perkLuckyLooter_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkluckylooter_lbd_xp" operation="GTE" value="@$perkluckylooter_lbd_xptonext"/>
             </triggered_effect>
+
+            <!--
+                Re-mark the loot XP total. Unconditional and LAST in the group: everything
+                above compares against the previous mark, and the mark has to track the real
+                running total whether or not the cooldown suppressed the award.
+            -->
+            <triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$perkluckylooter_lbd_lootxp_mark" operation="set" value="@_xpFromLoot"/>
         </effect_group>
     </append>
 
@@ -38,6 +64,9 @@
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="perkLuckyLooter" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Lucky Looter - Level Up SUCCESS (perkLuckyLooter)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkLuckyLooter" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkluckylooter_lbd_xp" operation="subtract" value="@$perkluckylooter_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkluckylooter_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
@@ -45,8 +74,8 @@
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkLuckyLooter" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Lucky Looter - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Lucky Looter - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

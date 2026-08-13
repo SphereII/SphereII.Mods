@@ -34,7 +34,10 @@
         <buff name="buffLBD_perkJunkMiner_XPCoolDown" hidden="true"><duration value="1"/></buff>
 
         <!-- Cooldown for perkPackMule -->
-        <buff name="buffLBD_perkPackMule_XPCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- 5s, not 1s: onSelfRun/onSelfWalk fire continuously, so this duration is the
+             XP tick rate. At 1s an encumbered player earned tier3 (5xp) every second,
+             clearing the 1200 to level 1 in four minutes of ordinary walking. -->
+        <buff name="buffLBD_perkPackMule_XPCoolDown" hidden="true"><duration value="5"/></buff>
 
         <!-- Cooldowns for perkStrengthMastery -->
         <buff name="buffLBD_perkStrengthMastery_CombatCoolDown" hidden="true"><duration value="1"/></buff>

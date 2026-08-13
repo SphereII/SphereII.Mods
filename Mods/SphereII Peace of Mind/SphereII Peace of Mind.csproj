@@ -53,6 +53,7 @@
     <Content Include="Config\loadingscreen.xml" />
     <Content Include="Config\Localization.txt" />
     <Content Include="Config\npc.xml" />
+    <Content Include="Config\XUi_InGame\windows.xml" />
     <Content Include="ModInfo.xml" />
   </ItemGroup>
   <ItemGroup>

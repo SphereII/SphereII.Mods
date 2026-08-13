@@ -8,30 +8,30 @@
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xp" operation="add" value="@$lbd_xp_harvest_base">
 				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
 			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Salvage Operations Primary - Attempting XP Gain (+@$lbd_xp_harvest_base)">
+				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
+				<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown">
 				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
 			</triggered_effect>
+
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkSalvageOperations_LevelUpCheck">
 				<requirement name="CVarCompare" cvar="$perksalvageoperations_lbd_xp" operation="GTE" value="@$perksalvageoperations_lbd_xptonext"/>
 			</triggered_effect>
-
 			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xp" operation="add" value="@$lbd_xp_melee_power_base">
 				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
 			</triggered_effect>
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Salvage Operations Power - Attempting XP Gain (+@$lbd_xp_melee_power_base)">
+				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
+				<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+			</triggered_effect>
+
 			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown">
 				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
 			</triggered_effect>
 			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkSalvageOperations_LevelUpCheck">
 				<requirement name="CVarCompare" cvar="$perksalvageoperations_lbd_xp" operation="GTE" value="@$perksalvageoperations_lbd_xptonext"/>
-			</triggered_effect>
-
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Salvage Operations Primary - Attempting XP Gain (+@$lbd_xp_harvest_base)">
-				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
-				<requirement name="HasBuff" buff="god"/>
-			</triggered_effect>
-			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Salvage Operations Power - Attempting XP Gain (+@$lbd_xp_melee_power_base)">
-				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
-				<requirement name="HasBuff" buff="god"/>
 			</triggered_effect>
 		</effect_group>
 	</append>
@@ -40,14 +40,23 @@
 			<stack_type value="ignore"/>
 			<duration value="1"/>
 			<effect_group>
+				<!-- This group had no requirement at all, so it granted a level even when
+				     the perk was locked, and the group below logged FAILED on every
+				     successful level up. Both now gate on CanPurchasePerk, matching the
+				     other 86 level up buffs in the mod. -->
+				<requirement name="CanPurchasePerk, SCore" progression_name="perkSalvageOperations"/>
+				<triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Salvage Operations - Level Up SUCCESS (perkSalvageOperations)">
+				    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+				</triggered_effect>
 				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkSalvageOperations" level="1"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xp" operation="subtract" value="@$perksalvageoperations_lbd_xptonext"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkSalvageOperationsLeveledUp"/>
 			</effect_group>
 			<effect_group>
-				<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Salvage Operations - Level Up FAILED. Perk is locked by requirements.">
-					<requirement name="HasBuff" buff="god"/>
+				<requirement name="!CanPurchasePerk, SCore" progression_name="perkSalvageOperations"/>
+				<triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Salvage Operations - Level Up FAILED. Perk is locked by requirements.">
+					<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
 				</triggered_effect>
 			</effect_group>
 		</buff>

@@ -9,27 +9,27 @@
             <requirement name="WornItems" tags="mediumArmor" operation="GTE" value="3"/>
 
             <!-- XP Gain -->
-            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="LBD DEBUG: Medium Armor - Attempting XP Gain (+@$lbd_xp_damage_taken_base)">
+            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessageCVars, SCore" message="LBD DEBUG: Medium Armor - Attempting XP Gain (+@$lbd_xp_damage_taken_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$perkmediumarmor_lbd_xp" operation="add" value="@$lbd_xp_damage_taken_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Cooldown Application -->
-            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="LBD DEBUG: Medium Armor - Applying Cooldown">
+            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessageCVars, SCore" message="LBD DEBUG: Medium Armor - Applying Cooldown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" buff="buffLBD_perkMediumArmor_XPCoolDown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Level Up Check -->
-            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="LBD DEBUG: Medium Armor - Triggering Level Up Check">
+            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessageCVars, SCore" message="LBD DEBUG: Medium Armor - Triggering Level Up Check">
                 <requirement name="CVarCompare" cvar="$perkmediumarmor_lbd_xp" operation="GTE" value="@$perkmediumarmor_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" buff="buffLBD_perkMediumArmor_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkmediumarmor_lbd_xp" operation="GTE" value="@$perkmediumarmor_lbd_xptonext"/>
@@ -40,51 +40,47 @@
             <!-- Player must be wearing at least 3 pieces of medium armor. -->
             <requirement name="WornItems" tags="mediumArmor" operation="GTE" value="3"/>
 
-            <triggered_effect trigger="onSelfRun" action="LogMessage" message="LBD DEBUG: Medium Armor - Attempting XP Gain (+@$lbd_xp_attribute_synergy_base)">
-                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+            <triggered_effect trigger="onSelfRun" action="LogMessageCVars, SCore" message="LBD DEBUG: Medium Armor - Attempting XP Gain (+@$lbd_xp_attribute_synergy_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_MoveCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkmediumarmor_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
-                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_XPCoolDown"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_MoveCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfWalk" action="LogMessage" message="LBD DEBUG: Medium Armor - Attempting XP Gain (+@$lbd_xp_attribute_synergy_base)">
-                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+            <triggered_effect trigger="onSelfWalk" action="LogMessageCVars, SCore" message="LBD DEBUG: Medium Armor - Attempting XP Gain (+@$lbd_xp_attribute_synergy_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_MoveCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkmediumarmor_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
-                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_XPCoolDown"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_MoveCoolDown"/>
             </triggered_effect>
-       
-            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkmediumarmor_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
-                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_XPCoolDown"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkmediumarmor_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
-                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_XPCoolDown"/>
-            </triggered_effect>
+            <!-- A second, identical onSelfRun/onSelfWalk pair sat here: same trigger, cvar,
+                 value and requirements as the two above, so every run and walk tick paid
+                 Medium Armor twice. Light and Heavy Armor each have a single award. -->
 
 
             <!-- Cooldown Application -->
-            <triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_perkMediumArmor_XPCoolDown">
-                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_XPCoolDown"/>
+            <triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_perkMediumArmor_MoveCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_MoveCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_perkMediumArmor_XPCoolDown">
-                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_XPCoolDown"/>
+            <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_perkMediumArmor_MoveCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_MoveCoolDown"/>
             </triggered_effect>
 
             <!-- Level Up Check -->
-            <triggered_effect trigger="onSelfRun" action="LogMessage" message="LBD DEBUG: Medium Armor - Triggering Level Up Check">
+            <triggered_effect trigger="onSelfRun" action="LogMessageCVars, SCore" message="LBD DEBUG: Medium Armor - Triggering Level Up Check">
                 <requirement name="CVarCompare" cvar="$perkmediumarmor_lbd_xp" operation="GTE" value="@$perkmediumarmor_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_perkMediumArmor_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkmediumarmor_lbd_xp" operation="GTE" value="@$perkmediumarmor_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfWalk" action="LogMessage" message="LBD DEBUG: Medium Armor - Triggering Level Up Check">
+            <triggered_effect trigger="onSelfWalk" action="LogMessageCVars, SCore" message="LBD DEBUG: Medium Armor - Triggering Level Up Check">
                 <requirement name="CVarCompare" cvar="$perkmediumarmor_lbd_xp" operation="GTE" value="@$perkmediumarmor_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_perkMediumArmor_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkmediumarmor_lbd_xp" operation="GTE" value="@$perkmediumarmor_lbd_xptonext"/>
@@ -98,6 +94,9 @@
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="perkMediumArmor" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Medium Armor - Level Up SUCCESS (perkMediumArmor)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkMediumArmor" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmediumarmor_lbd_xp" operation="subtract" value="@$perkmediumarmor_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmediumarmor_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
@@ -105,8 +104,8 @@
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkMediumArmor" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Medium Armor - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Medium Armor - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

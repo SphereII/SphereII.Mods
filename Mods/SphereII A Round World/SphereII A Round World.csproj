@@ -54,6 +54,7 @@
       <Content Include="Config\recipes.xml" />
       <Content Include="Config\ui_display.xml" />
       <Content Include="Config\XUi\windows.xml" />
+      <Content Include="Config\XUi_InGame\windows.xml" />
       <Content Include="ModInfo.xml" />
       <Content Include="Properties\versionTemplate.tt">
         <Generator>TextTemplatingFileGenerator</Generator>

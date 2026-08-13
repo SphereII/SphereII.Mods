@@ -4,14 +4,14 @@
         <effect_group name="Slow Metabolism">
             <!-- "The Efficient Consumer" - Rewarding Strategic Food/Water Consumption -->
             <!-- This triggers directly on consumption, checking player's state *at that moment*. -->
-            <triggered_effect trigger="onSelfPrimaryActionEnd" action="LogMessage" message="LBD DEBUG: Slow Metabolism - Attempting Efficient Consumption XP (+@$lbd_xp_slowmetabolism_bonus)">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="LogMessageCVars, SCore" message="LBD DEBUG: Slow Metabolism - Attempting Efficient Consumption XP (+@$lbd_xp_slowmetabolism_bonus)">
                 <requirement name="HoldingItemHasTags" tags="food,drinks"/>
                 <requirements compare_type="or">
                     <requirement name="StatComparePercCurrentToModMax" stat="Food" operation="LT" value="1"/>
                     <requirement name="StatComparePercCurrentToModMax" stat="Water" operation="LT" value="1"/>
                 </requirements>
                 <requirement name="NotHasBuff" buff="buffLBD_perkSlowMetabolism_ConsumeCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$perkslowmetabolism_lbd_xp" operation="add" value="@$lbd_xp_slowmetabolism_bonus">
                 <requirement name="HoldingItemHasTags" tags="food,drinks"/>
@@ -33,8 +33,8 @@
             <!-- Dysentery check -->
             <effect_group name="Dysentery">
                 <requirement name="CVarCompare" cvar="$dysenteryCounter" operation="GT" value="0"/>
-                <triggered_effect trigger="onSelfBuffRemove" action="LogMessage" message="LBD DEBUG: Slow Metabolism - Dysentery (+@$lbd_xp_slowmetabolism_bonus)">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffRemove" action="LogMessageCVars, SCore" message="LBD DEBUG: Slow Metabolism - Dysentery (+@$lbd_xp_slowmetabolism_bonus)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffRemove" action="ModifyCVar" cvar="$perkslowmetabolism_lbd_xp" operation="add" value="@$lbd_xp_slowmetabolism_bonus" />
             </effect_group>
@@ -44,10 +44,10 @@
                 <requirement name="CVarCompare" cvar="$dysenteryCounter" operation="LTE" value="0"/>
 
                 <!-- XP Gain: Based on Food Consumed (if not near full) -->
-                <triggered_effect trigger="onSelfBuffRemove" action="LogMessage" message="LBD DEBUG: Slow Metabolism - Food Consumed XP (+@$lbd_xp_slowmetabolism_bonus)">
+                <triggered_effect trigger="onSelfBuffRemove" action="LogMessageCVars, SCore" message="LBD DEBUG: Slow Metabolism - Food Consumed XP (+@$lbd_xp_slowmetabolism_bonus)">
                     <requirement name="StatComparePercCurrentToModMax" stat="Food" operation="LT" value="1"/> <!-- Was not full food before consumption -->
                     <requirement name="CVarCompare" cvar="$foodHealthAmount" operation="GT" value="0"/>
-                    <requirement name="HasBuff" buff="god"/>
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffRemove" action="ModifyCVar" cvar="$perkslowmetabolism_lbd_xp" operation="add" value="@$lbd_xp_slowmetabolism_bonus">
                     <requirement name="StatComparePercCurrentToModMax" stat="Food" operation="LT" value="1"/>
@@ -55,10 +55,10 @@
                 </triggered_effect>
 
                 <!-- XP Gain: Based on Water Consumed (if not near full) -->
-                <triggered_effect trigger="onSelfBuffRemove" action="LogMessage" message="LBD DEBUG: Slow Metabolism - Water Consumed XP (+@$lbd_xp_slowmetabolism_bonus)">
+                <triggered_effect trigger="onSelfBuffRemove" action="LogMessageCVars, SCore" message="LBD DEBUG: Slow Metabolism - Water Consumed XP (+@$lbd_xp_slowmetabolism_bonus)">
                     <requirement name="StatComparePercCurrentToModMax" stat="Water" operation="LT" value="1"/> <!-- Was not full water before consumption -->
                     <requirement name="CVarCompare" cvar="$waterAmountAdd" operation="GT" value="0"/>
-                    <requirement name="HasBuff" buff="god"/>
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffRemove" action="ModifyCVar" cvar="$perkslowmetabolism_lbd_xp" operation="add" value="@$lbd_xp_slowmetabolism_bonus">
                     <requirement name="CVarCompare" cvar="$waterAmountAdd" operation="GT" value="0"/>
@@ -68,15 +68,15 @@
     
             <effect_group name="Cool down and level up checks. ">
                 <!-- Apply Cooldown -->
-                <triggered_effect trigger="onSelfBuffRemove" action="LogMessage" message="LBD DEBUG: Slow Metabolism - Applying Consume Cooldown">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffRemove" action="LogMessageCVars, SCore" message="LBD DEBUG: Slow Metabolism - Applying Consume Cooldown">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffRemove" action="AddBuff" buff="buffLBD_perkSlowMetabolism_ConsumeCoolDown"/>
                 
                 <!-- Level Up Check -->
-                <triggered_effect trigger="onSelfBuffRemove" action="LogMessage" message="LBD DEBUG: Slow Metabolism - Triggering Level Up Check (from Consume)">
+                <triggered_effect trigger="onSelfBuffRemove" action="LogMessageCVars, SCore" message="LBD DEBUG: Slow Metabolism - Triggering Level Up Check (from Consume)">
                     <requirement name="CVarCompare" cvar="$perkslowmetabolism_lbd_xp" operation="GTE" value="@$perkslowmetabolism_lbd_xptonext"/>
-                    <requirement name="HasBuff" buff="god"/>
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
                 
                 <triggered_effect trigger="onSelfBuffRemove" action="AddBuff" buff="buffLBD_perkSlowMetabolism_LevelUpCheck">
@@ -90,6 +90,9 @@
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="perkSlowMetabolism" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Slow Metabolism - Level Up SUCCESS (perkSlowMetabolism)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkSlowMetabolism" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkslowmetabolism_lbd_xp" operation="subtract" value="@$perkslowmetabolism_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkslowmetabolism_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
@@ -97,8 +100,8 @@
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkSlowMetabolism" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Slow Metabolism - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Slow Metabolism - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

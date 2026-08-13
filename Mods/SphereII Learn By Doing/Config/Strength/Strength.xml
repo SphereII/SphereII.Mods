@@ -2,21 +2,21 @@
     <append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
         <effect_group name="Strength">
 
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Strength Attribute Primary - General Use Synergy XP">
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Strength Attribute Primary - General Use Synergy XP (+@$lbd_xp_melee_base)">
                 <requirement name="HoldingItemHasTags" tags="attStrength"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Strength Attribute Power - General Use Synergy XP">
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Strength Attribute Power - General Use Synergy XP (+@$lbd_xp_melee_power_base)">
                 <requirement name="HoldingItemHasTags" tags="attStrength"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessage" message="LBD DEBUG: Strength Attribute - Master Miner Synergy XP">
+            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessageCVars, SCore" message="LBD DEBUG: Strength Attribute - Master Miner Synergy XP (+@$lbd_xp_strength_block_bonus)">
                 <requirement name="HoldingItemHasTags" tags="miningTool"/>
                 <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
 
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attstrength_lbd_xp" operation="add" value="@$lbd_xp_melee_base">
@@ -70,8 +70,11 @@
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="attStrength" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="Level Up Check 1" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="Level Up Check 1" />
 
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Strength - Level Up SUCCESS (attStrength)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attStrength" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attstrength_lbd_xp" operation="subtract" value="@$attstrength_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attstrength_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
@@ -80,8 +83,8 @@
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="attStrength" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Strength - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Strength - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

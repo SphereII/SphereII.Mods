@@ -1,31 +1,33 @@
 <configs>
     <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
         <effect_group name="LBD Crafting Skill - Electrician">
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Electrician - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingelectrician_lbd_lastitem"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingelectrician_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingelectrician_lbd_lastitem"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Electrician - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingelectrician_lbd_xp" operation="add" value="@$lbd_xp_scrapping_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Electrician - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingelectrician_lbd_xp" operation="add" value="@$lbd_xp_repairing_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
@@ -33,31 +35,43 @@
                 <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Electrician - Applying Cooldown (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Applying Cooldown (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Attempting Block Craft XP (+@$lbd_xp_crafting_base)">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="electricianSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingelectrician_lbd_lastitem"/>
+            </triggered_effect>
+
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingElectrician_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
             </triggered_effect>
-
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Electrician - Applying Cooldown (Scrap)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Applying Cooldown (Scrap)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Attempting Block Scrap XP (+@$lbd_xp_scrapping_base)">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="electricianSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingElectrician_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Electrician - Applying Cooldown (Repair)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Applying Cooldown (Repair)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingElectrician_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
@@ -65,37 +79,197 @@
                 <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Electrician - Triggering Level Up Check (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Triggering Level Up Check (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="CVarCompare" cvar="$craftingelectrician_lbd_xp" operation="GTE" value="@$craftingelectrician_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingElectrician_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="CVarCompare" cvar="$craftingelectrician_lbd_xp" operation="GTE" value="@$craftingelectrician_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Electrician - Triggering Level Up Check (Scrap)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Triggering Level Up Check (Scrap)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="CVarCompare" cvar="$craftingelectrician_lbd_xp" operation="GTE" value="@$craftingelectrician_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingElectrician_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="CVarCompare" cvar="$craftingelectrician_lbd_xp" operation="GTE" value="@$craftingelectrician_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Electrician - Triggering Level Up Check (Repair)">
+            <!-- Every craftingElectrician recipe produces a block - generator, relay, switch,
+                 electric fence post. Blocks have no entry in items.xml and therefore no
+                 UnlockedBy property, so the ItemHasProperty paths above match nothing at all -
+                 this skill could not gain a single point. RequirementCraftedBlockHasTags
+                 resolves the crafted item back to its block and tests the block's own tags.
+                 Vanilla already tags every craftable block here, some directly and some
+                 through the Extends chain, which BlocksFromXml inherits Tags along. -->
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Triggering Level Up Check (Repair)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingelectrician_lbd_xp" operation="GTE" value="@$craftingelectrician_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingElectrician_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingElectrician"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingelectrician_lbd_xp" operation="GTE" value="@$craftingelectrician_lbd_xptonext"/>
             </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingelectrician_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="electricianSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingelectrician_lbd_lastitem"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingelectrician_lbd_xp" operation="add" value="@$lbd_xp_scrapping_base">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="electricianSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingElectrician_ActionCoolDown">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="electricianSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingElectrician_ActionCoolDown">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="electricianSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Triggering Level Up Check (Block Craft)">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="electricianSkill"/>
+                <requirement name="CVarCompare" cvar="$craftingelectrician_lbd_xp" operation="GTE" value="@$craftingelectrician_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingElectrician_LevelUpCheck">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="electricianSkill"/>
+                <requirement name="CVarCompare" cvar="$craftingelectrician_lbd_xp" operation="GTE" value="@$craftingelectrician_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingElectrician_LevelUpCheck">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="electricianSkill"/>
+                <requirement name="CVarCompare" cvar="$craftingelectrician_lbd_xp" operation="GTE" value="@$craftingelectrician_lbd_xptonext"/>
+            </triggered_effect>
+
+
+            <!-- Salvaging the blocks in the world, which is the only way into this skill.
+                 Its recipes do not unlock until level 25 and nothing else it can craft is
+                 ungated, so craft XP alone could never start it: crafting needed 25, 25
+                 needed XP. Taking apart the generators, relays, switches, wiring and lights
+                 found in POIs works from level 0 and stops at 24, where the recipes open up
+                 and the craft paths take over. Same shape craftingWorkstations already uses
+                 for its own block-only problem: a wrench, a per-hit trickle and a payout on
+                 the block coming down. -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Attempting Salvage Hit XP (+@$lbd_xp_harvest_base)">
+                <requirement name="ProgressionLevel" progression_name="craftingElectrician" operation="LTE" value="24"/>
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <!-- electricianSkill sits on the 92 functional electrical blocks you build -
+                     generator, relay, switch, wiring - which are rare in a POI. The lights,
+                     AC units and machinery you actually salvage carry challenge_elec_parts
+                     instead; a POI ceiling light has that and nothing else. Both are listed
+                     here, and IsTargetBlock matches any of them. -->
+                <requirement name="RequirementIsTargetBlock, SCore" tags="electricianSkill,challenge_elec_parts"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_HitCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$craftingelectrician_lbd_xp" operation="add" value="@$lbd_xp_harvest_base">
+                <requirement name="ProgressionLevel" progression_name="craftingElectrician" operation="LTE" value="24"/>
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <!-- electricianSkill sits on the 92 functional electrical blocks you build -
+                     generator, relay, switch, wiring - which are rare in a POI. The lights,
+                     AC units and machinery you actually salvage carry challenge_elec_parts
+                     instead; a POI ceiling light has that and nothing else. Both are listed
+                     here, and IsTargetBlock matches any of them. -->
+                <requirement name="RequirementIsTargetBlock, SCore" tags="electricianSkill,challenge_elec_parts"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_HitCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_craftingElectrician_HitCoolDown">
+                <requirement name="ProgressionLevel" progression_name="craftingElectrician" operation="LTE" value="24"/>
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <!-- electricianSkill sits on the 92 functional electrical blocks you build -
+                     generator, relay, switch, wiring - which are rare in a POI. The lights,
+                     AC units and machinery you actually salvage carry challenge_elec_parts
+                     instead; a POI ceiling light has that and nothing else. Both are listed
+                     here, and IsTargetBlock matches any of them. -->
+                <requirement name="RequirementIsTargetBlock, SCore" tags="electricianSkill,challenge_elec_parts"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_HitCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Attempting Salvage Teardown XP (+@$lbd_xp_crafting_bigxp)">
+                <requirement name="ProgressionLevel" progression_name="craftingElectrician" operation="LTE" value="24"/>
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <!-- electricianSkill sits on the 92 functional electrical blocks you build -
+                     generator, relay, switch, wiring - which are rare in a POI. The lights,
+                     AC units and machinery you actually salvage carry challenge_elec_parts
+                     instead; a POI ceiling light has that and nothing else. Both are listed
+                     here, and IsTargetBlock matches any of them. -->
+                <requirement name="RequirementIsTargetBlock, SCore" tags="electricianSkill,challenge_elec_parts"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="ModifyCVar" cvar="$craftingelectrician_lbd_xp" operation="add" value="@$lbd_xp_crafting_bigxp">
+                <requirement name="ProgressionLevel" progression_name="craftingElectrician" operation="LTE" value="24"/>
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <!-- electricianSkill sits on the 92 functional electrical blocks you build -
+                     generator, relay, switch, wiring - which are rare in a POI. The lights,
+                     AC units and machinery you actually salvage carry challenge_elec_parts
+                     instead; a POI ceiling light has that and nothing else. Both are listed
+                     here, and IsTargetBlock matches any of them. -->
+                <requirement name="RequirementIsTargetBlock, SCore" tags="electricianSkill,challenge_elec_parts"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff" buff="buffLBD_craftingElectrician_ActionCoolDown">
+                <requirement name="ProgressionLevel" progression_name="craftingElectrician" operation="LTE" value="24"/>
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <!-- electricianSkill sits on the 92 functional electrical blocks you build -
+                     generator, relay, switch, wiring - which are rare in a POI. The lights,
+                     AC units and machinery you actually salvage carry challenge_elec_parts
+                     instead; a POI ceiling light has that and nothing else. Both are listed
+                     here, and IsTargetBlock matches any of them. -->
+                <requirement name="RequirementIsTargetBlock, SCore" tags="electricianSkill,challenge_elec_parts"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingElectrician_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Electrician - Triggering Level Up Check (Salvage)">
+                <requirement name="ProgressionLevel" progression_name="craftingElectrician" operation="LTE" value="24"/>
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <!-- electricianSkill sits on the 92 functional electrical blocks you build -
+                     generator, relay, switch, wiring - which are rare in a POI. The lights,
+                     AC units and machinery you actually salvage carry challenge_elec_parts
+                     instead; a POI ceiling light has that and nothing else. Both are listed
+                     here, and IsTargetBlock matches any of them. -->
+                <requirement name="RequirementIsTargetBlock, SCore" tags="electricianSkill,challenge_elec_parts"/>
+                <requirement name="CVarCompare" cvar="$craftingelectrician_lbd_xp" operation="GTE" value="@$craftingelectrician_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff" buff="buffLBD_craftingElectrician_LevelUpCheck">
+                <requirement name="ProgressionLevel" progression_name="craftingElectrician" operation="LTE" value="24"/>
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <!-- electricianSkill sits on the 92 functional electrical blocks you build -
+                     generator, relay, switch, wiring - which are rare in a POI. The lights,
+                     AC units and machinery you actually salvage carry challenge_elec_parts
+                     instead; a POI ceiling light has that and nothing else. Both are listed
+                     here, and IsTargetBlock matches any of them. -->
+                <requirement name="RequirementIsTargetBlock, SCore" tags="electricianSkill,challenge_elec_parts"/>
+                <requirement name="CVarCompare" cvar="$craftingelectrician_lbd_xp" operation="GTE" value="@$craftingelectrician_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_craftingElectrician_LevelUpCheck">
+                <requirement name="ProgressionLevel" progression_name="craftingElectrician" operation="LTE" value="24"/>
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <!-- electricianSkill sits on the 92 functional electrical blocks you build -
+                     generator, relay, switch, wiring - which are rare in a POI. The lights,
+                     AC units and machinery you actually salvage carry challenge_elec_parts
+                     instead; a POI ceiling light has that and nothing else. Both are listed
+                     here, and IsTargetBlock matches any of them. -->
+                <requirement name="RequirementIsTargetBlock, SCore" tags="electricianSkill,challenge_elec_parts"/>
+                <requirement name="CVarCompare" cvar="$craftingelectrician_lbd_xp" operation="GTE" value="@$craftingelectrician_lbd_xptonext"/>
+            </triggered_effect>
+
+            <!-- Remember what was just crafted. Ordered last so the awards above
+                 compare against the PREVIOUS craft, not this one. A queue of twenty
+                 identical items now scores once; twenty different items score twenty
+                 times. A cooldown cannot make that distinction - when an item takes
+                 longer to craft than the cooldown lasts, every craft in the queue
+                 scores regardless. -->
+            <triggered_effect trigger="onSelfItemCrafted" action="SetCVarFromItemType, SCore" cvar="$craftingelectrician_lbd_lastitem"/>
+
         </effect_group>
 
     </append>
@@ -105,20 +279,25 @@
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="craftingElectrician" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Electrician - Level Up SUCCESS (craftingElectrician)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingElectrician" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingelectrician_lbd_xp" operation="subtract" value="@$craftingelectrician_lbd_xptonext"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingelectrician_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingelectrician_lbd_xptonext" operation="multiply" value="@$lbd_xp_crafting_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingElectrician" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="craftingElectrician" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Electrician - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Electrician - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>
 
         <buff name="buffLBD_craftingElectrician_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Per-hit throttle while salvaging, matching craftingWorkstations. -->
+        <buff name="buffLBD_craftingElectrician_HitCoolDown" hidden="true"><duration value="5"/></buff>
 
     </append>
 </configs>

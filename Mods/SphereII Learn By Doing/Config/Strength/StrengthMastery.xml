@@ -3,14 +3,14 @@
         <buff name="buffLBD_attStrength_MasteryChecker" hidden="true">
             <duration value="0.1"/>
 
-            <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+            <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore"
                               message="LBD DEBUG: Strength Mastery Checker Fired. Checking for Mastery level up.">
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
 
             <effect_group name="Mastery Levels">
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 5)">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 5)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attStrength" operation="Equals" value="10"/>
                     <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="5"/>
                 </triggered_effect>
@@ -19,8 +19,8 @@
                     <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="5"/>
                 </triggered_effect>
 
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 4)">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 4)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attStrength" operation="Equals" value="9"/>
                     <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="4"/>
                 </triggered_effect>
@@ -29,8 +29,8 @@
                     <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="4"/>
                 </triggered_effect>
 
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 3)">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 3)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attStrength" operation="Equals" value="8"/>
                     <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="3"/>
                 </triggered_effect>
@@ -39,8 +39,8 @@
                     <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="3"/>
                 </triggered_effect>
 
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 2)">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 2)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attStrength" operation="Equals" value="7"/>
                     <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="2"/>
                 </triggered_effect>
@@ -49,8 +49,8 @@
                     <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="2"/>
                 </triggered_effect>
 
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 1)">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 1)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attStrength" operation="Equals" value="6"/>
                     <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="1"/>
                 </triggered_effect>
@@ -66,6 +66,9 @@
             <duration value="1"/>
             <effect_group>
                 <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkStrengthMastery"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Strength Mastery - Level Up SUCCESS (perkStrengthMastery)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkStrengthMastery" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_xp" operation="subtract" value="@$perkstrengthmastery_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
@@ -73,8 +76,8 @@
             </effect_group>
             <effect_group>
                 <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkStrengthMastery"/>
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Strength Mastery - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Strength Mastery - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

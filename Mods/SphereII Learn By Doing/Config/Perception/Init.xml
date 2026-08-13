@@ -8,7 +8,14 @@
 			<!-- Initializers for Perception CVars -->
 			<!-- attPerception -->
 			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="set" value="0"/>
-			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xptonext" operation="set" value="5000"/>
+			<!-- Attribute first threshold. Was 5000, which at the ~10 XP/min a real session
+                 produces meant 8 hours for level 1 and about 209 hours to reach 10 -
+                 nearly seven times what maxing a five level perk costs, despite
+                 attributes accruing faster from their seven to nine award paths. At
+                 1200, the same number every perk uses, level 1 lands in under two
+                 hours and the full ten levels total 31,150, still three and a half
+                 times a perk's whole ladder. The 1.2 curve is global and unchanged. -->
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xptonext" operation="set" value="1200"/>
 			<!-- perkDeadEye -->
 			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeadeye_lbd_xp" operation="set" value="0"/>
 			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeadeye_lbd_xptonext" operation="set" value="1200"/>

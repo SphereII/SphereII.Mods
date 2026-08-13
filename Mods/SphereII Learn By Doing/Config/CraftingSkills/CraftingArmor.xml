@@ -1,31 +1,33 @@
 <configs>
     <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
         <effect_group name="LBD Crafting Skill - Armor">
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Armor - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Armor - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingarmor_lbd_lastitem"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingarmor_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_ActionCoolDown"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingarmor_lbd_lastitem"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Armor - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Armor - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingarmor_lbd_xp" operation="add" value="@$lbd_xp_scrapping_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Armor - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Armor - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingarmor_lbd_xp" operation="add" value="@$lbd_xp_repairing_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
@@ -33,45 +35,45 @@
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Armor - Attempting T0 Repair XP (+@$lbd_xp_repairing_base)">
-                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="5"/>
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Armor - Attempting T0 Repair XP (+@$lbd_xp_repairing_base)">
+                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="10"/>
                 <requirement name="ItemHasProperty, SCore" property="ArmorGroup" prop_value="groupPrimitive"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_T0RepairCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingarmor_lbd_xp" operation="add" value="@$lbd_xp_repairing_base">
-                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="5"/>
+                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="10"/>
                 <requirement name="ItemHasProperty, SCore" property="ArmorGroup" prop_value="groupPrimitive"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_T0RepairCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Armor - Applying Cooldown (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Armor - Applying Cooldown (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingArmor_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Armor - Applying Cooldown (Scrap)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Armor - Applying Cooldown (Scrap)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingArmor_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Armor - Applying Cooldown (Repair)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Armor - Applying Cooldown (Repair)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingArmor_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
@@ -80,37 +82,37 @@
             </triggered_effect>
 
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingArmor_T0RepairCoolDown">
-                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="5"/>
+                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="10"/>
                 <requirement name="ItemHasProperty, SCore" property="ArmorGroup" prop_value="groupPrimitive"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_T0RepairCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Armor - Triggering Level Up Check (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Armor - Triggering Level Up Check (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="CVarCompare" cvar="$craftingarmor_lbd_xp" operation="GTE" value="@$craftingarmor_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingArmor_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="CVarCompare" cvar="$craftingarmor_lbd_xp" operation="GTE" value="@$craftingarmor_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Armor - Triggering Level Up Check (Scrap)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Armor - Triggering Level Up Check (Scrap)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="CVarCompare" cvar="$craftingarmor_lbd_xp" operation="GTE" value="@$craftingarmor_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingArmor_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="CVarCompare" cvar="$craftingarmor_lbd_xp" operation="GTE" value="@$craftingarmor_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Armor - Triggering Level Up Check (Repair)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Armor - Triggering Level Up Check (Repair)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingarmor_lbd_xp" operation="GTE" value="@$craftingarmor_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingArmor_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
@@ -118,19 +120,27 @@
                 <requirement name="CVarCompare" cvar="$craftingarmor_lbd_xp" operation="GTE" value="@$craftingarmor_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Armor - Triggering Level Up Check (T0 Repair)">
-                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="5"/>
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Armor - Triggering Level Up Check (T0 Repair)">
+                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="10"/>
                 <requirement name="ItemHasProperty, SCore" property="ArmorGroup" prop_value="groupPrimitive"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingarmor_lbd_xp" operation="GTE" value="@$craftingarmor_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingArmor_LevelUpCheck">
-                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="5"/>
+                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="10"/>
                 <requirement name="ItemHasProperty, SCore" property="ArmorGroup" prop_value="groupPrimitive"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingarmor_lbd_xp" operation="GTE" value="@$craftingarmor_lbd_xptonext"/>
             </triggered_effect>
+            <!-- Remember what was just crafted. Ordered last so the awards above
+                 compare against the PREVIOUS craft, not this one. A queue of twenty
+                 identical items now scores once; twenty different items score twenty
+                 times. A cooldown cannot make that distinction - when an item takes
+                 longer to craft than the cooldown lasts, every craft in the queue
+                 scores regardless. -->
+            <triggered_effect trigger="onSelfItemCrafted" action="SetCVarFromItemType, SCore" cvar="$craftingarmor_lbd_lastitem"/>
+
         </effect_group>
 
         <effect_group name="LBD Decay Activity Resets for Crafting Armor">
@@ -148,7 +158,7 @@
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingarmor_decay_counter" operation="set" value="0">
-                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="5"/>
+                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="10"/>
                 <requirement name="ItemHasProperty, SCore" property="ArmorGroup" prop_value="groupPrimitive"/>
             </triggered_effect>
         </effect_group>
@@ -157,24 +167,32 @@
     <append xpath="/buffs">
         <buff name="buffLBD_craftingArmor_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
+            <!-- One ungated group, matching the 19 crafting skills that have no attribute
+                 requirement at all.
+
+                 This used to be split in two, with levels 5 and up gated on
+                 attGeneral GTE 2. No such progression exists - the vanilla General tree is
+                 attGeneralPerks, a hidden container with max_level 0 - so the requirement
+                 read 0 and never passed, hard capping the skill at level 5. Its only real
+                 counterpart cannot be levelled either, so the gate is dropped rather than
+                 repointed. The split, and the ordering note that went with it, existed only
+                 to keep the gated and ungated branches from both firing on a 4 -> 5 step;
+                 with a single group there is nothing to double up. -->
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="craftingArmor" />
-                <requirement name="ProgressionLevel" progression_name="attGeneral" operation="GTE" value="2"/> 
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Armor - Level Up SUCCESS (craftingArmor)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingArmor" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingarmor_lbd_xp" operation="subtract" value="@$craftingarmor_lbd_xptonext"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingarmor_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingarmor_lbd_xptonext" operation="multiply" value="@$lbd_xp_crafting_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingArmor" sound="read_skillbook_final" />
-            </effect_group>
-            <effect_group>
-                <requirement name="CVarCompare" cvar="$craftingarmor_lbd_xp" operation="GTE" value="@$craftingarmor_lbd_xptonext"/> <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="5"/> <requirement name="ProgressionLevel" progression_name="attGeneral" operation="LT" value="2"/> <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Crafting Armor - Level Up FAILED. Need higher General to advance beyond level 5.">
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
             </effect_group>
             <effect_group>
                 <requirement name="CVarCompare" cvar="$craftingarmor_lbd_xp" operation="GTE" value="@$craftingarmor_lbd_xptonext"/>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="craftingArmor" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Armor - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Armor - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

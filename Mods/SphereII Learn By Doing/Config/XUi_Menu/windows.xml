@@ -1,0 +1,116 @@
+<configs>
+
+	<!--
+		Learn By Doing info panel for the main menu, as a tabbed text box.
+
+		PLACEMENT
+		The menu's virtual canvas is 1920 wide and a window's origin is its top-left
+		corner at pos, so anchor="Top" pos="420,-320" puts the left edge at x=420 - the
+		same column vanilla's news boxes use (mainMenuNews sits at 870 with its "game"
+		rect offset -450, giving 420..870). It ends at -880, level with the bottom of the
+		button grid opposite (grid top -450 plus seven 60px rows).
+
+		TABS
+		Driven by vanilla's XUiC_TabSelector, the same machinery behind the Options and
+		Sandbox Options pages. No C# and no window switching: the selector simply toggles
+		ViewComponent.IsVisible on the tab content rects.
+
+		Three child names are load-bearing, from the [XuiBindComponent] paths on
+		XUiC_TabSelector - get them wrong and the selector logs an error and does nothing:
+		  tabsHeader   - searched recursively for TabSelectorButton controllers, and
+		                 non-recursively for the XUiV_Table that lays them out
+		  tabsContents - searched recursively for TabSelectorTab controllers
+		  border / backgroundMainTabs - optional sprites the selector re-anchors; this
+		                 panel defines neither, so the frame sprite is called "frame" and
+		                 the separator "headerRule" to stay out of their way.
+
+		Buttons pair to tabs BY INDEX, and any surplus button hides itself
+		(updateTabVisibility: i >= Tabs.Length -> IsVisible = false). Six slots are
+		declared below for three tabs.
+
+		TO ADD A TAB
+		  1. add a <rect controller="TabSelectorTab" tab_key="..."> block to tabsContents
+		  2. add two rows to Localization.csv: the tab_key itself becomes the tab caption
+		     (XUiC_TabSelectorTab.TabKey runs it through Localization.Get), plus a key for
+		     the body text
+		Nothing else. Only if a seventh tab is ever wanted does the button count need
+		raising - and it must never be lower than the tab count, because
+		XUiC_TabSelectorTab.TabSelected dereferences TabButton without a null check.
+
+		Tab 0 is selected at Init, so the first tab listed is what opens.
+		select_tab_contents_on_open / select_tab_contents_on_change are off because the tab
+		bodies hold no selectable controls for gamepad focus to land on. Note the second
+		name: vanilla's own sandboxOptions and serverBrowser windows write it as
+		"select_contents_on_change", which is not the registered attribute name
+		(XUiC_TabSelector.attributeSelectTabContentsOnChange) and so does nothing. The
+		spelling below is the one the code actually reads.
+
+		Gamepad: with use_page_buttons left at its default false, XUiC_TabSelector.Update
+		cycles tabs on GUI Window Paging Left/Right while the main menu group is open.
+		Nothing else in the main menu binds those, so there is no conflict. Setting it true
+		moves the binding to Page Up/Down and makes the window request gamepad callout
+		icons, which would put extra chrome on the main menu - hence off.
+
+		Body text comes from Localization.csv. ModManager.LoadLocalizations runs at startup
+		with _isLoadingInGame false, so mod localization is loaded before the menu is built,
+		and the literal \n sequences become real newlines - NGUI's ByteReader.ReadCSV does
+		Replace("\\n", "\n") as it parses.
+	-->
+	<append xpath="/windows">
+
+		<window name="mainMenuLearnByDoing" anchor="Top" pos="420,-320" width="450" height="560" depth="1">
+			<rect depth="1" name="panel" width="450" height="560">
+
+				<sprite depth="0" name="background" sprite="menu_empty" type="sliced" color="[black]" globalopacitymod="0" />
+				<sprite depth="3" name="frame" sprite="menu_empty2px" type="sliced" color="[mediumGrey]" globalopacitymod="0" fillcenter="false" />
+
+				<label depth="4" name="header" pos="14,-12" width="422" height="32" font_size="26" spacing_x="2"
+				       text_key="lbdMenuHeader" color="[white]" upper_case="true" pivot="topleft" justify="left" />
+
+				<sprite depth="4" name="headerRule" pos="14,-90" width="422" height="2" sprite="menu_empty2px"
+				        type="sliced" color="[red]" globalopacitymod="0" />
+
+				<rect name="tabs" depth="4" width="450" height="560" controller="TabSelector"
+				      select_tab_contents_on_open="false" select_tab_contents_on_change="false">
+
+					<rect name="tabsHeader" pos="0,-52" width="450" height="34" depth="5">
+						<table name="tabButtons" pos="14,0" depth="5" cols="6" padding="14,0"
+						       reposition_twice="true" pivot="topleft" cell_alignment="center">
+							<lbd_tab_button name="1" />
+							<lbd_tab_button name="2" />
+							<lbd_tab_button name="3" />
+							<lbd_tab_button name="4" />
+							<lbd_tab_button name="5" />
+							<lbd_tab_button name="6" />
+						</table>
+					</rect>
+
+					<rect name="tabsContents" pos="14,-100" width="422" height="446" depth="5">
+
+						<rect controller="TabSelectorTab" tab_key="lbdTabOverview">
+							<label depth="6" name="body" width="422" height="446" font_size="20" spacing_x="1"
+							       text_key="lbdTabOverviewBody" color="[lightestGrey]" pivot="topleft"
+							       justify="left" overflow="resizeheight" />
+						</rect>
+
+						<rect controller="TabSelectorTab" tab_key="lbdTabLevelling">
+							<label depth="6" name="body" width="422" height="446" font_size="20" spacing_x="1"
+							       text_key="lbdTabLevellingBody" color="[lightestGrey]" pivot="topleft"
+							       justify="left" overflow="resizeheight" />
+						</rect>
+
+						<rect controller="TabSelectorTab" tab_key="lbdTabChanges">
+							<label depth="6" name="body" width="422" height="446" font_size="20" spacing_x="1"
+							       text_key="lbdTabChangesBody" color="[lightestGrey]" pivot="topleft"
+							       justify="left" overflow="resizeheight" />
+						</rect>
+
+					</rect>
+				</rect>
+
+			</rect>
+		</window>
+
+	</append>
+
+</configs>

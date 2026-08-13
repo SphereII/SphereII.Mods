@@ -259,14 +259,14 @@
         <buff name="buffLBD_perkFlurryOfBlows_Decay" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="ProgressionLevel" progression_name="perkFlurryOfBlows" operation="GT" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfBlows" level="-1"/>
+                <requirement name="ProgressionLevel" progression_name="perkFlurryOfStrength" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfStrength" level="-1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofblows_decay_counter" operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFlurryOfBlows" sound="ui_skill_decay" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFlurryOfStrength" sound="ui_skill_decay" />
             </effect_group>
         </buff>
 
-        <buff name="buffLBD_perkMiner69r__Decay" hidden="true">
+        <buff name="buffLBD_perkMiner69r_Decay" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="ProgressionLevel" progression_name="perkMiner69r" operation="GT" value="0"/>

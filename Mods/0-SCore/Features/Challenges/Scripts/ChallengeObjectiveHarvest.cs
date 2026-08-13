@@ -52,7 +52,7 @@ namespace Challenges {
         }
 
         public virtual void Current_HarvestItem(ItemValue held, ItemStack stack, BlockValue bv) {
-            Log.Out($"[ChallengeHarvest] bv block='{bv.Block?.GetBlockName()}' tags='{bv.Block?.Tags}' checking block_tags='{blockTag}'");
+          //  Log.Out($"[ChallengeHarvest] bv block='{bv.Block?.GetBlockName()}' tags='{bv.Block?.Tags}' checking block_tags='{blockTag}'");
 
             if (!string.IsNullOrEmpty(held_tags))
             {
@@ -98,7 +98,7 @@ namespace Challenges {
             if (!CheckBiome()) return;
 
             var blockTagResult = CheckBlockTags(bv);
-            Log.Out($"[ChallengeHarvest] CheckBlockTags result={blockTagResult} block='{bv.Block?.GetBlockName()}' filter='{blockTag}'");
+         //   Log.Out($"[ChallengeHarvest] CheckBlockTags result={blockTagResult} block='{bv.Block?.GetBlockName()}' filter='{blockTag}'");
             if (!blockTagResult) return;
 
             Current++;

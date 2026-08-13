@@ -194,12 +194,12 @@
             <stack_type value="ignore"/>
             <duration value="1"/>
             <effect_group>
-                <requirement name="ProgressionLevel" progression_name="perkRoboticTurrets" operation="GT" value="0"/>
+                <requirement name="ProgressionLevel" progression_name="perkTurrets" operation="GT" value="0"/>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
-                                  progression_name="perkRoboticTurrets" level="-1"/>
+                                  progression_name="perkTurrets" level="-1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkturrets_decay_counter"
                                   operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkRoboticTurrets"
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkTurrets"
                                   sound="ui_skill_decay"/>
             </effect_group>
         </buff>

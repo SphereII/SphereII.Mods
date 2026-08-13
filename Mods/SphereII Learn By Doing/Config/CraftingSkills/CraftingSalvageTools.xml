@@ -1,31 +1,33 @@
 <configs>
     <append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
         <effect_group name="LBD Crafting Skill - Salvage Tools">
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Salvage Tools - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Salvage Tools - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingsalvagetools_lbd_lastitem"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingsalvagetools_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingsalvagetools_lbd_lastitem"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Salvage Tools - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Salvage Tools - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingsalvagetools_lbd_xp" operation="add" value="@$lbd_xp_scrapping_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Salvage Tools - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Salvage Tools - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingsalvagetools_lbd_xp" operation="add" value="@$lbd_xp_repairing_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
@@ -33,31 +35,31 @@
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Salvage Tools - Applying Cooldown (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Salvage Tools - Applying Cooldown (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Salvage Tools - Applying Cooldown (Scrap)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Salvage Tools - Applying Cooldown (Scrap)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Salvage Tools - Applying Cooldown (Repair)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Salvage Tools - Applying Cooldown (Repair)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
@@ -65,61 +67,72 @@
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Salvage Tools - Triggering Level Up Check (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Salvage Tools - Triggering Level Up Check (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="CVarCompare" cvar="$craftingsalvagetools_lbd_xp" operation="GTE" value="@$craftingsalvagetools_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingSalvageTools_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="CVarCompare" cvar="$craftingsalvagetools_lbd_xp" operation="GTE" value="@$craftingsalvagetools_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Salvage Tools - Triggering Level Up Check (Scrap)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Salvage Tools - Triggering Level Up Check (Scrap)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="CVarCompare" cvar="$craftingsalvagetools_lbd_xp" operation="GTE" value="@$craftingsalvagetools_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingSalvageTools_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="CVarCompare" cvar="$craftingsalvagetools_lbd_xp" operation="GTE" value="@$craftingsalvagetools_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Salvage Tools - Triggering Level Up Check (Repair)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Salvage Tools - Triggering Level Up Check (Repair)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingsalvagetools_lbd_xp" operation="GTE" value="@$craftingsalvagetools_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingsalvagetools_LevelUpCheck">
+            <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingSalvageTools_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingsalvagetools_lbd_xp" operation="GTE" value="@$craftingsalvagetools_lbd_xptonext"/>
             </triggered_effect>
+            <!-- Remember what was just crafted. Ordered last so the awards above
+                 compare against the PREVIOUS craft, not this one. A queue of twenty
+                 identical items now scores once; twenty different items score twenty
+                 times. A cooldown cannot make that distinction - when an item takes
+                 longer to craft than the cooldown lasts, every craft in the queue
+                 scores regardless. -->
+            <triggered_effect trigger="onSelfItemCrafted" action="SetCVarFromItemType, SCore" cvar="$craftingsalvagetools_lbd_lastitem"/>
+
         </effect_group>
 
      
     </append>
 
     <append xpath="/buffs">
-        <buff name="buffLBD_craftingsalvagetools_LevelUpCheck" hidden="true">
+        <buff name="buffLBD_craftingSalvageTools_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="craftingSalvageTools" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Salvage Tools - Level Up SUCCESS (craftingSalvageTools)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingSalvageTools" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingsalvagetools_lbd_xp" operation="subtract" value="@$craftingsalvagetools_lbd_xptonext"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingsalvagetools_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingsalvagetools_lbd_xptonext" operation="multiply" value="@$lbd_xp_crafting_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingsalvagetools" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
-                <requirement name="!CanPurchasePerk, SCore" progression_name="craftingsalvagetools" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Salvage Tools - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <requirement name="!CanPurchasePerk, SCore" progression_name="craftingSalvageTools" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Salvage Tools - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>
 
-        <buff name="buffLBD_craftingsalvagetools_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+        <buff name="buffLBD_craftingSalvageTools_ActionCoolDown" hidden="true"><duration value="1"/></buff>
 
     
     </append>

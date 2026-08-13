@@ -23,6 +23,19 @@
             <!-- perkLuckyLooter -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkluckylooter_lbd_xp" operation="set" value="0"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkluckylooter_lbd_xptonext" operation="set" value="1000"/>
+            <!-- XP per container that actually paid loot XP. Kept separate from the shared
+                 $lbd_xp_special_base (5), which ten other perks read and which must stay at 5.
+
+                 Sized against the _xpFromLoot gate in LuckyLooter.xml, not raw container
+                 closes. Storage at base, empty containers and re-opening one you already
+                 emptied no longer count, so the old value of 5 per close - which made level 1
+                 arrive every 200 closes, most of them free - was measuring the wrong thing.
+                 At 3, level 1 is roughly 330 genuinely looted containers, or a handful of
+                 POI clears, and the x1.2 curve stretches it from there. -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_luckylooter_container_base" operation="set" value="3"/>
+            <!-- Running mark of the built in _xpFromLoot total, used to tell a real looted
+                 container from your own storage. Starts at 0 on a new character. -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkluckylooter_lbd_lootxp_mark" operation="set" value="0"/>
 
             <!-- NEW: Initializers for Light Armor -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perklightarmor_lbd_xp" operation="set" value="0"/>

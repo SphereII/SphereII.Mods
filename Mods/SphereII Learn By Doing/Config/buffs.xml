@@ -5,7 +5,7 @@
             <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="ProgressionLearnByDoing_Init">
                 <requirement name="CVarCompare" cvar="$lbd_xp_melee_base" operation="LTE" value="0"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfEnteredGame" action="LogMessage" message="Learn By Doing Active"/>
+            <triggered_effect trigger="onSelfEnteredGame" action="LogMessageCVars, SCore" message="Learn By Doing Active"/>
         </effect_group>
     </append>
     <append xpath="/buffs">
@@ -15,6 +15,20 @@
             <duration value="1"/>
             <!-- Included files below will add the respective settings for each perk tree -->
             <effect_group name="Global LBD Settings">
+
+                <!-- Debug logging switch. Every LBD DEBUG line is gated on this.
+                     Turn on in game with  setcvar $lbd_debug 1  and off with
+                     setcvar $lbd_debug 0  (SCore treats 0 as a remove, and an unset
+                     cvar reads as 0, so that is a genuine off).
+
+                     This used to be gated on HasBuff god. The god buff carries
+                     PhysicalDamageResist and ElementalDamageResist +200 and
+                     CarryCapacity base_set 45, so enabling the log also made the
+                     player invulnerable - and perkLightArmor, perkHeavyArmor,
+                     perkHardTarget and perkPainTolerance earn XP only from taking
+                     damage, so they could never be watched while being exercised.
+                     A plain cvar keeps observation separate from gameplay. -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_debug" operation="set" value="0"/>
 
                 <!-- New: Global XP Gain Multipliers / Base Values -->
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_melee_base" operation="set" value="1"/>
@@ -45,10 +59,12 @@
                 <!-- New: Synergy XP Multipliers (Pre-calculated) -->
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_synergy_parkour_bonus" operation="set" value="4"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_synergy_hiddenstrike_bonus" operation="set" value="4"/>
-                <!-- Daring Adventure -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_quest_base" operation="set" value="200"/>
+                <!-- Daring Adventure. Read by Daring Adventurer and Charismatic Nature only.
+                     Was 200/100: a tier 5 quest paid 700 of the 2000 Daring needs for level 1,
+                     and 200 of Charismatic's 1400, so both levelled every few quests. -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_quest_base" operation="set" value="40"/>
                 <!-- You might also want a multiplier per tier, e.g., $lbd_xp_quest_tier_multiplier -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_quest_tier_multiplier" operation="set" value="100"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_quest_tier_multiplier" operation="set" value="20"/>
                 <!-- Bonus XP per tier -->
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_synergy_quest_bonus" operation="set" value="6"/>
                 <!-- Long crafting bonus xp -->
@@ -74,4 +90,6 @@
     <include filename="Intellect/main.xml"/>
     <include filename="General/main.xml"/>
     <include filename="CraftingSkills/main.xml"/>
+    <!-- TEMPORARY: block name diagnostic. Remove with the file. -->
+    <include filename="_BlockDiagnostic.xml"/>
 </configs>

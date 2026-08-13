@@ -10,7 +10,20 @@
 
             <!-- attStrength -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attstrength_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attstrength_lbd_xptonext" operation="set" value="5000"/>
+            <!-- Attribute first threshold. Was 5000, which at the ~10 XP/min a real session
+                 produces meant 8 hours for level 1 and about 209 hours to reach 10 -
+                 nearly seven times what maxing a five level perk costs, despite
+                 attributes accruing faster from their seven to nine award paths. At
+                 1200, the same number every perk uses, level 1 lands in under two
+                 hours and the full ten levels total 31,150, still three and a half
+                 times a perk's whole ladder. The 1.2 curve is global and unchanged. -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attstrength_lbd_xptonext" operation="set" value="1200"/>
+            <!-- Mining payout for attStrength: destroying an ore or wood block with a
+                 mining tool. Read only by Strength.xml, which was referencing it without
+                 anything ever defining it - an unset cvar reads as 0, so that award
+                 granted nothing. Set to the same 5 as a power attack, since finishing a
+                 block is the deliberate, slower action of the two. -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_strength_block_bonus" operation="set" value="5"/>
 
             <!-- perkBoomstick -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkboomstick_lbd_xp" operation="set" value="0"/>

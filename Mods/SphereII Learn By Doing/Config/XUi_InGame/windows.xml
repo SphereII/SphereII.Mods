@@ -1,0 +1,101 @@
+<configs>
+
+	<!--
+		Strip the skill-point purchasing chrome out of the skills UI.
+
+		The buy buttons themselves are disabled in XUi_InGame/templates.xml; this file
+		removes the surrounding labels that only make sense when perks and attributes
+		can be bought with points. Companion change: Config/progression.xml sets
+		skill_points_per_level to 0, so no points are handed out in the first place.
+
+		Everything here is hidden rather than removed. None of these labels are looked
+		up by name from C#, but hiding keeps the table cells and their black frames
+		aligned, and stays safe if a future build starts referencing them.
+	-->
+
+	<!--
+		"Point(s) Available N" in the skill list header. XUiC_SkillListWindow builds it
+		from Localization "xuiPointsAvailable" + Progression.SkillPoints.
+	-->
+	<set xpath="/windows/window[@name='windowSkillList']/rect[@name='header']/label[@text='{skillpointsavailable}']/@visible">false</set>
+
+	<!--
+		The "Cost" column heading in the skill list table header. Note this is one of
+		three labels stacked in the same cell - "Read" (xuiRead, books) and
+		"Skill Level" (xuiCraftingSkillsLevel, crafting) share the slot and must stay,
+		which is why this targets the xuiCost label specifically and not the cell.
+	-->
+	<set xpath="/windows/window[@name='windowSkillList']//rect[@name='tableHeader']//label[@text_key='xuiCost']/@visible">false</set>
+
+	<!--
+		The "Buy" column heading over the per-level rows in the two detail panels.
+		These labels have no visible attribute of their own, so setattribute is used
+		to add one rather than set.
+	-->
+	<setattribute name="visible" xpath="/windows/window[@name='windowSkillAttributeInfo']//rect[@name='tableHeader']//label[@text_key='xuiSkillBuy']">false</setattribute>
+	<setattribute name="visible" xpath="/windows/window[@name='windowSkillPerkInfo']//rect[@name='tableHeader']//label[@text_key='xuiSkillBuy']">false</setattribute>
+
+	<!--
+		=========================================================================
+		HELP SCREEN SECTION
+		=========================================================================
+
+		Adds a Learn By Doing entry to the 0-Help Screens window: a button in its left
+		column, with these four pages as tabs along the top.
+
+		Wrapped in a conditional because the target window only exists if that modlet is
+		installed. Without the guard this append would match nothing - which is harmless
+		on its own, but the conditional says the dependency out loud rather than leaving
+		a silent no-op in the file.
+
+		mod_loaded() takes the ModInfo.xml <Name value="..."/>, not the folder or display
+		name: 0-Help Screens/ModInfo.xml declares "sphereii_help_screens".
+
+		Load order is what makes this work at all. Mods are applied in alphabetical order
+		of folder name, and "0-Help Screens" sorts well ahead of "SphereII Learn By
+		Doing", so the window is already in the tree by the time this file is processed.
+		A mod that sorted earlier could not do this, conditional or not.
+
+		The xpath is anchored on rect[@name='nav'] deliberately - "tabsContents" alone
+		matches the one inside every section, including this one.
+
+		The shell below is literal XML rather than a single template call because a
+		template instantiation may not have child nodes, and because XPath patching runs
+		before templates expand. Only the pages and the tab button are templates. See the
+		0-Help Screens ReadMe.
+	-->
+	<conditional>
+		<if cond="mod_loaded('sphereii_help_screens')">
+
+			<append xpath="/windows/window[@name='helpScreens']//rect[@name='nav']/rect[@name='tabsContents']">
+
+				<rect name="sectionLearnByDoing" controller="TabSelectorTab" tab_key="lbdHelpSection">
+					<rect name="tabs" width="964" height="655" controller="TabSelector"
+					      select_tab_contents_on_open="false" select_tab_contents_on_change="false">
+
+						<rect name="tabsHeader" height="38" depth="0">
+							<grid name="tabButtons" pos="3,-2" depth="2" rows="1" cols="4"
+							      cell_width="240" cell_height="36" repeat_content="true"
+							      arrangement="horizontal">
+								<helpscreen_pagebutton />
+							</grid>
+						</rect>
+
+						<rect name="tabsContents" depth="2" pos="0,-40" width="964" height="615">
+							<sprite depth="0" name="pageBackground" sprite="menu_empty3px"
+							        color="[mediumGrey]" type="sliced" fillcenter="true" />
+
+							<helpscreen_page tab_key="lbdHelpOverview"  text_key="lbdHelpOverviewBody" />
+							<helpscreen_page tab_key="lbdHelpLevelling" text_key="lbdHelpLevellingBody" />
+							<helpscreen_page tab_key="lbdHelpDecay"     text_key="lbdHelpDecayBody" />
+							<helpscreen_page tab_key="lbdHelpChanges"   text_key="lbdHelpChangesBody" />
+						</rect>
+					</rect>
+				</rect>
+
+			</append>
+
+		</if>
+	</conditional>
+
+</configs>

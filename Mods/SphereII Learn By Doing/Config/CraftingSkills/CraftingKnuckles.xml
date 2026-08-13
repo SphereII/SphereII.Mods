@@ -1,31 +1,33 @@
 <configs>
     <append xpath="/buffs/buff[@name='buffLBD_FortitudeManager']">
         <effect_group name="LBD Crafting Skill - Knuckles">
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Knuckles - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Knuckles - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingknuckles_lbd_lastitem"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingknuckles_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingknuckles_lbd_lastitem"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Knuckles - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Knuckles - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingknuckles_lbd_xp" operation="add" value="@$lbd_xp_scrapping_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Knuckles - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Knuckles - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingknuckles_lbd_xp" operation="add" value="@$lbd_xp_repairing_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
@@ -33,31 +35,31 @@
                 <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Knuckles - Applying Cooldown (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Knuckles - Applying Cooldown (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Knuckles - Applying Cooldown (Scrap)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Knuckles - Applying Cooldown (Scrap)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Knuckles - Applying Cooldown (Repair)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Knuckles - Applying Cooldown (Repair)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
@@ -65,37 +67,115 @@
                 <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Knuckles - Triggering Level Up Check (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Knuckles - Triggering Level Up Check (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="CVarCompare" cvar="$craftingknuckles_lbd_xp" operation="GTE" value="@$craftingknuckles_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingKnuckles_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="CVarCompare" cvar="$craftingknuckles_lbd_xp" operation="GTE" value="@$craftingknuckles_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Knuckles - Triggering Level Up Check (Scrap)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Knuckles - Triggering Level Up Check (Scrap)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="CVarCompare" cvar="$craftingknuckles_lbd_xp" operation="GTE" value="@$craftingknuckles_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingKnuckles_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="CVarCompare" cvar="$craftingknuckles_lbd_xp" operation="GTE" value="@$craftingknuckles_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Knuckles - Triggering Level Up Check (Repair)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Knuckles - Triggering Level Up Check (Repair)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingknuckles_lbd_xp" operation="GTE" value="@$craftingknuckles_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingKnuckles_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingknuckles_lbd_xp" operation="GTE" value="@$craftingknuckles_lbd_xptonext"/>
             </triggered_effect>
+
+            <!-- T0 starter gear. These items carry no UnlockedBy property, so the paths
+                 above cannot see them, and below level 11 there is nothing else craftable -
+                 vanilla unlocks the T1 recipes for this skill at 11. Pays until then and
+                 stops, letting the UnlockedBy paths take over. Scrap is deliberately not
+                 included: craft-then-scrap would loop for double XP. -->
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Knuckles - Attempting T0 Craft XP (+@$lbd_xp_crafting_base)">
+                <requirement name="ProgressionLevel" progression_name="craftingKnuckles" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="knuckleSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_T0RepairCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingknuckles_lbd_lastitem"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingknuckles_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
+                <requirement name="ProgressionLevel" progression_name="craftingKnuckles" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="knuckleSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_T0RepairCoolDown"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingknuckles_lbd_lastitem"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Knuckles - Attempting T0 Repair XP (+@$lbd_xp_repairing_base)">
+                <requirement name="ProgressionLevel" progression_name="craftingKnuckles" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="knuckleSkill"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_T0RepairCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingknuckles_lbd_xp" operation="add" value="@$lbd_xp_repairing_base">
+                <requirement name="ProgressionLevel" progression_name="craftingKnuckles" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="knuckleSkill"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_T0RepairCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingKnuckles_T0RepairCoolDown">
+                <requirement name="ProgressionLevel" progression_name="craftingKnuckles" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="knuckleSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_T0RepairCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingKnuckles_T0RepairCoolDown">
+                <requirement name="ProgressionLevel" progression_name="craftingKnuckles" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="knuckleSkill"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingKnuckles_T0RepairCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Knuckles - Triggering Level Up Check (T0 Craft)">
+                <requirement name="ProgressionLevel" progression_name="craftingKnuckles" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="knuckleSkill"/>
+                <requirement name="CVarCompare" cvar="$craftingknuckles_lbd_xp" operation="GTE" value="@$craftingknuckles_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingKnuckles_LevelUpCheck">
+                <requirement name="ProgressionLevel" progression_name="craftingKnuckles" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="knuckleSkill"/>
+                <requirement name="CVarCompare" cvar="$craftingknuckles_lbd_xp" operation="GTE" value="@$craftingknuckles_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingKnuckles_LevelUpCheck">
+                <requirement name="ProgressionLevel" progression_name="craftingKnuckles" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="knuckleSkill"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+                <requirement name="CVarCompare" cvar="$craftingknuckles_lbd_xp" operation="GTE" value="@$craftingknuckles_lbd_xptonext"/>
+            </triggered_effect>
+
+            <!-- Remember what was just crafted. Ordered last so the awards above
+                 compare against the PREVIOUS craft, not this one. A queue of twenty
+                 identical items now scores once; twenty different items score twenty
+                 times. A cooldown cannot make that distinction - when an item takes
+                 longer to craft than the cooldown lasts, every craft in the queue
+                 scores regardless. -->
+            <triggered_effect trigger="onSelfItemCrafted" action="SetCVarFromItemType, SCore" cvar="$craftingknuckles_lbd_lastitem"/>
+
         </effect_group>
 
     </append>
@@ -105,15 +185,18 @@
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="craftingKnuckles" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Knuckles - Level Up SUCCESS (craftingKnuckles)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingKnuckles" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingknuckles_lbd_xp" operation="subtract" value="@$craftingknuckles_lbd_xptonext"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingknuckles_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingknuckles_lbd_xptonext" operation="multiply" value="@$lbd_xp_crafting_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingKnuckles" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="craftingKnuckles" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Knuckles - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Knuckles - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>
@@ -121,5 +204,9 @@
         <buff name="buffLBD_craftingKnuckles_ActionCoolDown" hidden="true"><duration value="1"/></buff>
 
      
+    </append>
+    <append xpath="/buffs">
+        <!-- Shared throttle for the T0 craft and repair paths. -->
+        <buff name="buffLBD_craftingKnuckles_T0RepairCoolDown" hidden="true"><duration value="5"/></buff>
     </append>
 </configs>

@@ -1,31 +1,33 @@
 <configs>
     <append xpath="/buffs/buff[@name='buffLBD_AgilityManager']">
         <effect_group name="LBD Crafting Skill - Bows">
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Bows - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingbows_lbd_lastitem"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingbows_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_ActionCoolDown"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingbows_lbd_lastitem"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Bows - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingbows_lbd_xp" operation="add" value="@$lbd_xp_scrapping_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Bows - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingbows_lbd_xp" operation="add" value="@$lbd_xp_repairing_base">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
@@ -33,45 +35,47 @@
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Bows - Attempting T0 Repair XP (+@$lbd_xp_repairing_base)">
-                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="5"/>
-                <requirement name="ItemHasProperty, SCore" property="RepairTools" prop_value="resourceWood"/>
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Attempting T0 Repair XP (+@$lbd_xp_repairing_base)">
+                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="bowSkill"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_T0RepairCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingbows_lbd_xp" operation="add" value="@$lbd_xp_repairing_base">
-                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="5"/>
-                <requirement name="ItemHasProperty, SCore" property="RepairTools" prop_value="resourceWood"/>
+                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="bowSkill"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_T0RepairCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Bows - Applying Cooldown (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Applying Cooldown (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingBows_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Bows - Applying Cooldown (Scrap)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Applying Cooldown (Scrap)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingBows_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Bows - Applying Cooldown (Repair)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Applying Cooldown (Repair)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_ActionCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingBows_ActionCoolDown">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
@@ -80,37 +84,38 @@
             </triggered_effect>
 
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingBows_T0RepairCoolDown">
-                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="5"/>
-                <requirement name="ItemHasProperty, SCore" property="RepairTools" prop_value="resourceWood"/>
+                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="bowSkill"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingBows_T0RepairCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Bows - Triggering Level Up Check (Craft)">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Triggering Level Up Check (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingBows_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Bows - Triggering Level Up Check (Scrap)">
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Triggering Level Up Check (Scrap)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingBows_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Bows - Triggering Level Up Check (Repair)">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Triggering Level Up Check (Repair)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingBows_LevelUpCheck">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
@@ -118,19 +123,70 @@
                 <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Bows - Triggering Level Up Check (T0 Repair)">
-                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="5"/>
-                <requirement name="ItemHasProperty, SCore" property="RepairTools" prop_value="resourceWood"/>
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Triggering Level Up Check (T0 Repair)">
+                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="bowSkill"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingBows_LevelUpCheck">
-                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="5"/>
-                <requirement name="ItemHasProperty, SCore" property="RepairTools" prop_value="resourceWood"/>
+                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="bowSkill"/>
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/>
             </triggered_effect>
+
+            <!-- T0 starter gear. These items carry no UnlockedBy property, so the paths
+                 above cannot see them, and below level 11 there is nothing else craftable -
+                 vanilla unlocks the T1 recipes for this skill at 11. Pays until then and
+                 stops, letting the UnlockedBy paths take over. Scrap is deliberately not
+                 included: craft-then-scrap would loop for double XP. -->
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Attempting T0 Craft XP (+@$lbd_xp_crafting_base)">
+                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="bowSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBows_T0RepairCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingbows_lbd_lastitem"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingbows_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
+                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="bowSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBows_T0RepairCoolDown"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingbows_lbd_lastitem"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingBows_T0RepairCoolDown">
+                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="bowSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBows_T0RepairCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Triggering Level Up Check (T0 Craft)">
+                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="bowSkill"/>
+                <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingBows_LevelUpCheck">
+                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="bowSkill"/>
+                <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/>
+            </triggered_effect>
+
+            <!-- Remember what was just crafted. Ordered last so the awards above
+                 compare against the PREVIOUS craft, not this one. A queue of twenty
+                 identical items now scores once; twenty different items score twenty
+                 times. A cooldown cannot make that distinction - when an item takes
+                 longer to craft than the cooldown lasts, every craft in the queue
+                 scores regardless. -->
+            <triggered_effect trigger="onSelfItemCrafted" action="SetCVarFromItemType, SCore" cvar="$craftingbows_lbd_lastitem"/>
+
         </effect_group>
 
       
@@ -139,23 +195,46 @@
     <append xpath="/buffs">
         <buff name="buffLBD_craftingBows_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
+            <!-- Level 5 and up: the Agility gate the failure message below describes. Runs
+                 BEFORE the early group on purpose - requirements are checked against live
+                 progression, so if the early group ran first a level 4 -> 5 step would
+                 immediately satisfy this one and grant a second level. -->
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="craftingBows" />
-                <requirement name="ProgressionLevel" progression_name="attAgility" operation="GTE" value="2"/> <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingBows" level="1"/>
+                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="GTE" value="5"/>
+                <requirement name="ProgressionLevel" progression_name="attAgility" operation="GTE" value="2"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Level Up SUCCESS (craftingBows)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingBows" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbows_lbd_xp" operation="subtract" value="@$craftingbows_lbd_xptonext"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbows_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbows_lbd_xptonext" operation="multiply" value="@$lbd_xp_crafting_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingBows" sound="read_skillbook_final" />
+            </effect_group>
+            <!-- Below level 5: no attribute investment required. Attributes start at 1, so
+                 gating these first levels on Agility 2 locked the skill out of a new
+                 character entirely. -->
+            <effect_group>
+                <requirement name="CanPurchasePerk, SCore" progression_name="craftingBows" />
+                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LT" value="5"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Level Up SUCCESS (craftingBows)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingBows" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbows_lbd_xp" operation="subtract" value="@$craftingbows_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbows_lbd_xptonext" operation="multiply" value="@$lbd_xp_crafting_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingBows" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
-                <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/> <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="5"/> <requirement name="ProgressionLevel" progression_name="attAgility" operation="LT" value="2"/> <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Crafting Bows - Level Up FAILED. Need higher Agility to advance beyond level 5.">
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/> <requirement name="ProgressionLevel" progression_name="craftingBows" operation="GTE" value="5"/> <requirement name="ProgressionLevel" progression_name="attAgility" operation="LT" value="2"/> <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Bows - Level Up FAILED. Need higher Agility to advance beyond level 5.">
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             </effect_group>
             <effect_group>
                 <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="craftingBows" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Bows - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Bows - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

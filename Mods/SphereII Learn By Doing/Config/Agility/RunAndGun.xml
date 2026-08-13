@@ -8,27 +8,27 @@
                 <requirement name="EntityHasMovementTag" tags="running"/>
 
             <!-- XP Gain -->
-            <triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Run and Gun - Attempting Moving Hit XP (+@$lbd_xp_ranged_base)">
+            <triggered_effect trigger="onSelfDamagedOther" action="LogMessageCVars, SCore" message="LBD DEBUG: Run and Gun - Attempting Moving Hit XP (+@$lbd_xp_ranged_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkRunAndGun_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkrunandgun_lbd_xp" operation="add" value="@$lbd_xp_ranged_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkRunAndGun_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Cooldown Application -->
-            <triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Run and Gun - Applying Cooldown">
+            <triggered_effect trigger="onSelfDamagedOther" action="LogMessageCVars, SCore" message="LBD DEBUG: Run and Gun - Applying Cooldown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkRunAndGun_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_perkRunAndGun_XPCoolDown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkRunAndGun_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Level Up Check -->
-            <triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Run and Gun - Triggering Level Up Check">
+            <triggered_effect trigger="onSelfDamagedOther" action="LogMessageCVars, SCore" message="LBD DEBUG: Run and Gun - Triggering Level Up Check">
                 <requirement name="CVarCompare" cvar="$perkrunandgun_lbd_xp" operation="GTE" value="@$perkrunandgun_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_perkRunAndGun_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkrunandgun_lbd_xp" operation="GTE" value="@$perkrunandgun_lbd_xptonext"/>
@@ -42,6 +42,9 @@
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="perkRunAndGun" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Run and Gun - Level Up SUCCESS (perkRunAndGun)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkRunAndGun" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkrunandgun_lbd_xp" operation="subtract" value="@$perkrunandgun_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkrunandgun_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
@@ -49,8 +52,8 @@
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkRunAndGun" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Run and Gun - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Run and Gun - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

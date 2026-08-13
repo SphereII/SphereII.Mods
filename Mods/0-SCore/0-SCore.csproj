@@ -274,6 +274,7 @@
     <Compile Include="Features\LearnByDoing\Harmony\XUiC_SkillAttributeLevel.cs" />
     <Compile Include="Features\LearnByDoing\Harmony\XUiC_SkillEntry.cs" />
     <Compile Include="Features\LearnByDoing\Harmony\XUiC_SkillPerkLevel.cs" />
+    <Compile Include="Features\LearnByDoing\Scripts\LbdDecayColor.cs" />
     <Compile Include="Features\LearnByDoing\Scripts\MinEventActionShowPerkLevelUp.cs" />
     <Compile Include="Features\Localization\Scripts\SCoreLocalizationHelper.cs" />
     <Compile Include="Features\LockPicking\Harmony\BlockSecureLootPatch.cs" />
@@ -565,6 +566,8 @@
     <Compile Include="Scripts\Buffs\RequirementIsBloodMoon.cs" />
     <Compile Include="Scripts\Buffs\RequirementIsOutdoor.cs" />
     <Compile Include="Scripts\Buffs\RequirementIsTargetBlock.cs" />
+    <Compile Include="Scripts\Buffs\RequirementCraftedBlockHasTags.cs" />
+    <Compile Include="Scripts\Buffs\RequirementCraftedItemMatchesCVar.cs" />
     <Compile Include="Scripts\Buffs\RequirementIsUnderground.cs" />
     <Compile Include="Scripts\Buffs\RequirementItemMetaData.cs" />
     <Compile Include="Scripts\Buffs\RequirementLookingAt.cs" />
@@ -701,6 +704,9 @@
     <Compile Include="Scripts\MinEvents\MinEventActionOpenWindow.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionRecalculateEncumbrance.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionExecuteConsoleCommandCVars.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionLogMessageCVars.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionSetCVarFromItemType.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionLogTargetBlock.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionRemoveParticleFromBlock.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionRoutineUpdate.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetDateToCVar.cs" />

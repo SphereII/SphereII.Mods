@@ -1,0 +1,89 @@
+<configs>
+
+    <!--
+        Learn By Doing replaces the skill magazine progression system, so the magazines
+        themselves have to go: reading them raises the very perk levels LBD is meant to
+        award through use.
+
+        Every occurrence is removed by item name, which covers all 61 lootgroups that
+        carry one. No lootcontainer holds a magazine directly - they all arrive by group.
+
+        Left alone deliberately: modGunMagazineExtender and friends are weapon mods, and
+        bookShotgunMessiahMagazine is an issue of the Shotgun Messiah book series, not a
+        skill magazine. Both only match on the word "magazine".
+    -->
+
+    <!-- Skill magazines, everywhere they appear in a lootgroup. -->
+    <remove xpath="/lootcontainers/lootgroup/item[@name='armorSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='bladesSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='bowsSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='clubsSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='electricianSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='explosivesSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='foodSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='handgunsSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='harvestingToolsSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='knucklesSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='machineGunsSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='medicalSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='questRewardT1SkillMagazineBundle']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='repairToolsSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='riflesSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='roboticsSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='salvageToolsSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='seedSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='shotgunsSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='sledgehammersSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='spearsSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='trapsSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='vehiclesSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='workstationSkillMagazine']"/>
+
+    <!--
+        These groups held nothing but magazines and are empty once the removals above
+        apply. An empty lootgroup is not valid, so each gets a paper placeholder.
+    -->
+    <append xpath="/lootcontainers/lootgroup[@name='skillMagazines']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+    <append xpath="/lootcontainers/lootgroup[@name='groupQuestRewardSkillMagazinesAll01']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+    <append xpath="/lootcontainers/lootgroup[@name='groupChallengeRewardSkillMagazinesAll01']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+    <append xpath="/lootcontainers/lootgroup[@name='weaponSkillMagazinesOnly']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+    <append xpath="/lootcontainers/lootgroup[@name='groupWorkingStiffsMagazines']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+    <append xpath="/lootcontainers/lootgroup[@name='groupQuestT1SkillMagazineBundle']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+    <append xpath="/lootcontainers/lootgroup[@name='groupBuriedSuppliesT1_03']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+    <append xpath="/lootcontainers/lootgroup[@name='groupMoPower02']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+    <append xpath="/lootcontainers/lootgroup[@name='groupPassNGasMagazines']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+    <append xpath="/lootcontainers/lootgroup[@name='groupSavageCountryMagazines']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+    <append xpath="/lootcontainers/lootgroup[@name='groupZpackNurse02']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+    <append xpath="/lootcontainers/lootgroup[@name='groupShotgunMessiahCrateMagazines']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+    <append xpath="/lootcontainers/lootgroup[@name='groupShamwayMagazines']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+    <append xpath="/lootcontainers/lootgroup[@name='groupPopNPillsMagazines']">
+        <item name="resourcePaper" count="1,5"/>
+    </append>
+
+</configs>

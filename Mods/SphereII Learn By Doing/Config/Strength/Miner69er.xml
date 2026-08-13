@@ -11,21 +11,33 @@
                               operation="add" value="@$lbd_xp_melee_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
             </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Miner 69'r Primary - Attempting XP Gain">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff"
                               buff="buffLBD_perkMiner69r_XPCoolDown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
             </triggered_effect>
+
+            <!-- Power strike -->
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff"
                               buff="buffLBD_perkMiner69r_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkminer69r_lbd_xp" operation="GTE"
                              value="@$perkminer69r_lbd_xptonext"/>
             </triggered_effect>
-
-            <!-- Power strike -->
             <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkminer69r_lbd_xp"
                               operation="add" value="@$lbd_xp_melee_power_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
             </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Miner 69'r Power - Attempting XP Gain">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+
+            <!-- Debug Messages -->
             <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff"
                               buff="buffLBD_perkMiner69r_XPCoolDown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
@@ -34,18 +46,6 @@
                               buff="buffLBD_perkMiner69r_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkminer69r_lbd_xp" operation="GTE"
                              value="@$perkminer69r_lbd_xptonext"/>
-            </triggered_effect>
-
-            <!-- Debug Messages -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage"
-                              message="LBD DEBUG: Miner 69'r Primary - Attempting XP Gain">
-                <requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage"
-                              message="LBD DEBUG: Miner 69'r Power - Attempting XP Gain">
-                <requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
         </effect_group>
     </append>
@@ -56,6 +56,9 @@
             <duration value="1"/>
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="perkMiner69r"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Miner 69'r - Level Up SUCCESS (perkMiner69r)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkMiner69r"
                                   level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkminer69r_lbd_xp"
@@ -66,9 +69,9 @@
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkMiner69r"/>
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore"
                                   message="LBD DEBUG: Miner 69'r - Level Up FAILED. Perk is locked by requirements.">
-                    <requirement name="HasBuff" buff="god"/>
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>

@@ -58,6 +58,7 @@
     <Content Include="Config\items.xml" />
     <Content Include="Config\Localization.txt" />
     <Content Include="Config\spawning.xml" />
+    <Content Include="Config\XUi_InGame\windows.xml" />
     <Content Include="ModInfo.xml" />
     <Content Include="Properties\AssemblyInfo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

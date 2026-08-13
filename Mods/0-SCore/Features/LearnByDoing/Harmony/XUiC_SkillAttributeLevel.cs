@@ -1,5 +1,6 @@
 using System.Globalization;
 using HarmonyLib;
+using SCore.Features.LearnByDoing.Scripts;
 using UnityEngine;
 
 namespace SCore.Features.LearnByDoing.Harmony
@@ -53,20 +54,15 @@ namespace SCore.Features.LearnByDoing.Harmony
 
             if (_bindingName == "color")
             {
-                var defaultColor = new Color(0, 255, 54, 128);
-                _value = defaultColor.ToString();
                 __result = true;
-                var perkName = "";
+
+                // Always a formatted value, including the no-skill early out. Color.ToString()
+                // yields "RGBA(0.000, ...)", which XUi cannot parse as a colour.
+                _value = staticoncolorFormatter.Format(LbdDecayColor.Healthy);
                 if (__instance.CurrentSkill == null) return;
-                
-                perkName = __instance.CurrentSkill.Name;
-                var perkCurrentLevel = $"${perkName}_decay_counter";
-                var currentLevel = entityPlayer.Buffs.GetCustomVar(perkCurrentLevel);
-                _value = currentLevel switch {
-                    <= 2 => staticoncolorFormatter.Format(defaultColor),
-                    <= 4 => staticoncolorFormatter.Format(Color.yellow),
-                    _ => staticoncolorFormatter.Format(Color.red)
-                };
+
+                var decayCounter = entityPlayer.Buffs.GetCustomVar($"${__instance.CurrentSkill.Name}_decay_counter");
+                _value = staticoncolorFormatter.Format(LbdDecayColor.ForDecayCounter(decayCounter));
             }
         }
     }

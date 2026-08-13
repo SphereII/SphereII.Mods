@@ -1,0 +1,54 @@
+<configs>
+
+	<!--
+		Tab button for the Learn By Doing info panel.
+
+		This is a scaled-down copy of vanilla's options_tabbutton + pagingheader_button
+		pair (XUi_Menu/templates.xml). Those are sized for the 1800px full-screen options
+		pages - font_size 30, collider_padding 20,8 - which is far too heavy for a 450px
+		side panel, and font size is baked into the template rather than parameterised,
+		so the sizing had to be restated rather than passed in.
+
+		Structure requirements, from XUiC_TabSelectorButton.Init:
+		  - the outer rect carries controller="TabSelectorButton"
+		  - it needs either an XUiC_SimpleButton child, or ANY descendant view with
+		    on_press="true". XUiC_ButtonSelectable is not an XUiC_SimpleButton (it derives
+		    from XUiC_Button), so the label below is found by the on_press path, exactly
+		    as vanilla's does.
+
+		auto_toggle_selected="false" stops the label toggling its own selected state on
+		click - selection is owned by the TabSelector, and comes back in via
+		selected="{tab_selected}".
+
+		Binding resolution: {tab_selected} and {tab_name_localized} live on the outer
+		TabSelectorButton controller, {btn_selected} and {btn_hovered} on the label's own
+		ButtonSelectable. Both resolve because BindingItemStandard walks Controller.Parent
+		until something answers, skipping plain XUiController nodes. The defined() guard on
+		the sprite mirrors vanilla, which guards one level down from the button and not at
+		the button itself.
+	-->
+	<append xpath="/templates">
+
+		<lbd_tab_button max_width="170">
+			<rect name="${name}" width="30" height="20" controller="TabSelectorButton">
+				<label name="caption" controller="ButtonSelectable" auto_toggle_selected="false"
+				       selected="{tab_selected}" text="{tab_name_localized}"
+				       on_press="true" on_hover="true" gamepad_selectable="false" snap="false"
+				       collider_padding="10,6" depth="6" upper_case="true" font_size="18"
+				       overflow="resizefreely" overflow_width="${max_width}" overflow_height="24"
+				       justify="center" pivot="left" max_line_count="1"
+				       color="{% btn_selected ? '255,255,255,255' : (btn_hovered ? '255,255,255,255' : '150,150,150,255') }"
+				       sound="[paging_click]" sound_play_on_hover="[default_hover]">
+
+					<sprite name="captionBorder" sprite="ui3_border_fade_U" depth="5" type="sliced"
+					        fillcenter="{% btn_hovered or (defined('btn_selected') and btn_selected) }"
+					        color="{% defined('btn_selected') and btn_selected ? '228,18,21,255' : '255,255,255,255' }"
+					        anchor_left="#parent,0,-10" anchor_right="#parent,1,10"
+					        anchor_bottom="#parent,0.5,-15" anchor_top="#parent,0.5,13" />
+				</label>
+			</rect>
+		</lbd_tab_button>
+
+	</append>
+
+</configs>

@@ -58,6 +58,7 @@
 		<Content Include="Config\Agility\main.xml"/>
 		<Content Include="Config\Agility\Parkour.xml"/>
 		<Content Include="Config\Agility\RunAndGun.xml"/>
+		<Content Include="Config\blocks.xml" />
 		<Content Include="Config\buffs.xml"/>
 		<Content Include="Config\CraftingSkills\CraftingArmor.xml"/>
 		<Content Include="Config\CraftingSkills\CraftingBlades.xml"/>
@@ -129,7 +130,7 @@
 		<Content Include="Config\Intellect\RoboticTurrets.xml"/>
 		<Content Include="Config\items.xml" />
 		<Content Include="Config\Localization.csv" />
-		<Content Include="Config\Localization.txt" />
+		<Content Include="Config\loot.xml" />
 		<Content Include="Config\Perception\AnimalTracker.xml"/>
 		<Content Include="Config\Perception\Cooldowns.xml"/>
 		<Content Include="Config\Perception\DeadEye.xml"/>
@@ -160,7 +161,14 @@
 		<Content Include="Config\Strength\SkullCrusher.xml"/>
 		<Content Include="Config\Strength\Strength.xml"/>
 		<Content Include="Config\Strength\StrengthMastery.xml"/>
+		<Content Include="Config\progression.xml" />
+		<Content Include="Config\quests.xml" />
+		<Content Include="Config\traders.xml" />
 		<Content Include="Config\XUi_InGame\templates.xml" />
+		<Content Include="Config\XUi_InGame\windows.xml" />
+		<Content Include="Config\XUi_Menu\templates.xml" />
+		<Content Include="Config\XUi_Menu\windows.xml" />
+		<Content Include="Config\XUi_Menu\xui.xml" />
 		<Content Include="LearnByDoing.md"/>
 		<Content Include="ModInfo.xml"/>
 		<Content Include="Properties\AssemblyInfo.tt">
