@@ -36,20 +36,61 @@
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_ranged_base" operation="set" value="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_harvest_base" operation="set" value="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_special_base" operation="set" value="5"/>
+                <!-- One-off award for finishing a salvage teardown, for PERKS rather than
+                     crafting skills. The 5 XP per swing those groups pay is invisible against a
+                     1200 threshold - a session of stripping cars moved Advanced Engineering 1.2%
+                     of a level - so the teardown is what actually makes the path worth having.
+
+                     75 was the first attempt and overshot badly. Measured over a 6.3 minute
+                     salvage run: Advanced Engineering earned 1619 XP an hour and Grease Monkey
+                     1000, against 457 for SALVAGE OPERATIONS - the perk whose actual job is
+                     salvaging - off the very same swings. The teardown was 88% of Advanced
+                     Engineering's total. A bonus for knowing what you are taking apart should
+                     not out-earn the perk for taking things apart.
+
+                     At 25 the same run gives Advanced Engineering 667/hr and Grease Monkey
+                     524/hr, both just above Salvage Operations rather than several times it,
+                     which is the intended ordering.
+
+                     Whoever adds another teardown path must give it its own cooldown, and pick
+                     the duration from the block: single stage blocks like workstations want ~1
+                     second, but a vehicle passes through Damage0 -> Damage1 -> Damage2 on its
+                     way out, each firing onSelfDestroyedBlock, so those want ~15 or the award
+                     pays three times per car. -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_salvage_teardown" operation="set" value="25"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_attribute_synergy_base" operation="set" value="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_flurry_bonus" operation="set" value="5"/>
 
-                <!-- New: Global XP Curve Multiplier -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_curve_multiplier" operation="set" value="1.2"/>
+                <!-- Global XP Curve Multiplier, for perks and attributes. Crafting skills use
+                     $lbd_xp_crafting_curve_multiplier instead (CraftingSkills/Init.xml).
+
+                     Lowered from 1.2 to 1.1 after a play session showed the tail was effectively
+                     unreachable. The multiplier compounds, so it dominates the cost of the upper
+                     levels: at 1.2 a 1200 base costs 31,150 XP cumulative to reach level 10, at
+                     1.1 it costs 19,124 - a 39% cut that barely touches the first few levels and
+                     roughly halves the last few.
+
+                     Measured against that same session, where the hardest-fed skill earned about
+                     870 XP an hour: level 10 went from 36 hours of that one activity to 22, and a
+                     mid-rate perk like Pack Mule from 130 hours to 80. -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_curve_multiplier" operation="set" value="1.1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_damage_taken_base" operation="set" value="3"/>
 
                 <!-- Pain Tolerance -->
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_stun_bonus" operation="set" value="5"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_concussion_bonus" operation="set" value="10"/>
 
-                <!-- Healing -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_healingfactor_tier1_bonus" operation="set" value="2"/>
-                <!-- Mild: +2 -->
+                <!-- Healing.
+
+                     There is no tier1 bonus. Healing Factor's hunger paths only ever read tier2
+                     and tier3 - a $lbd_xp_healingfactor_tier1_bonus was defined here for a
+                     tier 1 path that was never written, sat unreferenced, and has been removed
+                     rather than left to look like something was broken. -->
+                <!-- Award for actually healing. Small on purpose: health regenerates on a tick,
+                     so onSelfHealedSelf fires far more often than the hunger paths below, and the
+                     15 second cooldown on buffLBD_perkHealingFactor_HealCoolDown is what really
+                     sets the rate. -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_healingfactor_heal" operation="set" value="2"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_healingfactor_tier2_bonus" operation="set" value="5"/>
                 <!-- Moderate: +5 -->
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_healingfactor_tier3_bonus" operation="set" value="10"/>

@@ -1,0 +1,63 @@
+<configs>
+
+	<!--
+		=========================================================================
+		HELP SCREEN SECTION
+		=========================================================================
+
+		Adds a Disable Special Attack entry to the 0-Help Screens window: a button in its
+		left column, with these three pages as tabs along the top.
+
+		Wrapped in a conditional because the target window only exists if that modlet is
+		installed. mod_loaded() takes the ModInfo.xml <Name value="..."/>, not the folder
+		or display name: 0-Help Screens/ModInfo.xml declares "sphereii_help_screens".
+
+		Load order is what makes this work at all. Mods are applied in alphabetical order
+		of folder name, and "0-Help Screens" sorts well ahead of "SphereII Disable Special
+		Attack", so the window is already in the tree by the time this file is processed.
+
+		The xpath is anchored on rect[@name='nav'] deliberately - "tabsContents" alone
+		matches the one inside every section, including this one.
+
+		The shell is literal XML rather than a single template call because a template
+		instantiation may not have child nodes, and because XPath patching runs before
+		templates expand. Only the pages and the tab button are templates. See the
+		0-Help Screens ReadMe.
+
+		Three pages against cols="4" is fine: surplus buttons hide themselves. It is the
+		reverse - more pages than buttons - that hands XUiC_TabSelectorTab a null button.
+	-->
+	<conditional>
+		<if cond="mod_loaded('sphereii_help_screens')">
+
+			<append xpath="/windows/window[@name='helpScreens']//rect[@name='nav']/rect[@name='tabsContents']">
+
+				<rect name="sectionDisableSpecialAttack" controller="TabSelectorTab" tab_key="dsaHelpSection">
+					<rect name="tabs" width="964" height="655" controller="TabSelector"
+					      select_tab_contents_on_open="false" select_tab_contents_on_change="false">
+
+						<rect name="tabsHeader" height="38" depth="0">
+							<grid name="tabButtons" pos="3,-2" depth="2" rows="1" cols="4"
+							      cell_width="240" cell_height="36" repeat_content="true"
+							      arrangement="horizontal">
+								<helpscreen_pagebutton />
+							</grid>
+						</rect>
+
+						<rect name="tabsContents" depth="2" pos="0,-40" width="964" height="615">
+							<sprite depth="0" name="pageBackground" sprite="menu_empty3px"
+							        color="[mediumGrey]" type="sliced" fillcenter="true" />
+
+							<helpscreen_page tab_key="dsaHelpOverview" text_key="dsaHelpOverviewBody" />
+							<helpscreen_page tab_key="dsaHelpChanges"  text_key="dsaHelpChangesBody" />
+							<helpscreen_page tab_key="dsaHelpNotes"    text_key="dsaHelpNotesBody" />
+						</rect>
+					</rect>
+				</rect>
+
+			</append>
+
+		</if>
+	</conditional>
+
+</configs>

@@ -1,81 +1,145 @@
 <configs>
     <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
         <effect_group name="LBD Crafting Skill - Seeds">
-            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Seeds - Attempting 'Craft Small Seed' XP (+@$lbd_xp_crafting_seed_small_base)">
-                <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1"/>
+            <!--
+                =====================================================================
+                CRAFTING A SEED
+                =====================================================================
+
+                This whole section used to be gated on
+
+                    <requirement name="RecipeHasIngredients, SCore"
+                                 ingredients="plantedCotton1,plantedGoldenrod1,..."/>
+
+                and it never once passed. RecipeHasIngredients walks targetRecipe.ingredients
+                and compares each INGREDIENT's item name against that list, but the names in
+                the list are the recipes' OUTPUTS. plantedCotton1 is made from
+                resourceCropCottonPlant, so the comparison was "is resourceCropCottonPlant
+                equal to plantedCotton1" and the answer was always no. All eight gates in this
+                group failed, which left the entire craft half of this skill dead and harvesting
+                as its only working path.
+
+                SCore's own documentation invites the mistake - the example comment on
+                RecipeHasIngredients.cs reads ingredients="planted*".
+
+                CORRECTING THE LIST WOULD NOT HAVE WORKED EITHER. Feeding it the real
+                ingredient names hands the skill to the kitchen: foodCropPotato appears in 9
+                recipes and foodCropCorn in 11, so every stew, pie and cornbread would train
+                Seeds. The ingredients of a seed recipe are simply not unique to seeds.
+
+                THE OUTPUT IS WHAT IDENTIFIES A SEED, so ask about the output. All 12 craftable
+                planted blocks carry a purpose-made "seedSkill" tag - the same kind of tag
+                trapsSkill and workstationSkill provide for their skills - and
+                RequirementCraftedBlockHasTags resolves the crafted item back to its block and
+                tests exactly that. It also picks up plantedChrysanthemum1 and plantedHop1,
+                which the old hand-written lists omitted entirely.
+
+                TRIGGER CHANGED FROM onSelfCraftedRecipe TO onSelfItemCrafted, and it had to be.
+                SCore's OnRecipeCrafted builds a SYNTHETIC ItemValue - ItemValue.None.Clone()
+                carrying only metadata - so _params.ItemValue has no ItemClass and
+                RequirementCraftedBlockHasTags, which needs ItemClass.IsBlock(), can never pass
+                on that trigger. OnCraft.CheckForCrafting passes the real stack.itemValue, which
+                is what this requirement needs. Traps and Explosives pair them the same way.
+
+                ONE RATE, NOT TWO. The old split paid $lbd_xp_crafting_seed_small_base for
+                cotton/goldenrod/coffee/yucca/aloe and _large_ for the bigger crops. Vanilla
+                puts seedSkill and seedMulti on all 12 blocks identically, so a tag gate cannot
+                tell the two groups apart, and inventing the distinction would mean patching
+                extra tags onto blocks purely to preserve a split neither the game nor the
+                player can see. Collapsed to $lbd_xp_crafting_seed_base at 2 - the higher of
+                the two old values, so no crop is worse off than before.
+            -->
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Seeds - Attempting 'Craft Seed' XP (+@$lbd_xp_crafting_seed_base)">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="seedSkill"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_ActionCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingseeds_lbd_lastitem"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfCraftedRecipe" action="ModifyCVar" cvar="$craftingseeds_lbd_xp" operation="add" value="@$lbd_xp_crafting_seed_small_base">
-                <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1"/>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingseeds_lbd_xp" operation="add" value="@$lbd_xp_crafting_seed_base">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="seedSkill"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_ActionCoolDown"/>
                 <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingseeds_lbd_lastitem"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Seeds - Attempting 'Craft Large Seed' XP (+@$lbd_xp_crafting_seed_large_base)">
-                <requirement name="RecipeHasIngredients, SCore" ingredients="plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
-                <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_ActionCoolDown"/>
-                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
-                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingseeds_lbd_lastitem"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfCraftedRecipe" action="ModifyCVar" cvar="$craftingseeds_lbd_xp" operation="add" value="@$lbd_xp_crafting_seed_large_base">
-                <requirement name="RecipeHasIngredients, SCore" ingredients="plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
-                <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_ActionCoolDown"/>
-                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingseeds_lbd_lastitem"/>
-            </triggered_effect>
-
-            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Seeds - Applying Cooldown (Craft)">
-                <!-- Was wrapped in <requirement name="requirements" type="HiddenForDisplay"
-                     match_all="true">. There is no requirement class called "requirements" -
-                     the nested group element is the plural <requirements> - so the wrapper
-                     resolved to nothing, passed, and took the RecipeHasIngredients check with
-                     it. Every craft of anything applied the Seeds cooldown and spammed the
-                     log. The wrapper held a single requirement, so it is simply inlined. -->
-                <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1,plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Seeds - Applying Cooldown (Craft)">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="seedSkill"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_ActionCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfCraftedRecipe" action="AddBuff" buff="buffLBD_craftingSeeds_ActionCoolDown">
-                <!-- Was wrapped in <requirement name="requirements" type="HiddenForDisplay"
-                     match_all="true">. There is no requirement class called "requirements" -
-                     the nested group element is the plural <requirements> - so the wrapper
-                     resolved to nothing, passed, and took the RecipeHasIngredients check with
-                     it. Every craft of anything applied the Seeds cooldown and spammed the
-                     log. The wrapper held a single requirement, so it is simply inlined. -->
-                <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1,plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingSeeds_ActionCoolDown">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="seedSkill"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_ActionCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Seeds - Triggering Level Up Check (Craft)">
-                <!-- Was wrapped in <requirement name="requirements" type="HiddenForDisplay"
-                     match_all="true">. There is no requirement class called "requirements" -
-                     the nested group element is the plural <requirements> - so the wrapper
-                     resolved to nothing, passed, and took the RecipeHasIngredients check with
-                     it. Every craft of anything applied the Seeds cooldown and spammed the
-                     log. The wrapper held a single requirement, so it is simply inlined. -->
-                <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1,plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Seeds - Triggering Level Up Check (Craft)">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="seedSkill"/>
                 <requirement name="CVarCompare" cvar="$craftingseeds_lbd_xp" operation="GTE" value="@$craftingseeds_lbd_xptonext"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfCraftedRecipe" action="AddBuff" buff="buffLBD_craftingSeeds_LevelUpCheck">
-                <!-- Was wrapped in <requirement name="requirements" type="HiddenForDisplay"
-                     match_all="true">. There is no requirement class called "requirements" -
-                     the nested group element is the plural <requirements> - so the wrapper
-                     resolved to nothing, passed, and took the RecipeHasIngredients check with
-                     it. Every craft of anything applied the Seeds cooldown and spammed the
-                     log. The wrapper held a single requirement, so it is simply inlined. -->
-                <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1,plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingSeeds_LevelUpCheck">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="seedSkill"/>
                 <requirement name="CVarCompare" cvar="$craftingseeds_lbd_xp" operation="GTE" value="@$craftingseeds_lbd_xptonext"/>
             </triggered_effect>
+
             <!-- Remember what was just crafted. Ordered last so the awards above
                  compare against the PREVIOUS craft, not this one. -->
-            <triggered_effect trigger="onSelfCraftedRecipe" action="SetCVarFromItemType, SCore" cvar="$craftingseeds_lbd_lastitem"/>
+            <triggered_effect trigger="onSelfItemCrafted" action="SetCVarFromItemType, SCore" cvar="$craftingseeds_lbd_lastitem"/>
 
         </effect_group>
 
     
     </append>
+
+    <!--
+        =====================================================================
+        LEARNING BY USING
+        =====================================================================
+
+        The full rationale is in HarvestingTools.xml; the short version is that making,
+        mending and scrapping are rare events, so a skill fed only by them sits still.
+
+        Bringing a crop in is the use. This skill had the thinnest coverage of any -
+        its only XP path was onSelfCraftedRecipe, and NO item in the game carries
+        UnlockedBy=craftingSeeds, so the property gate every other crafting skill leans on
+        does not exist here at all.
+
+        cropHarvest is the drop tag on the 17 harvestable crop blocks. As everywhere else,
+        RequirementBlockHasHarvestTags walks the block's Harvest drops and tests each
+        drop's tag, so this is a drop tag rather than a block tag.
+
+        Planting is deliberately not covered. There is no clean way to identify a seed in
+        hand - the only item in the game matching "seed" is the skill magazine - so the
+        harvest end is the half that can be gated honestly.
+
+        1 XP behind a 15 second lockout, the same rate every other use path in this folder
+        runs at, read from the shared $lbd_xp_crafting_use_base.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
+        <effect_group name="LBD Crafting Skill - Seeds (Use)">
+            <requirement name="RequirementBlockHasHarvestTags, SCore" tags="cropHarvest"/>
+
+            <triggered_effect trigger="onSelfHarvestBlock" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Crafting Seeds - Attempting 'Use' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHarvestBlock" action="ModifyCVar"
+                              cvar="$craftingseeds_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHarvestBlock" action="AddBuff"
+                              buff="buffLBD_craftingSeeds_UseCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHarvestBlock" action="AddBuff"
+                              buff="buffLBD_craftingSeeds_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingseeds_lbd_xp" operation="GTE"
+                             value="@$craftingseeds_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
+    </append>
+
 
     <append xpath="/buffs">
         <buff name="buffLBD_craftingSeeds_LevelUpCheck" hidden="true">
@@ -99,6 +163,9 @@
         </buff>
 
         <buff name="buffLBD_craftingSeeds_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Throttles learning by use. Separate from ActionCoolDown, which exists to stop
+             a single craft double-scoring and only needs a second. -->
+        <buff name="buffLBD_craftingSeeds_UseCoolDown" hidden="true"><duration value="15"/></buff>
 
     </append>
 </configs>

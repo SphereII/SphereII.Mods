@@ -111,6 +111,61 @@
     
     </append>
 
+    <!--
+        =====================================================================
+        COOKING THAT THE UnlockedBy PATH CANNOT SEE
+        =====================================================================
+
+        The craft path above gates on the crafted ITEM carrying UnlockedBy=craftingFood.
+        That misses things. drinkJarBoiledWater has no UnlockedBy property at all, so
+        boiling water - one of the most common things anyone does at a campfire - trained
+        this skill nothing. Only 37 items in the game carry that property.
+
+        Recipe tags do not have the gap. 42 of the 43 campfire recipes are tagged
+        perkMasterChef, boiled water among them, so the tag describes "this was cooking"
+        better than any property on the result does.
+
+        WHY A SECOND GROUP RATHER THAN A REPLACEMENT. The two gates need different
+        triggers and neither works on the other's. RequirementRecipeHasTags reads a "Tags"
+        metadata entry that only exists on the synthetic ItemValue SCore passes with
+        onSelfCraftedRecipe; ItemHasProperty needs the real crafted item from vanilla's
+        onSelfItemCrafted. So both paths stay, each on the trigger it works on.
+
+        DOUBLE SCORING IS PREVENTED BY THE SHARED COOLDOWN. Both paths test and set
+        buffLBD_craftingFood_ActionCoolDown, which lasts a second. A single craft raises
+        both events at essentially the same moment, so whichever lands first takes the XP
+        and locks the other out. Cooking a stack still scores once per item, as before.
+        Do NOT give this group a cooldown of its own - the sharing is the mechanism.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
+        <effect_group name="LBD Crafting Skill - Food (Recipe Tags)">
+
+            <requirement name="RequirementRecipeHasTags, SCore" tags="perkMasterChef"/>
+
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Crafting Food - Attempting 'Cook' XP (+@$lbd_xp_crafting_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingFood_ActionCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCraftedRecipe" action="ModifyCVar"
+                              cvar="$craftingfood_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingFood_ActionCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCraftedRecipe" action="AddBuff"
+                              buff="buffLBD_craftingFood_ActionCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingFood_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfCraftedRecipe" action="AddBuff"
+                              buff="buffLBD_craftingFood_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingfood_lbd_xp" operation="GTE"
+                             value="@$craftingfood_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
+    </append>
+
+
     <append xpath="/buffs">
         <buff name="buffLBD_craftingFood_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>

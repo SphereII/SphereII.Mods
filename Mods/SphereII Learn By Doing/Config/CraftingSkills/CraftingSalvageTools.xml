@@ -108,7 +108,100 @@
 
         </effect_group>
 
-     
+
+    </append>
+
+    <!--
+        =====================================================================
+        LEARNING BY USING
+        =====================================================================
+
+        The same addition made to HarvestingTools, and for the same reason: every other
+        path here pays for making, mending or breaking down a salvage tool, and none of
+        them pay for the thing you actually spend your time doing with one. Stripping a
+        car down to its frame taught this skill nothing.
+
+        If anything the gap was wider here than for harvest tools. There are only three
+        salvage tools in the game and you craft a wrench once, so crafting and scrapping
+        barely fire at all after the first day, while salvaging goes on for the whole
+        playthrough.
+
+        [ THE TWO GATES ]
+        HoldingItemHasTags perkSalvageOperations - the tag shared by all three salvage
+        tools, the wrench, the ratchet and the impact driver, and by nothing else. Note
+        this is NOT the same shape as HarvestingTools, which had a purpose built
+        "harvestingSkill" tag to lean on; the salvage tools have no equivalent, so the
+        perk tag is the cleanest thing they have in common.
+
+        RequirementBlockHasHarvestTags salvageHarvest - the block has to be something
+        that actually comes apart. That requirement walks the block's Harvest drops and
+        tests each drop's tag, so salvageHarvest is a drop tag, not a block tag; it
+        appears on 519 drops in vanilla, which is essentially every car, appliance and
+        piece of scrap furniture in the world. Beating on a wall with a wrench pays
+        nothing.
+
+        [ THE RATE ]
+        Identical to HarvestingTools: 1 XP per landed swing behind a 15 second lockout,
+        so roughly five minutes of steady salvaging for level 1 at the base threshold of
+        20, and about an hour to reach level 10. Sharing the value keeps the two tool
+        skills honest against each other - neither is a faster route to a crafting level
+        than the other.
+
+        Tune with $lbd_xp_crafting_use_base, which both skills read, or with the duration
+        on buffLBD_craftingSalvageTools_UseCoolDown for this skill alone.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
+        <effect_group name="LBD Crafting Skill - Salvage Tools (Use)">
+
+            <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+            <requirement name="RequirementBlockHasHarvestTags, SCore" tags="salvageHarvest"/>
+
+            <!-- Ordinary swing. -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Crafting Salvage Tools - Attempting 'Use' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar"
+                              cvar="$craftingsalvagetools_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_craftingSalvageTools_UseCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_UseCoolDown"/>
+            </triggered_effect>
+
+            <!-- Power swing. Same value and the SAME cooldown: this is about time spent
+                 with the tool, not about which mouse button did it. -->
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Crafting Salvage Tools - Attempting 'Use' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar"
+                              cvar="$craftingsalvagetools_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_craftingSalvageTools_UseCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSalvageTools_UseCoolDown"/>
+            </triggered_effect>
+
+            <!-- Hand off to the shared level up check, which owns the attribute gate and
+                 the curve multiply. Both swings, so a level never waits for the next
+                 craft. -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_craftingSalvageTools_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingsalvagetools_lbd_xp" operation="GTE"
+                             value="@$craftingsalvagetools_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_craftingSalvageTools_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingsalvagetools_lbd_xp" operation="GTE"
+                             value="@$craftingsalvagetools_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
     </append>
 
     <append xpath="/buffs">
@@ -133,6 +226,11 @@
         </buff>
 
         <buff name="buffLBD_craftingSalvageTools_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Separate from ActionCoolDown, and far longer. That one exists to stop a single
+             craft double-scoring and only needs a second; this one throttles learning by
+             use, where the raw event fires several times a second. Matches the harvest
+             tools cooldown so neither skill is the faster route to a crafting level. -->
+        <buff name="buffLBD_craftingSalvageTools_UseCoolDown" hidden="true"><duration value="15"/></buff>
 
     
     </append>

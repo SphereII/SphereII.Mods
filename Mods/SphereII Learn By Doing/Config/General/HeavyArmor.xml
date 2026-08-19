@@ -42,7 +42,7 @@
                 <requirement name="NotHasBuff" buff="buffLBD_perkHeavyArmor_XPCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkHeavyarmor_lbd_xp" operation="add" value="@$lbd_xp_damage_taken_base">
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkheavyarmor_lbd_xp" operation="add" value="@$lbd_xp_damage_taken_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkHeavyArmor_XPCoolDown"/>
             </triggered_effect>
 
@@ -50,14 +50,14 @@
                 <requirement name="NotHasBuff" buff="buffLBD_perkHeavyArmor_XPCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkHeavyarmor_lbd_xp" operation="add" value="@$lbd_xp_damage_taken_base">
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkheavyarmor_lbd_xp" operation="add" value="@$lbd_xp_damage_taken_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkHeavyArmor_XPCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkHeavyarmor_lbd_xp" operation="add" value="@$lbd_xp_damage_taken_base">
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkheavyarmor_lbd_xp" operation="add" value="@$lbd_xp_damage_taken_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkHeavyArmor_XPCoolDown"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkHeavyarmor_lbd_xp" operation="add" value="@$lbd_xp_damage_taken_base">
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkheavyarmor_lbd_xp" operation="add" value="@$lbd_xp_damage_taken_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkHeavyArmor_XPCoolDown"/>
             </triggered_effect>
 
@@ -73,19 +73,19 @@
 
             <!-- Level Up Check -->
             <triggered_effect trigger="onSelfRun" action="LogMessageCVars, SCore" message="LBD DEBUG: Heavy Armor - Triggering Level Up Check">
-                <requirement name="CVarCompare" cvar="$perkHeavyarmor_lbd_xp" operation="GTE" value="@$perkHeavyarmor_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$perkheavyarmor_lbd_xp" operation="GTE" value="@$perkheavyarmor_lbd_xptonext"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_perkHeavyArmor_LevelUpCheck">
-                <requirement name="CVarCompare" cvar="$perkHeavyarmor_lbd_xp" operation="GTE" value="@$perkHeavyarmor_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$perkheavyarmor_lbd_xp" operation="GTE" value="@$perkheavyarmor_lbd_xptonext"/>
             </triggered_effect>
 
             <triggered_effect trigger="onSelfWalk" action="LogMessageCVars, SCore" message="LBD DEBUG: Heavy Armor - Triggering Level Up Check">
-                <requirement name="CVarCompare" cvar="$perkHeavyarmor_lbd_xp" operation="GTE" value="@$perkHeavyarmor_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$perkheavyarmor_lbd_xp" operation="GTE" value="@$perkheavyarmor_lbd_xptonext"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_perkHeavyArmor_LevelUpCheck">
-                <requirement name="CVarCompare" cvar="$perkHeavyarmor_lbd_xp" operation="GTE" value="@$perkHeavyarmor_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$perkheavyarmor_lbd_xp" operation="GTE" value="@$perkheavyarmor_lbd_xptonext"/>
             </triggered_effect>
         </effect_group>
     </append>

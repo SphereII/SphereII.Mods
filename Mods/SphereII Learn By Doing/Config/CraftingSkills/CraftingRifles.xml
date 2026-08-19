@@ -181,6 +181,50 @@
      
     </append>
 
+    <!--
+        LEARNING BY USING. Pays for fighting with a rifle, not just for building one.
+        The full rationale is in HarvestingTools.xml; the short version is that making,
+        mending and scrapping are rare events, so a skill fed only by them sits still.
+
+        onSelfDamagedOther rather than a ray hit, deliberately. The matching perk trains
+        on any swing that connects, including one into a wall; a crafting skill should
+        not, or a player could grind it on a doorframe. Damaging something is the
+        unambiguous "this weapon was used" signal, and it is the trigger Archery already
+        uses.
+
+        rifleSkill is the vanilla tag shared by every item this skill unlocks and by nothing
+        else. 1 XP behind a 15 second lockout, the same rate every other use path in this
+        folder runs at, read from the shared $lbd_xp_crafting_use_base.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
+        <effect_group name="LBD Crafting Skill - Rifles (Use)">
+
+            <requirement name="HoldingItemHasTags" tags="rifleSkill"/>
+
+            <triggered_effect trigger="onSelfDamagedOther" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Rifles - Attempting 'Use' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingRifles_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar"
+                              cvar="$craftingrifles_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingRifles_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="AddBuff"
+                              buff="buffLBD_craftingRifles_UseCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingRifles_UseCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfDamagedOther" action="AddBuff"
+                              buff="buffLBD_craftingRifles_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingrifles_lbd_xp" operation="GTE"
+                             value="@$craftingrifles_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
+    </append>
+
+
     <append xpath="/buffs">
         <buff name="buffLBD_craftingRifles_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
@@ -203,6 +247,9 @@
         </buff>
 
         <buff name="buffLBD_craftingRifles_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Throttles learning by use. Separate from ActionCoolDown, which exists to stop a
+             single craft double-scoring and only needs a second. -->
+        <buff name="buffLBD_craftingRifles_UseCoolDown" hidden="true"><duration value="15"/></buff>
 
     </append>
     <append xpath="/buffs">

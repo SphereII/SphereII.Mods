@@ -36,12 +36,30 @@
 
         <!-- Cooldown for perkHealingFactor -->
         <buff name="buffLBD_perkHealingFactor_XPCoolDown" hidden="true"><duration value="10"/></buff>
+        <!-- Health regenerates on a tick, so the heal path needs its own, longer throttle. -->
+        <buff name="buffLBD_perkHealingFactor_HealCoolDown" hidden="true"><duration value="15"/></buff>
 
         <!-- Cooldowns for perkSlowMetabolism -->
         <buff name="buffLBD_perkSlowMetabolism_ConsumeCoolDown" hidden="true"><duration value="10"/></buff>
         <buff name="buffLBD_perkSlowMetabolism_RecoveryCoolDown" hidden="true"><duration value="600"/></buff>
-        <buff name="buffLBD_perkSlowMetabolism_ConsumeChecker" hidden="true"><duration value="0.1"/></buff>
-        <buff name="buffLBD_perkSlowMetabolism_RecoveryChecker" hidden="true"><duration value="0.1"/></buff>
+        <!-- buffLBD_perkSlowMetabolism_ConsumeChecker is NOT declared here.
+
+             It used to be, as an empty 0.1s stub, while SlowMetabolism.xml declared a buff
+             of the same name carrying all of the actual logic - the dysentery, food and
+             water awards, the cooldown, and the level up check. main.xml includes
+             Cooldowns.xml AFTER SlowMetabolism.xml, so this stub was the later of two
+             same-named declarations and stood a good chance of shadowing the real one.
+
+             Even a harmless duplicate is worth removing here: it makes the buff look
+             defined when the definition that matters lives elsewhere, which is how the
+             missing AddBuff went unnoticed for so long. One name, one declaration, in the
+             file that owns the perk.
+
+             RecoveryCoolDown above and RecoveryChecker (removed with it) are referenced by
+             nothing at all - leftovers from a "recover from dysentery" path that was never
+             written. RecoveryCoolDown is kept only because it is harmless and may yet be
+             wired up; the checker stub is not, for the shadowing reason above. -->
+
 
         <!-- Cooldown for perkRuleOneCardio -->
         <!-- Movement triggers fire continuously, so this duration is the XP tick rate.

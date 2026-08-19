@@ -5,19 +5,147 @@
             <!-- "The Efficient Consumer" - Rewarding Strategic Food/Water Consumption -->
             <!-- This triggers directly on consumption, checking player's state *at that moment*. -->
             <triggered_effect trigger="onSelfPrimaryActionEnd" action="LogMessageCVars, SCore" message="LBD DEBUG: Slow Metabolism - Attempting Efficient Consumption XP (+@$lbd_xp_slowmetabolism_bonus)">
-                <requirement name="HoldingItemHasTags" tags="food,drinks"/>
+                <!-- ItemHasTags, NOT HoldingItemHasTags.
+
+                     HoldingItemHasTags reads target.inventory.holdingItem - the item in your
+                     HANDS. But food does not have to be in your hands to be eaten:
+                     XUiC_ItemStack.HandleItemUse accepts an ItemActionEat when the stack sits
+                     in the Backpack or the ToolBelt, so right-clicking an egg in the inventory
+                     window eats it while your pickaxe is still equipped. The gate then tested
+                     the pickaxe, found no "food" tag, and the whole perk sat silent - no XP and
+                     not even a debug line, because the log effect carries the same requirement.
+
+                     ItemActionEat sets the context explicitly before firing:
+
+                         ent.MinEventContext.ItemValue = stack.itemValue;
+                         ent.FireEvent(MinEventTypes.onSelfPrimaryActionEnd, useInventory: false);
+
+                     so ItemHasTags, which reads _params.ItemValue, names the item actually
+                     consumed however it was consumed.
+
+                     Caveat worth knowing: onSelfPrimaryActionEnd is also raised by melee
+                     (ItemActionDynamicMelee) without assigning MinEventContext.ItemValue, so a
+                     stale value could in principle satisfy this gate on a swing. It is bounded
+                     - the group still needs Food or Water below full, and the checker applies a
+                     10 second cooldown after each award - and the precise, consumption-only
+                     awards are the checker's, which gate on $foodAmountAdd / $waterAmountAdd
+                     actually moving. -->
+                <requirement name="ItemHasTags" tags="food,drinks"/>
+                <!-- StatComparePercCurrentToMax, NOT ...ToModMax. The two names differ by
+                     three letters and behave completely differently for these two stats.
+
+                     StatComparePercCurrentToModMax switches on the stat and implements only
+                     Health and Stamina:
+
+                         default:
+                             return false;
+
+                     StatTypes.Food and StatTypes.Water fall straight through to that default,
+                     so "stat=Food operation=LT value=1" was not testing anything - it returned
+                     false on every single call. Both branches of this OR group were Food and
+                     Water, so the group could never pass, and with it the whole consumption
+                     path. This sat underneath the two bugs already fixed here (the missing
+                     ConsumeChecker AddBuff and the invented $foodHealthAmount cvar) and would
+                     have kept the perk dead after both.
+
+                     StatComparePercCurrentToMax implements four cases - Health, Stamina, Water
+                     and Food - returning Value / Max, so LT 1 reads as "below full", which is
+                     the intent.
+
+                     Vanilla has the same trap in its own buffs.xml, which uses
+                     StatComparePercCurrentToModMax with stat="Food" once. That usage is dead
+                     too. Anything comparing Food or Water must use the ToMax form. -->
                 <requirements compare_type="or">
-                    <requirement name="StatComparePercCurrentToModMax" stat="Food" operation="LT" value="1"/>
-                    <requirement name="StatComparePercCurrentToModMax" stat="Water" operation="LT" value="1"/>
+                    <requirement name="StatComparePercCurrentToMax" stat="Food" operation="LT" value="1"/>
+                    <requirement name="StatComparePercCurrentToMax" stat="Water" operation="LT" value="1"/>
                 </requirements>
                 <requirement name="NotHasBuff" buff="buffLBD_perkSlowMetabolism_ConsumeCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$perkslowmetabolism_lbd_xp" operation="add" value="@$lbd_xp_slowmetabolism_bonus">
-                <requirement name="HoldingItemHasTags" tags="food,drinks"/>
+                <!-- ItemHasTags, NOT HoldingItemHasTags.
+
+                     HoldingItemHasTags reads target.inventory.holdingItem - the item in your
+                     HANDS. But food does not have to be in your hands to be eaten:
+                     XUiC_ItemStack.HandleItemUse accepts an ItemActionEat when the stack sits
+                     in the Backpack or the ToolBelt, so right-clicking an egg in the inventory
+                     window eats it while your pickaxe is still equipped. The gate then tested
+                     the pickaxe, found no "food" tag, and the whole perk sat silent - no XP and
+                     not even a debug line, because the log effect carries the same requirement.
+
+                     ItemActionEat sets the context explicitly before firing:
+
+                         ent.MinEventContext.ItemValue = stack.itemValue;
+                         ent.FireEvent(MinEventTypes.onSelfPrimaryActionEnd, useInventory: false);
+
+                     so ItemHasTags, which reads _params.ItemValue, names the item actually
+                     consumed however it was consumed.
+
+                     Caveat worth knowing: onSelfPrimaryActionEnd is also raised by melee
+                     (ItemActionDynamicMelee) without assigning MinEventContext.ItemValue, so a
+                     stale value could in principle satisfy this gate on a swing. It is bounded
+                     - the group still needs Food or Water below full, and the checker applies a
+                     10 second cooldown after each award - and the precise, consumption-only
+                     awards are the checker's, which gate on $foodAmountAdd / $waterAmountAdd
+                     actually moving. -->
+                <requirement name="ItemHasTags" tags="food,drinks"/>
                 <requirements compare_type="or">
-                    <requirement name="StatComparePercCurrentToModMax" stat="Food" operation="LT" value="1"/>
-                    <requirement name="StatComparePercCurrentToModMax" stat="Water" operation="LT" value="1"/>
+                    <requirement name="StatComparePercCurrentToMax" stat="Food" operation="LT" value="1"/>
+                    <requirement name="StatComparePercCurrentToMax" stat="Water" operation="LT" value="1"/>
+                </requirements>
+                <requirement name="NotHasBuff" buff="buffLBD_perkSlowMetabolism_ConsumeCoolDown"/>
+            </triggered_effect>
+
+            <!-- HAND OFF TO THE CHECKER. This line was missing, and its absence broke the
+                 whole perk rather than just one bonus.
+
+                 buffLBD_perkSlowMetabolism_ConsumeChecker below does the real work: it waits
+                 a second for the food item's own effects to land, then awards for dysentery
+                 or for the food and water actually gained, applies the consume cooldown, and
+                 - the part that matters - runs the LEVEL UP CHECK. Nothing anywhere in the
+                 modlet added that buff, so none of it ever ran.
+
+                 The consequence was not "one path is missing XP". It was that Iron Gut could
+                 bank XP forever and never level, because the only AddBuff for
+                 buffLBD_perkSlowMetabolism_LevelUpCheck sits inside the buff that was never
+                 applied. It also meant no throttle at all: the NotHasBuff check above tests
+                 a cooldown that only the checker applies, so the cooldown never existed.
+
+                 Compare PainTolerance.xml, which wires its ConcussionChecker exactly this
+                 way - the pattern was already in the tree, just not followed here.
+
+                 Gated identically to the award above so the two cannot disagree about
+                 whether a consumption counted. -->
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffLBD_perkSlowMetabolism_ConsumeChecker">
+                <!-- ItemHasTags, NOT HoldingItemHasTags.
+
+                     HoldingItemHasTags reads target.inventory.holdingItem - the item in your
+                     HANDS. But food does not have to be in your hands to be eaten:
+                     XUiC_ItemStack.HandleItemUse accepts an ItemActionEat when the stack sits
+                     in the Backpack or the ToolBelt, so right-clicking an egg in the inventory
+                     window eats it while your pickaxe is still equipped. The gate then tested
+                     the pickaxe, found no "food" tag, and the whole perk sat silent - no XP and
+                     not even a debug line, because the log effect carries the same requirement.
+
+                     ItemActionEat sets the context explicitly before firing:
+
+                         ent.MinEventContext.ItemValue = stack.itemValue;
+                         ent.FireEvent(MinEventTypes.onSelfPrimaryActionEnd, useInventory: false);
+
+                     so ItemHasTags, which reads _params.ItemValue, names the item actually
+                     consumed however it was consumed.
+
+                     Caveat worth knowing: onSelfPrimaryActionEnd is also raised by melee
+                     (ItemActionDynamicMelee) without assigning MinEventContext.ItemValue, so a
+                     stale value could in principle satisfy this gate on a swing. It is bounded
+                     - the group still needs Food or Water below full, and the checker applies a
+                     10 second cooldown after each award - and the precise, consumption-only
+                     awards are the checker's, which gate on $foodAmountAdd / $waterAmountAdd
+                     actually moving. -->
+                <requirement name="ItemHasTags" tags="food,drinks"/>
+                <requirements compare_type="or">
+                    <requirement name="StatComparePercCurrentToMax" stat="Food" operation="LT" value="1"/>
+                    <requirement name="StatComparePercCurrentToMax" stat="Water" operation="LT" value="1"/>
                 </requirements>
                 <requirement name="NotHasBuff" buff="buffLBD_perkSlowMetabolism_ConsumeCoolDown"/>
             </triggered_effect>
@@ -45,24 +173,24 @@
 
                 <!-- XP Gain: Based on Food Consumed (if not near full) -->
                 <triggered_effect trigger="onSelfBuffRemove" action="LogMessageCVars, SCore" message="LBD DEBUG: Slow Metabolism - Food Consumed XP (+@$lbd_xp_slowmetabolism_bonus)">
-                    <requirement name="StatComparePercCurrentToModMax" stat="Food" operation="LT" value="1"/> <!-- Was not full food before consumption -->
-                    <requirement name="CVarCompare" cvar="$foodHealthAmount" operation="GT" value="0"/>
+                    <requirement name="StatComparePercCurrentToMax" stat="Food" operation="LT" value="1"/> <!-- Was not full food before consumption -->
+                    <requirement name="CVarCompare" cvar="$foodAmountAdd" operation="GT" value="0"/>
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffRemove" action="ModifyCVar" cvar="$perkslowmetabolism_lbd_xp" operation="add" value="@$lbd_xp_slowmetabolism_bonus">
-                    <requirement name="StatComparePercCurrentToModMax" stat="Food" operation="LT" value="1"/>
-                    <requirement name="CVarCompare" cvar="$foodHealthAmount" operation="GT" value="0"/>
+                    <requirement name="StatComparePercCurrentToMax" stat="Food" operation="LT" value="1"/>
+                    <requirement name="CVarCompare" cvar="$foodAmountAdd" operation="GT" value="0"/>
                 </triggered_effect>
 
                 <!-- XP Gain: Based on Water Consumed (if not near full) -->
                 <triggered_effect trigger="onSelfBuffRemove" action="LogMessageCVars, SCore" message="LBD DEBUG: Slow Metabolism - Water Consumed XP (+@$lbd_xp_slowmetabolism_bonus)">
-                    <requirement name="StatComparePercCurrentToModMax" stat="Water" operation="LT" value="1"/> <!-- Was not full water before consumption -->
+                    <requirement name="StatComparePercCurrentToMax" stat="Water" operation="LT" value="1"/> <!-- Was not full water before consumption -->
                     <requirement name="CVarCompare" cvar="$waterAmountAdd" operation="GT" value="0"/>
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffRemove" action="ModifyCVar" cvar="$perkslowmetabolism_lbd_xp" operation="add" value="@$lbd_xp_slowmetabolism_bonus">
                     <requirement name="CVarCompare" cvar="$waterAmountAdd" operation="GT" value="0"/>
-                    <requirement name="StatComparePercCurrentToModMax" stat="Water" operation="LT" value="1"/>
+                    <requirement name="StatComparePercCurrentToMax" stat="Water" operation="LT" value="1"/>
                 </triggered_effect>
             </effect_group>
     

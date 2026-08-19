@@ -35,6 +35,105 @@
         </effect_group>
     </append>
 
+    <!--
+        =====================================================================
+        TAKING ONE APART COUNTS TOO
+        =====================================================================
+
+        The group above pays for CRAFTING at a forge, workbench or chemistry station.
+        Stripping one down with a wrench paid nothing, which is the wrong lesson - pulling
+        a workstation to pieces teaches you at least as much about it as using one does.
+
+        [ WHY BlockHasName AND NOT A TAG ]
+        There is no tag that means "workstation". The working blocks carry
+        workstationSkill, but the broken ones you actually find in the world do not:
+        cntForgeWorkstationBroken and cntCollapsedChemistryStation carry perkBookworm,
+        cntCollapsedCementMixer carries challenge_mech_parts. No single tag, and no
+        combination of them, covers both states.
+
+        Adding workstationSkill to the broken blocks was the other option and was
+        rejected. A perk passive in progression.xml reads that tag for LootProb, and
+        widening a vanilla tag to satisfy one modlet is how quiet side effects get made.
+
+        BlockHasName matches the name instead. The trailing * makes each term a substring
+        test, which catches the working block, the collapsed variant and the busted
+        RandomLootHelper in one term each - thirteen blocks in total, and checked against
+        the full block list: nothing else in the game contains these strings, so there is
+        no forgedIron style false positive.
+
+        [ RATE ]
+        The same 5 XP the crafting path awards, behind a 15 second lockout rather than the
+        crafting path's 1 second, because this fires off a swing rather than a finished
+        item. A full teardown is worth roughly two or three grants.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
+        <effect_group name="Advanced Engineering (Salvage)">
+
+            <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+            <requirement name="BlockHasName, SCore" block_name="Forge*,Workbench*,ChemistryStation*,CementMixer*"/>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Advanced Engineering - Attempting Salvage XP (+@$lbd_xp_special_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_SalvageCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar"
+                              cvar="$perkadvancedengineering_lbd_xp" operation="add" value="@$lbd_xp_special_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_SalvageCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_perkAdvancedEngineering_SalvageCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_SalvageCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Advanced Engineering - Attempting Salvage XP (+@$lbd_xp_special_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_SalvageCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar"
+                              cvar="$perkadvancedengineering_lbd_xp" operation="add" value="@$lbd_xp_special_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_SalvageCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_perkAdvancedEngineering_SalvageCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_SalvageCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_perkAdvancedEngineering_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkadvancedengineering_lbd_xp" operation="GTE"
+                             value="@$perkadvancedengineering_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_perkAdvancedEngineering_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkadvancedengineering_lbd_xp" operation="GTE"
+                             value="@$perkadvancedengineering_lbd_xptonext"/>
+            </triggered_effect>
+
+
+            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Advanced Engineering - Attempting Salvage Teardown XP (+@$lbd_xp_salvage_teardown)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_TeardownCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="ModifyCVar"
+                              cvar="$perkadvancedengineering_lbd_xp" operation="add" value="@$lbd_xp_salvage_teardown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_TeardownCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff"
+                              buff="buffLBD_perkAdvancedEngineering_TeardownCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_TeardownCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff"
+                              buff="buffLBD_perkAdvancedEngineering_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkadvancedengineering_lbd_xp" operation="GTE"
+                             value="@$perkadvancedengineering_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+
     <!-- Define the Level-Up Handler buff for Advanced Engineering. -->
     <append xpath="/buffs">
         <buff name="buffLBD_perkAdvancedEngineering_LevelUpCheck" hidden="true">

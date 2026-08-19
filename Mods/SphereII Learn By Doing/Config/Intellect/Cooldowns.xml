@@ -31,9 +31,25 @@
 
         <!-- Cooldown for perkAdvancedEngineering -->
         <buff name="buffLBD_perkAdvancedEngineering_XPCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Salvage fires off a swing, so it needs a far longer throttle than the craft path. -->
+        <buff name="buffLBD_perkAdvancedEngineering_SalvageCoolDown" hidden="true"><duration value="15"/></buff>
+        <!-- 1 second, NOT the 15 the Grease Monkey twin uses. Workstations are single stage -
+             cntCollapsedWorkbench and friends declare no DowngradeBlock - so there is no
+             damage chain to double-pay for, and a long cooldown only loses awards. Measured:
+             four workstations torn down inside 8.5 seconds paid once at 15s. This is just a
+             same-frame guard. -->
+        <buff name="buffLBD_perkAdvancedEngineering_TeardownCoolDown" hidden="true"><duration value="1"/></buff>
 
         <!-- Cooldown for perkGreaseMonkey -->
         <buff name="buffLBD_perkGreaseMonkey_XPCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Salvage fires off a swing, so it needs a far longer throttle than the craft path. -->
+        <buff name="buffLBD_perkGreaseMonkey_SalvageCoolDown" hidden="true"><duration value="15"/></buff>
+        <!-- 15 seconds, and it has to stay long: a vehicle passes through Damage0 -> Damage1 ->
+             Damage2 on its way out, each firing onSelfDestroyedBlock, so a short cooldown
+             would pay three times per car. The cost is that stripping several cars in quick
+             succession pays for one of them. -->
+        <buff name="buffLBD_perkGreaseMonkey_TeardownCoolDown" hidden="true"><duration value="15"/></buff>
+        <buff name="buffLBD_perkGreaseMonkey_LongCraftCoolDown" hidden="true"><duration value="1"/></buff>
 
         <!-- Cooldown for perkCharismaticNature -->
         <buff name="buffLBD_perkCharismaticNature_XPCoolDown" hidden="true"><duration value="10"/></buff>

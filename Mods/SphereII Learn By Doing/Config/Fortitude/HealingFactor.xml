@@ -134,6 +134,56 @@
         </effect_group>
     </append>
 
+    <!--
+        =====================================================================
+        HEALING ITSELF COUNTS
+        =====================================================================
+
+        Everything above pays for enduring deprivation - moving while starving or
+        dehydrated. That is a reasonable reading of toughening up, but it left the
+        obvious one out: a perk called Healing Factor, whose vanilla effect is faster
+        health regeneration, earned nothing from healing.
+
+        onSelfHealedSelf covers both natural regeneration and patching yourself up. It is
+        deliberately NOT gated on what you are holding. Gating it on "no medical item"
+        would have made it natural regen only, which is closer to the vanilla effect, but
+        it would also mean the moment you actually treat a wound is the one moment this
+        perk ignores. Using a bandage already trains Crafting Medical; both firing on one
+        heal is the same intended overlap as a salvage swing feeding Salvage Operations,
+        Crafting Salvage Tools and Advanced Engineering at once.
+
+        THE COOLDOWN IS THE RATE CONTROL. Health regenerates on a tick, so this trigger
+        fires far more often than the hunger paths, and without a throttle it would be a
+        passive grind of exactly the sort the armour perks avoid. 15 seconds, and only 2
+        XP a time.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_FortitudeManager']">
+        <effect_group name="Healing Factor (Healing)">
+
+            <triggered_effect trigger="onSelfHealedSelf" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Healing Factor - Attempting Heal XP (+@$lbd_xp_healingfactor_heal)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkHealingFactor_HealCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHealedSelf" action="ModifyCVar"
+                              cvar="$perkhealingfactor_lbd_xp" operation="add" value="@$lbd_xp_healingfactor_heal">
+                <requirement name="NotHasBuff" buff="buffLBD_perkHealingFactor_HealCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHealedSelf" action="AddBuff"
+                              buff="buffLBD_perkHealingFactor_HealCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkHealingFactor_HealCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfHealedSelf" action="AddBuff"
+                              buff="buffLBD_perkHealingFactor_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkhealingfactor_lbd_xp" operation="GTE"
+                             value="@$perkhealingfactor_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
+    </append>
+
+
     <!-- Define the Level-Up Handler buff for Healing Factor. -->
     <append xpath="/buffs">
         <buff name="buffLBD_perkHealingFactor_LevelUpCheck" hidden="true">

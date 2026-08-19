@@ -13,6 +13,45 @@
                 <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingvehicles_lbd_lastitem"/>
             </triggered_effect>
 
+
+
+            <!-- Repairing a vehicle.
+
+                 This path looks dead and is not. Two things about it are worth writing
+                 down, because both were got wrong once already.
+
+                 IT DOES NOT DEPEND ON ITEM DURABILITY. None of the items in this skill has
+                 a DegradationMax, and the 5 items the tag gate selects - the *Placeable
+                 entries - have none either. That does not matter. A vehicle is an entity
+                 and carries entity health, not item durability, and SCore's
+                 XUiMVehicleRepairVehiclePatches writes that health onto the item as
+                 metadata: SetMetadata("PercentDamaged", _vehicle.GetHealthPercent()).
+                 SCore's ItemPercentDamaged requirement reads exactly that metadata key and
+                 requires it to be a float, which it is. So the gate has something real to
+                 test even though the item can never wear out.
+
+                 THE EVENT EXISTS ONLY BECAUSE SCORE ADDS IT. In vanilla a vehicle is
+                 repaired through the activation wheel - EntityVehicle registers
+                 EntityActivationCommand("repair", "wrench") which calls
+                 XUiM_Vehicle.RepairVehicle - and that method decrements a resourceRepairKit,
+                 calls Vehicle.RepairParts, plays a sound and raises no MinEvent at all.
+                 SCore postfixes it and fires onSelfItemRepaired on the player, which is what
+                 reaches this buff. Checking vanilla alone makes this path look impossible.
+
+                 WHY ItemHasTags tags="vehicle" IS THE RIGHT GATE. Vehicle.MakeItemValue
+                 builds the itemValue as ItemClass.GetItemClass(GetName() + "Placeable"), so
+                 the ItemValue arriving with the event is vehicleMinibikePlaceable,
+                 vehicleBicyclePlaceable and so on - precisely the 5 items carrying the
+                 "vehicle" tag. UnlockedBy craftingVehicles, which the craft path above uses,
+                 would match none of them.
+
+                 One quirk to be aware of rather than to fix: the metadata is written in a
+                 Postfix, so it holds health AFTER the repair, and GetHealthPercent is health
+                 remaining rather than damage taken. GTE 0.5 therefore reads as "the vehicle
+                 is now at least half healthy" rather than "was at least half wrecked". Since
+                 RepairParts is called with 1000 and capped by GetRepairAmountNeeded, a
+                 successful repair effectively always lands above that line, so the gate
+                 passes whenever a repair actually happened - which is the intent. -->
             <triggered_effect trigger="onSelfItemRepaired" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Vehicles - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
                 <requirement name="ItemHasTags" tags="vehicle"/> <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
@@ -21,6 +60,45 @@
             <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingvehicles_lbd_xp" operation="add" value="@$lbd_xp_repairing_base">
                 <requirement name="ItemHasTags" tags="vehicle"/> <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
+            </triggered_effect>
+
+
+            <!-- Scrapping vehicle parts.
+
+                 Gated on the vehiclesSkill TAG rather than on UnlockedBy craftingVehicles,
+                 which is what the craft path above uses and what the other crafting skills
+                 use for their own scrap paths. The two sets are not the same, and the
+                 difference matters here in a way it does not for crafting.
+
+                 UnlockedBy craftingVehicles covers 16 items, and 4 of them have no business
+                 paying for being destroyed: ammoGasCan and resourceOil (fuel, not parts) and
+                 - much worse - vehiclesSkillMagazine and adminSkillMagazine. Magazines are
+                 scrappable and drop in quantity from loot, so an UnlockedBy gate would turn
+                 "shred the vehicle magazines you find" into a repeatable XP source, which
+                 both reads backwards and outpaces every intended path.
+
+                 Crafting cannot hit that problem, because no one crafts a magazine.
+
+                 The tag selects exactly the 12 real parts - vehicleWheels, and the chassis,
+                 handlebars and accessories for all five vehicles. ItemHasTags reads
+                 _params.ItemValue, and SCore sets that to the scrapped stack's itemValue,
+                 so it resolves against the item going into the scrapper. -->
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Vehicles - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
+                <requirement name="ItemHasTags" tags="vehiclesSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingvehicles_lbd_xp" operation="add" value="@$lbd_xp_scrapping_base">
+                <requirement name="ItemHasTags" tags="vehiclesSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingVehicles_ActionCoolDown">
+                <requirement name="ItemHasTags" tags="vehiclesSkill"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingVehicles_LevelUpCheck">
+                <requirement name="ItemHasTags" tags="vehiclesSkill"/>
+                <requirement name="CVarCompare" cvar="$craftingvehicles_lbd_xp" operation="GTE" value="@$craftingvehicles_lbd_xptonext"/>
             </triggered_effect>
 
             <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Vehicles - Applying Cooldown (Craft)">
@@ -43,6 +121,7 @@
                 <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_ActionCoolDown"/>
             </triggered_effect>
 
+
             <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Vehicles - Triggering Level Up Check (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingVehicles"/>
                 <requirement name="CVarCompare" cvar="$craftingvehicles_lbd_xp" operation="GTE" value="@$craftingvehicles_lbd_xptonext"/>
@@ -62,6 +141,7 @@
                 <requirement name="ItemHasTags" tags="vehicle"/> <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingvehicles_lbd_xp" operation="GTE" value="@$craftingvehicles_lbd_xptonext"/>
             </triggered_effect>
+
             <!-- Remember what was just crafted. Ordered last so the awards above
                  compare against the PREVIOUS craft, not this one. A queue of twenty
                  identical items now scores once; twenty different items score twenty
@@ -73,6 +153,135 @@
         </effect_group>
 
    
+    </append>
+
+    <!--
+        =====================================================================
+        LEARNING BY USING
+        =====================================================================
+
+        The full rationale is in HarvestingTools.xml; the short version is that making,
+        mending and scrapping are rare events, so a skill fed only by them sits still.
+
+        NARROW ON PURPOSE, because the game gives nothing better. There is no drive,
+        mount or travel event in MinEventTypes; onSelfVehicleAttackedOther - running
+        something down - is the only trigger that fires because a vehicle is being used.
+
+        So this rewards using a vehicle roughly rather than using one at all, and a careful
+        driver earns nothing from it. That is a real limitation, not an oversight. It is
+        still better than the status quo, where this skill also had no scrap path and could
+        only ever be fed by crafting parts.
+
+        No gate: the event only fires for the player's own vehicle.
+
+        1 XP behind a 15 second lockout, the same rate every other use path in this folder
+        runs at, read from the shared $lbd_xp_crafting_use_base.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
+        <effect_group name="LBD Crafting Skill - Vehicles (Use)">
+
+            <triggered_effect trigger="onSelfVehicleAttackedOther" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Crafting Vehicles - Attempting 'Use' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfVehicleAttackedOther" action="ModifyCVar"
+                              cvar="$craftingvehicles_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfVehicleAttackedOther" action="AddBuff"
+                              buff="buffLBD_craftingVehicles_UseCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfVehicleAttackedOther" action="AddBuff"
+                              buff="buffLBD_craftingVehicles_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingvehicles_lbd_xp" operation="GTE"
+                             value="@$craftingvehicles_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
+    </append>
+
+
+
+    <!--
+        =====================================================================
+        STRIPPING WRECKS
+        =====================================================================
+
+        Wrenching the cars, buses and trucks scattered around the world.
+
+        This is the path that makes the skill real. Crafting vehicle parts is a handful of
+        events across a whole playthrough, scrapping them rarer still, and the "use" path
+        below only fires when you run something over. Meanwhile the activity a player
+        actually associates with learning about vehicles - taking one apart with a wrench -
+        paid this skill nothing.
+
+        SAME BLOCK LIST AS GREASE MONKEY, deliberately, and kept character for character so
+        the two stay in step. The reasoning behind those 34 terms is written out in full in
+        Intellect/GreaseMonkey.xml - the short version is that it was derived from every
+        block whose model path is under Entities/Vehicles/, after two earlier attempts
+        missed SUVs, pickups, burnt sedans and minivans by guessing at prefixes.
+
+        FOUR THINGS FEED OFF ONE SWING once this is in: Salvage Operations, Crafting Salvage
+        Tools, Grease Monkey and now Crafting Vehicles. That overlap is intended and is the
+        same shape used everywhere else in this modlet - a swing that teaches you about the
+        tool also teaches you about the thing you are pointing it at.
+
+        NO LEVEL CAP, unlike craftingTraps. Traps caps its salvage path at 24 because its
+        recipes do not unlock until 25, making salvage a bootstrap that has to hand over to
+        crafting. Vehicles has no such gap - its craft path works from level 0 - so this is
+        a permanent contributor, matching craftingWorkstations, which also runs uncapped.
+
+        BOTH COOLDOWNS ARE 15 SECONDS. The per-hit one throttles a fast tool. The teardown
+        one is not optional: a vehicle passes through Damage0 -> Damage1 -> Damage2 on its
+        way out and each stage fires onSelfDestroyedBlock, so a shorter window pays the
+        bonus three times per car. Grease Monkey uses 15 on both for exactly this reason.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
+        <effect_group name="LBD Crafting Skill - Vehicles (Salvage)">
+            <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+            <requirement name="BlockHasName, SCore" block_name="4x4Static*,abandonedPickupTruck*,abandonedSUV*,backhoe*,bicycleStatic*,burntSedan*,busCity*,carWrecks*,cars3Wide*,carsRandom*,cntAmbulance*,cntArmyTruck*,cntBoxTruck*,cntBus*,cntCar0*,cntFarmTruck*,cntFireTruck*,cntFrontCrumpledSedan*,cntMinivan*,cntPickupTruck*,cntPoliceCar*,cntSUV*,cntSedan*,cntSemiTruck*,cntServiceTruck*,crushedCars*,decoCar*,excavator*,forklift*,gyrocopterStatic*,minibikeStatic*,motorcycleStatic*,tractor*,semiFlatbed*"/>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Crafting Vehicles - Attempting Salvage Hit XP (+@$lbd_xp_harvest_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_HitCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar"
+                              cvar="$craftingvehicles_lbd_xp" operation="add" value="@$lbd_xp_harvest_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_HitCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_craftingVehicles_HitCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_HitCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_craftingVehicles_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingvehicles_lbd_xp" operation="GTE"
+                             value="@$craftingvehicles_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Crafting Vehicles - Attempting Salvage Teardown XP (+@$lbd_xp_crafting_bigxp)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_TeardownCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="ModifyCVar"
+                              cvar="$craftingvehicles_lbd_xp" operation="add" value="@$lbd_xp_crafting_bigxp">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_TeardownCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff"
+                              buff="buffLBD_craftingVehicles_TeardownCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingVehicles_TeardownCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff"
+                              buff="buffLBD_craftingVehicles_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingvehicles_lbd_xp" operation="GTE"
+                             value="@$craftingvehicles_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
     </append>
 
     <append xpath="/buffs">
@@ -97,6 +306,15 @@
         </buff>
 
         <buff name="buffLBD_craftingVehicles_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Throttles learning by use. Separate from ActionCoolDown, which exists to stop
+             a single craft double-scoring and only needs a second. -->
+        <buff name="buffLBD_craftingVehicles_UseCoolDown" hidden="true"><duration value="15"/></buff>
+        <!-- Per-hit throttle while stripping a wreck. -->
+        <buff name="buffLBD_craftingVehicles_HitCoolDown" hidden="true"><duration value="15"/></buff>
+        <!-- Separate from HitCoolDown, and 15s rather than the 1s a single-stage block would
+             want: a vehicle fires onSelfDestroyedBlock once per damage stage, so anything
+             shorter pays the teardown bonus three times for one car. -->
+        <buff name="buffLBD_craftingVehicles_TeardownCoolDown" hidden="true"><duration value="15"/></buff>
 
    
     </append>

@@ -164,6 +164,58 @@
         </effect_group>
     </append>
 
+    <!--
+        LEARNING BY USING. The full rationale is in HarvestingTools.xml; the short version
+        is that making, mending and scrapping are rare events, so a skill fed only by them
+        sits still.
+
+        YOU LEARN ARMOUR BY BEING HIT IN IT. onOtherDamagedSelf is the damage received
+        trigger the Light, Medium and Heavy Armor perks already use, and it is the honest
+        reading of "using" armour - wearing it while nothing happens teaches nothing.
+
+        Deliberately NOT the onSelfRun / onSelfWalk pair those perks also carry. Walking
+        is continuous, so at one XP every fifteen seconds a player would level armour
+        crafting by strolling around the base, which is the passive grind this whole
+        system exists to avoid.
+
+        WornItems counts equipped slots whose item carries any of the listed tags and
+        compares that count - HasAnyTags, so the list is an OR - which is why one
+        requirement covers all three armour classes. value="1" because this skill builds
+        every class, so any armour on your body counts. The five items it unlocks are
+        armorPrimitiveMaster and friends, template items with no tags of their own, so
+        the worn pieces are what has to be tested.
+
+        1 XP behind a 15 second lockout, the same rate every other use path in this folder
+        runs at, read from the shared $lbd_xp_crafting_use_base.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
+        <effect_group name="LBD Crafting Skill - Armor (Use)">
+            <requirement name="WornItems" tags="lightArmor,mediumArmor,heavyArmor" operation="GTE" value="1"/>
+
+            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Crafting Armor - Attempting 'Use' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar"
+                              cvar="$craftingarmor_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="AddBuff"
+                              buff="buffLBD_craftingArmor_UseCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_UseCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onOtherDamagedSelf" action="AddBuff"
+                              buff="buffLBD_craftingArmor_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingarmor_lbd_xp" operation="GTE"
+                             value="@$craftingarmor_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
+    </append>
+
+
     <append xpath="/buffs">
         <buff name="buffLBD_craftingArmor_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
@@ -197,6 +249,9 @@
             </effect_group>
         </buff>
         <buff name="buffLBD_craftingArmor_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Throttles learning by use. Separate from ActionCoolDown, which exists to stop a
+             single craft double-scoring and only needs a second. -->
+        <buff name="buffLBD_craftingArmor_UseCoolDown" hidden="true"><duration value="15"/></buff>
 
         <buff name="buffLBD_craftingArmor_T0RepairCoolDown" hidden="true"><duration value="5"/></buff>
 

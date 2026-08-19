@@ -4,7 +4,13 @@
         <effect_group name="Siphoning Strikes">
             <!-- Master requirements for the entire group. -->
             <requirement name="HoldingItemHasTags" tags="melee"/>
-            <requirement name="ProgressionLevel" progression_name="attStrength" operation="GTE" value="2"/> <!-- The Strength gate -->
+            <!-- attFortitude, not attStrength. This is a Fortitude perk - vanilla parents it
+                 to skillFortitudeRecovery and its own level requirements ask for attFortitude at
+                 1, 3 and 5 - but the gate here asked for STRENGTH 2. It is a master requirement,
+                 so it blocked the XP itself rather than just the level up: anyone levelling
+                 Fortitude earned nothing from this perk until they had separately pushed a
+                 different attribute. It never once fired across several logged sessions. -->
+            <requirement name="ProgressionLevel" progression_name="attFortitude" operation="GTE" value="2"/>
 
             <!-- XP Gain -->
             <triggered_effect trigger="onSelfKilledOther" action="LogMessageCVars, SCore"

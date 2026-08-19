@@ -1,49 +1,197 @@
 <configs>
     <!-- Append the LBD logic for Grease Monkey to the main Intellect Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
+        <!--
+            TRIGGER IS onSelfCraftedRecipe, NOT onSelfItemCrafted - the same fix applied to
+            Master Chef, and for the same reason. RequirementRecipeHasTags reads a "Tags"
+            metadata entry that only exists on the synthetic ItemValue SCore passes with
+            its own onSelfCraftedRecipe event. On vanilla's onSelfItemCrafted that metadata
+            is absent, the group requirement failed, and nothing in this perk ever ran.
+        -->
         <effect_group name="Grease Monkey">
             <!-- Master requirement: The crafted recipe must be tagged for Grease Monkey. -->
             <requirement name="RequirementRecipeHasTags, SCore" tags="perkGreaseMonkey" />
 
             <!-- XP Gain: BASELINE for any Grease Monkey craft -->
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Grease Monkey - Attempting Base Crafting XP (+@$lbd_xp_special_base)">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessageCVars, SCore" message="LBD DEBUG: Grease Monkey - Attempting Base Crafting XP (+@$lbd_xp_special_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkgreasemonkey_lbd_xp" operation="add" value="@$lbd_xp_special_base">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="ModifyCVar" cvar="$perkgreasemonkey_lbd_xp" operation="add" value="@$lbd_xp_special_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
             </triggered_effect>
 
             <!-- XP Gain: BONUS for long crafting times -->
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Grease Monkey - Attempting Long Craft Bonus XP (+@$lbd_xp_greasemonkey_longcraft_bonus)">
-                <requirement name="RequirementRecipeHasLongCraftTime, SCore" operation="GTE" value="100" /> <!-- Example: Craft time >= 100 seconds -->
-                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
-                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkgreasemonkey_lbd_xp" operation="add" value="@$lbd_xp_greasemonkey_longcraft_bonus">
-                <requirement name="RequirementRecipeHasLongCraftTime, SCore" operation="GTE" value="100" />
-                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
-            </triggered_effect>
 
             <!-- Cooldown Application -->
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Grease Monkey - Applying Cooldown">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessageCVars, SCore" message="LBD DEBUG: Grease Monkey - Applying Cooldown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="AddBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Level Up Check -->
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Grease Monkey - Triggering Level Up Check">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessageCVars, SCore" message="LBD DEBUG: Grease Monkey - Triggering Level Up Check">
                 <requirement name="CVarCompare" cvar="$perkgreasemonkey_lbd_xp" operation="GTE" value="@$perkgreasemonkey_lbd_xptonext"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCraftedRecipe" action="AddBuff" buff="buffLBD_perkGreaseMonkey_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkgreasemonkey_lbd_xp" operation="GTE" value="@$perkgreasemonkey_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+
+        <!--
+            The long craft bonus needs the OTHER trigger. RequirementRecipeHasLongCraftTime
+            matches the crafting queue against MinEventParams.ItemValue.type - the real
+            crafted item - which onSelfCraftedRecipe does not carry, so it can never pass
+            there. Split out here on vanilla's event, gated on the item's own UnlockedBy
+            since the recipe tag check is unavailable on this trigger.
+        -->
+        <effect_group name="Grease Monkey Long Craft Bonus">
+            <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingVehicles"/>
+            <requirement name="RequirementRecipeHasLongCraftTime, SCore" operation="GTE" value="100"/>
+
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Grease Monkey - Attempting Long Craft Bonus XP (+@$lbd_xp_greasemonkey_longcraft_bonus)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_LongCraftCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkgreasemonkey_lbd_xp" operation="add" value="@$lbd_xp_greasemonkey_longcraft_bonus">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_LongCraftCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkGreaseMonkey_LongCraftCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_LongCraftCoolDown"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkGreaseMonkey_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkgreasemonkey_lbd_xp" operation="GTE" value="@$perkgreasemonkey_lbd_xptonext"/>
             </triggered_effect>
         </effect_group>
     </append>
+
+    <!--
+        =====================================================================
+        STRIPPING A CAR COUNTS TOO
+        =====================================================================
+
+        Same reasoning as Advanced Engineering's salvage group: the crafting path above
+        pays for building vehicles and vehicle mods, and pulling a wreck apart for its
+        parts paid nothing. Taking one to pieces is where most players learn what is in
+        one.
+
+        Salvage Operations already covers the ACT of wrenching anything at all, and still
+        does - this is the vehicle knowledge on top of it, the same way Advanced
+        Engineering sits on top of it for workstations. Both firing on one swing is
+        intended.
+
+        [ WHY BlockHasName, AND WHY THESE EXACT TERMS ]
+        Vehicle wrecks share no tag, and their harvest drops are no help either -
+        mechanical and electrical parts come out of bathtubs and air conditioners too,
+        169 blocks worth. The name is the only clean discriminator.
+
+        cntCar0* rather than the obvious cntCar*, because cntCar is a prefix of
+        cntCardboardBox. A bare "car" would have matched 177 blocks including carts,
+        crates and cardboard.
+
+        THE LIST IS LONG BECAUSE VEHICLES ARE NOT ONE FAMILY, AND GUESSING THE FAMILIES
+        DOES NOT WORK. This gate was wrong twice before it was right:
+
+          v1  cntCar0*,cntBus*,carWrecks*                     56 blocks
+          v2  + sedan, SUV, pickup, semi, police, ambulance  196 blocks
+          v3  derived from the model path                    438 blocks
+
+        v1 and v2 were both built by eyeballing block names and checking only for false
+        positives. v2 still missed minivans, and a play session that destroyed a
+        cntMinivan01Black scored nothing - which is how it was caught the second time. It
+        also missed abandonedPickupTruck and abandonedSUV, 44 blocks each, plus box
+        trucks, fire trucks, army trucks, farm trucks, service trucks, crumpled sedans and
+        every piece of construction plant in the game.
+
+        THE TRUTH SET IS THE MODEL PATH. Every vehicle block resolves, through Extends if
+        need be, to a Model under @:Entities/Vehicles/ - 415 blocks. The terms below were
+        generated from that set rather than imagined, then checked BOTH ways: they miss
+        none of the 415, and the 23 extras they pick up are semi truck modular parts and
+        car tyres that happen to be modelled under Entities/Industrial and OutdoorDecor.
+        Those are real vehicle parts, so they are wanted - which is also why the model
+        path is the anchor for the list rather than the filter itself.
+
+        decoCar* is included deliberately. A bumper, a door, a seat or a tyre lying in a
+        junkyard is car parts, and stripping them is the same lesson.
+
+        If this ever needs extending, regenerate from the model path. Do not add a family
+        by hand.
+
+        [ RATE ]
+        The same 5 XP the crafting path awards, behind a 15 second lockout rather than
+        that path's 1 second, because this fires off a swing rather than a finished item.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
+        <effect_group name="Grease Monkey (Salvage)">
+
+            <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+            <requirement name="BlockHasName, SCore" block_name="4x4Static*,abandonedPickupTruck*,abandonedSUV*,backhoe*,bicycleStatic*,burntSedan*,busCity*,carWrecks*,cars3Wide*,carsRandom*,cntAmbulance*,cntArmyTruck*,cntBoxTruck*,cntBus*,cntCar0*,cntFarmTruck*,cntFireTruck*,cntFrontCrumpledSedan*,cntMinivan*,cntPickupTruck*,cntPoliceCar*,cntSUV*,cntSedan*,cntSemiTruck*,cntServiceTruck*,crushedCars*,decoCar*,excavator*,forklift*,gyrocopterStatic*,minibikeStatic*,motorcycleStatic*,tractor*,semiFlatbed*"/>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Grease Monkey - Attempting Salvage XP (+@$lbd_xp_special_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_SalvageCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar"
+                              cvar="$perkgreasemonkey_lbd_xp" operation="add" value="@$lbd_xp_special_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_SalvageCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_perkGreaseMonkey_SalvageCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_SalvageCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Grease Monkey - Attempting Salvage XP (+@$lbd_xp_special_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_SalvageCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar"
+                              cvar="$perkgreasemonkey_lbd_xp" operation="add" value="@$lbd_xp_special_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_SalvageCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_perkGreaseMonkey_SalvageCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_SalvageCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_perkGreaseMonkey_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkgreasemonkey_lbd_xp" operation="GTE"
+                             value="@$perkgreasemonkey_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_perkGreaseMonkey_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkgreasemonkey_lbd_xp" operation="GTE"
+                             value="@$perkgreasemonkey_lbd_xptonext"/>
+            </triggered_effect>
+
+
+            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Grease Monkey - Attempting Salvage Teardown XP (+@$lbd_xp_salvage_teardown)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_TeardownCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="ModifyCVar"
+                              cvar="$perkgreasemonkey_lbd_xp" operation="add" value="@$lbd_xp_salvage_teardown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_TeardownCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff"
+                              buff="buffLBD_perkGreaseMonkey_TeardownCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_TeardownCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff"
+                              buff="buffLBD_perkGreaseMonkey_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkgreasemonkey_lbd_xp" operation="GTE"
+                             value="@$perkgreasemonkey_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
 
     <!-- Define the Level-Up Handler buff for Grease Monkey. -->
     <append xpath="/buffs">

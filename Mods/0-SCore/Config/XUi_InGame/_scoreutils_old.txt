@@ -1,0 +1,166 @@
+        <!--
+            =====================================================================
+            SCORE UTILITIES
+            =====================================================================
+
+            The player-facing settings screen, reached from the ESC menu button in
+            ingameMenuSCore above. Every row is a cvar-backed checkbox; Save writes them
+            all to the player and closes the window.
+
+            [ HOW IT IS WIRED ]
+            XUiC_SCoreUtilities does not know any of these rows by name. On open it walks
+            GetChildrenByType<XUiC_ToggleButtonCVar>() and seeds each one, and Save walks
+            the same set writing Buffs.SetCustomVar(CVarName, 0/1). So adding a setting
+            here is a one-line change with no C# to match - the only name the controller
+            looks up is SCorebtnSubmit.
+
+            Two shapes of cvar go through that loop:
+              - a plain player cvar, e.g. quietNPC or $WeaponSway, read by whichever
+                feature owns it
+              - a Class_Feature pair, e.g. AdvancedPrefabFeatures_DisableFlickeringLights.
+                OnOpen splits these on the first underscore and seeds the initial state
+                from Configuration.CheckFeatureStatus(class, feature) when the player has
+                no cvar of that name yet.
+
+            [ GRID LAYOUT ]
+            The grid is one column and every child is one cell, so the bare <rect/> entries
+            are deliberate blank spacers before each section heading, not leftovers. Keep a
+            spacer and a heading together when adding a section, and remember the count is
+            what positions everything below it.
+
+            [ TOGGLE GEOMETRY ]
+            Size, depth and font live on the togglebuttonCVar template defaults, since this
+            window is its only consumer. Rows carry just what makes them different: name,
+            cvar and captions. The template comment records the attributes that used to be
+            repeated here and never had any effect.
+        -->
+        <window name="windowSCoreUtilities" depth="99" pos="0,400" width="1185" height="780" anchor="CenterCenter"
+                cursor_area="true" controller="SCoreUtilities, SCore">
+            <panel depth="2">
+
+                <!-- Full screen catchers, so nothing behind the window stays clickable. -->
+                <panel name="outclick" pos="-2000,2000" width="8000" height="8000" depth="1"
+                       on_press="true" gamepad_selectable="false"/>
+
+                <panel name="noclick" depth="2" on_press="true" pos="-2000,2000" width="8000"
+                       height="8000" gamepad_selectable="false">
+                    <texture name="bgTexture" depth="0" texture="Textures/UI/news_background" color="255,255,255,240"
+                             anchor_left="#cam,0,-5" anchor_right="#cam,1,5" anchor_bottom="#cam,0,-5"
+                             anchor_top="#cam,1,5"/>
+                </panel>
+
+                <panel name="content" pos="0,-350" width="400" height="600" depth="3" pivot="center">
+
+                    <!--
+                        Frame around the settings column. fillcenter="false" draws the sliced
+                        sprite's edges only, which is the same way simplebutton and the companion
+                        list draw theirs - the dimmed backdrop behind stays visible through it.
+
+                        NOT named "border". That name is a single-valued XuiBindComponent lookup
+                        that recurses first-match-wins, so a controller looking for its own border
+                        can bind to a stray one several levels down. See the traps list in
+                        Mods/Ideas/XUI_SYSTEM_REFERENCE.md.
+
+                        The size is deliberate rather than derived. This panel declares 400x600 but
+                        does not clip, and its contents run well past that: nineteen 34px grid cells
+                        plus the Save button's own -80 offset reach about y -424, where the panel
+                        bottom is -300. Sizing the frame to the panel would draw a box straight
+                        through the lower toggles, so it is sized to the content instead.
+
+                        Which means it depends on the Locks block above: with it the grid is
+                        nineteen cells, without it fifteen, a difference of four cells or 136px.
+                        Hence the two variants - same top edge, shorter box when the lock picking
+                        section is absent. Adjust both together when adding or removing a row, and
+                        note the frame is only as good as that arithmetic; it has not been seen
+                        rendered.
+                    -->
+                    <conditional evaluator="client">
+                        <if cond="mod_loaded('Locks')">
+                            <sprite depth="4" name="utilitiesFrame" sprite="menu_empty3px" color="[black]"
+                                    type="sliced" fillcenter="false" pos="-190,360" width="380" height="800"/>
+                        </if>
+                        <else>
+                            <sprite depth="4" name="utilitiesFrame" sprite="menu_empty3px" color="[black]"
+                                    type="sliced" fillcenter="false" pos="-190,360" width="380" height="670"/>
+                        </else>
+                    </conditional>
+
+                    <label depth="16" name="header.name" pos="0,330" width="350" pivot="center" justify="center"
+                           style="label_outline" text_key="xuiSCoreUtilities" font_size="24" overflow="ShrinkContent"
+                           upper_case="true"/>
+
+                    <grid name="toggle01" depth="10" pos="-145,300" cols="1" width="320" cell_width="290"
+                          cell_height="34" arrangement="vertical" repeat_content="false">
+
+                        <!-- Lock picking, only when the Locks modlet supplies the feature. -->
+                        <conditional evaluator="client">
+                            <if cond="mod_loaded('Locks')">
+                                <rect/>
+                                <label style="label_outline, header.name" text="Lock Pick Settings"
+                                       text_key="xuiLockPickingSettings" width="320" height="26" font_size="24"/>
+                                <togglebuttonCVar name="toggleLockPick" cvar="LegacyLockPick"
+                                                  caption_key="xuiLockPicking"
+                                                  tooltip_key="xuiLockPickingToolTip"/>
+                                <togglebuttonCVar name="toggleForceMiniGameLockPick" cvar="MiniGameLockPick"
+                                                  caption_key="xuiSCoreUtilsMiniGameLockPick"
+                                                  tooltip_key="xuiSCoreUtilsMiniGameLockPickToolTip"/>
+                            </if>
+                        </conditional>
+
+                        <rect/>
+                        <label style="label_outline, header.name" text="NPC Settings" text_key="xuiNPCSettings"
+                               width="320" height="26" font_size="24"/>
+                        <togglebuttonCVar name="toggleNPCFootsteps" cvar="quietNPC"
+                                          caption_key="xuiQuietNPC"
+                                          tooltip_key="xuiQuietNPCToolTip"/>
+
+                        <rect/>
+                        <label style="label_outline, header.name" text="Trader Settings" text_key="xuiTraderSettings"
+                               width="320" height="26" font_size="24"/>
+                        <togglebuttonCVar name="toggleMuteTraderRekt" cvar="MuteTraderRekt"
+                                          caption_key="xuiSCoreUtilsTraderRekt"
+                                          tooltip_key="xuiSCoreUtilsTraderRektToolTip"/>
+                        <togglebuttonCVar name="toggleMuteTraderAll" cvar="MuteTraderAll"
+                                          caption_key="xuiSCoreUtilsTraderAll"
+                                          tooltip_key="xuiSCoreUtilsTraderAllToolTip"/>
+
+                        <rect/>
+                        <label style="label_outline, header.name" text="Personal Settings"
+                               text_key="xuiPersonalSettings" width="320" height="26" font_size="24"/>
+                        <togglebuttonCVar name="toggleDisableFlickeringLights"
+                                          cvar="AdvancedPrefabFeatures_DisableFlickeringLights"
+                                          caption_key="xuiSCoreUtilsDisableFlickeringLights"
+                                          tooltip_key="xuiSCoreUtilsDisableFlickeringLightsToolTip"/>
+                        <togglebuttonCVar name="toggleAutoRedeemChallenges"
+                                          cvar="AdvancedPlayerFeatures_AutoRedeemChallenges"
+                                          caption_key="xuiSCoreUtilsAutoRedeemChallenges"
+                                          tooltip_key="xuiSCoreUtilsAutoRedeemChallengesToolTip"/>
+
+                        <!--
+                            The $ is load bearing. SwayUtilities.CanSway and the weaponsway
+                            console command both read $WeaponSway, and XUiC_SCoreUtilities
+                            writes CVarName through verbatim, so the name here has to match
+                            character for character. Checked means suppressed, matching both
+                            the caption and the value CanSway tests for.
+                        -->
+                        <togglebuttonCVar name="toggleWeaponSway"
+                                          cvar="$WeaponSway"
+                                          caption_key="xuiSCoreUtilsWeaponSway"
+                                          tooltip_key="xuiSCoreUtilsWeaponSwayToolTip"/>
+
+                        <togglebuttonCVar name="toggleMemoryBudget"
+                                          cvar="$SCoreUtils_MemoryBudget"
+                                          caption_key="xuiSCoreUtilsMemoryBudget"
+                                          tooltip_key="xuiSCoreUtilsMemoryBudgetToolTip"/>
+                        <togglebuttonCVar name="togglePPEnable"
+                                          cvar="$SCoreUtils_PPEnable"
+                                          caption_key="xuiSCoreUtilsPPEnable"
+                                          tooltip_key="xuiSCoreUtilsPPEnableToolTip"/>
+
+                        <simplebutton name="SCorebtnSubmit" depth="3" pos="0,-80" width="290" height="32"
+                                      font_size="24" caption_key="xuiSave" upper_case="true"/>
+                    </grid>
+                </panel>
+
+            </panel>
+        </window>

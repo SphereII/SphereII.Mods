@@ -86,6 +86,219 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
   
+Version: 3.1.30.743
+	Game Version: v3.1.0 (b14)
+
+	[ Advanced Zombie Features - Random Size and Random Walk ]
+		- Both features were checked against the current game assembly and
+		  repaired. The hooks themselves survived - walkType is still written
+		  by EntityAlive.CopyPropertiesFromEntityClass, though the field is
+		  public now rather than private - but the game grew an
+		  EntityClass.SizeScale that Random Size was quietly discarding.
+		- Random Size now multiplies the entity class's own SizeScale instead
+		  of replacing it. Around fifteen vanilla zombie classes set it
+		  (zombieChuck 1.2, zombieBoe and friends 1.08, zombieArlene 0.9), and
+		  those were rendering at the rolled scale while their capsule stayed
+		  sized for SizeScale as well, because Entity.SetScale assigns
+		  localScale outright but multiplies the physics extents. A zombieBoe
+		  that rolls 1.1 is now 1.188, model and collider agreeing. A roll of
+		  1.0 is left alone entirely.
+		- The size is applied in EntityAlive.PostInit rather than on the first
+		  Update. PostInit is the last thing
+		  EntityFactory.CreateEntityOperation.CompleteEntity does, so
+		  OverrideSize is populated before the entity can be handed to anyone.
+		  That is what makes the size reach multiplayer clients: the server
+		  snapshots OverrideSize into an EntityCreationData when it builds a
+		  spawn packet, and a zombie distributed before its first frame used
+		  to go out at size 1 and stay that way on that client for good.
+		  Clients never roll or apply a size themselves.
+		- An entity that arrives already sized - a chunk reload, or a prefab
+		  copy - keeps the size it came in with instead of being re-rolled.
+		  SetScale multiplies the physics extents on every call, so scaling
+		  again on top of what CompleteEntity already applied would compound
+		  them. Sizes are stable across restarts now.
+		- RandomSize="false" opts an entity out. The check was an OR chain
+		  that let "is this an EntityZombie" short-circuit ahead of the
+		  property, so a zombie could never be excluded. An explicit
+		  RandomSize now wins in both directions; without one, zombies and any
+		  class carrying a RandomSizes list are randomized as before.
+		- The per-frame cost is gone. The Update patch is a fallback now that
+		  reads one float off the entity and stops, where it used to run an
+		  uncached ConfigFeatureBlock property scan, two EntityClass property
+		  lookups and a string interpolation for every EntityAlive in the
+		  world on every frame - and the interpolation built its log line
+		  whether or not logging was enabled. It is keyed off OverrideSize, so
+		  a vanilla buff-driven MinEventActionSetScale is left alone rather
+		  than fought every frame.
+		- Random Walk no longer hands a whole spawn wave the same gait. It
+		  built a new System.Random per entity, which seeds from
+		  Environment.TickCount, so every zombie constructed in the same tick
+		  drew the same walk type. A horde varies now.
+		- Crawlers are detected with the game's own IsWalkTypeACrawl instead
+		  of a hardcoded "21 or 22", so the named types the game now exposes -
+		  cWalkTypeFat 1, cWalkTypeCripple 5, cWalkTypeCrouch 8,
+		  cWalkTypeBandit 15, cWalkTypeCrawlFirst 20, cWalkTypeCrawler 21,
+		  cWalkTypeSpider 22 - stay covered. The default pool holds only the
+		  upright types vanilla actually ships: walk type 4 is no longer used
+		  by any entity class, and 8 and 15 are reserved for the crouch swap
+		  and for bandits.
+		- An empty or malformed RandomWalkTypes leaves the entity on its
+		  configured WalkType instead of throwing.
+		- Both features are documented in
+		  0-SCore/Harmony/ZombieFeatures/ReadMe.md, whose stated default
+		  ranges had drifted from the code for each of them.
+
+	[ In-Game Windows - Lock Picking, Utilities and Companions ]
+		- The weapon sway toggle never did anything. It wrote a cvar named
+		  WeaponSway, while SwayUtilities.CanSway and the weaponsway console
+		  command both read $WeaponSway, and XUiC_SCoreUtilities writes
+		  CVarName through verbatim - so the two never met. The row declares
+		  $WeaponSway now.
+		- Two rows shared the name toggleToggleMemoryBudget, the memory budget
+		  setting and the post processing one. They are toggleMemoryBudget and
+		  togglePPEnable now.
+		- All three windows in XUi_InGame/windows.xml were rebuilt on the
+		  vanilla chrome templates the game and 0-Help Screens use: a
+		  fullscreencollider for the input block and dimmed backdrop, a 43px
+		  header rect carrying headerbg, and a padded content rect carrying
+		  boxbg. Between them these replace a pair of hand-rolled 8000x8000
+		  on_press panels per window, a news_background texture stretched to
+		  the camera, and a background sprite drawn at hand-computed
+		  coordinates.
+		- The practical gain is that the frames size themselves. boxbg derives
+		  its border and background from outerwidth/outerheight, so the chrome
+		  cannot drift from the rect it sits in. The old sprite arithmetic had
+		  to be redone whenever a row was added, and needed a second variant
+		  because the conditional Locks block changes the content height.
+		- Centred windows place themselves the way vanilla does now, anchor
+		  center with pos at (-width/2, height/2). windowSCoreUtilities was
+		  pos="0,400" on a 1185 wide window, which is what the pivot="center"
+		  content panel and the grid parked at x -145 were compensating for;
+		  with the window centred properly the content sits at its natural
+		  0,0. windowSCoreCompanions was panel="Center", docking into the
+		  shared centre panel meant for the backpack layout, although it opens
+		  standalone as its own window group.
+		- Utilities and Companions pause the game now. Lock picking
+		  deliberately does not: the minigame is a live GameObject whose
+		  CipherControls polls Unity Input directly and whose Keyhole drives an
+		  animator, so pausing would freeze the lock being picked.
+		- Lock picking also stays a caption strip rather than becoming a dialog
+		  like the other two. SphereLocks renders a 3D lock prefab through its
+		  own camera in the middle of the screen, so the strip is parked at the
+		  top with the centre left clear, and its backdrop keeps the light
+		  alpha 140 rather than the 240 the settings windows use. Darkening it
+		  to match would hide the minigame.
+		- Companions is 940 wide because the content decides it, not the other
+		  way round: score_companion_header and score_companion_entry2 are both
+		  900 and the list grid's cell_width is 900, so the padded inner area
+		  has to be 900, plus 2x20 padding. Its header also gained the headerbg
+		  it never had.
+		- togglebuttonCVar carries the geometry every row wants as template
+		  defaults now, since windowSCoreUtilities is its only consumer, so a
+		  row declares just its name, cvar and captions. The ten call sites had
+		  each been repeating crispness, effect, effect_distance and
+		  effect_color, none of which the template names as parameters -
+		  createFromTemplate drops attributes it cannot substitute, so none of
+		  them had ever done anything. They are gone rather than added, because
+		  the appearance in game was always the one the template specifies.
+		- score_companion_header takes pos, depth and width instead of
+		  hardcoding pos="-3,-150" and height="746" - a full window height for
+		  a 52px strip, and an offset that only landed correctly inside the
+		  pivot centre panel that is now gone. Its inner panel was also named
+		  "header", which collides with the window's own header rect under
+		  GetChildById; it is companionListHeader now.
+		- Save is a sibling of the settings grid rather than its last cell, so
+		  it sits bottom right instead of needing a -80 nudge inside a 34px
+		  cell.
+		- Both files carry the reasoning inline now. Most of it is the
+		  controller contracts, which the XML cannot show on its own:
+		  XUiC_SCoreUtilities knows no row by name and walks
+		  GetChildrenByType<XUiC_ToggleButtonCVar> for both seeding and saving,
+		  so adding a setting is a one line change with no C# to match, and
+		  SCorebtnSubmit is the only id it looks up; XUiC_SCoreCompanionList
+		  requires the toggleNPCFootsteps id and needs the grid to stamp at
+		  least as many rows as a player can have companions. Also recorded:
+		  the blank <rect/> entries in the settings grid are deliberate section
+		  spacers rather than leftovers, and how much room each content rect
+		  has left.
+
+	[ Help Screens - Three More Modlets Documented ]
+		- SphereII Challenges, SphereII Disable Sway and SphereII Disable
+		  Special Attack contribute their own sections to the 0-Help Screens
+		  window now, joining Learn By Doing, A Round World, Peace of Mind and
+		  A Better Life.
+		- Challenges gets four pages - Overview, Ability, SCore and NPC -
+		  covering the roughly eighty challenges it adds, what each category
+		  asks for, and the fact that SCore is required for any of them to
+		  appear at all.
+		- Disable Sway and Disable Special Attack get three each: Overview,
+		  What It Changes, and Notes. The Notes pages carry what actually
+		  catches people out - Disable Sway needs EAC off and is client side
+		  only, and its weaponsway command reads inverted and does not survive
+		  a reload; Disable Special Attack is XML only, safe to add mid save,
+		  and loses to any modlet sorting after it.
+		- Each is one <append> plus Localization keys, per the contract in
+		  0-Help Screens/ReadMe.md. Disable Sway had no Localization.csv at all
+		  before this and has one now.
+
+	[ Challenges - Objective Filters and Turret Kills ]
+		- An objective filtering on item_material alone was passing
+		  unconditionally. The guard that short circuits when there is nothing
+		  to check tested itemClass and itemTag but not item_material, so a
+		  material-only objective fell through to "nothing to validate" and
+		  returned true regardless of what the player was holding.
+		- item_material was also being run through the tag test. A material is
+		  an id off materials.xml - Mwood, Mmetal - not a tag, so parsing it
+		  into FastTags produced something that could never match. It uses
+		  SCoreChallengeUtils.IsHoldingItemMaterial now, which already existed.
+		- The auto turret and shotgun turret challenges could not be completed
+		  except by accident. KillWithItem matches a trap kill through
+		  IsKilledByTrap, which compares against DamageResponse.Source
+		  .AttackingItem - the ammo that was fired, not the block that fired
+		  it - and both challenges named the block. Since neither block has an
+		  item of its own, the only way to score was to happen to be holding
+		  the turret at the moment of a kill. They now list the ammo each block
+		  accepts, taken from its AmmoItem in blocks.xml.
+		- Two entries are marked UNVERIFIED in the file rather than changed.
+		  mineCookingPot and bladeTrap are both blocks with no ammo item, so
+		  there is no name to substitute, and whether their damage carries an
+		  AttackingItem at all could not be settled from the assembly. Both
+		  need a look in game.
+		- The ClearPoi and ClearPoi2 challenges in challenges-02.xml were
+		  displaying raw localization keys. Their title, short and description
+		  strings and the hint they reference have been added.
+
+	[ Disable Sway - The Console Command Now Works ]
+		- In the standalone modlet the command had no effect. SwayUtilities
+		  .CanSway returned false unless the Z-SphereIIDebugging modlet was
+		  installed and never consulted a cvar at all, so weaponsway wrote
+		  $WeaponSway and nothing read it - there was no way to turn the motion
+		  back on short of uninstalling. CanSway reads the cvar now.
+		- The two copies agree on polarity: 1 suppresses sway, 0 restores it.
+		  That is not cosmetic. Both copies patch the same four methods
+		  (vp_FPCamera and vp_FPWeapon, UpdateSwaying and UpdateBob) and
+		  Harmony skips the original if any prefix returns false, so opposite
+		  readings would leave the command unable to restore motion whenever
+		  both were installed.
+		- Where they differ is deliberate and documented in both: with no cvar
+		  set, SCore starts from vanilla sway and lets the command switch it
+		  off, while the modlet - whose whole purpose is to have it off -
+		  starts suppressed.
+		- The command itself was reworked in both copies. It has a real
+		  getHelp() spelling out that the parameter says whether to SUPPRESS
+		  the motion, so weaponsway true is the one that turns sway off; it
+		  says what happened rather than echoing a bool; it explains itself
+		  when there is no local player instead of returning silently; and the
+		  refusal for a remote sender now says why rather than just
+		  "Command can only be used on clients."
+		- Both also warn that restoring motion lasts only for the session,
+		  since it is stored as a zero valued cvar and the game does not write
+		  those into a save.
+		- 0-SCore/Features/WeaponCameraSway/ReadMe.md documents the four
+		  suppressed motions, the command, and a table of what each cvar value
+		  means. The modlet csproj now ships its Config folder.
+
+  
 Version: 3.1.25.1535
 	Game Version: v3.1.0 (b14)
 

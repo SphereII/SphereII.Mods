@@ -47,11 +47,28 @@
             </rect>
         </score_companion_entry2>
 
-        <score_companion_header>
+        <!--
+            Column headings for the companion list. One row, sized and placed by the caller.
 
-            <panel name="header" depth="0" pos="-3,-150" height="746">
-                <sprite depth="10" name="backgroundMain" sprite="menu_empty3px" pos="3,3" width="900" height="52" color="[black]" type="sliced" fillcenter="false" />
-                <sprite color="[mediumGrey]" type="sliced" pos="6,0" height="49" width="900" />
+            It used to hardcode pos="-3,-150" and height="746" - a full window height for a
+            52px strip, and an offset that only landed correctly inside the pivot="center"
+            panel the companions window used to have. Both are parameters now, so the strip
+            sits where windows.xml puts it and the height says what it is.
+
+            Renamed from "header" as well. Every window in this file has a header rect, and
+            a duplicate id makes GetChildById("header") ambiguous inside the one window that
+            holds both. Nothing looks this one up, so the safe name costs nothing.
+
+            width defaults to 900 to match score_companion_entry2 and the list grid's
+            cell_width. Declaring it as a default is deliberate: it overrides the parent
+            seeded value, so the strip stays locked to the entry width rather than
+            stretching with whatever rect it is dropped into.
+        -->
+        <score_companion_header pos="0,0" depth="2" width="900">
+
+            <panel name="companionListHeader" depth="${depth}" pos="${pos}" width="${width}" height="52">
+                <sprite depth="10" name="backgroundMain" sprite="menu_empty3px" pos="3,3" width="${width}" height="52" color="[black]" type="sliced" fillcenter="false" />
+                <sprite color="[mediumGrey]" type="sliced" pos="6,0" height="49" width="${width}" />
                 <rect depth="1" name="npcName" width="154" height="46" pos="6,-6">
                     <label depth="1" name="TextContent" pos="4, -15" width="136" height="38" text="Name" font_size="26" pivot="left" justify="left"/>
                 </rect>
@@ -68,9 +85,24 @@
             </panel>
         </score_companion_header>
 
-        <!-- Mirrors vanilla's togglebutton (XUi_Common/templates.xml) with a cvar-backed controller. -->
-        <togglebuttonCVar depth="3" pos="0,0" width="200" height="32"
-                      enabled_font_color="[labelColor]" disabled_font_color="[disabledLabelColor]" visible="true" tooltip_key="" caption="" caption_key="" font_size="28" parse_actions="false">
+        <!--
+            Mirrors vanilla's togglebutton (XUi_Common/templates.xml) with a cvar-backed controller.
+
+            The geometry defaults below are the ones windowSCoreUtilities wants, because that
+            window is the only consumer - all ten instantiations live in its settings grid.
+            Carrying them here rather than repeating them per call is what lets each toggle be
+            declared with just its name, cvar and captions.
+
+            Only parameters named as ${...} in the body below exist. An instantiation may pass
+            any attribute it likes, but anything not substituted here is silently dropped -
+            createFromTemplate has no mechanism to forward leftovers onto the produced node. The
+            calls used to pass crispness, effect, effect_distance and effect_color, none of which
+            appear here, so none of them ever did anything; the label's outline is the hardcoded
+            effect="outline" below. They have been removed from the call sites rather than added
+            here, since the appearance in game was always the one this template specifies.
+        -->
+        <togglebuttonCVar depth="3" pos="0,0" width="290" height="32"
+                      enabled_font_color="[labelColor]" disabled_font_color="[disabledLabelColor]" visible="true" tooltip_key="" caption="" caption_key="" font_size="24" parse_actions="false">
             <rect name="${name}" depth="${depth}" pos="${pos}" width="${width}" height="${height}" enabled_font_color="${enabled_font_color}" cvar="${cvar}" disabled_font_color="${disabled_font_color}" controller="XUiC_ToggleButtonCVar, SCore" visible="${visible}">
                 <button name="clickable" sprite="menu_empty" defaultcolor="[mediumGrey]" disabledcolor="[darkGrey]" hoversprite="ui_game_select_row" hovercolor="[white]" type="sliced" hoverscale="1.0" tooltip_key="${tooltip_key}" />
                 <sprite depth="1" name="border" sprite="menu_empty2px" color="[black]" type="sliced" fillcenter="false" />

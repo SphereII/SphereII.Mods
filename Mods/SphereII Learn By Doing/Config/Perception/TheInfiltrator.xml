@@ -3,52 +3,95 @@
         <effect_group name="The Infiltrator">
             <triggered_effect trigger="onSelfPlaceBlock" action="LogMessageCVars, SCore"
                               message="LBD DEBUG: The Infiltrator - TRAP PLACED! Attempting XP Gain (+75)">
-                <requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+                <requirement name="HoldingItemHasTags" tags="Mine"/>
                 <requirement name="CVarCompare" cvar="$infiltrator_placement_credits" operation="GT" value="0"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfPlaceBlock" action="ModifyCVar" cvar="$perkinfiltrator_lbd_xp"
                               operation="add" value="75">
-                <requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+                <requirement name="HoldingItemHasTags" tags="Mine"/>
                 <requirement name="CVarCompare" cvar="$infiltrator_placement_credits" operation="GT" value="0"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfPlaceBlock" action="ModifyCVar" cvar="$infiltrator_placement_credits"
                               operation="subtract" value="1">
-                <requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+                <requirement name="HoldingItemHasTags" tags="Mine"/>
                 <requirement name="CVarCompare" cvar="$infiltrator_placement_credits" operation="GT" value="0"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore"
                               message="LBD DEBUG: The Infiltrator - Trap Crafted! Attempting XP Gain (+20) and adding Placement Credit.">
-                <requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+                <requirement name="ItemHasTags" tags="Mine"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkinfiltrator_lbd_xp"
                               operation="add" value="20">
-                <requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+                <requirement name="ItemHasTags" tags="Mine"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$infiltrator_placement_credits"
                               operation="add" value="1">
-                <requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+                <requirement name="ItemHasTags" tags="Mine"/>
             </triggered_effect>
+            <!--
+                 PLACEMENT CREDITS FROM LOOTING.
+
+                 This used to read "onSelfCloseLootContainer + ItemHasTags Mine", ie. "if you
+                 took a mine out of that container, bank a credit". It could never fire.
+
+                 XUiC_LootWindow.OnClose sets only two things on the player's MinEventContext
+                 before raising the event:
+
+                     entityPlayer.MinEventContext.TileEntity  = te;
+                     entityPlayer.MinEventContext.BlockValue   = te.blockValue;
+
+                 ItemValue is never assigned, so it holds whatever the previous event left
+                 behind. ItemHasTags early-outs on an empty ItemValue, so the credit was
+                 either never granted or - worse - granted according to some unrelated item
+                 still sitting in the context. Closing a container simply does not tell you
+                 what you took out of it.
+
+                 THIS IS WHY PLACING LOOTED MINES PAID NOTHING. Credits were only really
+                 obtainable by CRAFTING a mine, so a player who found mines in a POI - the
+                 normal way to get them, they are common loot - placed them for zero XP. It
+                 failed silently too: the debug line for placement sits behind the same
+                 credits check, so nothing appeared in the log to say a gate had been missed.
+
+                 WHY NOT JUST DROP THE CREDIT REQUIREMENT. Because the exploit it guards is
+                 real. perkInfiltrator grants BlockPickup on mines from level 1, so once the
+                 perk is started a player can place a mine, pick it back up and place it
+                 again on a few seconds' loop. At 75 XP a placement that is thousands of XP
+                 an hour standing in one spot, and a cooldown cannot tell that loop apart
+                 from someone legitimately laying a minefield before horde night.
+
+                 So the credit stays, and is instead made obtainable. Any looted container
+                 now banks one credit, up to a ceiling. It is deliberately not tied to
+                 finding a mine specifically - the game gives us no way to ask that - but it
+                 still bounds the loop to an activity that cannot be done standing still,
+                 and mines are far scarcer than containers, so in practice a player who has
+                 mines to place has credits to spend.
+
+                 THE CEILING IS WHAT MAKES IT SAFE. Without it a long looting session would
+                 bank hundreds of credits and hand back the same farm. Ten is roughly 750 XP
+                 of placement against the 1200 this perk needs for a level, so a full bank is
+                 a meaningful chunk of a level but never a level on its own.
+            -->
             <triggered_effect trigger="onSelfCloseLootContainer" action="LogMessageCVars, SCore"
-                              message="LBD DEBUG: The Infiltrator - Trap Looted! Adding Placement Credit.">
-                <requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+                              message="LBD DEBUG: The Infiltrator - Container Looted! Adding Placement Credit.">
+                <requirement name="CVarCompare" cvar="$infiltrator_placement_credits" operation="LT" value="10"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar"
                               cvar="$infiltrator_placement_credits" operation="add" value="1">
-                <requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+                <requirement name="CVarCompare" cvar="$infiltrator_placement_credits" operation="LT" value="10"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfPlaceBlock" action="AddBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown">
-                <requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+                <requirement name="HoldingItemHasTags" tags="Mine"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff"
                               buff="buffLBD_perkInfiltrator_ActionCoolDown">
-                <requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+                <requirement name="ItemHasTags" tags="Mine"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfPlaceBlock" action="AddBuff" buff="buffLBD_perkInfiltrator_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkinfiltrator_lbd_xp" operation="GTE"

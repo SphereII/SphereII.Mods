@@ -16,4 +16,97 @@
 	-->
 	<set xpath="/progression/level/@skill_points_per_level">0</set>
 
+	<!--
+		Third line of defence, and the only one that does not depend on the input path.
+
+		Hiding btnBuy stops the mouse, because an invisible XUiView deactivates its
+		GameObject and loses its collider. It does not stop everything: a purchase can
+		still be driven through the button's OnPress by other means, and a player with
+		points banked from before skill_points_per_level went to zero - or from any other
+		source the game hands them - could still level a perk from the keyboard.
+
+		Rather than chase each way in, close the gate they all funnel through.
+		XUiC_SkillPerkLevel.btnBuy_OnPress and XUiC_SkillAttributeLevel.btnBuy_OnPress
+		both require, among other things:
+
+			CurrentSkill.CostForNextLevel > 0
+
+		CostForNextLevel returns ProgressionClass.CalculatedCostForLevel(Level + 1) for
+		anything using SP, and that is
+
+			Mathf.Pow(CostMultiplier, level) * BaseCostToLevel
+
+		so a base cost of zero makes it zero for every level, the condition fails, and the
+		handler returns without doing anything - whatever raised it. A cost of zero here
+		does not mean "free", it means "not purchasable", which is exactly the intent.
+
+		Scope: these two attributes are the defaults on the containers, so they cover all
+		8 attributes and all 59 perks. Crafting skills and books are untouched - they sit
+		under different elements, use a different currency, and attBooks and attCrafting
+		already ship at zero.
+
+		One cosmetic side effect. XUiC_SkillEntry computes "skillpercentthislevel" as
+		1 - CostForNextLevel / CalculatedCostForLevel(level+1), which is now 0/0 for perks
+		and attributes. The binding is only rendered when skillpercentshouldshow is true,
+		and that is gated on ProgressionType.Skill, so no perk or attribute row displays
+		it. It is evaluated but never seen.
+	-->
+	<set xpath="/progression/attributes/@base_skill_point_cost">0</set>
+	<set xpath="/progression/perks/@base_skill_point_cost">0</set>
+
+	<!--
+		...and the seven perks that opt out of that calculation entirely.
+
+		CalculatedCostForLevel takes an early exit when a perk declares override_cost:
+
+			if (OverrideCost == null)
+				return Mathf.Pow(CostMultiplier, _level) * BaseCostToLevel;   // zeroed above
+			if (_level - 1 < OverrideCost.Length)
+				return OverrideCost[_level - 1];                              // ignores the above
+			return 0;
+
+		So base_skill_point_cost never reaches them and they stayed purchasable. Every
+		one is a General perk - Light, Medium and Heavy Armor, Master Chef, Living Off
+		The Land, Lock Picking and Lucky Looter, all parented to skillGeneralPerks -
+		which is why the hole showed up as "the General tree still lets me spend points".
+
+		A single zero is enough for any level. With override_cost="0" the array has one
+		entry, so level 1 reads OverrideCost[0] and every level past it falls through to
+		the trailing "return 0". Both give a cost of zero, the > 0 gate fails, and the
+		purchase handler does nothing.
+
+		Matched by predicate rather than by name so a perk gaining an override_cost in a
+		future patch is covered without anyone noticing it needs to be. As of this build
+		that selects exactly the seven above.
+	-->
+	<set xpath="/progression/perks/perk[@override_cost]/@override_cost">0</set>
+
+	<!--
+		Unlock every perk in the tree.
+
+		Learn By Doing does not use attribute prerequisites - a perk levels when you have
+		done the thing enough times - but the prerequisites were still there, so perks like
+		Fortitude Mastery sat greyed out with "requires Fortitude 6" against them. That is
+		misleading on its own, and it is not only cosmetic:
+
+		ProgressionClass.GetCalculatedMaxLevel walks a perk's level_requirements and returns
+		the highest level whose requirements currently pass - which is ZERO when the parent
+		attribute is too low. SCore's CanPurchasePerk then fails on
+		"maxLevel < pv.Level + 1", and 80 files in this modlet gate their level up check on
+		exactly that requirement. So a locked perk could not be raised BY LEARN BY DOING
+		either, no matter how much XP it had banked. The greyed out entry was telling the
+		truth.
+
+		With level_requirements gone, that same method takes its other branch and returns
+		the perk's own MaxLevel - 5, from the perks container - so every perk is reachable
+		and caps where it always did.
+
+		PERKS ONLY, DELIBERATELY. Attributes carry level_requirements too, but theirs gate
+		on PlayerLevel rather than on another attribute, which is a constraint worth
+		keeping. The branch above also returns a flat 20 for anything IsAttribute when the
+		list is empty, so stripping them would quietly raise the attribute cap from 10 to
+		20.
+	-->
+	<remove xpath="/progression/perks/perk/level_requirements"/>
+
 </configs>

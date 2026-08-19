@@ -1,8 +1,31 @@
 <configs>
-    <!-- Removes the dead man hanging from the poles, and replaces with an empty pole-->
-    <set xpath="/blocks/block[@name='corpseHangingLog1White']/property[@name='Model']/@value">@:Entities/BanditProps/logWallPillarPrefab.prefab</set>
-    <set xpath="/blocks/block[@name='corpseHangingLog2White']/property[@name='Model']/@value">@:Entities/BanditProps/logWallPillarPrefab.prefab</set>
-    <set xpath="/blocks/block[@name='corpseHangingLog3White']/property[@name='Model']/@value">@:Entities/BanditProps/logWallPillarPrefab.prefab</set>
+    <!--
+        Removes the dead man hanging from the poles, leaving the pole as scenery.
+
+        Only these four blocks need patching, though the family has 24 members. The colour
+        variants (Blue, Brown, Green, Grey, Red) do not carry a Model of their own - each
+        extends the White block and inherits it. BlocksFromXml.CreateProperties resolves
+        Extends by copying from the parent's already-parsed Block, and XPath patching runs
+        against the document before any of that, so the variants inherit the value set here.
+        corpseHangingRope1Red and its siblings are covered without being named.
+
+        Vanilla ships corpse-free versions of the first two posts and they are the natural
+        replacement: same 1,4,1 MultiBlockDim, same 0,0,0 ModelOffset, same
+        TowardsPlacerInverted placement as the blocks they stand in for.
+
+        Log3 has no noCorpse counterpart in vanilla. It is dimensionally identical to the
+        other two, so it borrows the first post's model rather than keeping the bandit log
+        pillar, which would leave one odd post in any POI that mixes the three.
+    -->
+    <set xpath="/blocks/block[@name='corpseHangingLog1White']/property[@name='Model']/@value">@:Entities/Gore/noCorpseHangingLog1Prefab.prefab</set>
+    <set xpath="/blocks/block[@name='corpseHangingLog2White']/property[@name='Model']/@value">@:Entities/Gore/noCorpseHangingLog2Prefab.prefab</set>
+    <set xpath="/blocks/block[@name='corpseHangingLog3White']/property[@name='Model']/@value">@:Entities/Gore/noCorpseHangingLog1Prefab.prefab</set>
+
+    <!--
+        The rope keeps the bandit log pillar. Unlike the posts it is 1,3,1 with a 0,3,0
+        offset, so neither noCorpse post model lines up with it, and vanilla has no
+        bodyless rope of these dimensions.
+    -->
     <set xpath="/blocks/block[@name='corpseHangingRope1White']/property[@name='Model']/@value">@:Entities/BanditProps/logWallPillarPrefab.prefab</set>
 
     <remove xpath="/blocks/block[@name='modularRopeNoose']"/>

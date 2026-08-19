@@ -66,6 +66,13 @@
             <objective type="KillWithItem, SCore" count="10" item="thrownGrenade,thrownGrenadeContact"  />
         </challenge>
 
+        <!--
+            UNVERIFIED, same question as bladeTrap further down. mineCookingPot is a block
+            (extends mineCandyTin, EntityDamage 300) with no item of its own, and it kills
+            after being placed rather than while held, so the match depends on whether the
+            explosion carries the block as its AttackingItem. Left as-is pending a look in
+            game - there is no ammo name to substitute the way the turrets have one.
+        -->
         <challenge name="grenade03" title_key="mineCookingPot" icon="ui_game_symbol_explosion" group="PerceptionGroup"
                    short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
                    reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
@@ -289,18 +296,39 @@
         </challenge>
 
 
+        <!--
+            Turrets and traps kill without the player holding anything, so KillWithItem
+            matches them through IsKilledByTrap, which compares item= against
+            DamageResponse.Source.AttackingItem - the AMMO that was fired, not the block
+            that fired it. Same rule the dartTrap entry below already follows.
+
+            "autoTurret" and "shotgunTurret" are block names with no item of their own, so
+            they could only ever have matched by the player happening to hold the turret
+            block at the moment of a kill. Replaced with the ammo each block accepts:
+            blocks.xml gives autoTurret AmmoItem="ammo9mmBulletBall+tags(ammo9mm)" and
+            shotgunTurret AmmoItem="ammoShotgunShell+tags(ammoShells)", so every item
+            carrying those tags is listed.
+        -->
         <challenge name="autoTurret" title_key="autoTurret" icon="ui_game_symbol_electric_turret" group="IntellectGroup"
                    short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
                    reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
-            <objective type="KillWithItem, SCore" count="10" item="autoTurret"  />
+            <objective type="KillWithItem, SCore" count="10" item="ammo9mmBulletBall,ammo9mmBulletHP,ammo9mmBulletAP"  />
         </challenge>
 
         <challenge name="shotgunTurret" title_key="shotgunTurret" icon="ui_game_symbol_electric_turret" group="IntellectGroup"
                    short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
                    reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
-            <objective type="KillWithItem, SCore" count="10" item="shotgunTurret"  />
+            <objective type="KillWithItem, SCore" count="10" item="ammoShotgunShell,ammoShotgunSlug,ammoShotgunBreachingSlug"  />
         </challenge>
 
+        <!--
+            UNVERIFIED. The blade trap fires no ammo - blocks.xml gives it Class="BladeTrap"
+            and no AmmoItem - so there is no ammo name to put here, and whether its damage
+            carries an AttackingItem at all could not be established from the assembly.
+            "bladeTrap" is left in place as the only candidate: if the trap does attribute
+            to itself this is already right, and if it does not, nothing else would work
+            either. Needs a look in game.
+        -->
         <challenge name="bladeTrap" title_key="bladeTrap" icon="ui_game_symbol_electric_turret" group="IntellectGroup"
                    short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
                    reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">

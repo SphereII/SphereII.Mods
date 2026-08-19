@@ -80,16 +80,23 @@ namespace Challenges {
         }
 
         public bool CheckHoldingItems() {
-            // No items defined, so skipping.
-            if (string.IsNullOrEmpty(itemClass) && string.IsNullOrEmpty(itemTag))
+            // No items defined, so skipping. item_material belongs in this guard too:
+            // leaving it out meant an objective filtering on material alone fell through
+            // to "nothing to check" and passed unconditionally, ignoring the filter.
+            if (string.IsNullOrEmpty(itemClass) && string.IsNullOrEmpty(itemTag) &&
+                string.IsNullOrEmpty(item_material))
             {
-                DisplayLog("No ItemName or tag to validate.");
+                DisplayLog("No ItemName, tag or material to validate.");
                 return true;
             }
 
             if (SCoreChallengeUtils.IsHoldingItemName(itemClass)) return true;
             if (SCoreChallengeUtils.IsHoldingItemHasTag(itemTag)) return true;
-            if (SCoreChallengeUtils.IsHoldingItemHasTag(item_material)) return true;
+
+            // A material is an id off materials.xml - Mwood, Mmetal - not a tag. Running it
+            // through the tag test parsed it into FastTags that match nothing, so this has
+            // to use the material comparison instead.
+            if (SCoreChallengeUtils.IsHoldingItemMaterial(item_material)) return true;
             return false;
         }
 

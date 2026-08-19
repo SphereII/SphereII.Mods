@@ -190,6 +190,98 @@
         </effect_group>
     </append>
 
+    <!--
+        =====================================================================
+        LEARNING BY USING
+        =====================================================================
+
+        Every other path in this file pays for making, mending or breaking down a harvest
+        tool. This one pays for swinging it. You learn what a tool is good for by working
+        with it, and a player who spends a day clearing trees should end that day better
+        at harvest tools than one who spent it crafting nothing.
+
+        It also closes a real gap. A logged session destroyed 82 blocks - trees, shrubs,
+        stumps, rock - and craftingHarvestingTools earned exactly 1 XP for the lot,
+        because none of it was a craft, a scrap or a repair.
+
+        [ THE TWO GATES ]
+        HoldingItemHasTags harvestingSkill - the vanilla tag every one of the eleven items
+        this skill unlocks carries: both axes, the pickaxes, the shovels, the chainsaw and
+        the auger. It is the tag that means "this is a harvest tool", so a stone axe used
+        as a weapon still counts, but a club never does.
+
+        RequirementBlockHasHarvestTags allHarvest,oreWoodHarvest - the block has to be
+        something you could actually harvest. That requirement does not read a property
+        off the block; it walks the block's Harvest drops and tests each drop's tag, so
+        these two names are drop tags rather than block tags. The pair is the union Miner
+        69'r already uses: allHarvest covers general harvestables, oreWoodHarvest covers
+        wood and ore. Swinging at a wall or a zombie trains nothing.
+
+        [ THE RATE ]
+        One XP per swing that lands, then a 15 second lockout - not per swing, or a
+        chainsaw would outpace every other source in the file combined. Fifteen seconds
+        of steady work per XP means roughly five minutes of solid harvesting for level 1
+        at the base threshold of 20, and about an hour of it to reach level 10 (240 XP
+        cumulative on the 1.04 curve).
+
+        Tune it with $lbd_xp_crafting_use_base for the amount, or the duration on
+        buffLBD_craftingHarvestingTools_UseCoolDown for the pace. The cooldown is the
+        blunter of the two and the one to reach for first.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
+        <effect_group name="LBD Crafting Skill - Harvesting Tools (Use)">
+
+            <requirement name="HoldingItemHasTags" tags="harvestingSkill"/>
+            <requirement name="RequirementBlockHasHarvestTags, SCore" tags="allHarvest,oreWoodHarvest"/>
+
+            <!-- Ordinary swing. -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Crafting Harvesting Tools - Attempting 'Use' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingHarvestingTools_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar"
+                              cvar="$craftingharvestingtools_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingHarvestingTools_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_craftingHarvestingTools_UseCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingHarvestingTools_UseCoolDown"/>
+            </triggered_effect>
+
+            <!-- Power swing. Same value and the SAME cooldown, deliberately: this is about
+                 time spent with the tool, not about which mouse button did it. -->
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Crafting Harvesting Tools - Attempting 'Use' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingHarvestingTools_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar"
+                              cvar="$craftingharvestingtools_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingHarvestingTools_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_craftingHarvestingTools_UseCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingHarvestingTools_UseCoolDown"/>
+            </triggered_effect>
+
+            <!-- Hand off to the shared level up check, which owns the Strength gate above
+                 level 5 and the curve multiply. Both swings, so a level never waits for
+                 the next craft. -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_craftingHarvestingTools_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingharvestingtools_lbd_xp" operation="GTE"
+                             value="@$craftingharvestingtools_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff"
+                              buff="buffLBD_craftingHarvestingTools_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingharvestingtools_lbd_xp" operation="GTE"
+                             value="@$craftingharvestingtools_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
+    </append>
+
 
         <append xpath="/buffs">
             <buff name="buffLBD_craftingHarvestingTools_LevelUpCheck" hidden="true">
@@ -244,6 +336,10 @@
                  defined, so NotHasBuff was always true and every craft, scrap and repair
                  scored. Durations match the other crafting skills. -->
             <buff name="buffLBD_craftingHarvestingTools_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+            <!-- Separate from ActionCoolDown, and far longer. That one exists to stop a single
+                 craft double-scoring and only needs a second; this one is the throttle on
+                 learning by use, where the raw event fires several times a second. -->
+            <buff name="buffLBD_craftingHarvestingTools_UseCoolDown" hidden="true"><duration value="15"/></buff>
             <buff name="buffLBD_craftingHarvestingTools_T0RepairCoolDown" hidden="true"><duration value="5"/></buff>
         </append>
 

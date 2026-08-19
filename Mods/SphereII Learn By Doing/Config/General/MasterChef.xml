@@ -1,43 +1,84 @@
 <configs>
     <!-- Append the LBD logic for Master Chef to the main General Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
+        <!--
+            TRIGGER IS onSelfCraftedRecipe, NOT onSelfItemCrafted, and that distinction is
+            the whole reason this perk never awarded anything.
+
+            RequirementRecipeCraftArea reads a "CraftingArea" metadata entry off
+            MinEventParams.ItemValue. Nothing in the game sets that. It is written by
+            SCore, in the XUiC_RecipeStack.outputStack postfix, onto a synthetic ItemValue
+            that is then passed with SCore's own onSelfCraftedRecipe event. On vanilla's
+            onSelfItemCrafted the ItemValue is the real crafted item and carries no such
+            metadata, so HasMetadata returned false, the master requirement failed, and
+            the entire group - XP, cooldown and level up check alike - never ran. A whole
+            play session produced zero Master Chef lines in the log.
+
+            Advanced Engineering already had this right; this file and Grease Monkey did
+            not.
+        -->
         <effect_group name="Master Chef">
             <!-- Master requirement: Crafting must occur at a campfire. -->
             <requirement name="RequirementRecipeCraftArea, SCore" craft_area="campfire"/>
 
             <!-- XP Gain: BASELINE for any Master Chef craft -->
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Master Chef - Attempting Base Crafting XP (+@$lbd_xp_special_base)">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessageCVars, SCore" message="LBD DEBUG: Master Chef - Attempting Base Crafting XP (+@$lbd_xp_special_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_XPCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkmasterchef_lbd_xp" operation="add" value="@$lbd_xp_special_base">
-                <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_XPCoolDown"/>
-            </triggered_effect>
-
-            <!-- XP Gain: BONUS for long crafting times -->
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Master Chef - Attempting Long Craft Bonus XP (+@$lbd_xp_masterchef_longcraft_bonus)">
-                <requirement name="RequirementRecipeHasLongCraftTime, SCore" operation="GTE" value="60" /> <!-- Example: Craft time >= 60 seconds for food -->
-                <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_XPCoolDown"/>
-                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkmasterchef_lbd_xp" operation="add" value="@$lbd_xp_masterchef_longcraft_bonus">
-                <requirement name="RequirementRecipeHasLongCraftTime, SCore" operation="GTE" value="60" />
+            <triggered_effect trigger="onSelfCraftedRecipe" action="ModifyCVar" cvar="$perkmasterchef_lbd_xp" operation="add" value="@$lbd_xp_special_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Cooldown Application -->
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Master Chef - Applying Cooldown">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessageCVars, SCore" message="LBD DEBUG: Master Chef - Applying Cooldown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_XPCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkMasterChef_XPCoolDown">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="AddBuff" buff="buffLBD_perkMasterChef_XPCoolDown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Level Up Check -->
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Master Chef - Triggering Level Up Check">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessageCVars, SCore" message="LBD DEBUG: Master Chef - Triggering Level Up Check">
                 <requirement name="CVarCompare" cvar="$perkmasterchef_lbd_xp" operation="GTE" value="@$perkmasterchef_lbd_xptonext"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCraftedRecipe" action="AddBuff" buff="buffLBD_perkMasterChef_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkmasterchef_lbd_xp" operation="GTE" value="@$perkmasterchef_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+
+        <!--
+            The long craft bonus has to live in its own group on the OTHER trigger, because
+            the two requirements are mutually exclusive.
+
+            RequirementRecipeHasLongCraftTime does not read metadata. It walks the crafting
+            queue looking for a recipe whose itemValueType matches MinEventParams.ItemValue
+            .type - the REAL crafted item. Under onSelfCraftedRecipe that ItemValue is an
+            ItemValue.None clone with type 0, so no recipe ever matches and the bonus is
+            dead. It needs vanilla's onSelfItemCrafted, which is exactly the trigger the
+            craft-area check above cannot use.
+
+            Craft area is therefore unavailable here, so the food gate is the crafted
+            item's own UnlockedBy. That is narrower than "cooked at a campfire" - items
+            without an UnlockedBy, boiled water among them, will not earn the bonus - but
+            it is honest about what it can actually check, and the base award above still
+            covers every campfire craft.
+        -->
+        <effect_group name="Master Chef Long Craft Bonus">
+            <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingFood"/>
+            <requirement name="RequirementRecipeHasLongCraftTime, SCore" operation="GTE" value="60"/>
+
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Master Chef - Attempting Long Craft Bonus XP (+@$lbd_xp_masterchef_longcraft_bonus)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_LongCraftCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkmasterchef_lbd_xp" operation="add" value="@$lbd_xp_masterchef_longcraft_bonus">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_LongCraftCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkMasterChef_LongCraftCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_LongCraftCoolDown"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkMasterChef_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkmasterchef_lbd_xp" operation="GTE" value="@$perkmasterchef_lbd_xptonext"/>
@@ -47,6 +88,8 @@
 
     <!-- Define the Level-Up Handler buff for Master Chef. -->
     <append xpath="/buffs">
+        <buff name="buffLBD_perkMasterChef_LongCraftCoolDown" hidden="true"><duration value="1"/></buff>
+
         <buff name="buffLBD_perkMasterChef_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>

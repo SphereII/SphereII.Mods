@@ -111,6 +111,73 @@
      
     </append>
 
+    <!--
+        =====================================================================
+        LEARNING BY USING
+        =====================================================================
+
+        The full rationale is in HarvestingTools.xml; the short version is that making,
+        mending and scrapping are rare events, so a skill fed only by them sits still.
+
+        Repairing and upgrading BLOCKS, which is what a repair tool is actually for.
+        The existing onSelfItemRepaired path only covers mending an item at a workbench;
+        patching a wall after a horde night - the thing you do constantly - counted for
+        nothing.
+
+        NO HOLDING GATE, deliberately. The obvious one does not work: the claw hammer
+        carries neither repairTool nor repairingSkill, the nailgun carries both, and the
+        stone axe carries repairTool while belonging to Harvesting Tools. The tags do not
+        describe this skill. They do not need to either - the game will not let you repair
+        or upgrade a block without a tool capable of it, so the action is its own gate.
+
+        1 XP behind a 15 second lockout, the same rate every other use path in this folder
+        runs at, read from the shared $lbd_xp_crafting_use_base.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
+        <effect_group name="LBD Crafting Skill - Repair Tools (Use)">
+
+            <triggered_effect trigger="onSelfRepairBlock" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Repair Tools - Attempting 'Use' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingRepairTools_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRepairBlock" action="ModifyCVar"
+                              cvar="$craftingrepairtools_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingRepairTools_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRepairBlock" action="AddBuff"
+                              buff="buffLBD_craftingRepairTools_UseCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingRepairTools_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRepairBlock" action="AddBuff"
+                              buff="buffLBD_craftingRepairTools_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingrepairtools_lbd_xp" operation="GTE"
+                             value="@$craftingrepairtools_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfUpgradedBlock" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Repair Tools - Attempting 'Use' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingRepairTools_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfUpgradedBlock" action="ModifyCVar"
+                              cvar="$craftingrepairtools_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingRepairTools_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfUpgradedBlock" action="AddBuff"
+                              buff="buffLBD_craftingRepairTools_UseCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingRepairTools_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfUpgradedBlock" action="AddBuff"
+                              buff="buffLBD_craftingRepairTools_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingrepairtools_lbd_xp" operation="GTE"
+                             value="@$craftingrepairtools_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
+    </append>
+
+
     <append xpath="/buffs">
         <buff name="buffLBD_craftingRepairTools_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
@@ -133,6 +200,9 @@
         </buff>
 
         <buff name="buffLBD_craftingRepairTools_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Throttles learning by use. Separate from ActionCoolDown, which exists to stop
+             a single craft double-scoring and only needs a second. -->
+        <buff name="buffLBD_craftingRepairTools_UseCoolDown" hidden="true"><duration value="15"/></buff>
 
         <buff name="buffLBD_craftingRepairTools_Decay" hidden="true">
             <stack_type value="ignore"/>

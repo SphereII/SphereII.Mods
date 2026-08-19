@@ -110,6 +110,79 @@
 
     </append>
 
+    <!--
+        =====================================================================
+        LEARNING BY USING
+        =====================================================================
+
+        Applying a bandage taught this skill nothing, which is the complaint that started
+        this. Crafting coverage is thin too - only 7 items in the game carry
+        UnlockedBy=craftingMedical, and the plain medicalBandage is not one of them - but
+        unlike Food there is no recipe tag to fall back on. Medical recipes are tagged
+        chemStationCrafting or packMuleCrafting, neither of which means "medical", and
+        medicalBandage's own recipe carries only packMuleCrafting. So the use path is the
+        fix that actually reaches what a player does.
+
+        onSelfHealedSelf and onSelfHealedOther are the only relevant triggers the game
+        offers - there is no eat or consume event in MinEventTypes at all. Healing another
+        player counts too, since patching someone up is the same lesson.
+
+        GATED ON HOLDING A MEDICAL ITEM, which matters more than it looks. Without it any
+        healing would count, and passive regeneration from food or the Healing Factor perk
+        would level this skill while the player stood still. The "medical" tag covers the
+        family: medicalFirstAidBandage and medicalFirstAidKit declare no tags of their own
+        but extend medicalBandage, so they inherit it.
+
+        1 XP behind a 15 second lockout, the same rate as every other use path here.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
+        <effect_group name="LBD Crafting Skill - Medical (Use)">
+
+            <requirement name="HoldingItemHasTags" tags="medical"/>
+
+            <triggered_effect trigger="onSelfHealedSelf" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Crafting Medical - Attempting 'Use' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHealedSelf" action="ModifyCVar"
+                              cvar="$craftingmedical_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHealedSelf" action="AddBuff"
+                              buff="buffLBD_craftingMedical_UseCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_UseCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfHealedOther" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Crafting Medical - Attempting 'Use' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHealedOther" action="ModifyCVar"
+                              cvar="$craftingmedical_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHealedOther" action="AddBuff"
+                              buff="buffLBD_craftingMedical_UseCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMedical_UseCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfHealedSelf" action="AddBuff"
+                              buff="buffLBD_craftingMedical_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingmedical_lbd_xp" operation="GTE"
+                             value="@$craftingmedical_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHealedOther" action="AddBuff"
+                              buff="buffLBD_craftingMedical_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingmedical_lbd_xp" operation="GTE"
+                             value="@$craftingmedical_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
+    </append>
+
+
     <append xpath="/buffs">
         <buff name="buffLBD_craftingMedical_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
@@ -132,6 +205,8 @@
         </buff>
 
         <buff name="buffLBD_craftingMedical_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Throttles learning by use; separate from the 1 second craft dedup above. -->
+        <buff name="buffLBD_craftingMedical_UseCoolDown" hidden="true"><duration value="15"/></buff>
 
      
     </append>

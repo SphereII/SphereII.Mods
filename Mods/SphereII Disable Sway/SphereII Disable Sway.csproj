@@ -69,6 +69,8 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="ModInfo.xml" />
+      <Content Include="Config\Localization.csv" />
+      <Content Include="Config\XUi_InGame\windows.xml" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

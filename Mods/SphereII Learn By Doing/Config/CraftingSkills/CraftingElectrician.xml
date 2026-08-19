@@ -297,7 +297,7 @@
 
         <buff name="buffLBD_craftingElectrician_ActionCoolDown" hidden="true"><duration value="1"/></buff>
         <!-- Per-hit throttle while salvaging, matching craftingWorkstations. -->
-        <buff name="buffLBD_craftingElectrician_HitCoolDown" hidden="true"><duration value="5"/></buff>
+        <buff name="buffLBD_craftingElectrician_HitCoolDown" hidden="true"><duration value="15"/></buff>
 
     </append>
 </configs>

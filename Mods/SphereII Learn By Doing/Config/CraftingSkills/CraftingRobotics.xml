@@ -181,6 +181,51 @@
       
     </append>
 
+    <!--
+        =====================================================================
+        LEARNING BY USING
+        =====================================================================
+
+        The full rationale is in HarvestingTools.xml; the short version is that making,
+        mending and scrapping are rare events, so a skill fed only by them sits still.
+
+        onSelfTurretDamagedOther is turret specific already, so it needs no tag gate -
+        nothing else in the game raises it. That also sidesteps the problem every deployed
+        thing has: a turret does its work while you are somewhere else entirely, so asking
+        what is in your hands would be meaningless. Robotic Turrets uses the same trigger.
+
+        Drones and the junk sledge count as well, since the event covers anything the
+        player's robotics does damage with.
+
+        1 XP behind a 15 second lockout, the same rate every other use path in this folder
+        runs at, read from the shared $lbd_xp_crafting_use_base.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
+        <effect_group name="LBD Crafting Skill - Robotics (Use)">
+
+            <triggered_effect trigger="onSelfTurretDamagedOther" action="LogMessageCVars, SCore"
+                              message="LBD DEBUG: Crafting Robotics - Attempting 'Use' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingRobotics_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfTurretDamagedOther" action="ModifyCVar"
+                              cvar="$craftingrobotics_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingRobotics_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfTurretDamagedOther" action="AddBuff"
+                              buff="buffLBD_craftingRobotics_UseCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingRobotics_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfTurretDamagedOther" action="AddBuff"
+                              buff="buffLBD_craftingRobotics_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingrobotics_lbd_xp" operation="GTE"
+                             value="@$craftingrobotics_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
+    </append>
+
+
     <append xpath="/buffs">
         <buff name="buffLBD_craftingRobotics_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
@@ -203,6 +248,9 @@
         </buff>
 
         <buff name="buffLBD_craftingRobotics_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Throttles learning by use. Separate from ActionCoolDown, which exists to stop
+             a single craft double-scoring and only needs a second. -->
+        <buff name="buffLBD_craftingRobotics_UseCoolDown" hidden="true"><duration value="15"/></buff>
 
       
     </append>

@@ -11,10 +11,20 @@
                  crafts, level 10 - where the T0 paths stop paying - is 240 cumulative, level 75
                  is 8,973 and level 100 is 24,752. Perks and attributes keep the 1.2 curve. -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_crafting_curve_multiplier" operation="set" value="1.04"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_crafting_base" operation="set" value="1"/> <!-- XP for crafting an item -->
+            <!-- Raised from 1 to 3. The threshold was never the problem for crafting skills -
+                 20 with a near flat 1.04 curve is gentle - the problem is that the events are
+                 rare. Nobody crafts, scraps or repairs twenty harvest tools in a day, so at 1 XP
+                 a go these skills sat still: a 33 minute session earned craftingHarvestingTools
+                 exactly 1 XP. At 3, level 1 costs about seven relevant actions instead of twenty,
+                 which is roughly the pace of finding a few magazines a day. -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_crafting_base" operation="set" value="3"/> <!-- XP for crafting an item -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_scrapping_base" operation="set" value="1"/> <!-- XP for scrapping an item -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_repairing_base" operation="set" value="1"/> <!-- XP for repairing an item -->
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_bigXP_base" operation="set" value="10"/> <!-- XP for repairing an item -->
+            <!-- XP for USING a tool on a harvestable block, throttled by a 15 second cooldown
+                 rather than paid per swing. Kept at 1 while crafting is 3: a craft is a
+                 deliberate act, a swing is one of thousands, and the cooldown is what sets the
+                 real rate. See the long note in HarvestingTools.xml. -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_crafting_use_base" operation="set" value="1"/>
 
             <!-- Harvesting -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingharvestingtools_lbd_xp" operation="set" value="0"/>
@@ -90,12 +100,14 @@
             <!-- Seeds -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingseeds_lbd_xp" operation="set" value="0"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingseeds_lbd_xptonext" operation="set" value="20"/>
-            <!-- Both seed payouts were referenced by CraftingSeeds.xml but never defined,
-                 and an unset cvar reads as 0, so craftingSeeds was the one skill in the
-                 mod with no working XP path at all. Small seeds match the generic
-                 $lbd_xp_crafting_base of 1; the large-crop seeds pay double. -->
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_crafting_seed_small_base" operation="set" value="1"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_crafting_seed_large_base" operation="set" value="2"/>
+            <!-- One rate for every seed.
+
+                 Was two: $lbd_xp_crafting_seed_small_base at 1 and _large_base at 2. The gate
+                 that told them apart never worked (see CraftingSeeds.xml), and the replacement
+                 gate reads the seedSkill block tag, which vanilla puts on all 12 craftable
+                 planted blocks identically - there is nothing there to split on. Collapsed to
+                 the higher of the two values so no crop pays less than it was meant to. -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_crafting_seed_base" operation="set" value="2"/>
 
             <!-- Electrician -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingelectrician_lbd_xp" operation="set" value="0"/>
@@ -115,8 +127,20 @@
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingtraps_lbd_xptonext" operation="set" value="20"/>
             
             <!-- Workstations -->
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_salvaging_workstation_base" operation="set" value="1"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_crafting_bigxp" operation="set" value="10"/>
+            <!-- Two cvars used to be set here and were read by nothing:
+                   $lbd_xp_bigXP_base                 (10, and its comment claimed it was for
+                                                       repairing an item - copied from the line
+                                                       above and wrong either way)
+                   $lbd_xp_salvaging_workstation_base (1)
+                 Both were superseded. The salvage teardown award every crafting skill actually
+                 reads is $lbd_xp_crafting_bigxp below, and the Workstations hit path reads
+                 $lbd_xp_salvaging_workstation_small_hit. Removed rather than left to be mistaken
+                 for something that had come unwired. -->
+            <!-- Lowered from 10 to 3. This is the salvage teardown award shared by Electrician,
+                 Traps and Workstations, and against a crafting threshold of 20 it meant roughly
+                 one level per two blocks torn down. A logged session of salvaging took Crafting
+                 Electrician up FOUR levels in eight minutes. -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_crafting_bigxp" operation="set" value="3"/>
             <!-- Per-hit payout while salvaging a workstation block, as opposed to the
                  $lbd_xp_crafting_bigxp of 10 paid once the block is destroyed. Referenced
                  by CraftingWorkstations.xml but never defined, so those hits scored 0.

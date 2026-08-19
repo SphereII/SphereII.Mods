@@ -108,7 +108,37 @@ is not defined, the system will use a default size range.
 
 * **Default Size Range**: `{ 0.7f, 0.8f, 0.9f, 0.9f, 1.0f, 1.0f, 1.0f, 1.1f, 1.2f }`
 
-In addition, the `RandomSize` is property is `true` or `false`, to check if they need to be randomized.
+The rolled value is a **multiplier on the entity class's own `SizeScale`**, not a replacement for it. A `zombieBoe`
+(`SizeScale` 1.08) that rolls 1.1 ends up at 1.188. A roll of 1.0 is left alone entirely, so the class keeps exactly the
+size vanilla gave it.
+
+### Which entities are randomized
+
+By default any `EntityZombie`, plus any entity class carrying a `RandomSizes` list, gets a random size. The
+per-entity-class `RandomSize` property overrides that in **both** directions:
+
+```xml
+<!-- opt a non-zombie in -->
+<property name="RandomSize" value="true"/>
+
+<!-- opt a zombie out, even one with a RandomSizes list -->
+<property name="RandomSize" value="false"/>
+```
+
+When `RandomSize` is present its value wins outright; when it is absent the zombie/`RandomSizes` default applies.
+
+### Multiplayer
+
+The size is rolled in `EntityAlive.Init` and applied in `EntityAlive.PostInit`, which is the last thing
+`EntityFactory.CreateEntityOperation.CompleteEntity` does. Applying it there means `EntityAlive.OverrideSize` is
+populated before the entity can be handed to anyone, which is what makes the size reach clients: the server snapshots
+`OverrideSize` into an `EntityCreationData` when it builds a spawn packet, and the client's own spawn path replays
+`SetScale(SizeScale)` then `SetScale(overrideSize)` to land on the same number. Clients never roll or apply a size
+themselves — remote entities are skipped.
+
+An entity that arrives already sized (a chunk reload, or a prefab copy) keeps the size it came in with rather than
+being re-rolled, because `Entity.SetScale` multiplies the physics extents on every call and scaling twice would
+compound them.
 
 ### XML Usage Example
 
@@ -125,12 +155,9 @@ You can enforce a specific size range for an entity class using the `RandomSizes
   entity can spawn with. The system will randomly select one of these values when the entity is spawned. For example,
   `1.2,1.2,1.4` means the entity could spawn at 1.2x, 1.2x, or 1.4x its base size.
 
-* To use this property, the ConfigurationBlock's RandomSize must be set to true.
-
-```xml
-
-<property name="RandomSize" value="true"/>
-```
+* A `RandomSizes` list is enough on its own to opt an entity class in — see *Which entities are randomized* above. The
+  `AdvancedZombieFeatures/RandomSize` feature flag in the ConfigurationBlock still has to be enabled for any of this to
+  run at all.
 
 ---
 
@@ -149,7 +176,12 @@ movement.
 You can specify a custom range of walk types for an entity class by adding a property to its `entity_classes.xml`
 definition. If this property is not defined, the system will use a default range of walk types.
 
-* **Default Walk Type Range**: `{ 1, 2, 2, 3, 421, 5, 6, 7, 22 }`
+* **Default Walk Type Range**: `{ 1, 2, 2, 3, 5, 6, 7, 7 }`
+
+These are the upright walk types vanilla actually ships. Walk type 4 is not used by any entity class, 8 is
+`cWalkTypeCrouch` (the crouch swap in `CrouchHeightFixedUpdate` special-cases it) and 15 is `cWalkTypeBandit`, so none of
+them are in the default pool. Entities that spawn as a crawl (walk type 20 and up — `cWalkTypeCrawler` 21,
+`cWalkTypeSpider` 22) are skipped entirely and keep the walk type they spawned with.
 
 ### XML Usage Example
 
@@ -165,6 +197,10 @@ To enforce a specific range of walk types for an entity class, use the `RandomWa
 * **`RandomWalkTypes`**: This property defines a comma-separated list of integer values, each representing a possible
   walk type the entity can exhibit upon spawning. The system will randomly select one of these values. For example,
   `2,3,21,5,6,7,22` means the entity could use walk types 2, 3, 21, 5, 6,7 or 22.
+* Naming a crawl type here does work — an entity rolled onto 21 is turned into a crawler by `EntityHuman.InitCommon`,
+  and 22 reaches the animator through the normal walk type path. The skip only applies to entities that *already*
+  spawned as a crawl.
+* An empty or malformed `RandomWalkTypes` leaves the entity on its configured `WalkType`.
 
 ---
 
