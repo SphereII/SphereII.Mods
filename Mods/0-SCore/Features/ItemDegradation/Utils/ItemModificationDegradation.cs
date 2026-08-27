@@ -160,11 +160,11 @@ namespace SCore.Features.ItemDegradation.Utils
 
         private static void DeactivateItem(ItemValue mod, EntityAlive player)
         {
-            if (mod.ItemClass.HasTrigger(MinEventTypes.onSelfItemActivate) && mod.Activated != 0)
+            if (mod.ItemClass.HasTrigger(MinEventTypes.onSelfItemActivate) && mod.Activated)
             {
                 player.MinEventContext.ItemValue = mod;
                 mod.FireEvent(MinEventTypes.onSelfItemDeactivate, player != null ? player.MinEventContext : null);
-                mod.Activated = 0;
+                mod.Activated = false;
             }
         }
 

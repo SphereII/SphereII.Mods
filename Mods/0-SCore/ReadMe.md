@@ -30,7 +30,7 @@ has probably already done it:
 | ----------- | ----------- |
 | Build a whole new in-game window, with tabs and scrolling | `0-Help Screens/Config/XUi_InGame/windows.xml` |
 | Give a modded window its own controller from your own DLL | `0-Help Screens/Scripts/XUiC_HelpScreens.cs`, reached by `controller="HelpScreens, SphereIIHelpScreens"` |
-| Wire a button into a vanilla menu that hard-codes its own | `0-Help Screens/Harmony/XUiC_InGameMenuWindow_HelpButton.cs` |
+| Wire a button into a vanilla menu that hard-codes its own | `0-SCore/Scripts/XUiC/Companions/XUiC_SCoreInGameMenu.cs`, or `0-Help Screens/Harmony/XUiC_InGameMenuWindow_HelpButton.cs` - both hang off `XUiC_InGameMenuWindow.Init` |
 | Let other modlets extend your window without touching your files | `0-Help Screens/ReadMe.md` - the one-append contract |
 | Gate a patch on another modlet being installed | `SphereII Peace of Mind/Config/blocks.xml`, or any `Config/XUi_InGame/windows.xml` contributing a help section |
 | Read and display a value off a skill row | `0-SCore/Features/LearnByDoing/Harmony/`, consumed by `SphereII Learn By Doing/Config/XUi_InGame/templates.xml` |
@@ -85,6 +85,46 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.2.7.728 
+	Game Version: v3.2.0 (b9)
+
+	[ ESC Menu ]
+		- SCore Utilities and NPC Settings now sit in the vanilla ESC menu
+		  button column, alongside Options, Sandbox Settings and Mod Help,
+		  instead of in a panel of their own floating off to the right.
+		- The panel was a second window, ingameMenuSCore, added to the
+		  ingameMenu window group and anchored RightTop with its own
+		  two-button grid. Both buttons are now inserted into the vanilla
+		  grid after btnSandboxSettings, so they take the column's spacing
+		  and its font size - 34, where the floating pair used 40.
+		- Being that window's controller was what gave the buttons their
+		  handlers. Inside the vanilla grid there is no such hook:
+		  XUiC_InGameMenuWindow.Init attaches a handler to exactly ten
+		  buttons by name, and a button inserted from XML is never in that
+		  list. XUiC_SCoreInGameMenu is a Harmony postfix on that Init now,
+		  the same hook 0-Help Screens uses for its own entry. Both lookups
+		  are guarded, so if the XML patch ever fails to apply the entry is
+		  simply absent and the ESC menu still works.
+		- Pressing either entry closes the ESC menu before opening the
+		  screen, which is what vanilla's own Sandbox Settings button does.
+		  The floating panel left the menu live underneath with its buttons
+		  still clickable.
+		- The window group id is read at press time rather than when the
+		  patch runs. XUiC_SCoreUtilities and XUiC_SCoreCompanionList set
+		  their static IDs in their own Init, and nothing orders those
+		  ahead of this patch.
+
+Version: 3.2.1.849
+	Game Version: v3.2.0 (b9)
+
+	[ Item Degradation ]
+		- Base game changed an int to a bool; adjusted accordingly and rebuilt.
+
+	[ Versioning ]
+		- Version numbers move to the 3.2 line for game v3.2, and the day
+		  counter restarts from 2026-08-21. That is why the number drops
+		  from 3.1.30 to 3.2.1 rather than climbing - the third field is
+		  days since the epoch, not a release count.
   
 Version: 3.1.30.743
 	Game Version: v3.1.0 (b14)

@@ -1,16 +1,39 @@
 ﻿<configs>
 
+    <!--
+        =====================================================================
+        THE ESC MENU BUTTONS
+        =====================================================================
+
+        SCore Utilities and NPC Settings live in the vanilla ESC menu column, next to
+        Options, Mod Help and Exit, rather than in a floating panel of their own off to
+        the right. Same treatment 0-Help Screens gives its own entry.
+
+        insertAfter btnSandboxSettings, not append: append would drop them below Save and
+        Exit, and the vanilla order deliberately keeps the destructive entries last. That
+        anchor is also why the pair sits above Mod Help - 0-Help Screens uses the same
+        anchor and loads first, so its button is pushed down by ours.
+
+        These buttons are inert on their own. XUiC_InGameMenuWindow.Init looks up exactly
+        ten buttons by name and attaches a C# handler to each; a button appended from XML
+        is never in that list. Scripts/XUiC/Companions/XUiC_SCoreInGameMenu.cs supplies
+        the handlers, and the names below are the contract between the two - change one,
+        change both.
+
+        visible and font_size came off the old ingameMenuSCore window and its buttons.
+        The prefab editor reuses this menu and has no use for either screen; font_size 34
+        is what every vanilla entry in the column uses, so 40 would have stood out.
+    -->
+    <insertAfter xpath="/windows/window[@name='ingameMenu']/grid[@name='buttons']/simplebutton[@name='btnSandboxSettings']">
+        <simplebutton name="btnSCoreOptions" depth="3" width="250" height="46"
+                      caption_key="xuiSCoreUtilities" font_size="34"
+                      visible="{# !is_prefab_editor}"/>
+        <simplebutton name="btnNPCView" depth="3" width="250" height="46"
+                      caption_key="xuiSCoreNPCSettings" font_size="34"
+                      visible="{# !is_prefab_editor}"/>
+    </insertAfter>
+
     <append xpath="/windows">
-        <window name="ingameMenuSCore" anchor="RightTop" pos="-620,-80" width="300" height="200"
-                visible="{# !is_prefab_editor}" controller="SCoreInGameMenu, SCore" cursor_area="true">
-            <grid name="buttons" pos="0, -0" cols="1" width="250" cell_width="250" cell_height="56"
-                  arrangement="vertical" repeat_content="false">
-                <simplebutton name="btnSCoreOptions" depth="3" width="250" height="46" caption_key="xuiSCoreUtilities"
-                              font_size="40"/>
-                <simplebutton name="btnNPCView" depth="3" width="250" height="46" caption_key="xuiSCoreNPCSettings"
-                              font_size="40"/>
-            </grid>
-        </window>
 
         <!--
             =====================================================================
@@ -86,9 +109,9 @@
             =====================================================================
 
             The player-facing settings screen, opened as its own window group
-            (SCoreUtilitiesGroup, see xui.xml) from the ESC menu button in ingameMenuSCore
-            above. Every row is a cvar-backed checkbox; Save writes them all to the player
-            and closes the window.
+            (SCoreUtilitiesGroup, see xui.xml) from the btnSCoreOptions entry inserted into
+            the vanilla ESC menu column at the top of this file. Every row is a cvar-backed
+            checkbox; Save writes them all to the player and closes the window.
 
             [ HOW IT IS WIRED ]
             XUiC_SCoreUtilities does not know any of these rows by name. On open it walks
@@ -250,7 +273,7 @@
             =====================================================================
 
             The hired NPC roster, opened as its own window group (SCoreCompanionsGroup,
-            see xui.xml). One row per companion, each with Follow / Stay Here / Stay There
+            see xui.xml) from the btnNPCView entry in the ESC menu. One row per companion, each with Follow / Stay Here / Stay There
             / Teleport / Dismiss, plus the quiet footsteps toggle.
 
             [ WHAT THE CONTROLLER REQUIRES ]

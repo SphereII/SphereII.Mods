@@ -14,9 +14,4 @@
   
   </append>
   
-  <append xpath="//window_group[@name='ingameMenu']">
-    <window name="ingameMenuSCore"/>
-  </append>
- 
- 
 </configs>
