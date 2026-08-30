@@ -12,6 +12,147 @@ namespace SCore.Features.RemoteCrafting.Scripts
     public class RemoteCraftingUtils
     {
         private const string AdvFeatureClass = "AdvancedRecipes";
+        private const int NearbyContainerCacheTtlMs = 350;
+        private const float NearbyContainerCachePositionBucketSize = 1f;
+
+        private static NearbyContainerCacheEntry _nearbyContainerCache;
+
+        private sealed class NearbyContainerCacheEntry
+        {
+            public NearbyContainerCacheKey Key { get; set; }
+            public DateTime ExpiresAtUtc { get; set; }
+            public List<TileEntity> TileEntities { get; set; }
+        }
+
+        private readonly struct NearbyContainerCacheKey : IEquatable<NearbyContainerCacheKey>
+        {
+            private readonly int _playerId;
+            private readonly float _distance;
+            private readonly bool _forRepairs;
+            private readonly Vector3i _positionBucket;
+            private readonly string _context;
+
+            public NearbyContainerCacheKey(int playerId, float distance, bool forRepairs, Vector3i positionBucket, string context)
+            {
+                _playerId = playerId;
+                _distance = distance;
+                _forRepairs = forRepairs;
+                _positionBucket = positionBucket;
+                _context = context;
+            }
+
+            public bool Equals(NearbyContainerCacheKey other)
+            {
+                return _playerId == other._playerId &&
+                       Math.Abs(_distance - other._distance) < 0.001f &&
+                       _forRepairs == other._forRepairs &&
+                       _positionBucket.Equals(other._positionBucket) &&
+                       _context == other._context;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is NearbyContainerCacheKey other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    var hashCode = _playerId;
+                    hashCode = (hashCode * 397) ^ _distance.GetHashCode();
+                    hashCode = (hashCode * 397) ^ _forRepairs.GetHashCode();
+                    hashCode = (hashCode * 397) ^ _positionBucket.GetHashCode();
+                    hashCode = (hashCode * 397) ^ (_context != null ? _context.GetHashCode() : 0);
+                    return hashCode;
+                }
+            }
+        }
+
+        private sealed class NearbyContainerScanContext
+        {
+            public bool LandClaimContainersOnly { get; set; }
+            public bool LandClaimPlayerOnly { get; set; }
+            public string DisabledSenderRaw { get; set; }
+            public string NotToWorkstationRaw { get; set; }
+            public string BindToWorkstationRaw { get; set; }
+            public string CurrentWorkstation { get; set; }
+            public bool HasLocalWorkstationContext { get; set; }
+            public bool CanUseNearbyContainerCache { get; set; }
+            public bool InvertDisable { get; set; }
+            public bool EnforceBindToWorkstation { get; set; }
+            public string[] DisabledSenderValues { get; set; }
+            public IReadOnlyList<WorkstationLootBinding> NotToWorkstationBindings { get; set; }
+            public IReadOnlyList<WorkstationLootBinding> BindToWorkstationBindings { get; set; }
+        }
+
+        private readonly struct WorkstationLootBinding
+        {
+            public WorkstationLootBinding(string[] workstations, string[] lootLists)
+            {
+                Workstations = workstations;
+                LootLists = lootLists;
+            }
+
+            public string[] Workstations { get; }
+            public string[] LootLists { get; }
+        }
+
+        public static void InvalidateNearbyContainerCache()
+        {
+            _nearbyContainerCache = null;
+        }
+
+        private static bool TryGetNearbyContainerCache(NearbyContainerCacheKey key, out List<TileEntity> tileEntities)
+        {
+            var cache = _nearbyContainerCache;
+            if (cache != null && DateTime.UtcNow <= cache.ExpiresAtUtc && cache.Key.Equals(key))
+            {
+                tileEntities = new List<TileEntity>(cache.TileEntities);
+                return true;
+            }
+
+            tileEntities = null;
+            return false;
+        }
+
+        private static void StoreNearbyContainerCache(NearbyContainerCacheKey key, List<TileEntity> tileEntities)
+        {
+            _nearbyContainerCache = new NearbyContainerCacheEntry
+            {
+                Key = key,
+                ExpiresAtUtc = DateTime.UtcNow.AddMilliseconds(NearbyContainerCacheTtlMs),
+                TileEntities = new List<TileEntity>(tileEntities)
+            };
+        }
+
+        private static bool TryBuildNearbyContainerCacheKey(EntityAlive player, float distance, bool forRepairs,
+            NearbyContainerScanContext scanContext, out NearbyContainerCacheKey key)
+        {
+            key = default;
+            if (player == null || player.world == null || GameManager.Instance?.World == null || scanContext == null ||
+                !scanContext.CanUseNearbyContainerCache) return false;
+
+            var position = player.GetPosition();
+            var positionBucket = new Vector3i(
+                Mathf.FloorToInt(position.x / NearbyContainerCachePositionBucketSize),
+                Mathf.FloorToInt(position.y / NearbyContainerCachePositionBucketSize),
+                Mathf.FloorToInt(position.z / NearbyContainerCachePositionBucketSize));
+
+            var landClaimContainersOnly = scanContext.LandClaimContainersOnly;
+            var landClaimPlayerOnly = scanContext.LandClaimPlayerOnly;
+            var disabledsender = scanContext.DisabledSenderRaw;
+            var nottoWorkstation = scanContext.NotToWorkstationRaw;
+            var bindtoWorkstation = scanContext.BindToWorkstationRaw;
+            var invertDisable = scanContext.InvertDisable; // Invertdisable
+            var enforceBindToWorkstation = scanContext.EnforceBindToWorkstation; // enforcebindtoWorkstation
+            var workstation = scanContext.CurrentWorkstation; // GetCurrentWorkstation is resolved once during context creation.
+
+            var context = string.Join("|", landClaimContainersOnly, landClaimPlayerOnly, disabledsender, nottoWorkstation,
+                bindtoWorkstation, invertDisable, enforceBindToWorkstation, workstation);
+            key = new NearbyContainerCacheKey(player.entityId, distance, forRepairs, positionBucket, context);
+            return true;
+        }
 
         private static string GetCurrentWorkstation(EntityPlayerLocal player)
         {
@@ -84,9 +225,14 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 }
             }
 
-            var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
-            var nottoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "nottoWorkstation");
-            var bindtoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation");
+            var scanContext = BuildNearbyContainerScanContext(player, landClaimContainersOnly, landClaimPlayerOnly);
+            var canUseNearbyContainerCache = TryBuildNearbyContainerCacheKey(player, distance, forRepairs, scanContext,
+                out var nearbyContainerCacheKey);
+            if (canUseNearbyContainerCache && TryGetNearbyContainerCache(nearbyContainerCacheKey, out var cachedTileEntities))
+            {
+                return cachedTileEntities;
+            }
+
             var tileEntities = new List<TileEntity>();
             const string targetTypes = "Loot, SecureLoot, SecureLootSigned, Composite";
             var paths = SCoreUtils.ScanForTileEntities(player, targetTypes, true);
@@ -124,47 +270,137 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 {
                     continue;
                 }
-                if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity))
+                if (!ShouldIncludeTileEntity(scanContext, tileEntity))
                 {
                     continue;
                 }
-                if (disabledsender[0] != null)
-                {
-                    if (DisableSender(disabledsender, tileEntity))
-                    {
-                        continue;
-                    }
-                }
 
-                if (!string.IsNullOrEmpty(nottoWorkstation))
-                {
-                    if (NotToWorkstation(nottoWorkstation, player, tileEntity))
-                    {
-                        continue;
-                    }
-                }
+                tileEntities.Add(tileEntity);
+            }
 
-                if (!string.IsNullOrEmpty(bindtoWorkstation))
-                {
-                    if (BindToWorkstation(bindtoWorkstation, player, tileEntity))
-                    {
-                        tileEntities.Add(tileEntity);
-                    }
-                }
-                else
-                {
-                    tileEntities.Add(tileEntity);
-                }
+            if (canUseNearbyContainerCache)
+            {
+                StoreNearbyContainerCache(nearbyContainerCacheKey, tileEntities);
             }
 
             return tileEntities;
         }
 
+        private static NearbyContainerScanContext BuildNearbyContainerScanContext(EntityAlive player,
+            bool landClaimContainersOnly, bool landClaimPlayerOnly)
+        {
+            var disabledSenderRaw = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender");
+            var notToWorkstationRaw = Configuration.GetPropertyValue(AdvFeatureClass, "nottoWorkstation");
+            var bindToWorkstationRaw = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation");
+            var invertDisable = bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "Invertdisable"));
+            var enforceBindToWorkstation = bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation"));
+
+            var hasLocalWorkstationContext = false;
+            var canUseNearbyContainerCache = true;
+            var currentWorkstation = string.Empty;
+            if (player is EntityPlayerLocal playerLocal)
+            {
+                hasLocalWorkstationContext = true;
+                try
+                {
+                    currentWorkstation = GetCurrentWorkstation(playerLocal);
+                }
+                catch
+                {
+                    canUseNearbyContainerCache = false;
+                }
+            }
+
+            return new NearbyContainerScanContext
+            {
+                LandClaimContainersOnly = landClaimContainersOnly,
+                LandClaimPlayerOnly = landClaimPlayerOnly,
+                DisabledSenderRaw = disabledSenderRaw,
+                NotToWorkstationRaw = notToWorkstationRaw,
+                BindToWorkstationRaw = bindToWorkstationRaw,
+                CurrentWorkstation = currentWorkstation,
+                HasLocalWorkstationContext = hasLocalWorkstationContext,
+                CanUseNearbyContainerCache = canUseNearbyContainerCache,
+                InvertDisable = invertDisable,
+                EnforceBindToWorkstation = enforceBindToWorkstation,
+                DisabledSenderValues = SplitCsv(disabledSenderRaw),
+                NotToWorkstationBindings = ParseWorkstationBindings(notToWorkstationRaw, true),
+                BindToWorkstationBindings = ParseWorkstationBindings(bindToWorkstationRaw, false)
+            };
+        }
+
+        private static string[] SplitCsv(string value)
+        {
+            return value?.Split(',') ?? Array.Empty<string>();
+        }
+
+        private static List<WorkstationLootBinding> ParseWorkstationBindings(string value, bool trimLootLists)
+        {
+            var bindings = new List<WorkstationLootBinding>();
+            if (string.IsNullOrEmpty(value))
+            {
+                return bindings;
+            }
+
+            foreach (var binding in value.Split(';'))
+            {
+                var parts = binding.Split(':');
+                var workstations = parts.Length > 0 ? SplitAndTrim(parts[0], true) : Array.Empty<string>();
+                var lootLists = parts.Length > 1 ? SplitAndTrim(parts[1], trimLootLists) : Array.Empty<string>();
+                bindings.Add(new WorkstationLootBinding(workstations, lootLists));
+            }
+
+            return bindings;
+        }
+
+        private static string[] SplitAndTrim(string value, bool trimEntries)
+        {
+            var values = value?.Split(',') ?? Array.Empty<string>();
+            if (!trimEntries)
+            {
+                return values;
+            }
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                values[i] = values[i].Trim();
+            }
+
+            return values;
+        }
+
+        private static bool ShouldIncludeTileEntity(NearbyContainerScanContext scanContext, TileEntity tileEntity)
+        {
+            if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out _))
+            {
+                return false;
+            }
+
+            if (scanContext.DisabledSenderValues.Length > 0 && scanContext.DisabledSenderValues[0] != null &&
+                DisableSender(scanContext.DisabledSenderValues, scanContext.InvertDisable, tileEntity))
+            {
+                return false;
+            }
+
+            if (!string.IsNullOrEmpty(scanContext.NotToWorkstationRaw) && NotToWorkstation(scanContext, tileEntity))
+            {
+                return false;
+            }
+
+            return string.IsNullOrEmpty(scanContext.BindToWorkstationRaw) || BindToWorkstation(scanContext, tileEntity);
+        }
+
         public static bool DisableSender(IEnumerable<string> value, ITileEntity tileEntity)
         {
-            if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) return false;
+            var disableSenderValues = value as string[] ?? value.ToArray();
             var invertdisable = bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "Invertdisable"));
-            if (!invertdisable)
+            return DisableSender(disableSenderValues, invertdisable, tileEntity);
+        }
+
+        private static bool DisableSender(IReadOnlyCollection<string> value, bool invertDisable, ITileEntity tileEntity)
+        {
+            if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) return false;
+            if (!invertDisable)
             {
                 if (value.Any(x => x.Trim() == lootTileEntity.lootListName))
                 {
@@ -182,24 +418,22 @@ namespace SCore.Features.RemoteCrafting.Scripts
             return false;
         }
 
-        private static bool BindToWorkstation(string value, EntityAlive player, TileEntity tileEntity)
+        private static bool BindToWorkstation(NearbyContainerScanContext scanContext, TileEntity tileEntity)
         {
             var result = false;
-            if (player is not EntityPlayerLocal playerLocal) return false;
+            if (!scanContext.HasLocalWorkstationContext) return false;
             if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) return false;
 
-            // TODO: we want to refactor this to remove the complex LinQ.
-            // bind storage to workstation
-            if (value.Split(';').Where(x =>
-                    x.Split(':')[0].Split(',').Any(ws => ws.Trim() == GetCurrentWorkstation(playerLocal)))
-                .Any(x => x.Split(':')[1].Split(',').Any(y => y == lootTileEntity.lootListName))) result = true;
-            // bind storage to other workstations if allowed
-            if (value.Split(';').Any(x =>
-                    x.Split(':')[0].Split(',').Any(ws => ws.Trim() == GetCurrentWorkstation(playerLocal)))
-                || bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation")))
+            if (scanContext.BindToWorkstationBindings.Where(binding =>
+                    binding.Workstations.Any(ws => ws == scanContext.CurrentWorkstation))
+                .Any(binding => binding.LootLists.Any(lootList => lootList == lootTileEntity.lootListName))) result = true;
+            if (scanContext.BindToWorkstationBindings.Any(binding =>
+                    binding.Workstations.Any(ws => ws == scanContext.CurrentWorkstation))
+                || scanContext.EnforceBindToWorkstation)
                 return result;
             {
-                if (value.Split(';').Any(x => x.Split(':')[1].Split(',').Any(y => y == lootTileEntity.lootListName)))
+                if (scanContext.BindToWorkstationBindings.Any(binding =>
+                        binding.LootLists.Any(lootList => lootList == lootTileEntity.lootListName)))
                 {
                     result = false;
                 }
@@ -212,18 +446,16 @@ namespace SCore.Features.RemoteCrafting.Scripts
             return result;
         }
 
-        private static bool NotToWorkstation(string value, EntityAlive player, TileEntity tileEntity)
+        private static bool NotToWorkstation(NearbyContainerScanContext scanContext, TileEntity tileEntity)
         {
             var result = false;
-            if (player is not EntityPlayerLocal playerLocal) return false;
+            if (!scanContext.HasLocalWorkstationContext) return false;
             if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) return false;
 
-            foreach (var bind in value.Split(';'))
+            foreach (var binding in scanContext.NotToWorkstationBindings)
             {
-                var workstation = bind.Split(':')[0].Split(',');
-                var disablebinding = bind.Split(':')[1].Split(',');
-                if ((workstation.Any(ws => ws.Trim() == GetCurrentWorkstation(playerLocal))) &&
-                    (disablebinding.Any(x => x.Trim() == lootTileEntity.lootListName))) result = true;
+                if ((binding.Workstations.Any(ws => ws == scanContext.CurrentWorkstation)) &&
+                    (binding.LootLists.Any(lootList => lootList == lootTileEntity.lootListName))) result = true;
             }
 
             return result;
@@ -310,7 +542,13 @@ namespace SCore.Features.RemoteCrafting.Scripts
         public static bool AddToNearbyContainer(EntityAlive player, ItemStack itemStack, float distance)
         {
             var tileEntities = GetTileEntities(player, distance, false);
-            var itemName = itemStack.itemValue?.ItemClass?.GetItemName() ?? "unknown";
+            return AddToNearbyContainer(player, itemStack, tileEntities);
+        }
+
+        public static bool AddToNearbyContainer(EntityAlive player, ItemStack itemStack, IEnumerable<TileEntity> tileEntities)
+        {
+            if (tileEntities == null) return false;
+
             foreach (var tileEntity in tileEntities)
             {
                 if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) continue;
@@ -368,7 +606,10 @@ namespace SCore.Features.RemoteCrafting.Scripts
             finally
             {
                 if (changed)
+                {
                     lootTileEntity.SetModified();
+                    InvalidateNearbyContainerCache();
+                }
 
                 lootTileEntity.SetUserAccessing(false);
             }
@@ -414,6 +655,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
 
                     if (!lootTileEntity.HasItem(enumerable[i].itemValue)) continue;
 
+                    var containerChanged = false;
                     for (var y = 0; y < lootTileEntity.items.Length; y++)
                     {
                         var item = lootTileEntity.items[y];
@@ -431,17 +673,11 @@ namespace SCore.Features.RemoteCrafting.Scripts
                         }
                         else
                         {
-                            // Otherwise, let's just count down until we meet the requirement.
-                            while (num >= 0)
-                            {
-                                item.count--;
-                                num--;
-                                if (item.count <= 0)
-                                {
-                                    _removedItems.Add(new ItemStack(item.itemValue.Clone(), num));
-                                    break;
-                                }
-                            }
+                            // Remove only the amount this container can actually satisfy, then continue to the next source.
+                            var removedCount = Math.Min(item.count, num);
+                            item.count -= removedCount;
+                            num -= removedCount;
+                            _removedItems.Add(new ItemStack(item.itemValue.Clone(), removedCount));
                         }
 
                         //Update the slot on the container, and do the Setmodified(), so that the dedis can get updated.
@@ -450,14 +686,20 @@ namespace SCore.Features.RemoteCrafting.Scripts
                             // Add it to the removed list.
                             _removedItems.Add(item.Clone());
                             lootTileEntity.UpdateSlot(y, ItemStack.Empty.Clone());
+                            containerChanged = true;
                         }
                         else
                         {
                             lootTileEntity.UpdateSlot(y, item);
+                            containerChanged = true;
                         }
                     }
 
-                    lootTileEntity.SetModified();
+                    if (containerChanged)
+                    {
+                        lootTileEntity.SetModified();
+                        InvalidateNearbyContainerCache();
+                    }
                 }
             }
         }
