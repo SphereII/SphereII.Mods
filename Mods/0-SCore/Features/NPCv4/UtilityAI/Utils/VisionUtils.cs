@@ -284,13 +284,30 @@ namespace UAI
 
         /// <summary>
         /// Returns <c>true</c> when the angle between <paramref name="source"/>'s look vector and
-        /// the direction to <paramref name="targetPos"/> is within <see cref="AIConstants.FacingAngleThreshold"/>.
+        /// the direction from <paramref name="source"/> to <paramref name="targetPos"/> is within
+        /// <see cref="AIConstants.FacingAngleThreshold"/>.
+        /// <para>
+        /// The comparison is flattened onto the XZ plane, so a target standing above or below the
+        /// source still counts as faced when it is horizontally in front. A target sharing the
+        /// source's horizontal position has no meaningful direction and counts as faced.
+        /// </para>
         /// </summary>
         public static bool IsFacing(EntityAlive source, Vector3 targetPos)
         {
-            var lookPos = source.GetLookVector();
-            var angle   = Vector3.Angle(lookPos, targetPos - lookPos);
-            return angle < AIConstants.FacingAngleThreshold;
+            // GetLookVector() is a unit direction, not a position: the direction to the target has
+            // to be measured from the source's own position.
+            var lookVector = source.GetLookVector();
+            var toTarget   = targetPos - source.position;
+
+            lookVector.y = 0f;
+            toTarget.y   = 0f;
+
+            // Vector3.Angle is undefined for a zero-length vector.
+            if (lookVector.sqrMagnitude < AIConstants.FacingEpsilonSq ||
+                toTarget.sqrMagnitude   < AIConstants.FacingEpsilonSq)
+                return true;
+
+            return Vector3.Angle(lookVector, toTarget) < AIConstants.FacingAngleThreshold;
         }
 
         // ── Hit Mask ─────────────────────────────────────────────────────────────

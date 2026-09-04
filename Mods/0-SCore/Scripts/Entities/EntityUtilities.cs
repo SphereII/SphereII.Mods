@@ -1720,50 +1720,86 @@ public static class EntityUtilities
         //return result;
     }
 
+    /// <summary>
+    /// Returns the door feature for the block at <paramref name="blockPos"/>, or <c>null</c> when
+    /// the block is not a composite door.
+    /// <para>
+    /// Current doors are <c>BlockCompositeTileEntity</c> and hold their open state in a
+    /// <see cref="TEFeatureDoor"/>. Only the legacy <c>BlockPoweredDoor</c> blocks - the powered
+    /// garage doors - still track it in bit 0 of the block meta, so that test survives here purely
+    /// as the fallback for those and must not be used as a general "is this door open" check.
+    /// </para>
+    /// </summary>
+    public static TEFeatureDoor GetDoorFeature(Vector3i blockPos)
+    {
+        var doorComposite = GameManager.Instance.World.GetTileEntity(blockPos) as TileEntityComposite;
+        return doorComposite?.GetFeature<TEFeatureDoor>();
+    }
+
+    private static void UnlockDoor(Vector3i blockPos)
+    {
+        var doorComposite = GameManager.Instance.World.GetTileEntity(blockPos) as TileEntityComposite;
+        doorComposite?.GetFeature<TEFeatureLockable>()?.SetLocked(false);
+    }
+
     public static void OpenDoor(int EntityID, Vector3i blockPos, bool forceLock = false)
     {
         var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
-        if (myEntity)
-        {
-            var block = myEntity.world.GetBlock(blockPos);
-            if (Block.list[block.type].HasTag(BlockTags.Door) && (block.meta & 1) == 0)
-            {
-                var chunk = myEntity.world.GetChunkFromWorldPos(blockPos) as Chunk;
-                if (forceLock)
-                {
-                    var doorComposite = GameManager.Instance.World.GetTileEntity(blockPos) as TileEntityComposite;
-                    doorComposite?.GetFeature<TEFeatureLockable>()?.SetLocked(false);
-                }
+        if (!myEntity)
+            return;
 
-                block.Block.OnBlockActivated(myEntity.world, blockPos, block, myEntity as EntityPlayerLocal);
-            }
+        var block = myEntity.world.GetBlock(blockPos);
+        if (!Block.list[block.type].HasTag(BlockTags.Door))
+            return;
+
+        var door = GetDoorFeature(blockPos);
+        if (door != null)
+        {
+            if (door.IsOpen())
+                return;
+
+            if (forceLock)
+                UnlockDoor(blockPos);
+
+            // Matches vanilla EntityMoveHelper.CheckForDoorAndOpen. The OnBlockActivated call this
+            // replaces reached Block's four-argument default, which is the block pickup handler,
+            // and no door block sets CanPickup - so it opened nothing and returned false.
+            door.SetOpen(true, true);
+            return;
         }
+
+        // Legacy BlockPoweredDoor: bit 0 of the meta is the open state, and its own
+        // OnBlockActivated override toggles it.
+        if ((block.meta & 1) != 0)
+            return;
+
+        if (forceLock)
+            UnlockDoor(blockPos);
+
+        block.Block.OnBlockActivated(myEntity.world, blockPos, block, myEntity as EntityPlayerLocal);
     }
 
     public static void CloseDoor(int EntityID, Vector3i blockPos)
     {
         var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
-        if (myEntity)
+        if (!myEntity)
+            return;
+
+        var block = myEntity.world.GetBlock(blockPos);
+        if (!Block.list[block.type].HasTag(BlockTags.Door))
+            return;
+
+        var door = GetDoorFeature(blockPos);
+        if (door != null)
         {
-            var block = myEntity.world.GetBlock(blockPos);
-            if (Block.list[block.type].HasTag(BlockTags.Door) && (block.meta & 1) != 0)
-            {
-                var chunk = myEntity.world.GetChunkFromWorldPos(blockPos) as Chunk;
-                if (chunk == null)
-                    return;
-                /*
-                var flag = !BlockDoor.IsDoorOpen(block.meta);
-                ChunkCluster chunkCluster = myEntity.world.ChunkClusters[chunk.ClrIdx];
-                if (chunkCluster == null)
-                {
-                    return;
-                }
-                block.meta = (byte)((flag ? 1 : 0) | ((int)block.meta & -2)); 
-                myEntity.world.SetBlockRPC(chunk.ClrIdx, blockPos, block);
-                */
-                block.Block.OnBlockActivated(myEntity.world, blockPos, block, null);
-            }
+            if (door.IsOpen())
+                door.SetOpen(false, true);
+            return;
         }
+
+        // Legacy BlockPoweredDoor.
+        if ((block.meta & 1) != 0)
+            block.Block.OnBlockActivated(myEntity.world, blockPos, block, null);
     }
 
 

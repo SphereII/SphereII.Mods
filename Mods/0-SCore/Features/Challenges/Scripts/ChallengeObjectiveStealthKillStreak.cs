@@ -51,7 +51,14 @@ namespace Challenges {
             if (dmgResponse.Source.BonusDamageType != EnumDamageBonusType.Sneak)
             {
                 SCoreMetrics.UpdateCVar(cvarName, Current);
-                ResetComplete();
+
+                // Reset through the properties so the Current setter raises ValueChanged and the
+                // HUD tracker redraws. ResetComplete() writes the 'current' backing field directly,
+                // which leaves the streak stale on screen until the save is reloaded.
+                // ChallengeObjectiveResetComplete patches that for the callers we don't own; doing
+                // it here as well keeps this objective right regardless of the patch.
+                Complete = false;
+                Current = 0;
                 return false;
             }
 

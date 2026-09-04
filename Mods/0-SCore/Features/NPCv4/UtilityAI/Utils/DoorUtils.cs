@@ -34,11 +34,27 @@ namespace UAI
             var blockPos = context.Self.moveHelper.HitInfo.hit.blockPos;
             var block    = GameManager.Instance.World.GetBlock(blockPos);
 
-            if (!Block.list[block.type].HasTag(BlockTags.Door) || (block.meta & 1) != 0)
+            if (!Block.list[block.type].HasTag(BlockTags.Door))
                 return false;
 
-            // Respect locks.
             var doorComposite = GameManager.Instance.World.GetTileEntity(blockPos) as TileEntityComposite;
+
+            // Read the door's real open state. Current doors keep it in TEFeatureDoor; only the
+            // legacy powered garage doors still use bit 0 of the block meta. Testing the meta on a
+            // composite door reads a byte nothing maintains for it, which reported every door as
+            // closed - including ones already standing open.
+            var door = doorComposite?.GetFeature<TEFeatureDoor>();
+            if (door != null)
+            {
+                if (door.IsOpen())
+                    return false;
+            }
+            else if ((block.meta & 1) != 0)
+            {
+                return false;
+            }
+
+            // Respect locks.
             var doorLockable = doorComposite?.GetFeature<TEFeatureLockable>();
             if (doorLockable != null && doorLockable.IsLocked())
                 return false;

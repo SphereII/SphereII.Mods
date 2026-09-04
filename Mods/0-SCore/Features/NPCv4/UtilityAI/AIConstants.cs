@@ -107,5 +107,11 @@ namespace UAI
 
         /// <summary>Angle in degrees within which an entity is considered to be facing a target.</summary>
         public const float FacingAngleThreshold = 10f;
+
+        /// <summary>
+        /// Squared length below which a facing vector is treated as degenerate; the angle between
+        /// it and anything else is undefined.
+        /// </summary>
+        public const float FacingEpsilonSq = 1E-6f;
     }
 }

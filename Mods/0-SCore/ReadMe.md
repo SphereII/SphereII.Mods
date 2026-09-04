@@ -85,8 +85,70 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.2.15.1547
+	Game Version: v3.2.0 (b10)
+
+	[ NPC Doors ]
+		- NPCs can open ordinary doors again. Every door in the shipped game
+		  data except the powered garage doors is a CompositeTileEntity that
+		  keeps its open state in a TEFeatureDoor, while SCore was still
+		  reading bit 0 of the block meta - a bit only the legacy
+		  BlockPoweredDoor blocks maintain. That is 537 of the 613
+		  door-tagged blocks being misread.
+		- The open attempt was a no-op as well. OpenDoor called the
+		  four-argument Block.OnBlockActivated, which
+		  BlockCompositeTileEntity does not override, so it landed on
+		  Block's default - the block pickup handler - and no door block
+		  sets CanPickup. It now calls TEFeatureDoor.SetOpen, the same call
+		  vanilla's EntityMoveHelper.CheckForDoorAndOpen makes.
+		- The failure cost more than the door. Because CheckForClosedDoor
+		  believed it had opened something, it called
+		  moveHelper.ClearBlocked() and returned true, so IsBlocked then
+		  reported the NPC as unblocked and UAITaskBreakBlocks took its
+		  early return. An NPC could stand at a closed door indefinitely
+		  with no fallback behaviour firing at all.
+		- Touches EntityUtilities.OpenDoor / CloseDoor and both copies of
+		  CheckForClosedDoor - SCoreUtils and the v4 DoorUtils. The meta
+		  test is kept as the fallback for BlockPoweredDoor, whose own
+		  OnBlockActivated override does still toggle it, so the powered
+		  garage doors behave as before.
+
+	[ Challenges - HUD Counters ]
+		- A challenge objective that resets its count no longer leaves a
+		  stale number on the HUD tracker.
+		  BaseChallengeObjective.ResetComplete writes the 'current' backing
+		  field directly, so the Current property setter never runs and
+		  ValueChanged never fires - and that event is the only thing
+		  XUiC_QuestTrackerObjectiveEntry listens to. The challenge journal
+		  rebuilds when opened and read correctly, so only the HUD held the
+		  pre-reset count, until the save was reloaded.
+		- StealthKillStreak now resets through the properties instead of
+		  calling ResetComplete. A broken streak updates the HUD at once
+		  rather than appearing to stick at its old value.
+		- ChallengeObjectiveResetComplete patches ResetComplete for the
+		  callers SCore does not own - RequirementGroupPhase and
+		  BaseRequirementObjectiveGroup reach it for requirement groups. It
+		  raises the change event once afterwards when the count was
+		  non-zero. This also covers the already-complete case, where the
+		  event did fire but fired before the count was cleared, leaving the
+		  HUD redrawn with the old number.
+
+	[ Utility AI - IsFacing ]
+		- SCoreUtils.IsFacing and VisionUtils.IsFacing compared the source's
+		  look vector against 'targetPos - lookVector'. GetLookVector returns
+		  a unit direction, not a position, so subtracting it from a world
+		  position left roughly targetPos itself - the test measured the
+		  angle from the world origin to the target, and the source's own
+		  position never entered it. A target directly behind the source
+		  could report as faced.
+		- Now measured from source.position, flattened onto the XZ plane so
+		  a target on a step or a floor above still counts as in front, and
+		  guarded against a zero-length vector. Neither copy has a caller
+		  inside SCore, so none of SCore's own AI changes - the fix is for
+		  mods using the helper.
+
 Version: 3.2.7.728 
-	Game Version: v3.2.0 (b9)
+	Game Version: v3.2.0 (b10)
 
 	[ ESC Menu ]
 		- SCore Utilities and NPC Settings now sit in the vanilla ESC menu

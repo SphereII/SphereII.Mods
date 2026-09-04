@@ -54,6 +54,7 @@
     <Compile Include="Features\Caves\Scripts\SCoreCavesUtils.cs" />
     <Compile Include="Features\Challenges\ChallengeTypeSCoreEnums.cs" />
     <Compile Include="Features\Challenges\Harmony\ChallengeReadObjective.cs" />
+    <Compile Include="Features\Challenges\Harmony\ChallengeObjectiveResetComplete.cs" />
     <Compile Include="Features\Challenges\Harmony\ChallengesFromXmlPatches.cs" />
     <Compile Include="Features\Challenges\Harmony\DebugChallenges.cs" />
     <Compile Include="Features\Challenges\ScriptsV2\ChallengeObjectiveCVarV2.cs" />
