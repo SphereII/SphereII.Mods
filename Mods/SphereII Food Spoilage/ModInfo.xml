@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml>
+    <Name value="SphereII_Food_Spoilage"/>
+    <DisplayName value="SphereII Food Spoilage"/>
+    <Description value="Turns on and tunes 0-SCore's food spoilage. Cooked meals go off into Spoiled Leftovers, which are edible but far more likely to give you dysentery, before rotting away entirely. Coolers, fridges and freezers slow it all down. Requires 0-SCore."/>
+    <Author value="sphereii"/>
+    <Version value="1.0.0.0"/>
+    <Website value=""/>
+</xml>

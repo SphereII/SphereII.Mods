@@ -125,6 +125,7 @@
                 <!-- ie, if you press the arrow to decrease the quality level to craft, it'll go down 25 points, instead of every point -->
                 <property name="QualityStages" value="25" />
 
+  A modde
                 <!-- Percentage of current quality lost each time an item is repaired (whole number, 0-100).           -->
                 <!-- value="0"  = no quality loss (default — preserves vanilla durability repair without quality drop) -->
                 <!-- value="10" = a quality-600 item loses Ceil(600 * 0.10) = 60 quality per repair                  -->

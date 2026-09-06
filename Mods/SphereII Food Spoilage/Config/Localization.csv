@@ -1,0 +1,48 @@
+Key,English
+foodSpoiledLeftovers,Spoiled Leftovers
+foodSpoiledLeftoversDesc,"A meal that sat out too long. Still just about edible, and far more likely to give you dysentery than anything fresh. Leave it much longer and it will not even be that."
+foodSpoiledRemains,Spoiled Remains
+foodSpoiledRemainsDesc,"What is left when food is left. Not meat, not much of anything - no use to any recipe, and eating it is a decision you make once."
+fspHelpSection,Food Spoilage
+fspHelpOverview,Overview
+fspHelpOverviewBody,"Food does not keep, and you will not find fresh food lying around. Cooked meals, raw meat, harvested crops and most drinks all go off over time, and where you keep them decides how fast.
+
+THE CHAIN. A cooked meal does not vanish when it turns. It becomes Spoiled Leftovers - still edible, but a real gamble - and only then rots down to Spoiled Remains, which are worth nothing to anyone. Raw meat skips the middle step and becomes Rotting Flesh. Crops and eggs go straight to Spoiled Remains. Teas, coffee and juice turn to Murky Water.
+
+WHERE FOOD COMES FROM NOW. Cook it, buy it from a trader or vending machine, or earn it from a quest. Fridges, coolers, dumpsters and ovens no longer hand out hot meals - looting feeds you out of a tin. Airdrops, quest rewards and bird nests are unchanged.
+
+WHAT THIS CHANGES. Cooking a week of meals in advance no longer works, and neither does living out of other people's kitchens. Cook closer to when you eat, keep a stock of things that genuinely last, and put a fridge somewhere in your base. Nothing here touches quests, spawns, difficulty or progression.
+
+Food only ages when the game looks at it, so opening a chest you have not touched in days will catch it all up at once. That is expected, not a bug."
+fspHelpStorage,Storage
+fspHelpStorageBody,"Where a stack sits changes how fast it ages. Worst to best:
+
+YOUR TOOLBELT is the worst place for food. Carrying a stack of meals around costs you roughly a fifth of their life compared to leaving them in a box.
+
+YOUR BACKPACK is a little better, but only a little.
+
+ANY CONTAINER is better again - a plain crate or chest already helps.
+
+COOLERS, FRIDGES AND FREEZERS are better still, in that order. A commercial freezer roughly doubles the life of a meal compared to carrying it. None of them need power, so a fridge dragged home and dropped in a corner is a real upgrade to your base.
+
+The practical rule: carry one meal, store the rest, and put the rest in the coldest thing you own."
+fspHelpSpoiled,Spoiled Food
+fspHelpSpoiledBody,"SPOILED LEFTOVERS are what a meal becomes when it turns. They still feed you, at about a third of what the meal was worth, and they cost you a little health. The real cost is that they are far more likely to give you dysentery than anything fresh - a much worse bet than charred meat or a jar of murky water.
+
+SPOILED REMAINS are the end of the road. Barely any food value, worse health, and worse odds again on dysentery. Nothing in the game will craft with them and no trader will buy them. They exist so that letting food rot never quietly pays you.
+
+EATING THEM ANYWAY is sometimes the right call. Starving is worse than a gamble, and the Iron Gut perk cuts the risk on spoiled food exactly as it does on any other risky meal. Keep antibiotics or a jar of goldenrod tea on hand if you plan to live like that.
+
+Only raw meat turns into Rotting Flesh, which still works as a crafting ingredient. Spoiled vegetables will not quietly hand you farm plots."
+fspHelpKeeps,What Keeps
+fspHelpKeepsBody,"Not everything spoils, and what does not spoil is most of what you will find. Build your reserves out of it.
+
+KEEPS FOREVER. Canned food of every kind, honey, cornmeal, jerky, plain and boiled water, beer, and all three of Grandpa's brews. This is what scavenging now yields, so there is a real reason to hoard cans rather than eat them first.
+
+GOES FASTEST. Raw meat and eggs, in well under half a day even in cold storage. Butcher and cook on the same trip rather than hauling meat home to deal with later.
+
+IN BETWEEN. Cooked meals and most drinks last about a day in a pack, longer in a fridge. Harvested crops keep about half again as long as a meal, so a full harvest will survive the walk home comfortably.
+
+WORTH BUYING. Traders and vending machines still stock food, and traders carry prepared meals a fridge will never give you again. A trader run is now a shopping trip.
+
+A stack partway through its life shows how far along it is on the item itself, so you can see at a glance what needs eating first."

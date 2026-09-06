@@ -13,7 +13,8 @@ public class QualityInfoGetQualityLevelName
         // Check if this feature is enabled.
         if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return true;
         if (_quality == 0) return true;
-        _quality = Mathf.Clamp(_quality / 100, 0, QualityUtils.GetMaxQuality());
+        // Same banding as the colour lookup, so the name and the colour never disagree.
+        _quality = QualityUtils.CalculateTier(_quality);
         return true;
     }
 }

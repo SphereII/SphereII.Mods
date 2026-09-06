@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configs>
+
+    <!-- ==========================================================================
+         Fresh food leaves the loot tables
+         ==========================================================================
+         In a world where food spoils, finding a hot meal in a derelict fridge makes
+         no sense and undercuts the whole system. Perishable food now has three
+         sources: cook it, buy it, or earn it.
+
+         WHAT STILL WORKS, and why none of it is touched below:
+
+           Traders and vending machines. Traders sell 29 perishable foods by name,
+           directly in traders.xml, so nothing here reaches them. Vending machines
+           are trader inventories too - foodVending pulls the cannedfood group and
+           drinkVending pulls groupDrinks - so they keep stocking shelf-stable
+           goods. None of the groups edited below is reachable from traders.xml.
+
+           Quests. groupQuestFood carries seventeen perishable entries and is left
+           exactly as it ships. A quest reward is something someone handed you.
+
+           Airdrops. airdropfood and airdropdrink are untouched. A supply drop was
+           packed and sent, which is closer to a reward than to scavenging.
+
+           Foraging. groupBirdNest02 keeps its eggs. Robbing a nest is gathering,
+           not looting a container, and eggs are an ingredient rather than a meal.
+
+           Twitch rewards. Every twitch_* group is left alone. They are viewer
+           gifts rather than loot, and seven of them contain nothing but perishable
+           food, so stripping them would leave empty groups behind.
+
+         WHAT GOES: prepared meals, raw meat, harvested crops and perishable drinks,
+         out of every ordinary container - fridges, coolers, dumpsters, ovens,
+         grills, food piles and the rest. Canned goods, honey, cornmeal, jerky,
+         water, beer and Grandpa's brews all stay, so scavenging still feeds you.
+         It just feeds you out of a tin.
+
+         The predicate carries the exemptions rather than the item list, so an item
+         is stripped from every ordinary group at once and stays stripped if a future
+         game version adds it somewhere new.
+         ========================================================================== -->
+
+    <!-- Prepared meals -->
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodBlueberryPie']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodCharredMeat']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodCornBread']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodGrilledMeat']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodHoboStew']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodMeatStew']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodShamChowder']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodShamSandwich']"/>
+
+    <!-- Raw meat and eggs. Bird nests are exempted in the predicate, so foraging
+         still works; this only clears them out of containers. -->
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodRawMeat']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodEgg']"/>
+
+    <!-- Harvested crops. Grow them or buy them. -->
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodCropBlueberries']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodCropCorn']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodCropGraceCorn']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodCropMushrooms']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodCropPotato']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodCropPumpkin']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='foodCropYuccaFruit']"/>
+
+    <!-- Perishable drinks. Water, beer and Grandpa's brews are not spoilable and stay. -->
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='drinkJarBlackStrapCoffee']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='drinkJarCoffee']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='drinkJarGoldenRodTea']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='drinkJarRedTea']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='drinkJarYuccaJuice']"/>
+    <remove xpath="//lootgroup[not(starts-with(@name,'twitch_')) and @name!='groupQuestFood' and @name!='airdropfood' and @name!='airdropdrink' and @name!='groupBirdNest02']/item[@name='drinkYuccaJuiceSmoothie']"/>
+
+
+    <!-- ==========================================================================
+         groupFoodRare needs restocking, not just emptying
+         ==========================================================================
+         It held four cooked meals and nothing else, so the removals above would
+         leave it with no entries at all. Nine groups draw on it - including
+         groupRefrigerator01, groupCooler01, groupShamwayFreezer01 and the three
+         groupFood*01 tiers - so an empty group would quietly make every food
+         container in the game poorer.
+
+         Refilled with shelf-stable goods that still feel like a find. Honey earns
+         its place twice over: it is a genuine rarity and it never spoils.
+         ========================================================================== -->
+
+    <append xpath="//lootgroup[@name='groupFoodRare']">
+        <item name="foodCanSham"/>
+        <item name="foodCanSalmon"/>
+        <item name="foodCanTuna"/>
+        <item name="foodHoney"/>
+    </append>
+
+</configs>

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configs>
+
+    <!-- ==========================================================================
+         How the selectors work
+         ==========================================================================
+         The broad appends match on the Tags property with an exact-token test:
+
+             contains(concat(',',@value,','), ',food,')
+
+         The concat wrapping matters. A bare contains(@value,'food') would also
+         match the foodSkill tag, which every drink carries, so drinks would be
+         swept into the food rules.
+
+         An xpath predicate can only see properties an item declares itself, not
+         ones it inherits through Extends. That works in our favour here: all
+         fourteen foodCan* items inherit their Tags, so they fall out of the food
+         selector for free and stay non-perishable with no exclusion list. The two
+         items that need adding back by hand are foodShamChowder and
+         drinkJarBlackStrapCoffee, which also inherit.
+
+         Time to spoil, in in-game hours:
+             TickPerLoss * SpoilageMax / (SpoilagePerTick + locationModifier) / 1000
+         with location modifiers of 6 toolbelt, 5 backpack, 4 container, less any
+         PreserveBonus on the container block. See ReadMe.md for the resulting table.
+         ========================================================================== -->
+
+
+    <!-- ==========================================================================
+         Prepared food - spoils into Spoiled Leftovers, roughly a day in a pack
+         ========================================================================== -->
+
+    <append xpath="//item[property[@name='Tags' and contains(concat(',',@value,','),',food,')] and not(@name='foodSpoiledLeftovers')]">
+        <property name="Spoilable" value="true"/>
+        <property name="SpoiledItem" value="foodSpoiledLeftovers"/>
+        <property name="SpoilageMax" value="1000"/>
+        <property name="SpoilagePerTick" value="3"/>
+        <property name="TickPerLoss" value="200"/>
+        <!-- The spoilage bar reuses the durability bar, so hide the quality one. -->
+        <property name="ShowQuality" value="false"/>
+        <property name="QualityTierColor" value="4"/>
+    </append>
+
+    <!-- Inherits its Tags, so the selector above misses it. -->
+    <append xpath="//item[@name='foodShamChowder']">
+        <property name="Spoilable" value="true"/>
+        <property name="SpoiledItem" value="foodSpoiledLeftovers"/>
+        <property name="SpoilageMax" value="1000"/>
+        <property name="SpoilagePerTick" value="3"/>
+        <property name="TickPerLoss" value="200"/>
+        <property name="ShowQuality" value="false"/>
+        <property name="QualityTierColor" value="4"/>
+    </append>
+
+
+    <!-- ==========================================================================
+         Things that should never spoil
+         ==========================================================================
+         Honey keeps indefinitely, cornmeal is a dry good, jerky is cured, and
+         rotting flesh has nowhere left to go.
+
+         foodCanBeef is the one canned good that needs excluding by hand. Every
+         other foodCan* item inherits its Tags and so never matched the selector,
+         but foodCanBeef declares its own and does. Verified by running the
+         selector through System.Xml, which is the same xpath engine the game uses.
+         ========================================================================== -->
+
+    <remove xpath="//item[@name='foodCanBeef']/property[@name='Spoilable']"/>
+    <remove xpath="//item[@name='foodHoney']/property[@name='Spoilable']"/>
+    <remove xpath="//item[@name='foodCornMeal']/property[@name='Spoilable']"/>
+    <remove xpath="//item[@name='foodRoadrunnerChickenJerky']/property[@name='Spoilable']"/>
+    <remove xpath="//item[@name='foodRottingFlesh']/property[@name='Spoilable']"/>
+
+
+    <!-- ==========================================================================
+         Raw meat and eggs - go straight to rot, and fast
+         ==========================================================================
+         No leftovers stage: raw meat that has turned is not a meal, it is bait.
+         Roughly seven hours in a backpack, half a day in a freezer.
+         ========================================================================== -->
+
+    <set xpath="//item[@name='foodRawMeat']/property[@name='SpoiledItem']/@value">foodRottingFlesh</set>
+    <set xpath="//item[@name='foodRawMeat']/property[@name='SpoilagePerTick']/@value">2</set>
+    <set xpath="//item[@name='foodRawMeat']/property[@name='TickPerLoss']/@value">50</set>
+
+    <!-- An egg is not flesh, so it leaves Spoiled Remains rather than rotting flesh. -->
+    <set xpath="//item[@name='foodEgg']/property[@name='SpoiledItem']/@value">foodSpoiledRemains</set>
+    <set xpath="//item[@name='foodEgg']/property[@name='SpoilagePerTick']/@value">2</set>
+    <set xpath="//item[@name='foodEgg']/property[@name='TickPerLoss']/@value">50</set>
+
+
+    <!-- ==========================================================================
+         Harvested crops - slower than meat, straight to rot
+         ==========================================================================
+         Around a day and a half in a pack. Long enough to walk a harvest home.
+
+         Crops leave Spoiled Remains, not rotting flesh. Rotting flesh is a real
+         crafting ingredient - ten of it makes a farm plot, and it also feeds
+         chicken feed, canned sham, hobo stew and Fort Bites - so spoiling
+         blueberries into it would pay players for letting food rot.
+         ========================================================================== -->
+
+    <set xpath="//item[starts-with(@name,'foodCrop')]/property[@name='SpoiledItem']/@value">foodSpoiledRemains</set>
+    <set xpath="//item[starts-with(@name,'foodCrop')]/property[@name='SpoilagePerTick']/@value">2</set>
+
+
+    <!-- ==========================================================================
+         Drinks - go off into river water
+         ==========================================================================
+         Teas, coffee and juice turn. Water, beer and Grandpa's brews do not.
+         ========================================================================== -->
+
+    <append xpath="//item[property[@name='Tags' and contains(concat(',',@value,','),',drinks,')]]">
+        <property name="Spoilable" value="true"/>
+        <property name="SpoiledItem" value="drinkJarRiverWater"/>
+        <property name="SpoilageMax" value="1000"/>
+        <property name="SpoilagePerTick" value="3"/>
+        <property name="TickPerLoss" value="200"/>
+        <property name="ShowQuality" value="false"/>
+        <property name="QualityTierColor" value="4"/>
+    </append>
+
+    <!-- Inherits its Tags, so the selector above misses it. -->
+    <append xpath="//item[@name='drinkJarBlackStrapCoffee']">
+        <property name="Spoilable" value="true"/>
+        <property name="SpoiledItem" value="drinkJarRiverWater"/>
+        <property name="SpoilageMax" value="1000"/>
+        <property name="SpoilagePerTick" value="3"/>
+        <property name="TickPerLoss" value="200"/>
+        <property name="ShowQuality" value="false"/>
+        <property name="QualityTierColor" value="4"/>
+    </append>
+
+    <!-- Plain water has nothing to lose, alcohol is its own preservative. -->
+    <remove xpath="//item[@name='drinkJarRiverWater']/property[@name='Spoilable']"/>
+    <remove xpath="//item[@name='drinkJarBoiledWater']/property[@name='Spoilable']"/>
+    <remove xpath="//item[@name='drinkJarPureMineralWater']/property[@name='Spoilable']"/>
+    <remove xpath="//item[@name='drinkJarBeer']/property[@name='Spoilable']"/>
+    <remove xpath="//item[@name='drinkJarGrandpasAwesomeSauce']/property[@name='Spoilable']"/>
+    <remove xpath="//item[@name='drinkJarGrandpasLearningElixir']/property[@name='Spoilable']"/>
+    <remove xpath="//item[@name='drinkJarGrandpasMoonshine']/property[@name='Spoilable']"/>
+
+
+    <!-- ==========================================================================
+         The stale stage
+         ==========================================================================
+         Defined last on purpose. The broad appends above run in document order, so
+         by declaring this item afterwards it can never be caught by its own food
+         selector and made to spoil into itself.
+
+         It is written out in full rather than extending a vanilla food. Extending
+         would inherit that food's effect_group, and both the inherited
+         "set .DiseaseRoll 12" and our own would fire on onSelfPrimaryActionEnd
+         with the winner decided by document order - a fragile way to set the one
+         number this whole item exists for.
+         ========================================================================== -->
+
+    <append xpath="/items">
+        <item name="foodSpoiledLeftovers">
+            <property name="Tags" value="food,foodSkill,fitness"/>
+            <property name="HoldType" value="31"/>
+            <property name="DisplayType" value="foodRaw"/>
+            <property name="Meshfile" value="@:Other/Items/Food/parcelGenericPrefab.prefab"/>
+            <property name="DropMeshfile" value="@:Other/Items/Misc/sack_droppedPrefab.prefab"/>
+            <property name="Material" value="Morganic"/>
+            <property name="Stacknumber" value="10"/>
+            <property name="EconomicValue" value="5"/>
+            <property name="SellableToTrader" value="false"/>
+            <property name="CustomIcon" value="foodMeatStew"/>
+            <property name="CustomIconTint" value="8ca05a"/>
+            <property name="SoundPickup" value="rottingflesh_grab"/>
+            <property name="SoundPlace" value="rottingflesh_place"/>
+            <property name="Group" value="Food/Cooking,CFFood/Cooking"/>
+
+            <property class="Action0">
+                <property name="Class" value="Eat"/>
+                <property name="Delay" value="2.1"/>
+                <property name="Sound_start" value="player_eating"/>
+                <property name="SmellUse" value="50"/>
+            </property>
+
+            <!-- Keeps going: leftovers rot away in roughly eight hours in a pack.
+                 Into Spoiled Remains, not rotting flesh - leftovers come from every
+                 cooked meal, most of which never contained meat. -->
+            <property name="Spoilable" value="true"/>
+            <property name="SpoiledItem" value="foodSpoiledRemains"/>
+            <property name="SpoilageMax" value="1000"/>
+            <property name="SpoilagePerTick" value="4"/>
+            <property name="TickPerLoss" value="75"/>
+            <property name="ShowQuality" value="false"/>
+            <property name="QualityTierColor" value="1"/>
+
+            <effect_group tiered="false" name="Spoiled Leftovers">
+                <!-- Still food, barely. About a third of what the meal was worth. -->
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$foodAmountAdd" operation="add" value="4"/>
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$waterAmountAdd" operation="add" value="2"/>
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyStats" stat="Health" operation="add" value="-3"/>
+                <display_value name="foodHealthAmount" value="-3"/>
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffProcessConsumables"/>
+
+                <!-- The point of the item. Vanilla's risky foods roll 12; this is 40,
+                     still reducible by Iron Gut through $MetabolismResist exactly as
+                     charred meat and murky water are. -->
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar=".DiseaseRoll" operation="set" value="40"/>
+                <display_value name="dDysenteryRisk" value=".40"/>
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar=".DiseaseRoll" operation="add" value="@$MetabolismResist"/>
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffDysenteryCatchFood">
+                    <requirement name="RandomRoll" seed_type="Random" min_max="1,100" operation="LTE" value="@.DiseaseRoll"/>
+                </triggered_effect>
+
+                <display_value name="dSmellUse" value="50"/>
+            </effect_group>
+        </item>
+    </append>
+
+
+    <!-- ==========================================================================
+         The end of the line
+         ==========================================================================
+         Everything that is not meat rots into this rather than into
+         foodRottingFlesh, which is a genuine crafting ingredient: ten of it makes
+         a farm plot, and it also feeds resourceChickenFeed, foodCanSham,
+         foodHoboStew and drugFortBites. Routing crops and leftovers into rotting
+         flesh would have paid players for neglecting their food.
+
+         Deliberately not a crafting ingredient anywhere, worth nothing, and not
+         sellable. Eating it is a desperate measure rather than a use.
+
+         Carries no Spoilable property, so this is where the chain stops.
+         ========================================================================== -->
+
+    <append xpath="/items">
+        <item name="foodSpoiledRemains">
+            <property name="Tags" value="food,foodSkill,fitness"/>
+            <property name="HoldType" value="31"/>
+            <property name="DisplayType" value="foodRaw"/>
+            <property name="Meshfile" value="@:Other/Items/Food/parcelGenericPrefab.prefab"/>
+            <property name="DropMeshfile" value="@:Other/Items/Misc/sack_droppedPrefab.prefab"/>
+            <property name="Material" value="Morganic"/>
+            <property name="Stacknumber" value="125"/>
+            <property name="EconomicValue" value="1"/>
+            <property name="SellableToTrader" value="false"/>
+            <!-- Same art as rotting flesh, tinted mould green so the two read apart
+                 at a glance in a container. -->
+            <property name="CustomIcon" value="foodRottingFlesh"/>
+            <property name="CustomIconTint" value="6f7d42"/>
+            <property name="SoundPickup" value="rottingflesh_grab"/>
+            <property name="SoundPlace" value="rottingflesh_place"/>
+            <property name="Group" value="Food/Cooking,CFFood/Cooking"/>
+
+            <property class="Action0">
+                <property name="Class" value="Eat"/>
+                <property name="Delay" value="1.0"/>
+                <property name="Sound_start" value="player_eating"/>
+                <property name="SmellUse" value="25"/>
+            </property>
+
+            <effect_group tiered="false" name="Spoiled Remains">
+                <!-- Barely food at all, and worse for you than the leftovers were. -->
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$foodAmountAdd" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyStats" stat="Health" operation="add" value="-5"/>
+                <display_value name="foodHealthAmount" value="-5"/>
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar=".foodStaminaBonusAdd" operation="add" value="-1"/>
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffProcessConsumables"/>
+
+                <!-- Further gone than the leftovers, so riskier than their 40. -->
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar=".DiseaseRoll" operation="set" value="50"/>
+                <display_value name="dDysenteryRisk" value=".50"/>
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar=".DiseaseRoll" operation="add" value="@$MetabolismResist"/>
+                <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffDysenteryCatchFood">
+                    <requirement name="RandomRoll" seed_type="Random" min_max="1,100" operation="LTE" value="@.DiseaseRoll"/>
+                </triggered_effect>
+
+                <display_value name="dSmellUse" value="25"/>
+            </effect_group>
+        </item>
+    </append>
+
+</configs>

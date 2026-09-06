@@ -85,6 +85,59 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.2.17.927 
+	Game Version: v3.2.0 (b10)
+
+	[ Food Spoilage - Held Items ]
+		- A spoilable item held in the hand no longer holsters and re-draws
+		  itself as it ages, which on screen looked like the item reloading.
+		- Inventory.SetItem opens by re-showing the held item whenever the
+		  incoming value is not EqualsExceptUseTimesAndAmmo to the current
+		  one, and that comparison includes the metadata dictionary. All of
+		  spoilage lives in metadata - NextSpoilageTick, SpoilageValue and
+		  Freshness - so every tick counted as a change to a different item.
+		- The toolbelt widened it past the one slot. A slot-changed event
+		  pushes the whole belt back through Inventory.SetSlots, which calls
+		  SetItem for every slot, so a stack spoiling anywhere on the belt
+		  dragged the held slot through the comparison as well.
+		- InventorySetItemSpoilage copies just those three keys onto the
+		  outgoing value before the comparison runs, so they stop counting as
+		  a change. It is confined to the held slot, to items whose type is
+		  unchanged, and to items marked Spoilable, so a genuine swap still
+		  re-shows exactly as vanilla intends. The value it writes to is
+		  replaced by _itemValue.Clone() a few lines later either way.
+
+	[ Custom Quality Levels - Colour Banding ]
+		- The colour band width is configurable now. Two new properties under
+		  AdvancedItemFeatures in blocks.xml: QualityPerTier (default 100) is
+		  how many quality points make up one colour band, and
+		  QualityTierOffset (default 0) is the band the lowest slice of
+		  quality lands on. Tier is quality / QualityPerTier +
+		  QualityTierOffset, clamped into the seven colours that
+		  qualityinfo.xml defines.
+		- The defaults reproduce the previous behaviour exactly. On a
+		  QualityLevels of 0,600 that is 100-199 brown, 200-299 orange,
+		  300-399 yellow, 400-499 green, 500-599 blue and 600+ purple, with
+		  anything under 100 left grey.
+		- A 1-100 quality scale works as a result. QualityLevels 1,100 with
+		  QualityPerTier 20 and QualityTierOffset 1 gives 1-19 brown, 20-39
+		  orange, 40-59 yellow, 60-79 green, 80-99 blue and 100 purple. The
+		  offset is what makes that reachable - a band width on its own puts
+		  1-19 on grey and quality 100 on blue, every band one place out.
+		- QualityInfoGetQualityLevelName carried its own hardcoded /100
+		  instead of calling QualityUtils, so under any banding other than
+		  the default the quality name and the quality colour could disagree.
+		  Both read the same calculation now.
+		- CalculateTierHex was a byte-identical copy of CalculateTier and is
+		  gone; GetColor and GetColorHex share the one path. The tier clamp
+		  was written against the quality range (0 to 700) rather than the
+		  colour array, so it never clamped anything - it clamps to the array
+		  now. A zero or negative QualityPerTier falls back to 100 rather
+		  than dividing by zero.
+		- None of this turns itself on: CustomQualityLevels is still false by
+		  default, and the Harmony prefixes pass straight through to vanilla
+		  until it is set true.
+
 Version: 3.2.15.1547
 	Game Version: v3.2.0 (b10)
 

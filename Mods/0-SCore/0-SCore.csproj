@@ -250,6 +250,7 @@
     <Compile Include="Features\FlickeringLights\Harmony\DisableFlickeringLights.cs" />
     <Compile Include="Features\FoodSpoilageV2\Harmony\FoodSpoilagePatches.cs" />
     <Compile Include="Features\FoodSpoilageV2\Harmony\Freshness.cs" />
+    <Compile Include="Features\FoodSpoilageV2\Harmony\InventorySetItemSpoilage.cs" />
     <Compile Include="Features\FoodSpoilageV2\Harmony\XUiC_ItemInfoWindow.cs" />
     <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConfig.cs" />
     <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConstants.cs" />

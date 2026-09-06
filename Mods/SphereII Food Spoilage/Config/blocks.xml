@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configs>
+
+    <!-- ==========================================================================
+         Global spoilage settings
+         ==========================================================================
+         These all live on 0-SCore's ConfigFeatureBlock. Without 0-SCore installed
+         every xpath in this file finds nothing and is skipped silently, so the
+         modlet simply does nothing rather than erroring.
+         ========================================================================== -->
+
+    <set xpath="//block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='FoodSpoilage']/@value">true</set>
+
+    <!-- World time runs at 1000 units per in-game hour (24000 per day), so this is
+         the interval between spoilage calculations - roughly 12 in-game minutes.
+         It is only the default; every item below sets its own.
+
+         Time to spoil, in in-game hours:
+             TickPerLoss * SpoilageMax / (SpoilagePerTick + locationModifier) / 1000
+
+         SCore ships this at 10, which rots a default item in a container in two
+         in-game hours. That is far too fast for normal play. -->
+    <set xpath="//block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='TickPerLoss']/@value">200</set>
+
+    <!-- Spoilage added per tick by where the stack is sitting. Higher spoils faster:
+         carrying food on your belt is the worst place for it, a container the best. -->
+    <set xpath="//block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='Toolbelt']/@value">6</set>
+    <set xpath="//block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='Backpack']/@value">5</set>
+    <set xpath="//block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='Container']/@value">4</set>
+
+    <!-- Floor on the effective rate, so a heavily preserving container still ticks. -->
+    <set xpath="//block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='MinimumSpoilage']/@value">1</set>
+
+    <!-- Fallback for any spoilable item that does not name its own SpoiledItem.
+         Generic rot rather than foodRottingFlesh, which is a crafting ingredient. -->
+    <set xpath="//block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='SpoiledItem']/@value">foodSpoiledRemains</set>
+
+    <!-- Spoil one item at a time rather than the whole stack at once. -->
+    <set xpath="//block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='FullStackSpoil']/@value">false</set>
+
+    <!-- Experimental in SCore, with known problems around split stacks. Leave off. -->
+    <set xpath="//block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='UseAlternateItemValue']/@value">false</set>
+
+
+    <!-- ==========================================================================
+         Container preservation
+         ==========================================================================
+         PreserveBonus is SUBTRACTED from the location modifier, so a POSITIVE
+         number preserves food and a larger one preserves it better. With the
+         Container modifier at 4, a bonus of 1.75 leaves an effective 2.25.
+
+         Do not improvise negative values here. SCore treats exactly -99 as a magic
+         "never spoils" flag; any other negative number is subtracted as normal and
+         makes food spoil dramatically FASTER.
+         ========================================================================== -->
+
+    <!-- Coolers - a bit of insulation, no power. -->
+    <append xpath="//block[starts-with(@name,'cntCooler') and not(contains(@name,'Helper'))]">
+        <property name="PreserveBonus" value="1"/>
+    </append>
+
+    <!-- Derelict retro fridges. -->
+    <append xpath="//block[starts-with(@name,'cntRetroFridge') and not(contains(@name,'Helper'))]">
+        <property name="PreserveBonus" value="1.5"/>
+    </append>
+
+    <!-- Stainless steel fridges. -->
+    <append xpath="//block[starts-with(@name,'cntFridgeStainlessSteel') and not(contains(@name,'Helper'))]">
+        <property name="PreserveBonus" value="1.75"/>
+    </append>
+
+    <!-- Commercial freezers - the best storage in the game. -->
+    <append xpath="//block[starts-with(@name,'cntFreezer') and not(contains(@name,'Helper'))]">
+        <property name="PreserveBonus" value="2"/>
+    </append>
+
+</configs>
