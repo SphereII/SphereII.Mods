@@ -85,8 +85,54 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.2.18.1421
+	Game Version: v3.2.0 (b10)
+
+	[ Hired NPCs - Stay and Guard reverted ]
+		- The bWillRespawn change for Stay and Guard is reverted, in both the
+		  V1 and V4 order switches. It stopped NPC respawning outright; rolling
+		  back to 3.2.15 confirmed it, and both switches are now back to their
+		  original shape.
+		- It should not have shipped. It was the belt-and-braces part of the
+		  despawn work, was noted at the time as the first thing to drop, and
+		  the line it overrode carried a comment saying the flag needs to be
+		  off for entities to despawn after being killed. The despawn-protection
+		  fix does not depend on it.
+		- A related correction to that entry: it said everything except Follow
+		  and Loot was left without the flag, implying Follow had none. Follow
+		  and Loot set bWillRespawn to true in their own branch - inline at
+		  EntityAliveSDX.cs:1341 in V1, and inside HandleFollowOrder in V4,
+		  where it is not visible in the switch at all. Follow is the best
+		  covered order, not the least.
+
+	[ Hired NPCs - PostInit hook now fails open ]
+		- ApplySpawnerSourceOnPostInit cannot abort entity creation any more.
+		  EntityFactory assigns the create operation's output only after
+		  PostInit returns, so anything thrown inside leaves the operation with
+		  no entity: the chunk's pending spawn never drains and a saved NPC
+		  quietly fails to come back, with no entity and no error.
+		- The body is wrapped in a try/catch that keeps the entity, leaves the
+		  restored spawner source alone and writes a Log.Error, with a null
+		  Buffs guard and an AdvLogging line on the hired branch. Worst case is
+		  now the original despawn bug rather than a lost NPC.
+		- This is also instrumentation. 3.2.17.2050 was reported as failing to
+		  restore hired NPCs with nothing in the log at all; the three possible
+		  outcomes here - an error naming the entity, the hired-branch line with
+		  no restore, or neither line - each narrow that down.
+		- The mechanism is still unexplained. SetSpawnerSource only assigns
+		  three fields, nothing in the creation path reads the spawner source,
+		  EntityUtilities has no static constructor, and Buffs is written
+		  earlier in both PostInit implementations. None of the obvious
+		  candidates hold up, which is why the next build is instrumented
+		  rather than confidently fixed.
+		- Reported by xyth and Qwen, whose A/B on a single save is what
+		  isolated it to the restore side rather than the save side.
+
 Version: 3.2.17.2050
 	Game Version: v3.2.0 (b10)
+	*** WITHDRAWN - superseded by 3.2.18.1252. The Stay and Guard change
+	*** below stopped NPC respawning, and hired NPCs were not restored from
+	*** the save. Do not ship this build. Details in the entry above.
 
 	[ Custom Quality Levels - Crafting and Skills ]
 		- The crafting window has its own ceiling, and raising QualityLevels

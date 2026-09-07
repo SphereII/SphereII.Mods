@@ -1117,19 +1117,47 @@ public static class EntityUtilities
     {
         if (entity == null) return;
 
-        // Still hired: re-assert the exemption rather than trusting the restored value. Dismiss
-        // leaves the Leader cvar in place with a value of zero, so the value is what matters here,
-        // not whether the cvar exists.
-        if (entity.Buffs.GetCustomVar("Leader") > 0 || entity.Buffs.GetCustomVar("Owner") > 0)
+        // Everything below is wrapped because of where it runs. EntityFactory assigns the create
+        // operation's output only AFTER PostInit returns:
+        //
+        //     entity.PostInit();
+        //     this.entity = entity;
+        //
+        // so anything thrown in here leaves the operation with no entity at all. The chunk's
+        // pending spawn never drains and a saved NPC silently fails to come back - no entity, no
+        // error. Losing the despawn exemption is recoverable; losing the entity is not, so this
+        // fails open and says so loudly.
+        try
         {
-            entity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
-            return;
-        }
+            if (entity.Buffs == null)
+            {
+                Log.Warning(
+                    $"SCore: ApplySpawnerSourceOnPostInit: entity {entity.entityId} has no Buffs yet; leaving its spawner source alone.");
+                return;
+            }
 
-        // Anything already claimed - by a spawner block, a quest, or a restore - is left alone.
-        // Only supply the Biome default when nothing has claimed the entity.
-        if (entity.GetSpawnerSource() == EnumSpawnerSource.Unknown)
-            entity.SetSpawnerSource(EnumSpawnerSource.Biome);
+            // Still hired: re-assert the exemption rather than trusting the restored value.
+            // Dismiss leaves the Leader cvar in place with a value of zero, so the value is what
+            // matters here, not whether the cvar exists.
+            if (entity.Buffs.GetCustomVar("Leader") > 0 || entity.Buffs.GetCustomVar("Owner") > 0)
+            {
+                entity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
+                AdvLogging.DisplayLog(AdvFeatureClass,
+                    $"ApplySpawnerSourceOnPostInit: {entity.entityId} is hired; StaticSpawner re-asserted.");
+                return;
+            }
+
+            // Anything already claimed - by a spawner block, a quest, or a restore - is left
+            // alone. Only supply the Biome default when nothing has claimed the entity.
+            if (entity.GetSpawnerSource() == EnumSpawnerSource.Unknown)
+                entity.SetSpawnerSource(EnumSpawnerSource.Biome);
+        }
+        catch (Exception e)
+        {
+            Log.Error(
+                $"SCore: ApplySpawnerSourceOnPostInit failed for entity {entity.entityId}. The entity is kept and its " +
+                $"spawner source left as restored. {e}");
+        }
     }
 
     public static void SetOwner(int EntityID, int LeaderID)

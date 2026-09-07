@@ -1362,19 +1362,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
                 }
 
                 break;
-            case EntityUtilities.Orders.Stay:
-            case EntityUtilities.Orders.Guard:
-                // Stay and Guard are the "leave them at my base" orders, and they used to fall
-                // through to bWillRespawn = false below. That flag is what parks an
-                // unload-marked entity in World instead of removing it, so the NPCs most likely
-                // to be left alone were the ones with no backstop. Companion handling is
-                // unchanged; only the flag moves.
-                bWillRespawn = true;
-                if (player)
-                    player.Companions.Remove(this);
-
-                break;
             case EntityUtilities.Orders.Patrol:
+            case EntityUtilities.Orders.Stay:
             case EntityUtilities.Orders.Wander:
             default:
                 // This needs to be set for the entities to be still alive, so the player can teleport them

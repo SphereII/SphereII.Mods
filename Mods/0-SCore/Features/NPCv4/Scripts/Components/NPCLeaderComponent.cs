@@ -96,15 +96,6 @@ public class NPCLeaderComponent : INPCComponent
                 HandleFollowOrder(ref cache);
                 break;
 
-            case EntityUtilities.Orders.Stay:
-            case EntityUtilities.Orders.Guard:
-                // Same as the V1 path: these are the orders that leave an NPC somewhere on its
-                // own, so they are the ones that need bWillRespawn keeping them parked rather
-                // than unloaded. Companion handling is unchanged.
-                _entity.bWillRespawn = true;
-                cache.LeaderAsPlayer?.Companions.Remove(_entity);
-                break;
-
             default:
                 _entity.bWillRespawn = false;
                 cache.LeaderAsPlayer?.Companions.Remove(_entity);
