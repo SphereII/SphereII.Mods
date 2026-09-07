@@ -105,6 +105,40 @@ This class introduces more complex repair and scrapping options for items.
 * **`DurabilityAffectsDamage`**: `false` - If `true`, a weapon's damage (for melee) is reduced as its durability
   decreases.
 
+### Custom quality levels
+
+Raises the item quality range above vanilla's 1-6, so items can carry a quality of, say, 1 to 600.
+
+* **`CustomQualityLevels`**: `false` - The master switch. Nothing below has any effect until this is `true`.
+* **`QualityLevels`**: `0,700` - The minimum and maximum quality an item can roll.
+* **`QualityStages`**: `25` - How far the crafting window's quality arrows move per press.
+* **`QualityPerTier`**: `100` - How many quality points make up one colour band. Tier is
+  `quality / QualityPerTier + QualityTierOffset`, clamped into the seven colours `qualityinfo.xml` defines: 1 brown,
+  2 orange, 3 yellow, 4 green, 5 blue, 6 purple.
+* **`QualityTierOffset`**: `0` - Which colour band the lowest slice of quality lands on. `0` leaves a grey band below
+  the first tier, which suits a `0,600` range. `1` removes it, so the lowest quality already reads brown - use that
+  with a `1,100` range and a `QualityPerTier` of `20`.
+
+#### You must also raise `max_quality_tier`, or crafting stays capped at 6
+
+This is the step people miss, and it fails silently. `XUiC_CraftingInfoWindow.SetRecipe` clamps every recipe's
+crafting tier to `XUiM_Recipes.CraftingMaxTier`, and the quality arrows are bounded by it too. That value comes from
+the **`max_quality_tier` attribute on the `<items>` root**, which defaults to `6` when absent. So a `CraftingTier`
+passive effect can resolve to 600 and the crafting window will still hand the queue a 6.
+
+The attribute does not exist in vanilla `items.xml`, so it has to be added rather than set - `<set>` on a missing
+attribute matches nothing and is skipped without a word:
+
+```xml
+<setattribute xpath="/items" name="max_quality_tier">600</setattribute>
+```
+
+One caveat: the **Crafting Max Tier sandbox option** wins if a player sets it. It ships at `-1`, which means "inherit
+`max_quality_tier`", so leaving it alone is what you want.
+
+`ItemClass.MaxQualityTier` is read in exactly one place - that sandbox fallback - so raising it does nothing except
+lift the crafting ceiling.
+
 ## 9. Advanced Player Features (`<property class="AdvancedPlayerFeatures">`)
 
 This class enhances and modifies various core player behaviors and mechanics.

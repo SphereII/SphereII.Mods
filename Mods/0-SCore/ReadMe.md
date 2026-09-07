@@ -85,6 +85,128 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.2.17.2050
+	Game Version: v3.2.0 (b10)
+
+	[ Custom Quality Levels - Crafting and Skills ]
+		- The crafting window has its own ceiling, and raising QualityLevels
+		  never lifted it. XUiC_CraftingInfoWindow.SetRecipe clamps every
+		  recipe's tier to XUiM_Recipes.CraftingMaxTier, and the quality arrows
+		  are bounded by the same value, so a CraftingTier passive effect could
+		  resolve to 600 and the window would still hand the queue a 6.
+		- That ceiling is data, not code: it comes from the max_quality_tier
+		  attribute on the <items> root, which defaults to 6 when absent. The
+		  attribute is not in vanilla items.xml, so it has to be ADDED rather
+		  than set - a <set> on a missing attribute matches nothing and is
+		  skipped in silence, which is why this looked like a broken feature
+		  rather than a missing line:
+		
+		      <setattribute xpath="/items" name="max_quality_tier">600</setattribute>
+		
+		  The "Crafting Max Tier" sandbox option overrides it if a player sets
+		  it; the default of -1 means inherit. This is now written up in
+		  Config/ReadMe.md and commented in Config/blocks.xml, since nobody
+		  could reasonably have guessed it.
+		- The skills window no longer disagrees with the workbench. Its crafting
+		  entries showed ProgressionClass.DisplayData.GetQualityLevel, which
+		  counts how many unlock_level thresholds the player has passed and caps
+		  at the length of that list. In vanilla the count happens to equal the
+		  quality, and that coincidence was the whole display - it never read
+		  the CraftingTier effect, so it kept counting to 6 beside an axe that
+		  really was quality 300.
+		- XUiCSkillCraftingInfoEntryQuality rewrites the four quality bindings
+		  with the tier the recipe actually reports, resolved the same way the
+		  crafting window resolves it and clamped the same way. GetQualityLevel
+		  itself is left alone because it also drives the locked and available
+		  colours and the next-unlock points; a locked entry still reads zero,
+		  so locked styling is unchanged.
+		- Note "next quality" has no exact meaning on a continuous scale - the
+		  threshold list cannot say what the next unlock grants. It shows one
+		  band up from current, capped at the configured maximum.
+		- QualityPerTier and QualityTierOffset are declared in blocks.xml again.
+		  The code shipped in the previous build but the property declarations
+		  did not, so both were reachable only by adding them by hand. A stray
+		  line of text that had been saved into the AdvancedItemFeatures block
+		  is removed with them.
+		- Reported by bdubyah, who chased it from the crafting window through to
+		  the skills panel.
+
+	[ Hired NPCs - Despawn Protection ]
+		- Hired NPCs no longer lose their despawn protection on every world
+		  load. PostInit ended with an unconditional SetSpawnerSource(Biome),
+		  and PostInit runs on every entity creation - including every restore
+		  from a chunk file, immediately after EntityCreationData.ApplyToEntity
+		  has restored the saved source. The saved value was read and then
+		  thrown away.
+		- That matters because StaticSpawner is the only case EntityAlive's
+		  despawn switch exempts, and SetLeader is what sets it. Back on Biome,
+		  the game despawns an entity once the player has been more than 128m
+		  away for 100 ticks, or 1800 ticks at any distance - so a companion
+		  left at a base was one long absence from being deleted. IsSavedToFile
+		  does not help: the despawn path removes the entity from its chunk
+		  before the chunk is ever written.
+		- EntityUtilities.ApplySpawnerSourceOnPostInit replaces the assignment
+		  in both the V1 and V4 paths. A still-hired NPC gets StaticSpawner
+		  re-asserted; anything already claimed by a spawner block, a quest or
+		  a restore is left alone; only a genuinely unclaimed entity gets the
+		  Biome default. Leader and Owner are tested by value rather than by
+		  presence, because Dismiss leaves both cvars in place set to zero.
+		- Dismiss now hands the NPC back to Biome. Without that, the fix above
+		  would have traded vanishing companions for immortal ones, since
+		  StaticSpawner is exempt from despawn outright and every dismissed
+		  companion would have stayed in the world for good. FarmHere
+		  deliberately does not reset it - a farmer is meant to stay put.
+
+	[ Hired NPCs - Stay and Guard ]
+		- Stay and Guard now set bWillRespawn, the flag that parks an
+		  unload-marked entity instead of letting the removal proceed. Both
+		  order switches sent everything except Follow and Loot to
+		  bWillRespawn = false, so the NPCs most likely to be left somewhere on
+		  their own were the ones with no backstop - which is exactly the
+		  reported symptom.
+		- Applied to the V1 switch in EntityAliveSDX and the V4 switch in
+		  NPCLeaderComponent. Guard was not listed in the V1 switch at all and
+		  fell through to the default, so it moves too. Companion handling is
+		  unchanged in both.
+		- Note this parks those NPCs in memory rather than letting them unload
+		  with their chunk. With the spawner source fixed they already survive
+		  without it, so this is a backstop - and the first part of the change
+		  to drop if resident entity counts become a concern.
+
+
+	[ Hired NPCs - Hire Links ]
+		- Hire links are no longer deleted just because the NPC is not loaded.
+		  Four places treated "GetEntity returned null" as "this link is
+		  invalid, delete it", but a saved NPC lives in its chunk file, so the
+		  lookup also returns null for a perfectly good hire whose chunk is
+		  simply cold. The link was fine; only the lookup was premature.
+		- Absence is no longer evidence. Every remaining prune needs something
+		  positive: the entry is zeroed, which is what Dismiss does; or the NPC
+		  is loaded and names a different leader; or it is loaded and dead.
+		  CheckForDanglingHires, Respawn and Despawn all follow that rule now,
+		  and an unloaded hire counts as hired rather than being cleared.
+		- GetLeader mattered most. It cleared the NPC's own Leader cvar when
+		  the player entity could not be resolved - during a load, or on a
+		  dedicated server between sessions. That cvar is what LeaderUpdate
+		  re-stamps the player half from, so losing it turned a self-healing
+		  problem into a permanent one. It now only clears on a zero or
+		  negative id, which is a genuine dismissal.
+		- Prunes are logged. The one judgement-based removal left writes a line
+		  naming the hire, the player and the leader the NPC actually claims,
+		  so a loss is something a player can report rather than a silence.
+		- The V4 path needed no separate change: NPCFrameCache resolves through
+		  GetLeaderOrOwner, so it inherits the GetLeader fix.
+		- Also fixed alongside: CheckForDanglingHires dropped the player's
+		  EntityID cvar when totalHired == totalCleared, which is true whenever
+		  the two coincide - two valid hires next to two stale entries cleared
+		  it while the player still had companions. It now checks for no hires.
+		- Note CurrentHireCount now counts hires whose chunks are not loaded,
+		  where before it counted only the loaded ones. Nothing in SCore reads
+		  the cvar, but a modlet gating on it will see larger numbers.
+
+		- Both defects were reported by xyth, with reproduction steps and a
+		  console command that reads the hire link and spawner source directly.
+
 Version: 3.2.17.927 
 	Game Version: v3.2.0 (b10)
 

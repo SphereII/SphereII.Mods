@@ -777,12 +777,17 @@ public static class EntityUtilities
                 if (leaderId > 0)
                     leader = GameManager.Instance.World.GetEntity(leaderId);
 
-                // Something happened to our leader.
-                if (leader == null)
-                {
+                // A leader we cannot resolve is not the same as no leader. The player may
+                // still be loading in, or on a dedicated server may simply be offline, and
+                // GetEntity returns null in both cases. Clearing the cvar here made that
+                // permanent: the NPC half of the link is what re-stamps the player half in
+                // LeaderUpdate, so once it was gone there was nothing left to reconcile
+                // against and the hire could not heal itself. Leave it and try again next tick.
+                //
+                // A zero or negative id is different - that is a dismissed hire, which is real
+                // evidence - so it is still cleared.
+                if (leader == null && leaderId <= 0)
                     currentEntity.Buffs.RemoveCustomVar("Leader");
-                    leader = null;
-                }
             }
         }
 
@@ -912,11 +917,24 @@ public static class EntityUtilities
         foreach (var cvar in leader.Buffs.CVars)
         {
             if (!cvar.Key.StartsWith("hired_")) continue;
-            var entity = GameManager.Instance.World.GetEntity((int) cvar.Value) as EntityAlive;
-            if (entity == null)
+
+            // Dismiss zeroes the entry rather than removing it, so a non-positive id really is
+            // a dead link.
+            if ((int) cvar.Value <= 0)
             {
                 totalCleared++;
                 removeList.Add(cvar.Key);
+                continue;
+            }
+
+            var entity = GameManager.Instance.World.GetEntity((int) cvar.Value) as EntityAlive;
+            if (entity == null)
+            {
+                // Not loaded is not the same as not hired. A saved NPC lives in its chunk file,
+                // so GetEntity returns null for a perfectly good hire whose chunk simply is not
+                // loaded right now. Pruning on that deleted real companions on login, on
+                // dismounting a vehicle, and on every hire. Count it and leave the link alone.
+                totalHired++;
                 continue;
             }
 
@@ -928,8 +946,13 @@ public static class EntityUtilities
                 continue;
             }
 
+            // The NPC is loaded and does not name this player as its leader. That is positive
+            // evidence, so this entry really is dangling.
             totalCleared++;
             removeList.Add(cvar.Key);
+            Log.Out(
+                $"SCore: pruning stale hire {cvar.Key} from player {leaderID} - entity {entity.entityId} is loaded but its leader is " +
+                (leader2 == null ? "none." : $"{leader2.entityId}."));
         }
 
         leader.Buffs.AddCustomVar("CurrentHireCount", totalHired);
@@ -937,7 +960,10 @@ public static class EntityUtilities
         foreach (var cvar in removeList)
             leader.Buffs.CVars.Remove(cvar);
 
-        if (totalHired == totalCleared)
+        // Only drop the redundant EntityID cvar when no hires remain. Comparing the two
+        // counters cleared it whenever they happened to coincide - two valid hires alongside
+        // two stale entries removed it while the player still had companions.
+        if (totalHired == 0)
             leader.Buffs.RemoveCustomVar("EntityID");
     }
 
@@ -962,10 +988,9 @@ public static class EntityUtilities
 
                     entity.ForceDespawn();
                 }
-                else // Clean up the invalid entries
-                {
-                    removeList.Add(cvar.Key);
-                }
+
+                // No else. An entity that is not loaded has nothing to despawn, and its absence
+                // says nothing about whether the hire is valid - it is saved in its chunk.
             }
         }
 
@@ -1012,10 +1037,11 @@ public static class EntityUtilities
 
                     entity.TeleportToPlayer(leader, true);
                 }
-                else // Clean up the invalid entries
-                {
-                    removeList.Add(cvar.Key);
-                }
+
+                // No else. Respawn's job is to gather hires to the player; one whose chunk is
+                // not loaded simply does not gather this time, which is correct. Deleting the
+                // link instead was how dismounting a vehicle, or logging in while chunks were
+                // still streaming, silently cost the player a companion.
             }
         }
 
@@ -1072,6 +1098,38 @@ public static class EntityUtilities
             SetCurrentOrder(EntityID, Orders.Follow);
 
         //  leaderEntity.AddOwnedEntity(myEntity);
+    }
+
+    /// <summary>
+    /// Supplies a spawner source for a freshly created entity without trampling one that has
+    /// already been set. Call this from PostInit instead of assigning a source directly.
+    /// <para>
+    /// PostInit runs on every entity creation, including every restore from a chunk file, and it
+    /// runs immediately after EntityCreationData.ApplyToEntity has restored the saved spawner
+    /// source. Assigning Biome there unconditionally threw that value away, which put hired NPCs
+    /// back on the Biome branch of EntityAlive's despawn switch - the branch that despawns an
+    /// entity once the player has been more than 128m away for 100 ticks, or 1800 ticks at any
+    /// distance. StaticSpawner is the only case that switch exempts, and SetLeader is what sets
+    /// it, so a hire lost its protection on every world load.
+    /// </para>
+    /// </summary>
+    public static void ApplySpawnerSourceOnPostInit(EntityAlive entity)
+    {
+        if (entity == null) return;
+
+        // Still hired: re-assert the exemption rather than trusting the restored value. Dismiss
+        // leaves the Leader cvar in place with a value of zero, so the value is what matters here,
+        // not whether the cvar exists.
+        if (entity.Buffs.GetCustomVar("Leader") > 0 || entity.Buffs.GetCustomVar("Owner") > 0)
+        {
+            entity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
+            return;
+        }
+
+        // Anything already claimed - by a spawner block, a quest, or a restore - is left alone.
+        // Only supply the Biome default when nothing has claimed the entity.
+        if (entity.GetSpawnerSource() == EnumSpawnerSource.Unknown)
+            entity.SetSpawnerSource(EnumSpawnerSource.Biome);
     }
 
     public static void SetOwner(int EntityID, int LeaderID)
@@ -1435,6 +1493,11 @@ public static class EntityUtilities
                 entityAlive.Buffs.SetCustomVar("Owner", 0f);
                 // flag to disable respawning on server reload.
                 entityAlive.Buffs.SetCustomVar("Persist", 0f);
+                // Hand them back to ordinary despawn rules. SetLeader made this NPC a
+                // StaticSpawner, which the despawn switch exempts outright, so leaving it there
+                // would strand every dismissed companion in the world for good. FarmHere
+                // deliberately does not do this - a farmer is meant to stay put.
+                entityAlive.SetSpawnerSource(EnumSpawnerSource.Biome);
                 player.Companions?.Remove(entityAlive);
                 player.Buffs.SetCustomVar($"hired_{EntityID}", 0f);
                 CheckForDanglingHires(player.entityId);

@@ -125,7 +125,33 @@
                 <!-- ie, if you press the arrow to decrease the quality level to craft, it'll go down 25 points, instead of every point -->
                 <property name="QualityStages" value="25" />
 
-  A modde
+                <!-- Quality points in one colour band. Tier = quality / QualityPerTier + QualityTierOffset, -->
+                <!-- and the colours come from qualityinfo.xml: 1 brown, 2 orange, 3 yellow, 4 green,        -->
+                <!-- 5 blue, 6 purple. A band of 100 suits a QualityLevels of 0,600 - 100-199 brown through  -->
+                <!-- 600+ purple, with anything under 100 left grey.                                        -->
+                <property name="QualityPerTier" value="100" />
+
+                <!-- Colour band that the lowest slice of quality lands on. 0 keeps a grey band below the    -->
+                <!-- first tier. 1 removes it, so the lowest quality already reads brown and only quality 0  -->
+                <!-- is broken. For a 1-100 scale use QualityLevels 1,100 with QualityPerTier 20 and         -->
+                <!-- QualityTierOffset 1: 1-19 brown, 20-39 orange, 40-59 yellow, 60-79 green, 80-99 blue,   -->
+                <!-- 100 purple.                                                                            -->
+                <property name="QualityTierOffset" value="0" />
+
+                <!-- IMPORTANT, and the step everyone misses: raising QualityLevels is not enough on its own.-->
+                <!-- The crafting window clamps every recipe tier to XUiM_Recipes.CraftingMaxTier, and the   -->
+                <!-- quality arrows are bounded by it too. That value comes from the max_quality_tier        -->
+                <!-- attribute on the <items> root, which defaults to 6. Without raising it, a CraftingTier  -->
+                <!-- passive effect can resolve to 600 and the crafting window still produces a 6.           -->
+                <!--                                                                                        -->
+                <!-- The attribute does not exist in vanilla items.xml, so it must be ADDED rather than set: -->
+                <!-- a <set> on a missing attribute matches nothing and is skipped silently. In your own     -->
+                <!-- modlet's items.xml:                                                                     -->
+                <!--                                                                                        -->
+                <!--   <setattribute xpath="/items" name="max_quality_tier">600</setattribute>               -->
+                <!--                                                                                        -->
+                <!-- The "Crafting Max Tier" sandbox option overrides it when a player sets it; its default  -->
+                <!-- of -1 means "inherit max_quality_tier", which is what you want.                         -->
                 <!-- Percentage of current quality lost each time an item is repaired (whole number, 0-100).           -->
                 <!-- value="0"  = no quality loss (default — preserves vanilla durability repair without quality drop) -->
                 <!-- value="10" = a quality-600 item loses Ceil(600 * 0.10) = 60 quality per repair                  -->

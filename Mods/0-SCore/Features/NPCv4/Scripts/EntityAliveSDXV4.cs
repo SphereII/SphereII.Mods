@@ -393,7 +393,7 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
 
         _scale = transform.localScale;
         PhysicsTransform.gameObject.SetActive(true);
-        SetSpawnerSource(EnumSpawnerSource.Biome);
+        EntityUtilities.ApplySpawnerSourceOnPostInit(this);
         _enemyDistanceToTalk = StringParsers.ParseFloat(
             Configuration.GetPropertyValue("AdvancedNPCFeatures", "EnemyDistanceToTalk"));
 

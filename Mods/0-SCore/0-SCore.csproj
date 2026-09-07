@@ -358,6 +358,7 @@
     <Compile Include="Features\Quality\Harmony\XUiCCraftingInfoWindowSetRecipe.cs" />
     <Compile Include="Features\Quality\Harmony\XUiCRecipeStackOutputStack.cs" />
     <Compile Include="Features\Quality\Harmony\XUiCRecipeStackSetRecipe.cs" />
+    <Compile Include="Features\Quality\Harmony\XUiCSkillCraftingInfoEntryQuality.cs" />
     <Compile Include="Features\Quality\Harmony\XUiCWorkstationWindowGroupSyncTEFromUI.cs" />
     <Compile Include="Features\Quality\Harmony\XUiMItemStackGetCustomDisplayValueForItem.cs" />
     <Compile Include="Features\Quality\Harmony\XUiMTraderGetBuyPrice.cs" />
