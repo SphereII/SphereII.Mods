@@ -1013,8 +1013,11 @@ public static class EntityUtilities
                     removeList.Add(cvar.Key);
                     continue;
                 }
-                var entity = GameManager.Instance.World.GetEntity((int) cvar.Value) as EntityAliveSDX;
-                if (entity)
+                // Both EntityAliveSDX and EntityAliveSDXV4 implement IEntityAliveSDX, but V4
+                // derives from EntityTrader rather than EntityAliveSDX - so the old cast to the
+                // concrete V1 class silently skipped every V4 hire.
+                var entity = GameManager.Instance.World.GetEntity((int) cvar.Value) as EntityAlive;
+                if (entity != null && entity is IEntityAliveSDX sdx)
                 {
                     if (entity.IsDead()) // Are they dead? Don't teleport their dead bodies
                     {
@@ -1028,6 +1031,23 @@ public static class EntityUtilities
                         continue;
                     }
 
+                    // Ask before acting. TeleportToPlayer refuses for a Stay or Guard NPC, for one
+                    // already within 20m, and for one mid-teleport - and this used to pull the
+                    // entity out of its chunk first regardless. That left it live and belonging to
+                    // no chunk, which is never a valid state: Chunk.write persists only the
+                    // entities in a chunk's own list, and entity stubs read from disk are never
+                    // written back, so a save in that window drops the NPC from the region file
+                    // permanently. Stay is exactly the order players use to park a companion
+                    // somewhere, which is the reported symptom.
+                    if (!sdx.CanTeleportToPlayer(leader))
+                    {
+                        if (entity.addedToChunk)
+                            Log.Out(
+                                $"SCore: Respawn skipping {entity.EntityName} ({entity.entityId}) - it would not " +
+                                $"teleport, so it keeps its chunk. Order: {GetCurrentOrder(entity.entityId)}.");
+                        continue;
+                    }
+
                     if (entity.addedToChunk)
                     {
                         Chunk chunk = (Chunk)GameManager.Instance.World.GetChunkSync(entity.chunkPosAddedEntityTo.x,
@@ -1035,7 +1055,7 @@ public static class EntityUtilities
                         chunk?.RemoveEntityFromChunk(entity);
                     }
 
-                    entity.TeleportToPlayer(leader, true);
+                    sdx.TeleportToPlayer(leader, true);
                 }
 
                 // No else. Respawn's job is to gather hires to the player; one whose chunk is

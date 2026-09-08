@@ -1730,21 +1730,29 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
         return base.IsAttackValid();
     }
 
-    public void TeleportToPlayer(EntityAlive target, bool randomPosition = false)
+    /// <summary>
+    /// Whether TeleportToPlayer would actually move this entity. Stay and Guard mean the NPC was
+    /// deliberately left somewhere, so they are never gathered.
+    /// </summary>
+    public bool CanTeleportToPlayer(EntityAlive target)
     {
-        if (target == null) return;
+        if (target == null) return false;
 
-        if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Stay) return;
-        if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Guard) return;
-
+        if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Stay) return false;
+        if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Guard) return false;
 
         var target2i = new Vector2(target.position.x, target.position.z);
         var mine2i = new Vector2(position.x, position.z);
-        var distance = Vector2.Distance(target2i, mine2i);
-        //var distance = GetDistance(target);
-        if (distance < 20) return;
+        if (Vector2.Distance(target2i, mine2i) < 20) return false;
 
-        if (isTeleporting) return;
+        if (isTeleporting) return false;
+
+        return true;
+    }
+
+    public void TeleportToPlayer(EntityAlive target, bool randomPosition = false)
+    {
+        if (!CanTeleportToPlayer(target)) return;
 
         var myPosition = target.position + Vector3.back;
         var player = target as EntityPlayer;

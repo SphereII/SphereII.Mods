@@ -165,17 +165,28 @@ public partial class EntityAliveSDXV4
         return y + 1;
     }
 
-    public void TeleportToPlayer(EntityAlive target, bool randomPosition = false)
+    /// <summary>
+    /// Whether TeleportToPlayer would actually move this entity. Stay and Guard mean the NPC was
+    /// deliberately left somewhere, so they are never gathered.
+    /// </summary>
+    public bool CanTeleportToPlayer(EntityAlive target)
     {
-        if (target == null) return;
-        if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Stay)  return;
-        if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Guard) return;
+        if (target == null) return false;
+        if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Stay)  return false;
+        if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Guard) return false;
 
         var dist2D = Vector2.Distance(
             new Vector2(target.position.x, target.position.z),
             new Vector2(position.x, position.z));
-        if (dist2D < 20f) return;
-        if (isTeleporting) return;
+        if (dist2D < 20f) return false;
+        if (isTeleporting) return false;
+
+        return true;
+    }
+
+    public void TeleportToPlayer(EntityAlive target, bool randomPosition = false)
+    {
+        if (!CanTeleportToPlayer(target)) return;
 
         var myPosition = target.position + Vector3.back;
         var player     = target as EntityPlayer;

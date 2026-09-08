@@ -29,6 +29,13 @@ public interface IEntityAliveSDX
     // ── Movement ──────────────────────────────────────────────────────────────
 
     /// <summary>Teleports this NPC to stand near <paramref name="target"/>.</summary>
+    /// <summary>
+    /// Whether a call to <see cref="TeleportToPlayer"/> would actually move this entity.
+    /// Callers that need to do work around the teleport must ask first, rather than assuming
+    /// it happens.
+    /// </summary>
+    bool CanTeleportToPlayer(EntityAlive target);
+
     void TeleportToPlayer(EntityAlive target, bool randomPosition = false);
 
     /// <summary>Resets movement speed to the NPC's base value.</summary>

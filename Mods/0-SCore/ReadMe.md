@@ -85,6 +85,80 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.2.19.1009 
+	Game Version: v3.2.0 (b10)
+
+	[ Hired NPCs - Respawn no longer strands a companion outside its chunk ]
+		- Respawn pulled a hire out of its chunk and then called
+		  TeleportToPlayer, which declines for a Stay or Guard NPC, for one
+		  already within 20m, and for one mid-teleport. When it declined, the
+		  entity was left live and belonging to no chunk.
+		- That state is never valid. Chunk.write persists only the entities in
+		  a chunk's own list, and entity stubs read from disk are never written
+		  back, so a save taken in that window drops the NPC from the region
+		  file for good - no error, nothing in the log, and the hire link left
+		  intact in the player blob because that lives in a different file.
+		- Stay is the order players use to park a companion somewhere, which
+		  makes it the most likely to be caught. It matches the symptom that
+		  started this whole thread: leave an NPC at a base, come back, gone.
+		- The four bail conditions are now a CanTeleportToPlayer guard on
+		  IEntityAliveSDX, implemented in both the V1 and V4 entities, and
+		  TeleportToPlayer opens by calling it. Respawn asks before it removes
+		  anything. The seven other callers are untouched - they still call
+		  TeleportToPlayer and behave exactly as before.
+		- It also logs when it skips, naming the entity and its current order.
+		  That line marks the moment the old code created the bad state, so a
+		  session with it will show whether this really was the cause rather
+		  than merely a defect found on the way.
+		- This is a correctness fix, not a confirmed cause. It is worth making
+		  either way: there is no state in which a live entity should belong to
+		  no chunk.
+
+	[ Hired NPCs - V4 hires were invisible to Respawn ]
+		- Respawn cast the entity to the concrete EntityAliveSDX, and
+		  EntityAliveSDXV4 derives from EntityTrader rather than from it, so
+		  the cast returned null and every V4 hire was skipped outright. Before
+		  the null-lookup work they were pruned by the else branch; afterwards
+		  they were merely ignored.
+		- It now resolves EntityAlive plus the IEntityAliveSDX interface, which
+		  both entity types implement.
+		- Note this is new coverage rather than changed coverage: V4 hires will
+		  gather to the player on login and on dismounting a vehicle for the
+		  first time. Taken now because V4 is not in field use and carries no
+		  established behaviour to preserve.
+
+	[ Challenges - Auto Redeem crashed dedicated servers ]
+		- Opening a loot container could take down the server's package
+		  handler with a NullReferenceException inside Challenge.Redeem,
+		  reached from SCore's AutoRedeemChallenges postfix.
+		- Challenge.Redeem is client-side code. It builds an analytics event
+		  out of Owner.Player, and that field is typed EntityPlayerLocal - the
+		  LOCAL player. It reads Player.totalTimePlayed, gameStage and
+		  Progression.Level with no guard of its own, though vanilla does
+		  null-check the same field over in StartChallenges.
+		- ChallengeJournal.FireEvent also runs on the server. A client opening
+		  a container arrives as NetPackageLockRequest and goes through
+		  LockManager.LockRequestServer, TEFeatureStorage.PopulateTE and
+		  LootManager.LootContainerOpened before firing the event. There is no
+		  local player for a remote player's journal on that machine, so
+		  Player is null and vanilla throws. Vanilla never hits this itself
+		  because it only redeems through the UI, which is client-only.
+		- Confirmed against the IL rather than inferred: the reported offset
+		  0x00b5 sits immediately before
+		      ldfld class ChallengeJournal Challenges.Challenge::Owner
+		      ldfld class EntityPlayerLocal ChallengeJournal::Player
+		      ldfld float32 EntityPlayer::totalTimePlayed
+		- AutoRedeemChallenges now resolves the journal once and bails when it
+		  or its Player is null. No local player means there is nothing to
+		  redeem for on this machine. This also covers a listen host handling
+		  a remote client's packet, which is what the reported trace was.
+		- Not changed, but worth knowing: Challenge.ChallengeGroup is null for
+		  any challenge declared without a group attribute - it is optional,
+		  guarded by if (e.HasAttribute("group")) - and Redeem dereferences it
+		  three times for the same analytics object. Every challenge shipped
+		  here has a group, so nothing trips it, but a modlet adding a
+		  groupless challenge would crash the same way at a different offset.
+
 Version: 3.2.18.1421
 	Game Version: v3.2.0 (b10)
 
@@ -125,14 +199,17 @@ Version: 3.2.18.1421
 		  earlier in both PostInit implementations. None of the obvious
 		  candidates hold up, which is why the next build is instrumented
 		  rather than confidently fixed.
-		- Reported by xyth and Qwen, whose A/B on a single save is what
-		  isolated it to the restore side rather than the save side.
 
 Version: 3.2.17.2050
 	Game Version: v3.2.0 (b10)
-	*** WITHDRAWN - superseded by 3.2.18.1252. The Stay and Guard change
-	*** below stopped NPC respawning, and hired NPCs were not restored from
-	*** the save. Do not ship this build. Details in the entry above.
+	*** WITHDRAWN - superseded. The Stay and Guard change below stopped NPC
+	*** respawning, which is reason enough not to ship this build.
+	***
+	*** The second reason originally given here - that hired NPCs were not
+	*** restored from the save - has since been withdrawn by the reporters.
+	*** The same build produced the same NPC present and absent five minutes
+	*** apart, so that failure is state dependent, not version dependent.
+	*** The two fixes this build carries are sound.
 
 	[ Custom Quality Levels - Crafting and Skills ]
 		- The crafting window has its own ceiling, and raising QualityLevels
