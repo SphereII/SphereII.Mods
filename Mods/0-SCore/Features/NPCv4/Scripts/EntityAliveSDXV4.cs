@@ -331,6 +331,10 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
         const int npcBagSlots = 45;
         if (bag == null) bag = new Bag(npcBagSlots);
 
+        // A restored NPC already has its saved bag; adding BagItems again would refill
+        // stackable items on every load.
+        if (Buffs.GetCustomVar("InitialInventory") > 0) return;
+
         foreach (var item in ec.Properties.Values["BagItems"].Split(","))
         {
             var name  = item;
@@ -344,6 +348,58 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
             var iv = ItemClass.GetItem(name);
             if (!iv.Equals(ItemValue.None))
                 bag.AddItem(new ItemStack(iv, count));
+        }
+    }
+
+    // Seed the player-facing harvest window (the HarvestManager container behind the
+    // "show me your inventory" dialog) from the "HarvestItems" entityclass property.
+    // Hired-NPC stock belongs in this window rather than the toolbelt: the window's contents
+    // ride with the NPC on pickup (EntitySyncUtils.GetNPCItemValue serialises them into the
+    // item's Bag metadata before HarvestManager.Remove runs, and SetNPCItemValue restores them
+    // under the new entity id on deploy), while the toolbelt is not saved at all - V4
+    // persistence keeps only the held weapon's name.
+    //
+    // "name=count" entries seed at the given count; a bare "name" seeds a full stack.
+    // The one-shot marker makes the stock a once-per-NPC-lifetime grant: the window is
+    // persisted, so re-seeding on each PostInit would pile stock on top of whatever the player
+    // has left. The marker rides along with the NPC on pickup, so a redeployed NPC keeps the
+    // window it had instead of being seeded again. The marker value is 1, not 0, because a
+    // cvar valued 0 is not written to the save.
+    private void SetupHarvestItems()
+    {
+        var ec = EntityClass.list[entityClass];
+        if (!ec.Properties.Values.ContainsKey("HarvestItems")) return;
+
+        // Server-only, and before the marker is set: HarvestManager.GetOrCreate has no server
+        // check, so a client would build a stray local container - which also flips
+        // HarvestManager.Has() true there, and both FindWeapon and the reload gate consult it.
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
+
+        if (Buffs.GetCustomVar("SdcsHarvestSeeded") > 0) return;
+        Buffs.SetCustomVar("SdcsHarvestSeeded", 1);
+
+        foreach (var item in ec.Properties.Values["HarvestItems"].Split(","))
+        {
+            var name     = item;
+            var count    = 0;
+            var hasCount = false;
+            if (item.Contains("="))
+            {
+                var parts = item.Split('=');
+                name     = parts[0];
+                count    = StringParsers.ParseSInt32(parts[1]);
+                hasCount = true;
+            }
+
+            var iv = ItemClass.GetItem(name);
+            if (iv.Equals(ItemValue.None)) continue;
+
+            if (!hasCount)
+                count = ItemClass.GetForId(iv.type).Stacknumber.Value;
+
+            // A full window means the class declares more stacks than it holds - a config error.
+            if (!HarvestManager.AddItem(entityId, new ItemStack(iv, count)))
+                Log.Warning($"[0-SCore] {EntityName} ({entityId}): HarvestItems entry {name} x{count} did not fit - the harvest window is full. Check the class's HarvestItems against the window size.");
         }
     }
 
@@ -385,6 +441,7 @@ public partial class EntityAliveSDXV4 : EntityTrader, IEntityOrderReceiverSDX, I
         Buffs.SetCustomVar("$waterStaminaRegenAmount", 0, false);
         SetupStartingItems();
         SetupBagItems();
+        SetupHarvestItems();
         if (!string.IsNullOrEmpty(_currentWeapon))
             UpdateWeapon(_currentWeapon);
 

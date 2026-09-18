@@ -120,7 +120,8 @@ namespace UAI
                 }
                 
                 // Face the leader while waiting
-                context.Self.RotateTo(_leader.position.x, _leader.position.y, _leader.position.z, 8f, 8f);
+                // V4 models show the stored body pitch as a whole-body lean, so don't pitch them.
+                context.Self.RotateTo(_leader.position.x, _leader.position.y, _leader.position.z, 8f, context.Self is EntityAliveSDXV4 ? 0f : 8f);
             }
             else
             {

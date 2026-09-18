@@ -361,39 +361,147 @@ public static class EntityUtilities
         return itemStack;
     }
 
+    public enum ItemStoreKind
+    {
+        Toolbelt,
+        Bag,
+        LootContainer,
+        Harvest
+    }
+
+    // One item store an entity can draw from. Stacks are the live slot arrays.
+    public sealed class EntityItemStore
+    {
+        public readonly ItemStoreKind Kind;
+        public readonly ItemStack[] Stacks;
+        private readonly EntityAlive _entity;
+        private readonly SCoreLootContainer _container;
+
+        public EntityItemStore(ItemStoreKind kind, ItemStack[] stacks, EntityAlive entity, SCoreLootContainer container)
+        {
+            Kind = kind;
+            Stacks = stacks;
+            _entity = entity;
+            _container = container;
+        }
+
+        public int DecItem(ItemValue itemValue, int count)
+        {
+            switch (Kind)
+            {
+                case ItemStoreKind.Toolbelt:
+                    return _entity.inventory.DecItem(itemValue, count);
+                case ItemStoreKind.Bag:
+                    return _entity.bag.DecItem(itemValue, count);
+                default:
+                    return DecItemFromLootContainer(_container, itemValue, count);
+            }
+        }
+    }
+
+    // The entity's item stores, in the order items are found and consumed:
+    // toolbelt, bag, the EntityAliveSDX loot container, then the player-facing harvest window.
+    // Lookups and decrements must both walk this list, or an item can be found in one store
+    // and "consumed" from another (the unlimited bandage bug).
+    public static IEnumerable<EntityItemStore> GetItemStores(EntityAlive myEntity)
+    {
+        if (myEntity == null)
+            yield break;
+
+        if (myEntity.inventory != null)
+            yield return new EntityItemStore(ItemStoreKind.Toolbelt, myEntity.inventory.GetSlots(), myEntity, null);
+
+        // NPC bags are null unless the entity class has a LootList or BagItems.
+        if (myEntity.bag != null)
+            yield return new EntityItemStore(ItemStoreKind.Bag, myEntity.bag.GetSlots(), myEntity, null);
+
+        var container = (myEntity as EntityAliveSDX)?.lootContainer;
+        if (container?.items != null)
+            yield return new EntityItemStore(ItemStoreKind.LootContainer, container.items, myEntity, container);
+
+        // Has() first: GetOrCreate() would create an empty container for every entity we look at.
+        if (HarvestManager.Has(myEntity.entityId))
+        {
+            var harvest = HarvestManager.GetOrCreate(myEntity.entityId);
+            if (harvest?.items != null)
+                yield return new EntityItemStore(ItemStoreKind.Harvest, harvest.items, myEntity, harvest);
+        }
+    }
+
+    public static ItemStack FindItemStack(EntityAlive myEntity, Predicate<ItemStack> match)
+    {
+        if (myEntity == null || match == null)
+            return ItemStack.Empty;
+
+        foreach (var store in GetItemStores(myEntity))
+        {
+            foreach (var stack in store.Stacks)
+            {
+                if (match(stack))
+                    return stack;
+            }
+        }
+
+        return ItemStack.Empty;
+    }
+
+    public static bool MatchesItem(ItemStack stack, ItemValue itemValue)
+    {
+        if (stack == null || stack.IsEmpty() || stack.itemValue == null || itemValue == null)
+            return false;
+        return stack.itemValue.type == itemValue.type;
+    }
+
     public static ItemStack GetItemStackByTag(int EntityID, string Tag)
     {
-        var itemStack = ItemStack.Empty;
         var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity == null)
-            return itemStack;
+            return ItemStack.Empty;
 
         var tag = FastTags<TagGroup.Global>.Parse(Tag);
-        // Check for the items in the tool belt.
-        foreach (var stack in myEntity.inventory.GetSlots())
+        return FindItemStack(myEntity, stack => CheckItemStack(stack, tag));
+    }
+
+    // Removes up to count of the item, walking the stores in GetItemStores order.
+    // Returns the number actually removed. Inventory.DecItem skips the dummy slot, so the
+    // temporary copy SimulateActionExecution places there is never consumed instead of the real item.
+    public static int DecItemFromAnyStore(EntityAlive myEntity, ItemValue itemValue, int count)
+    {
+        if (myEntity == null || itemValue == null || itemValue.IsEmpty() || count <= 0)
+            return 0;
+
+        var removed = 0;
+        foreach (var store in GetItemStores(myEntity))
         {
-            if (CheckItemStack(stack, tag))
-                return stack;
+            if (removed >= count)
+                break;
+            removed += store.DecItem(itemValue, count - removed);
         }
 
-        // Check for the items in the inventory.
-        foreach (var stack in myEntity.bag.GetSlots())
+        return removed;
+    }
+
+    // In-memory decrement for SCoreLootContainer stores; no SetModified, no network packet,
+    // matching how HarvestManager.AddItem writes.
+    public static int DecItemFromLootContainer(SCoreLootContainer container, ItemValue itemValue, int count)
+    {
+        if (container?.items == null || itemValue == null || count <= 0)
+            return 0;
+
+        var removed = 0;
+        for (var i = 0; i < container.items.Length && removed < count; i++)
         {
-            if (CheckItemStack(stack, tag))
-                return stack;
+            var stack = container.items[i];
+            if (!MatchesItem(stack, itemValue))
+                continue;
+
+            var take = Math.Min(stack.count, count - removed);
+            stack.count -= take;
+            removed += take;
+            container.UpdateSlot(i, stack.count <= 0 ? ItemStack.Empty.Clone() : stack);
         }
 
-        // if there's no loot container, don't check it.
-        var sdxForTag = myEntity as EntityAliveSDX;
-        if (sdxForTag?.lootContainer == null) return itemStack;
-
-        foreach (var stack in sdxForTag.lootContainer.items)
-        {
-            if (CheckItemStack(stack, tag))
-                return stack;
-        }
-
-        return itemStack;
+        return removed;
     }
 
     public static int FindItemWithTag(int EntityID, string Tag)
@@ -623,6 +731,13 @@ public static class EntityUtilities
 
         myEntity.navigator?.clearPath();
         myEntity.moveHelper?.Stop();
+
+        // clearPath() leaves a finished-but-undelivered path in the pathfinder thread. The next
+        // updateTasks tick hands it to the navigator, which re-arms the move helper and makes the
+        // NPC twitch its yaw. Discard it so the stop sticks.
+        if (myEntity is EntityAliveSDXV4)
+            GamePath.PathFinderThread.Instance?.RemovePathsFor(entityID);
+
         myEntity.speedForward = 0;
         myEntity.speedStrafe = 0;
 
@@ -1532,6 +1647,26 @@ public static class EntityUtilities
 
             case "Loot":
                 SetCurrentOrder(EntityID, Orders.Loot);
+
+                // DELIBERATE, and it looks like a bug twice over - it differs from Dismiss just
+                // below, which zeroes this cvar rather than removing it, and it appears to
+                // un-hire an NPC that is still meant to be hired. It is neither. Do not
+                // "correct" it to SetCustomVar("Leader", 0f) and do not delete it.
+                //
+                // The two cvars carry different meanings. Owner means hired; Leader means
+                // actively following. Hire sets both through SetLeaderAndOwner, so removing
+                // Leader alone leaves the NPC hired - GetLeaderOrOwner still resolves the player
+                // through Owner - while the follow behaviours stop, because
+                // EAIApproachAndFollowTargetSDX and EAIRunawayFromEntitySDX read this cvar
+                // directly rather than through GetLeaderOrOwner. That is the whole point of the
+                // order: the NPC stays with you and stays hired, but goes and loots nearby
+                // containers instead of tailing you.
+                //
+                // Anything that needs to know "is this NPC hired" must therefore test Owner, not
+                // Leader. DialogRequirementHiredSDX already does - it falls back to Owner, and to
+                // FarmOwnerEntityId for the FarmHere case - so a looting NPC still reads as hired
+                // in dialog. RewardReassignNPCSDX matches on Leader alone, so a looting NPC is
+                // skipped by reassignment; that is the one known rough edge.
                 entityAlive.Buffs.RemoveCustomVar("Leader");
                 break;
 

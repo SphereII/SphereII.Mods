@@ -113,7 +113,8 @@ namespace UAI
             if (lookEntity == null) return;
             context.Self.SetLookPosition(lookEntity.getHeadPosition());
             var rotatePos = lookEntity.position;
-            context.Self.RotateTo(rotatePos.x, rotatePos.y, rotatePos.z, 8f, 8f);
+            // V4 models show the stored body pitch as a whole-body lean, so don't pitch them.
+            context.Self.RotateTo(rotatePos.x, rotatePos.y, rotatePos.z, 8f, context.Self is EntityAliveSDXV4 ? 0f : 8f);
         }
 
         public static void HideWeapon(Context _context)

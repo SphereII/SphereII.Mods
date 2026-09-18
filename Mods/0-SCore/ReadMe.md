@@ -85,6 +85,187 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.2.29.1709
+	Game Version: v3.2.0 (b10)
+
+	[ Hired NPCs - An NPC could consume items it did not actually have ]
+		- Lookups and decrements walked different stores. GetItemStackByTag
+		  searched the toolbelt, the bag and the EntityAliveSDX loot container,
+		  while the consuming side called inventory.DecItem, which only ever
+		  touches the toolbelt. An item found in the bag or a container was
+		  therefore "consumed" from a store that never held it, so it was never
+		  removed - unlimited bandages being the visible symptom.
+		- EntityUtilities now has one ordered list of an entity's stores -
+		  GetItemStores: toolbelt, bag, the EntityAliveSDX loot container, then
+		  the player-facing harvest window - and both sides walk it.
+		  FindItemStack searches it, DecItemFromAnyStore removes from it in the
+		  same order, and DecItemFromLootContainer handles the container stores
+		  in memory (items[] plus UpdateSlot, no SetModified and no network
+		  packet) the way HarvestManager.AddItem already wrote.
+		- This also removes a null reference: the old GetItemStackByTag
+		  dereferenced myEntity.bag unguarded, and an NPC bag is null unless
+		  the class has a LootList or BagItems.
+		- UAITaskHealSelf, both the legacy and the V4 copy, now decrements
+		  through DecItemFromAnyStore, so a bandage leaves the store it was
+		  found in. Changed in both because it is a public task other packs
+		  may already use.
+		- New MinEvent action for XML, ConsumeItemByTagSDX, removing one item
+		  carrying the given tag from whichever store holds it:
+		      <triggered_effect trigger="onSelfBuffStart"
+		          action="ConsumeItemByTagSDX, SCore" target="self" tag="medical" />
+
+	[ Hired NPCs - Ammunition handed over in the inventory window can now be reloaded ]
+		- A leader gives an NPC ammunition by dropping it into the NPC's
+		  inventory window, which is the HarvestManager container. Stock's
+		  reload path never looks there: ItemActionRanged.CanReload gates on
+		  the bag and toolbelt, and CompleteReload consumes from those two
+		  stores only. Ammunition handed over that way could not start a
+		  reload, let alone finish one.
+		- Two postfixes add the window as an additional source, consulted only
+		  after the stock stores. CanReload flips false to true when the window
+		  holds the selected ammo; CompleteReload takes the remaining deficit
+		  from the window and tops the magazine up the way stock does.
+		- Gated on EntityAliveSDXV4 with an already-existing container. A
+		  player, a zombie, a base trader and every other mod's entity fail the
+		  cast, so the stock path runs for them untouched. The gate also
+		  requires a non-null bag: stock CompleteReload dereferences
+		  holdingEntity.bag with no null check, so a bagless NPC must never be
+		  flipped to "can reload" or stock throws before the postfix runs.
+		  Window reload is simply unavailable to bagless classes, as in stock.
+		- Server-side in practice. The reload is driven by server AI and
+		  CompleteReload runs on the server, where the container dictionary is
+		  authoritative. A dedicated-server client's dictionary stays empty, so
+		  both postfixes are no-ops there.
+
+	[ Hired NPCs - Starting stock can be seeded into the inventory window ]
+		- New "HarvestItems" entityclass property on EntityAliveSDXV4, seeding
+		  the player-facing inventory window at PostInit. "name=count" entries
+		  seed at that count; a bare "name" seeds a full stack.
+		- Hired stock belongs in this window rather than the toolbelt because
+		  the window survives a pickup and the toolbelt does not. On pickup
+		  EntitySyncUtils.GetNPCItemValue serialises the window into the item's
+		  metadata before the container is released, and SetNPCItemValue
+		  restores it under the new entity id on deploy. V4 persistence keeps
+		  only the held weapon's name, so a restored NPC's toolbelt comes back
+		  empty.
+		- Seeded once per NPC lifetime, guarded by a cvar marker that rides
+		  along with the NPC on pickup. The window is persisted, so seeding on
+		  every PostInit would pile stock on top of whatever the player had
+		  left. A redeployed NPC keeps the window it had rather than starting
+		  empty or being seeded a second time.
+		- Server-only, checked before the marker is set, so a client cannot
+		  create a stray local container or burn the one-shot for nothing.
+		- Logs a warning naming the NPC, the item and the count when an entry
+		  does not fit. That only happens when a class declares more stacks
+		  than the window holds, which is a config error worth seeing.
+
+	[ Hired NPCs - A restored V4 NPC was re-equipped on every world load ]
+		- SetupStartingItems overwrote the inventory with the class's XML
+		  starting items, and SetupBagItems added BagItems again, every time
+		  the NPC was constructed. On a restored NPC that meant a fresh full
+		  stack of every stackable item on each world entry.
+		- Both now skip re-seeding when the InitialInventory cvar is already
+		  set, which marks an NPC that has been through this once.
+		  SetupStartingItems still records _defaultWeapon from the first
+		  starting item, so UpdateWeapon keeps a fallback when FindWeapon finds
+		  nothing.
+
+	[ Hired NPCs - Weapons handed to a V4 NPC were not found ]
+		- FindWeapon only accepted a weapon that declared a CompatibleWeapon
+		  property, and looked for the player-side counterpart in the loot
+		  container. An EntityTrader-based NPC keeps its player-accessible
+		  inventory in the harvest window instead, and a weapon with no
+		  CompatibleWeapon bridge was rejected outright.
+		- It now accepts the NPC's own bag (BagItems), and for an
+		  EntityTrader-based NPC searches the harvest window. A weapon with no
+		  CompatibleWeapon bridge is matched on the item itself, which covers
+		  player weapons handed over through the inventory window. It also
+		  guards an empty ItemValue, not just a null one.
+
+	[ NPCs - Eating threw on any NPC, leaving the item unconsumed ]
+		- The Eat branch of ItemClass.ExecuteAction looks up the holder's
+		  LocalPlayerUI and then sets xui.IsUsingItemActionEntryPromptComplete
+		  outside the UsePrompt check. An NPC has no UI, so xui is null and the
+		  press threw - which killed Inventory.SimulateActionExecution before
+		  its callback ran, so the item was never consumed and the held item
+		  was never restored.
+		- A prefix now steps in only when the original would throw: an Eat
+		  press, not yet executed, on a holder with no local player UI. It runs
+		  the original's press sequence without the prompt handling. Everything
+		  else goes to the original untouched.
+
+	[ NPCs - Bows fired at zero draw, so every arrow did 1 damage ]
+		- The attack task presses and releases in the same frame.
+		  ItemActionCatapult computes the draw at release as
+		  (Time.time - m_ActivateTime) / m_MaxStrainTime, so the draw came out
+		  at ~0% and the projectile's damage lerped to its minimum. Arrows flew
+		  normally and landed for 1 damage.
+		- The draw start is now back-dated by m_MaxStrainTime between the press
+		  and the release, so the release sees a full draw. Writing
+		  strainPercent directly does not work - the release recomputes it.
+		- Applied to both the legacy and the V4 copies of the task. Guns
+		  (ItemActionRanged) and plain launchers keep strainPercent at its
+		  default of 1 and are unaffected.
+
+	[ NPCs - V4 shots passed the aim point at a fixed offset ]
+		- EntityAliveSDXV4.GetLookRay, copied from EntityTrader, started the
+		  ray at eye height, while the inherited GetLookVector returns
+		  normalize(lookAtPosition - getHeadPosition()) whenever a look point
+		  is set. Origin and direction were anchored at different points, so
+		  every shot passed the aim point by a constant offset, a little low
+		  and to one side. Gun NPCs hit a zombie's shoulder every time and a
+		  bolt could miss outright.
+		- The ray now starts at getHeadPosition(), so it passes through the aim
+		  point. Direction is unchanged; the origin moves up by roughly the
+		  head-to-eye distance. V4 entities only.
+		- Note this also moves the origin for ItemActionMeleeSDX, which takes
+		  its ray from the same method.
+
+	[ NPCs - Facing a target passed the wrong coordinate ]
+		- The attack task called RotateTo with the target's y value in both the
+		  y and the z argument, so the NPC turned toward a point derived from
+		  its target's height rather than its position. Fixed in both the
+		  legacy and the V4 copies.
+
+	[ NPCs - V4 models leaned their whole body when looking up or down ]
+		- A V4 model renders the stored body pitch as a whole-body lean rather
+		  than a head tilt, so any RotateTo carrying a pitch made the NPC lean.
+		- The pitch argument is now zero for EntityAliveSDXV4 while following
+		  (UAITaskFollowSDX), guarding (UAITaskGuard) and looking at an entity
+		  (UAISCoreUtils). Yaw is unchanged, and legacy NPCs keep the pitch
+		  they always had.
+
+	[ NPCs - A V4 NPC twitched after being told to stop ]
+		- clearPath leaves a finished-but-undelivered path in the pathfinder
+		  thread. The next updateTasks tick handed it to the navigator, which
+		  re-armed the move helper and made the NPC twitch its yaw after it had
+		  been stopped.
+		- StopMoving now also discards that pending path, for V4 entities, so
+		  the stop sticks.
+
+	[ Projectiles - An NPC's nocked arrow could be taken with E ]
+		- ProjectileMoveScript.TryCollect checks only whether the ammo item
+		  IsSticky before handing the player an arrow and destroying the
+		  object. It never asks whether the projectile has actually been fired
+		  and come to rest.
+		- ItemActionLauncher.instantiateProjectile adds that script to the
+		  arrow model while the model is still parented to the holder's right
+		  hand, so a nocked arrow is a live, collectable projectile sitting in
+		  state Idle. A player's own is safe only because the player model sits
+		  on layer 24, outside the E raycast's mask; SetModelLayer is a no-op
+		  on both EntityAliveSDX and EntityAliveSDXV4, so an SDX NPC's in-hand
+		  arrow stayed reachable. Taking it gave the player an arrow while the
+		  NPC kept its loaded round - free, repeatable ammunition.
+		- TryCollect now requires the projectile to have stuck in the world and
+		  been registered with the ProjectileManager - state Sticky with a
+		  valid ProjectileID. Both are set together on the stick paths, so
+		  every legitimately collectable arrow still passes. This fixes it for
+		  both NPC generations, since it fixes the collection side rather than
+		  the entity side.
+		- The "press E to pick up" prompt is built independently of what
+		  TryCollect returns, so the prompt still appears on an NPC's nocked
+		  arrow; pressing E now simply does nothing.
+
 Version: 3.2.19.1009 
 	Game Version: v3.2.0 (b10)
 

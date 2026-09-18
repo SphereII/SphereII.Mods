@@ -31,7 +31,7 @@ namespace UAI
             {
                 _context.Self.SetLookPosition(entityAlive.getHeadPosition());
                 var targetPosition = entityAlive.getHeadPosition();
-                _context.Self.RotateTo(targetPosition.x, targetPosition.y, targetPosition.y, 30f, 30f);
+                _context.Self.RotateTo(targetPosition.x, targetPosition.y, targetPosition.z, 30f, 30f);
                 _context.Self.SleeperSupressLivingSounds = false;
                 _context.Self.SetAttackTarget(entityAlive, 1200);
             }
@@ -179,6 +179,21 @@ namespace UAI
             {
                 case 0:
                     if (!_context.Self.Attack(false)) return;
+
+                    // Press and release happen in the same frame. ItemActionCatapult recomputes
+                    // its draw at release as (Time.time - m_ActivateTime) / m_MaxStrainTime, so a
+                    // same-frame release draws at ~0% and every arrow lands for minimum damage.
+                    // Back-date the draw start so the release sees a full draw; writing
+                    // strainPercent directly does not work, since the release overwrites it.
+                    // Guns (ItemActionRanged) and plain launchers keep strainPercent at its
+                    // default of 1 and are unaffected.
+                    if (itemAction is ItemActionCatapult &&
+                        _context.Self.inventory.holdingItemData.actionData[_actionIndex] is ItemActionCatapult.ItemActionDataCatapult catapultData &&
+                        catapultData.m_bActivated && catapultData.m_MaxStrainTime > 0f)
+                    {
+                        catapultData.m_ActivateTime = Time.time - catapultData.m_MaxStrainTime;
+                    }
+
                     _context.Self.Attack(true);
                     break;
                 case 1:

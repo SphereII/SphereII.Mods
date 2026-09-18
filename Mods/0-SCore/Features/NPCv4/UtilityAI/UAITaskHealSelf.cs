@@ -40,7 +40,7 @@ namespace UAI
 
             GameManager.Instance.StartCoroutine(_context.Self.inventory.SimulateActionExecution(0, stack, delegate
             {
-                _context.Self.inventory.DecItem(stack.itemValue, 1, false);
+                EntityUtilities.DecItemFromAnyStore(_context.Self, stack.itemValue, 1);
                 _context.Self.inventory.SetHoldingItemIdx(originalIndex);
                 _context.Self.inventory.SetItem(_context.Self.inventory.DUMMY_SLOT_IDX, ItemStack.Empty.Clone());
                 _context.Self.inventory.OnUpdate();

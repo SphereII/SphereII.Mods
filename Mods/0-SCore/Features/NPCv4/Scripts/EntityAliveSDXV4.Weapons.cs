@@ -86,8 +86,20 @@ public partial class EntityAliveSDXV4
         // For NPC weapons that map to a player-held counterpart (via CompatibleWeapon property),
         // verify the player version is present in the accessible inventory.
         var currentWeapon = ItemClass.GetItem(weapon);
-        if (currentWeapon == null) return false;
-        if (!currentWeapon.ItemClass.Properties.Contains("CompatibleWeapon")) return false;
+        if (currentWeapon == null || currentWeapon.IsEmpty()) return false;
+
+        // The NPC's own bag (BagItems) is an owned store.
+        if (bag != null && bag.GetItemCount(currentWeapon) > 0)
+            return true;
+
+        // No CompatibleWeapon bridge: the item itself must be in the accessible inventory.
+        // Covers player items handed over through the inventory window.
+        if (!currentWeapon.ItemClass.Properties.Contains("CompatibleWeapon"))
+        {
+            if (this is EntityTrader && HarvestManager.Has(entityId))
+                return HarvestManager.GetOrCreate(entityId).HasItem(currentWeapon);
+            return lootContainer != null && lootContainer.HasItem(currentWeapon);
+        }
         var playerWeapon = currentWeapon.ItemClass.Properties.GetString("CompatibleWeapon");
         if (string.IsNullOrEmpty(playerWeapon)) return false;
         var playerWeaponItem = ItemClass.GetItem(playerWeapon);
@@ -124,6 +136,16 @@ public partial class EntityAliveSDXV4
 
     public override void SetupStartingItems()
     {
+        // If InitialInventory is already set, this is a restored NPC. Skip overwriting their
+        // inventory with the default XML starting items, but still set _defaultWeapon so
+        // UpdateWeapon has a fallback when FindWeapon fails.
+        if (Buffs.GetCustomVar("InitialInventory") > 0)
+        {
+            if (itemsOnEnterGame.Count > 0 && string.IsNullOrEmpty(_defaultWeapon))
+                _defaultWeapon = ItemClass.GetForId(itemsOnEnterGame[0].itemValue.type).GetItemName();
+            return;
+        }
+
         for (int i = 0; i < itemsOnEnterGame.Count; i++)
         {
             var itemStack = itemsOnEnterGame[i];

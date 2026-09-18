@@ -75,12 +75,13 @@ namespace UAI
 
                     entityAlive.SetLookPosition(entityOrderReceiver.GuardLookPosition);
 
+                    // V4 models show the stored body pitch as a whole-body lean, so don't pitch them.
                     entityAlive.RotateTo(
                         entityOrderReceiver.GuardLookPosition.x,
                         entityOrderReceiver.GuardLookPosition.y,
                         entityOrderReceiver.GuardLookPosition.z,
                         30f,
-                        30f);
+                        entityAlive is EntityAliveSDXV4 ? 0f : 30f);
                 }
             }
           
