@@ -156,27 +156,57 @@ public static class ModGeneralUtilities
 
 
         DisplayLog(" ConsumeProduct() " + item.ItemClass.GetItemName());
-        var original = myEntity.inventory.holdingItem;
+
+        // Save the BARE HAND, not holdingItem. holdingItem is whatever the NPC is currently
+        // holding, which for an armed NPC is its weapon - restoring from it left the entity's
+        // bare hand permanently set to that weapon. Nothing resets it afterwards, and the
+        // entity's own handItem field is never touched, so from then on GetHandItem() and
+        // Inventory.GetBareHandItem() disagree for the rest of that NPC's life.
+        var originalBareHand = myEntity.inventory.GetBareHandItemValue();
         myEntity.inventory.SetBareHandItem(item);
-        var itemAction = myEntity.inventory.holdingItem.Actions[0];
-        if (itemAction != null)
+
+        try
         {
-            myEntity.Attack(true);
-            DisplayLog("ConsumeProduct(): Hold Item has Action0. Executing..");
-            itemAction.ExecuteAction(myEntity.inventory.holdingItemData.actionData[0], true);
+            // Address the bare-hand pair directly instead of holdingItem / holdingItemData. Both
+            // of those fall through to the bare hand ONLY when the toolbelt slot is empty, so for
+            // an armed NPC they still resolve to its weapon - the swap above changed nothing they
+            // can see, and this method ran the weapon's action instead of the food's.
+            var handItem = myEntity.inventory.GetBareHandItem();
+            var handData = myEntity.inventory.bareHandItemInventoryData;
+            var itemAction = handItem?.Actions[0];
+            var actionData = handData?.actionData != null && handData.actionData.Count > 0
+                ? handData.actionData[0]
+                : null;
 
-            //// We want to consume the food, but the consumption of food isn't supported on the non-players, so just fire off the buff 
-            ///
-            DisplayLog("ConsumeProduct(): Trigger Events");
-            myEntity.FireEvent(MinEventTypes.onSelfPrimaryActionEnd);
-            myEntity.FireEvent(MinEventTypes.onSelfHealedSelf);
+            if (itemAction != null && actionData != null)
+            {
+                // Attack() resolves through holdingItem as well, so on an armed NPC it would fire
+                // the weapon for real - a swing or a shot in the middle of eating. It is only safe
+                // when the NPC is genuinely bare-handed, which is the state this method assumes.
+                if (myEntity.inventory.UsingBareHand())
+                    myEntity.Attack(true);
+
+                DisplayLog("ConsumeProduct(): Hold Item has Action0. Executing..");
+                itemAction.ExecuteAction(actionData, true);
+
+                //// We want to consume the food, but the consumption of food isn't supported on the non-players, so just fire off the buff 
+                ///
+                DisplayLog("ConsumeProduct(): Trigger Events");
+                myEntity.FireEvent(MinEventTypes.onSelfPrimaryActionEnd);
+                myEntity.FireEvent(MinEventTypes.onSelfHealedSelf);
 
 
-            myEntity.SetInvestigatePosition(Vector3.zero, 0);
+                myEntity.SetInvestigatePosition(Vector3.zero, 0);
+            }
         }
-
-        DisplayLog(" ConsumeProduct(): Restoring hand item");
-        myEntity.inventory.SetBareHandItem(ItemClass.GetItem(original.Name));
+        finally
+        {
+            // Restore in a finally: if the action throws, leaving the food installed as the bare
+            // hand is the same permanent corruption this method used to cause by restoring from
+            // the wrong item.
+            DisplayLog(" ConsumeProduct(): Restoring bare hand item");
+            myEntity.inventory.SetBareHandItem(originalBareHand);
+        }
 
         return result;
     }

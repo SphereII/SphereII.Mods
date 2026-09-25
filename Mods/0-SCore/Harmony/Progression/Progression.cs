@@ -62,7 +62,7 @@ namespace Harmony.ProgressionChanges
             // Grab a reference to the private method.
             static readonly MethodInfo AddLevelExpRecursive = AccessTools.Method(typeof(global::Progression), "AddLevelExpRecursive");
 
-            private static void Postfix(global::Progression __instance, global::EntityAlive ___parent, ref FastTags<TagGroup.Global>[] ___xpFastTags, int _exp, string _cvarXPName = "_xpOther", XPTypes _xpType = XPTypes.Other, bool useBonus = true)
+            private static void Postfix(global::Progression __instance, global::EntityAlive ___parent, ref FastTags<TagGroup.Global>[] ___xpFastTags, int _exp, string _cvarXPName = "_xpOther", XPTypes _xpType = XPTypes.Other, bool useBonus = true, bool notifyUI = true)
             {
                 if (___parent as IEntityAliveSDX == null) return;
 
@@ -86,7 +86,16 @@ namespace Harmony.ProgressionChanges
                 }
 
                 Log.Out($"Total Experience: {__instance.ExpToNextLevel} {__instance.ExpDeficit} {__instance.Level}");
-                AddLevelExpRecursive.Invoke(__instance, new object[] { (int)num, _cvarXPName });
+                // AddLevelExpRecursive(int exp, string _cvarXPName, bool notifyUI = true) takes
+                // THREE parameters. Reflection does not fill in optional ones, so a two-argument
+                // Invoke throws TargetParameterCountException every time. That throw propagated out
+                // of SCoreEntityKilled.OnEntityKilled before it could credit the NPC's leader, so a
+                // kill by a hired NPC awarded the NPC nothing AND silently cost the player the kill.
+                // notifyUI is forwarded from the caller rather than hardcoded. It only gates a
+                // level-up tooltip that is itself guarded on parent being an EntityPlayerLocal,
+                // which an NPC never is, so it cannot be observed through this postfix today -
+                // but forwarding it keeps that true if the IEntityAliveSDX gate above ever widens.
+                AddLevelExpRecursive.Invoke(__instance, new object[] { (int)num, _cvarXPName, notifyUI });
                 int level = __instance.Level;
             }
         }

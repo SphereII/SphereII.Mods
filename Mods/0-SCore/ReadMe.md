@@ -85,6 +85,101 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.2.36.628
+	Game Version: v3.2.0 (b10)
+
+	[ Hired NPCs - A kill by a hired NPC awarded nothing and cost the player the kill ]
+		- The NPC kill-XP postfix called the game's AddLevelExpRecursive by
+		  reflection with two arguments. The method takes three -
+		  (int exp, string _cvarXPName, bool notifyUI = true) - and reflection
+		  does not fill in optional parameters, so every call threw
+		  TargetParameterCountException.
+		- The throw propagated out of SCoreEntityKilled.OnEntityKilled before it
+		  reached the leader, so the handler never ran its last step. On every
+		  kill by a hired NPC the NPC got no XP AND the owner silently lost the
+		  kill, along with party shares and quest/SharedKillServer credit.
+		- The call now passes the third argument, forwarded from the caller
+		  rather than hardcoded. It gates only a level-up tooltip that is itself
+		  guarded on the parent being an EntityPlayerLocal, so it cannot be
+		  observed through this postfix today - forwarding keeps that correct if
+		  the IEntityAliveSDX gate ever widens.
+		- No double award: stock AddLevelExp returns immediately when the parent
+		  is not an EntityPlayer, and an SDX NPC never is, so this postfix is the
+		  only thing that pays an NPC at all.
+
+	[ Hired NPCs - V4 FindWeapon accepts the entity's own bare hand ]
+		- FindWeapon checked enter-game items, the hand item, the bag and the
+		  accessible inventory, but not Inventory.GetBareHandItem(). The bare
+		  hand is the character's default hand item - the EntityClass "HandItem"
+		  property, or meleeHandPlayer when the class declares none - and is
+		  available by definition rather than owned, so a swap to empty hands
+		  could fail the ownership test and fall through to _defaultWeapon.
+		- Defensive rather than a fixed symptom, and recorded as such: today the
+		  entity's handItem and its bare hand are set from the same value in the
+		  same block of EntityAlive's init, and neither accessor is overridden
+		  anywhere, so on a V4 entity the two checks agree. Only a later
+		  SetBareHandItem call can separate them - which is what the fix below
+		  was doing on the legacy class.
+
+	[ Hired NPCs - A weapon in a legacy NPC's own bag was not found ]
+		- FindWeapon checked enter-game items, the hand item and the accessible
+		  inventory, but never the NPC's own bag. A weapon placed there through
+		  the class's BagItems is as owned as it gets, yet asking to swap to it
+		  failed the ownership test and fell through to _defaultWeapon.
+		- It now checks the bag, the same check the V4 copy received earlier
+		  this cycle, in the same position - after the item is resolved and
+		  before the CompatibleWeapon bridge is consulted.
+		- The resolved item is now rejected when empty as well as null.
+		  ItemClass.GetItem returns ItemValue.None for a name that does not
+		  resolve, and its ItemClass is null, so the Properties check on the
+		  next line threw for any weapon name with a typo in it.
+		- An item with no CompatibleWeapon property is no longer rejected out
+		  of hand. The legacy copy now does what V4 does and looks for the item
+		  itself: in the harvest window for an EntityTrader-based NPC, else in
+		  the loot container. That is what covers a player weapon handed to the
+		  NPC through its inventory window, which previously could never be
+		  equipped at all.
+		- The bare-hand check stays V4-only on purpose; the two copies are kept
+		  separate there.
+
+	[ Hired NPCs - A restored legacy NPC was handed its BagItems again on every load ]
+		- SetupBagItems re-seeded the bag from the class's "BagItems" property
+		  every time the NPC was constructed, so a restored NPC collected a
+		  fresh count of every stackable entry on each world entry. Unstackable
+		  items were unaffected, which is presumably why it went unnoticed.
+		- It now skips re-seeding when the InitialInventory cvar is already set,
+		  the same gate the V4 copy received earlier this cycle and the same
+		  gate legacy SetupStartingItems already had. The bag is still
+		  constructed first, since a restored NPC needs a non-null bag either
+		  way.
+		- Safe at this point in the lifecycle: PostInit runs SetupBagItems, and
+		  the marker is not set until AddToInventory runs later from
+		  OnAddedToWorld, so a first-spawn NPC still seeds normally.
+		- This closes a divergence rather than adding one: the two NPC
+		  generations behaved differently here until now.
+
+	[ NPCs - Eating left a legacy NPC's bare hand set to its weapon ]
+		- ModGeneralUtilities.ConsumeProduct swaps the bare hand to the food,
+		  runs the item's action, then restores. It saved the wrong thing to
+		  restore from: holdingItem, which is whatever the NPC is HOLDING, so an
+		  armed NPC came out of a meal with its weapon installed as its bare
+		  hand, permanently. Nothing resets it, and the entity's own handItem
+		  field is never touched, so GetHandItem() and GetBareHandItem()
+		  disagreed from then on. It now saves and restores
+		  GetBareHandItemValue().
+		- It also ran the wrong action. holdingItem and holdingItemData fall
+		  through to the bare hand only when the toolbelt slot is empty, so for
+		  an armed NPC the swap changed nothing they could see and the method
+		  executed the WEAPON's action instead of the food's - and the Attack()
+		  call ahead of it fired that weapon for real, a swing or a shot in the
+		  middle of eating. Both now address the bare-hand pair directly, and
+		  Attack() runs only when the NPC is genuinely bare-handed.
+		- The restore moved into a finally. If the action threw, the food was
+		  left installed as the bare hand - the same permanent corruption by a
+		  different route.
+		- Legacy only: the method casts to EntityAliveSDX and returns false for
+		  V4 entities.
+
 Version: 3.2.29.1709
 	Game Version: v3.2.0 (b10)
 

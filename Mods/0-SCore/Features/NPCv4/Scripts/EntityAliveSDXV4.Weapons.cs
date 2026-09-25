@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 public partial class EntityAliveSDXV4
@@ -65,8 +65,8 @@ public partial class EntityAliveSDXV4
     }
 
     /// <summary>
-    /// Returns true if <paramref name="weapon"/> is available to this NPC (loot container,
-    /// enter-game items, or current hand item).
+    /// Returns true if <paramref name="weapon"/> is available to this NPC (enter-game items,
+    /// current hand item, bare hand, bag, or accessible inventory).
     /// </summary>
     public bool FindWeapon(string weapon)
     {
@@ -81,6 +81,21 @@ public partial class EntityAliveSDXV4
 
         if (GetHandItem().ItemClass.GetItemName()
                 .Equals(weapon, StringComparison.InvariantCultureIgnoreCase))
+            return true;
+
+        // The entity's own bare hand is always available. It is the character's default hand item
+        // - the EntityClass "HandItem" property, or meleeHandPlayer when the class declares none -
+        // not something the NPC has to own. Without this check a swap to empty hands fails the
+        // ownership test and falls through to _defaultWeapon, silently re-arming the NPC with its
+        // spawn weapon.
+        //
+        // Usually this is the same item GetHandItem() returns just above: EntityAlive's init sets
+        // handItem and then hands it straight to Inventory.SetBareHandItem. The two can diverge,
+        // though, because SetBareHandItem rewrites the bare hand without touching the entity's
+        // handItem field - so check both rather than assuming they agree.
+        var bareHand = inventory?.GetBareHandItem();
+        if (bareHand != null &&
+            bareHand.GetItemName().Equals(weapon, StringComparison.InvariantCultureIgnoreCase))
             return true;
 
         // For NPC weapons that map to a player-held counterpart (via CompatibleWeapon property),
