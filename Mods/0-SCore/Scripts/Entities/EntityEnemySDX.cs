@@ -197,9 +197,9 @@ public class EntityEnemySDX : EntityHuman, IEntityOrderReceiverSDX
     }
 
     // Un-comment ONLY when we release a version that can break game saves
-    public override void Read(byte _version, BinaryReader _br)
+    public override void Read(byte _version, PooledBinaryReader _br, StreamModeRead _eStreamMode)
     {
-        base.Read(_version, _br);
+        base.Read(_version, _br, _eStreamMode);
         try
         {
             var strPatrol = _br.ReadString();
@@ -224,9 +224,9 @@ public class EntityEnemySDX : EntityHuman, IEntityOrderReceiverSDX
         }
     }
 
-    public override void Write(BinaryWriter _bw, bool _bNetworkWrite)
+    public override void Write(PooledBinaryWriter _bw, StreamModeWrite _eStreamMode)
     {
-        base.Write(_bw, _bNetworkWrite);
+        base.Write(_bw, _eStreamMode);
         try
         {
             var strPatrolCoordinates = "";

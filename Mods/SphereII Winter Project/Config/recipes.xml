@@ -221,9 +221,6 @@
     <recipe name="drinkJarRedTea" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
       <ingredient name="drinkJarRedTeaFrozen" count="1"   />
     </recipe>
-    <recipe name="drinkJarYuccaCocktail" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
-      <ingredient name="drinkJarYuccaCocktailFrozen" count="1"   />
-    </recipe>
     <recipe name="drinkYuccaJuiceSmoothie" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
       <ingredient name="drinkYuccaJuiceSmoothieFrozen" count="1"   />
     </recipe>

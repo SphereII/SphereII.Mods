@@ -17,6 +17,10 @@ public class MinEventActionSwapWeapon : MinEventActionTargetedBase
         {
             entityAliveSdx.UpdateWeapon(item);
         }
+        else if (_params.Self is EntityAliveSDXV4 entityAliveSdxV4)
+        {
+            entityAliveSdxV4.UpdateWeapon(item);
+        }
     }
 
     public override bool ParseXmlAttribute(XAttribute _attribute)

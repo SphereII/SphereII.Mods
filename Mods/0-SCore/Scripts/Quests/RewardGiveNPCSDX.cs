@@ -8,8 +8,8 @@ internal class RewardGiveNPCSDX : BaseReward
     {
         if (string.IsNullOrEmpty(ID))
         {
-            var questNPC = GameManager.Instance.World.Entities.dict[OwnerQuest.QuestGiverID] as EntityAliveSDX;
-            if (questNPC)
+            var questNPC = GameManager.Instance.World.Entities.dict[OwnerQuest.QuestGiverID] as EntityAlive;
+            if (questNPC is IEntityAliveSDX)
                 EntityUtilities.SetOwner(questNPC.entityId, player.entityId);
             else
                 Debug.Log(" NPC not Found.");
@@ -62,7 +62,7 @@ internal class RewardGiveNPCSDX : BaseReward
         {
             NewEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
             GameManager.Instance.World.SpawnEntityInWorld(NewEntity);
-            if (NewEntity is EntityAliveSDX)
+            if (NewEntity is IEntityAliveSDX)
             {
                 var uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
                 uiforPlayer.windowManager.Open("JoinInformation", true);

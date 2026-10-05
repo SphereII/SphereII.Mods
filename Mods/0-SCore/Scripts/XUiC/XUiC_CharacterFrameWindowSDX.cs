@@ -2,7 +2,8 @@
 
 public class XUiC_CharacterFrameWindowSDX : XUiController
 {
-    private EntityAliveSDX entity;
+    // EntityTrader is the common base of the legacy and V4 NPC classes; both implement IEntityAliveSDX.
+    private EntityTrader entity;
     private bool isDirty;
     private XUiV_Label lbldescriptionText;
     private EntityPlayerLocal player;
@@ -82,7 +83,7 @@ public class XUiC_CharacterFrameWindowSDX : XUiController
     public override void Update(float _dt)
     {
         if (GameManager.Instance == null || GameManager.Instance.World == null) return;
-        if (entity == null || !(entity is EntityAliveSDX))
+        if (entity == null || entity is not IEntityAliveSDX)
         {
             lbldescriptionText.Text = "";
             OnClose();
@@ -108,7 +109,7 @@ public class XUiC_CharacterFrameWindowSDX : XUiController
             entityID = (int)player.Buffs.GetCustomVar("CurrentNPC");
 
         // Do not display the extra information until they are hired.
-        entity = player.world.GetEntity(entityID) as EntityAliveSDX;
+        entity = player.world.GetEntity(entityID) is IEntityAliveSDX npc ? npc as EntityTrader : null;
         if (entity != null)
         {
             return;   

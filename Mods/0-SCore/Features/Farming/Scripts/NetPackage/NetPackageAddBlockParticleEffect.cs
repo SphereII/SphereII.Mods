@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Server → Clients: tells each client to spawn a block-anchored particle effect via
@@ -59,5 +59,4 @@ public class NetPackageAddBlockParticleEffect : NetPackage
         GameManager.Instance.SpawnBlockParticleEffect(_position, particle);
     }
 
-    public override int GetLength() => 12 + (_particleName?.Length ?? 0);
 }

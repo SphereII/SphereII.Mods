@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Xml.Linq; // For XAttribute
 using SCore.Features.ItemDegradation.Utils;
@@ -33,11 +33,11 @@ public class MinEventActionDegradeSpecificItemValueMod : MinEventActionTargetedB
 
         List<ItemValue> itemValues = new();
         if (_bBag)
-            ItemDegradationHelpers.FindItemValues(player.bag.GetSlots(), ItemName, tags, itemValues);
+            ItemDegradationHelpers.FindItemValues(player.bag.ItemGrid.items, ItemName, tags, itemValues);
         if (_bEquipment)
-            ItemDegradationHelpers.FindItemValues(player.equipment.m_slots, ItemName, tags, itemValues);
+            ItemDegradationHelpers.FindItemValues(player.equipment.ItemGrid.items, ItemName, tags, itemValues);
         if (_bToolbelt)
-            ItemDegradationHelpers.FindItemValues(player.inventory.GetSlots(), ItemName, tags, itemValues);
+            ItemDegradationHelpers.FindItemValues(player.inventory.ItemGrid.items, ItemName, tags, itemValues);
 
         foreach (var itemValue in itemValues)
         {

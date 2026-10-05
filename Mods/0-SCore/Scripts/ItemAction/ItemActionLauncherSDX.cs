@@ -166,7 +166,7 @@ class ItemActionLauncherSDX : ItemActionLauncher
                 if (itemActionDataRanged.state != ItemActionFiringState.Off)
                 {
                     // Synchronize item action effects to the server to turn off firing state.
-                    itemActionDataRanged.invData.gameManager.ItemActionEffectsServer(
+                    GameManager.Instance.ItemActionEffectsServer(
                         holdingEntity.entityId, itemActionDataRanged.invData.slotIdx,
                         itemActionDataRanged.indexInEntityOfAction, 0, Vector3.zero, Vector3.zero, 0);
                 }
@@ -245,7 +245,7 @@ class ItemActionLauncherSDX : ItemActionLauncher
         Vector3 localOffset;
         Vector3 localDir;
         int actionEffectsValues = this.GetActionEffectsValues(_actionData, out localOffset, out localDir);
-        itemActionDataRanged.invData.gameManager.ItemActionEffectsServer(holdingEntity.entityId,
+        GameManager.Instance.ItemActionEffectsServer(holdingEntity.entityId,
             itemActionDataRanged.invData.slotIdx, itemActionDataRanged.indexInEntityOfAction,
             (int)itemActionDataRanged.state, localOffset, localDir,
             actionEffectsValues | this.getUserData(_actionData));
@@ -256,7 +256,7 @@ class ItemActionLauncherSDX : ItemActionLauncher
             if (itemActionDataRanged.state != ItemActionFiringState.Off)
             {
                 // Send server effect to explicitly turn off the firing state.
-                itemActionDataRanged.invData.gameManager.ItemActionEffectsServer(holdingEntity.entityId,
+                GameManager.Instance.ItemActionEffectsServer(holdingEntity.entityId,
                     itemActionDataRanged.invData.slotIdx, itemActionDataRanged.indexInEntityOfAction, 0, Vector3.zero,
                     Vector3.zero, 0);
             }

@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 
 namespace SCore.Features.Quality.Harmony
 {
@@ -37,16 +37,19 @@ namespace SCore.Features.Quality.Harmony
                             true, true, true, true, true, 1, true, false),
                         0, 255);
 
-                    if (itemCrafted.Modifications.Length != correctSlots)
+                    // v3.3: modifications is the raw backing field and is null when the item has
+                    // no mod slots yet, so measure with ModificationCount rather than .Length.
+                    var existingSlots = itemCrafted.ModificationCount;
+                    if (existingSlots != correctSlots)
                     {
                         var resized = new ItemValue[correctSlots];
                         // Preserve any mods that already fit (e.g. default mod items from recipe).
-                        for (int i = 0; i < UnityEngine.Mathf.Min(itemCrafted.Modifications.Length, correctSlots); i++)
-                            resized[i] = itemCrafted.Modifications[i];
+                        for (int i = 0; i < UnityEngine.Mathf.Min(existingSlots, correctSlots); i++)
+                            resized[i] = itemCrafted.GetModification(i);
                         // Fill any new empty slots.
-                        for (int i = itemCrafted.Modifications.Length; i < correctSlots; i++)
+                        for (int i = existingSlots; i < correctSlots; i++)
                             resized[i] = ItemValue.None.Clone();
-                        itemCrafted.Modifications = resized;
+                        itemCrafted.modifications = resized;
                     }
                 }
 

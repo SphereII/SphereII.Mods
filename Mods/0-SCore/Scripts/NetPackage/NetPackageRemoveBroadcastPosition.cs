@@ -33,11 +33,6 @@ public class NetPackageRemoveBroadcastPosition : NetPackage
         _bw.Write(this.entityThatCausedIt);
     }
 
-    public override int GetLength()
-    {
-        return 20;
-    }
-
     public override void ProcessPackage(World _world, GameManager _callbacks)
     {
         if (_world == null)

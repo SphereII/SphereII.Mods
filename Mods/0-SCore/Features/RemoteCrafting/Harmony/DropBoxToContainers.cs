@@ -46,13 +46,13 @@ namespace Features.RemoteCrafting {
                 var primaryPlayer = __instance.xui.playerUI.entityPlayer;
                 Log.Out($"[DropBox] OnClose: distributing from {block.GetBlockName()} at {pos}, player={primaryPlayer?.EntityName ?? "null"}, distance={distance}, IsServer={SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer}");
 
-                if (__instance.localTileEntity.items == null)
+                if (__instance.localTileEntity.ItemGrid.items == null)
                 {
                     Log.Out("[DropBox] OnClose: items array is null, skipping.");
                     return true;
                 }
 
-                var items = __instance.localTileEntity.items;
+                var items = __instance.localTileEntity.ItemGrid.items;
                 for (var i = 0; i < items.Length; i++)
                 {
                     if (items[i].IsEmpty()) continue;

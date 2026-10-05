@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 
 public class NetPackagePortalAddPosition : NetPackage
 {
@@ -43,8 +43,4 @@ public class NetPackagePortalAddPosition : NetPackage
         }
     }
 
-    public override int GetLength()
-    {
-        return 20;
-    }
 }

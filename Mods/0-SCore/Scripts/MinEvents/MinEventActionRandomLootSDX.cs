@@ -14,10 +14,11 @@ public class MinEventActionRandomLootSDX : MinEventActionBase
     public override void Execute(MinEventParams _params)
     {
         Debug.Log("Executing Random Loot");
-        var entity = _params.Self as EntityAliveSDX;
+        var entity = _params.Self;
+        var lootContainer = EntityUtilities.GetSDXLootContainer(entity);
 
-        // Only EntityAliveSDX 
-        if (entity == null)
+        // Only SCore NPCs (legacy or V4) carry a loot container.
+        if (entity == null || lootContainer == null)
             return;
 
         var _random = GameManager.Instance.World.GetGameRandom();
@@ -37,14 +38,14 @@ public class MinEventActionRandomLootSDX : MinEventActionBase
             {
                 var item = LootContainer.GetRewardItem(lootgroup, Count);
                 Debug.Log("Adding Item: " + item);
-                entity.lootContainer.AddItem(item);
+                lootContainer.AddItem(item);
             }
         }
     }
 
     public override bool CanExecute(MinEventTypes _eventType, MinEventParams _params)
     {
-        return base.CanExecute(_eventType, _params) && _params.Self as EntityAliveSDX != null;
+        return base.CanExecute(_eventType, _params) && EntityUtilities.GetSDXLootContainer(_params.Self) != null;
     }
 
     public override bool ParseXmlAttribute(XAttribute _attribute)

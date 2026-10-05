@@ -180,7 +180,7 @@ namespace Features.RemoteCrafting
                     // This is how many we need.
                     var num = itemStack.count * _multiplier;
                     // check player inventory
-                    var slots = ___localPlayer.bag.GetSlots();
+                    var slots = ___localPlayer.bag.ItemGrid.items;
                     foreach (var entry in slots)
                     {
                         if (entry.IsEmpty()) continue;
@@ -201,7 +201,7 @@ namespace Features.RemoteCrafting
                     }
 
                     // Check the toolbelt now.
-                    slots = ___localPlayer.inventory.GetSlots();
+                    slots = ___localPlayer.inventory.ItemGrid.items;
                     foreach (var entry in slots)
                     {
                         if (entry.IsEmpty()) continue;

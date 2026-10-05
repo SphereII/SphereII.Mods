@@ -79,5 +79,4 @@ public class NetPackageHarvestInventoryData : NetPackage
         EntityUtilities.OpenContainer(playerLocal, container);
     }
 
-    public override int GetLength() => 4 + (_serializedItems?.Length ?? 0);
 }

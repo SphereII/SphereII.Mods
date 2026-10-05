@@ -28,9 +28,12 @@ namespace UAI
 
             // Current holding index
             var originalIndex = _context.Self.inventory.GetFocusedItemIdx();
-            var stack = EntityUtilities.GetItemStackByTag(_context.Self.entityId, "medical");
-            if (Equals(stack, ItemStack.Empty))
+
+            // v3.3: SimulateActionExecution needs the grid slot the item lives in, not a copy of it.
+            if (!EntityUtilities.TryFindItemGridSlotByTag(_context.Self.entityId, "medical", out var grid, out var slotIdx))
                 return;
+
+            var itemValue = grid.items[slotIdx].itemValue.Clone();
 
             _isRunning = true;
 
@@ -38,20 +41,22 @@ namespace UAI
             if (!_context.Self.Buffs.HasCustomVar("medRegHealthIncSpeed"))
                 _context.Self.Buffs.SetCustomVar("medRegHealthIncSpeed", 1f, true);
 
-            GameManager.Instance.StartCoroutine(_context.Self.inventory.SimulateActionExecution(0, stack, delegate
-            {
-                EntityUtilities.DecItemFromAnyStore(_context.Self, stack.itemValue, 1);
-                _context.Self.inventory.SetHoldingItemIdx(originalIndex);
-                _context.Self.inventory.SetItem(_context.Self.inventory.DUMMY_SLOT_IDX, ItemStack.Empty.Clone());
-                _context.Self.inventory.OnUpdate();
-                GameManager.Instance.StartCoroutine(SwitchBack(_context, originalIndex));
-            }));
+            GameManager.Instance.StartCoroutine(HealRoutine(_context, grid, slotIdx, itemValue, originalIndex));
 
+        }
+
+        // v3.3: Hand owns the transient hold slot and restores the previously held item itself, so
+        // all that is left here is waiting the simulation out and doing the consume/restore bookkeeping.
+        private IEnumerator HealRoutine(Context _context, ItemStackGrid _grid, int _slotIdx, ItemValue _itemValue, int _originalIndex)
+        {
+            yield return _context.Self.inventory.SimulateActionExecution(0, _grid, _slotIdx);
+            EntityUtilities.DecItemFromAnyStore(_context.Self, _itemValue, 1);
+            yield return SwitchBack(_context, _originalIndex);
         }
 
         private IEnumerator SwitchBack(Context _context, int oldSlot)
         {
-            while (_context.Self.inventory.IsHolsterDelayActive())
+            while (_context.Self.inventory.IsHandSwitching())
             {
                 yield return null;
             }

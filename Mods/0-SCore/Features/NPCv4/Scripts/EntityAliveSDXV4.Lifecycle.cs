@@ -28,14 +28,20 @@ public partial class EntityAliveSDXV4
                 Bag bag = null;
                 if (lootContainer.items != null)
                 {
-                    bag = new Bag(lootContainer.items.Length);
-                    System.Array.Copy(lootContainer.items, bag.items, lootContainer.items.Length);
+                    // v3.3: Bag is grid-backed, so size it up front and copy through the grid -
+                    // its ItemStacks are bound to their slots and must not be replaced wholesale.
+                    bag = new Bag(new Vector2i(lootContainer.items.Length, 1),
+                        XUiC_ItemStack.StackLocationTypes.LootContainer, null);
+                    bag.ItemGrid.SetItems(lootContainer.items, false);
                 }
                 var creationData = new EntityCreationData(backpack)
                 {
                     entityName = Localization.Get(EntityName),
                     id         = -1,
-                    bag        = bag
+                    // v3.3: EntityCreationData carries the bag as a serialized blob, not a Bag instance.
+                    bagData    = bag != null
+                        ? StreamUtils.ToBlob(pbw => bag.Write(pbw, StreamModeWrite.ToClient))
+                        : null
                 };
                 GameManager.Instance.RequestToSpawnEntityServer(creationData);
                 backpack?.OnEntityUnload();
@@ -236,15 +242,16 @@ public partial class EntityAliveSDXV4
             var srcItems = lootContainer.items;
             if (srcItems != null)
             {
-                storage.SetContainerSize(new Vector2i(srcItems.Length, 1), true);
-                for (int i = 0; i < srcItems.Length && storage.items != null && i < storage.items.Length; i++)
+                storage.ItemGrid.Resize(new Vector2i(srcItems.Length, 1));
+                for (int i = 0; i < srcItems.Length && storage.ItemGrid.items != null && i < storage.ItemGrid.items.Length; i++)
                     storage.UpdateSlot(i, srcItems[i]);
             }
         }
         else if (storage != null)
         {
             storage.lootListName = lootListOnDeath;
-            storage.SetContainerSize(LootContainer.GetLootContainer(lootListOnDeath).size, true);
+            storage.ItemGrid.Resize(LootContainer.GetLootContainer(lootListOnDeath).size);
+            storage.ItemGrid.Clear();
         }
         te.SetModified();
         return pos;

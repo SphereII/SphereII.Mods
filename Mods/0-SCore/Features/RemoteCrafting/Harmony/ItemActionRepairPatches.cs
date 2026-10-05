@@ -74,17 +74,17 @@ namespace Features.RemoteCrafting {
                 {
                     if (q <= 0) break;
 
-                    if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity))
+                    if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var lootTileEntity))
                         continue;
 
                     // If there's no items in this container, skip.
                     if (!lootTileEntity.HasItem(itemValue)) continue;
 
-                    for (var y = 0; y < lootTileEntity.items.Length; y++)
+                    for (var y = 0; y < lootTileEntity.ItemGrid.items.Length; y++)
                     {
                         if (q <= 0) break;
 
-                        var item = lootTileEntity.items[y];
+                        var item = lootTileEntity.ItemGrid.items[y];
                         if (item.IsEmpty()) continue;
                         if (item.itemValue.ItemClass != itemValue.ItemClass) continue;
 
@@ -227,7 +227,7 @@ namespace Features.RemoteCrafting {
                 var q = _itemStack.count;
 
                 //check player inventory for materials and reduce counter
-                var slots = primaryPlayer.bag.GetSlots();
+                var slots = primaryPlayer.bag.ItemGrid.items;
                 q -= slots
                     .Where(x => x.itemValue.ItemClass == _itemStack.itemValue.ItemClass)
                     .Sum(y => y.count);
@@ -236,13 +236,13 @@ namespace Features.RemoteCrafting {
                 foreach (var tileEntity in tileEntities)
                 {
                     if (q <= 0) break;
-                    if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) continue;
+                    if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var lootTileEntity)) continue;
                     // If there's no items in this container, skip.
                     if (!lootTileEntity.HasItem(_itemStack.itemValue)) continue;
 
-                    for (var y = 0; y < lootTileEntity.items.Length; y++)
+                    for (var y = 0; y < lootTileEntity.ItemGrid.items.Length; y++)
                     {
-                        var item = lootTileEntity.items[y];
+                        var item = lootTileEntity.ItemGrid.items[y];
                         if (item.IsEmpty()) continue;
                         if (item.itemValue.ItemClass != _itemStack.itemValue.ItemClass) continue;
 

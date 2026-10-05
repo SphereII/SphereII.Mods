@@ -9,7 +9,7 @@ namespace SCore.Features.ItemDegradation.Harmony.General
     {
         public static void Postfix(global::ItemActionData _actionData)
         {
-            ItemDegradationHelpers.CheckModificationOnItem(_actionData.invData.holdingEntity.inventory.holdingItemItemValue.Modifications,
+            ItemDegradationHelpers.CheckModificationOnItem(_actionData.invData.holdingEntity.inventory.holdingItemItemValue.modifications,
                 _actionData.invData.holdingEntity);
         }
     }

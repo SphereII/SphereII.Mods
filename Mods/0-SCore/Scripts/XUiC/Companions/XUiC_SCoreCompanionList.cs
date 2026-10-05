@@ -54,8 +54,10 @@ public class XUiC_SCoreCompanionList : XUiController
         foreach (var cvar in _entityPlayerLocal.Buffs.CVars)
         {
             if (!cvar.Key.StartsWith("hired_")) continue;
-            var entityAlive = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAliveSDX;
-            if (!entityAlive) continue;
+            // IEntityAliveSDX rather than EntityAliveSDX: V4 NPCs derive from EntityTrader directly,
+            // not from the legacy class, so a legacy cast silently dropped them from the list.
+            var entityAlive = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAlive;
+            if (!entityAlive || entityAlive is not IEntityAliveSDX) continue;
             if (!EntityUtilities.IsHired(entityAlive.entityId)) continue;
             var leader = EntityUtilities.GetLeaderOrOwner(entityAlive.entityId);
             if (leader == null) continue;

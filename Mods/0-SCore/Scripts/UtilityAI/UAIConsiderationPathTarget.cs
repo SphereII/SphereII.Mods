@@ -32,13 +32,13 @@
                         case TileEntityType.Loot:
                         {
                             var s = ((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>();
-                            if (s == null || !s.bTouched) return 1f;
+                            if (s == null || !s.ItemGrid.Touched) return 1f;
                             break;
                         }
                         case TileEntityType.SecureLoot:
                         {
                             var s = ((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>();
-                            if (s == null || !s.bTouched) return 1f;
+                            if (s == null || !s.ItemGrid.Touched) return 1f;
                             break;
                         }
                         default:

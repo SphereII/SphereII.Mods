@@ -332,9 +332,9 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
             if (checkBlock.Block.blockMaterial.IsLiquid)
             {
                 // This is the actual item we want to drink out of. The above is just to deplete the water source.
-                theEntity.inventory.SetBareHandItem(ItemClass.GetItem("drinkJarEmpty"));
+                theEntity.inventory.Hand.SetBareHandItem(ItemClass.GetItem("drinkJarEmpty"));
                 theEntity.UseHoldingItem(0,true);
-                theEntity.inventory.SetBareHandItem(ItemClass.GetItem(original.Name));
+                theEntity.inventory.Hand.SetBareHandItem(ItemClass.GetItem(original.Name));
 
                 return true;
             }
@@ -371,7 +371,7 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
             {
                 DisplayLog(" Drinking: " + item.ItemClass.GetItemName());
                 // Hold the food item.
-                theEntity.inventory.SetBareHandItem(item);
+                theEntity.inventory.Hand.SetBareHandItem(item);
                 theEntity.Attack(true);
                 // We want to consume the food, but the consumption of food isn't supported on the non-players, so just fire off the buff 
                 theEntity.FireEvent(MinEventTypes.onSelfPrimaryActionEnd);
@@ -379,7 +379,7 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
 
                 DisplayLog(" Drinking");
                 // restore the hand item.
-                theEntity.inventory.SetBareHandItem(ItemClass.GetItem(original.Name));
+                theEntity.inventory.Hand.SetBareHandItem(ItemClass.GetItem(original.Name));
 
                 return true;
             }
@@ -403,14 +403,14 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
                 }
 
             // This is the actual item we want to drink out of. The above is just to deplete the water source.
-            theEntity.inventory.SetBareHandItem(ItemClass.GetItem("drinkJarBoiledWater"));
+            theEntity.inventory.Hand.SetBareHandItem(ItemClass.GetItem("drinkJarBoiledWater"));
             theEntity.Attack(true);
             // Then we want to fire off the event on the water we are drinking.
             theEntity.FireEvent(MinEventTypes.onSelfPrimaryActionEnd);
 
             DisplayLog(" Drinking");
             // restore the hand item.
-            theEntity.inventory.SetBareHandItem(ItemClass.GetItem(original.Name));
+            theEntity.inventory.Hand.SetBareHandItem(ItemClass.GetItem(original.Name));
         }
 
         if (CheckIncentive(lstHungryBuffs))
@@ -449,7 +449,7 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
             {
                 DisplayLog(" entity is eating: " + item.ItemClass.GetItemName());
                 // Hold the food item.
-                theEntity.inventory.SetBareHandItem(item);
+                theEntity.inventory.Hand.SetBareHandItem(item);
                 theEntity.Attack(true);
                 // We want to consume the food, but the consumption of food isn't supported on the non-players, so just fire off the buff 
                 theEntity.FireEvent(MinEventTypes.onSelfPrimaryActionEnd);
@@ -457,7 +457,7 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
 
                 DisplayLog(" Eating");
                 // restore the hand item.
-                theEntity.inventory.SetBareHandItem(ItemClass.GetItem(original.Name));
+                theEntity.inventory.Hand.SetBareHandItem(ItemClass.GetItem(original.Name));
             }
         }
 
@@ -526,13 +526,13 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
 
 
     // Grab a single item from the storage box, and remmove it.
-    public ItemValue GetItemFromContainer(ITileEntityLootable tileLootContainer, List<string> lstContents, string strSearchType)
+    public ItemValue GetItemFromContainer(TEFeatureStorage tileLootContainer, List<string> lstContents, string strSearchType)
     {
         var item = CheckContents(tileLootContainer, lstContents, strSearchType);
         if (item != null)
         {
             DisplayLog("GetItemFromContainer() Searching for item: " + item.ItemClass.Name);
-            var array = tileLootContainer.items;
+            var array = tileLootContainer.ItemGrid.items;
             if (array != null)
             {
                 for (var i = 0; i < array.Length; i++)
@@ -600,10 +600,10 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
 
 
     // This will check if the food item actually exists in the container, before making the trip to it.
-    public ItemValue CheckContents(ITileEntityLootable tileLootContainer, List<string> lstContents, string strSearchType)
+    public ItemValue CheckContents(TEFeatureStorage tileLootContainer, List<string> lstContents, string strSearchType)
     {
         DisplayLog(" Check Contents of Container: " + tileLootContainer);
-        var array = tileLootContainer.items;
+        var array = tileLootContainer.ItemGrid.items;
         DisplayLog(" TileEntity: " + array.Length);
 
         if (array != null)
@@ -637,8 +637,8 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
 
     private ItemValue CheckContents(Bag bag, List<string> lstContents, string strSearchType)
     {
-        if (bag?.items == null) return null;
-        foreach (var stack in bag.items)
+        if (bag?.ItemGrid?.items == null) return null;
+        foreach (var stack in bag.ItemGrid.items)
         {
             if (stack.IsEmpty()) continue;
             if (lstContents.Count > 0 && lstContents.Contains(stack.itemValue.ItemClass.Name))

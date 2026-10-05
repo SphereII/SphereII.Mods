@@ -46,7 +46,7 @@ namespace UAI
                     isRunning = true;
 
                     var stack = ItemStack.Empty;
-                    ItemStack[] array = _context.Self.bag.GetSlots();
+                    ItemStack[] array = _context.Self.bag.ItemGrid.items;
                     for (int i = 0; i < array.Length; i++)
                     {
                         if (array[i] != null && array[i] != ItemStack.Empty )
@@ -117,15 +117,17 @@ namespace UAI
                 //     _context.Self.inventory.SetItem(_context.Self.inventory.DUMMY_SLOT_IDX, ItemStack.Empty.Clone());
 
                 _context.Self.inventory.SetItem(0, _itemStack);
-                _context.Self.inventory.SetHoldingItemIdx(0); _context.Self.inventory.OnUpdate();
+                _context.Self.inventory.SetHoldingItemIdx(0); _context.Self.inventory.ReconcileHeldItem();
                 this.Stop(_context);
             }
         }
         public IEnumerator SimulateActionExecution(Context _context, EntityAlive target, int _actionIdx, ItemStack _itemStack, Action onComplete)
         {
-            _context.Self.inventory.SetItem(_context.Self.inventory.DUMMY_SLOT_IDX, _itemStack);
+            // v3.3: the scratch "dummy" toolbelt slot is gone; Hand holds a transient item instead.
+            var hand = _context.Self.inventory.Hand;
+            hand.transientData.SetStack(_itemStack);
             yield return new WaitForSeconds(0.1f);
-            _context.Self.inventory.SetHoldingItemIdx(_context.Self.inventory.DUMMY_SLOT_IDX);
+            hand.SelectHoldingMode(Hand.HoldingMode.Transient);
             yield return new WaitForSeconds(0.1f);
 
             if (_context.Self.inventory.holdingItemData.actionData[1] is ItemActionUseOther.FeedInventoryData feedInventoryData)
@@ -137,10 +139,10 @@ namespace UAI
                 yield return new WaitForSeconds(0.1f);
                 _context.Self.inventory.DecHoldingItem(1);
                 yield return new WaitForSeconds(0.1f);
-                _context.Self.inventory.SetItem(_context.Self.inventory.DUMMY_SLOT_IDX, ItemStack.Empty.Clone());
+                hand.SelectHoldingMode(Hand.HoldingMode.Current);
                 yield return new WaitForSeconds(0.1f);
                 _context.Self.inventory.SetHoldingItemIdx(0);
-                _context.Self.inventory.OnUpdate();
+                _context.Self.inventory.ReconcileHeldItem();
                 yield return new WaitForSeconds(0.1f);
                 this.Stop(_context);
             }

@@ -33,11 +33,6 @@ public class NetPackageRemoveFirePosition : NetPackage
         bw.Write(_entityThatCausedIt);
     }
 
-    public override int GetLength()
-    {
-        return 20;
-    }
-
     public override void ProcessPackage(World world, GameManager callbacks)
     {
         if (world == null)

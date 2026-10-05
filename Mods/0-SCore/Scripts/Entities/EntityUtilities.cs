@@ -177,11 +177,11 @@ public static class EntityUtilities
                 QuestJournal questJournal = null;
                 if (entitiesInBounds[i] is EntityAliveSDX v3) questJournal = v3.questJournal;
                 else if (entitiesInBounds[i] is EntityAliveSDXV4 v4) questJournal = v4.questJournal;
-                questJournal?.AddQuest(QuestClass.CreateQuest(strQuest));
+                questJournal?.AddQuest(QuestClass.CreateQuest(strQuest), Quest.QuestSource.QuestSystem);
 
                 var player = entitiesInBounds[i] as EntityPlayerLocal;
                 if (player != null)
-                    player.QuestJournal.AddQuest(QuestClass.CreateQuest(strQuest));
+                    player.QuestJournal.AddQuest(QuestClass.CreateQuest(strQuest), Quest.QuestSource.QuestSystem);
             }
     }
 
@@ -218,12 +218,8 @@ public static class EntityUtilities
 
         myEntity.inventory.SetHoldingItemIdxNoHolsterTime(index);
 
-        // Forcing the show items
-        myEntity.inventory.ShowHeldItem(0f,false);
-        myEntity.inventory.ShowHeldItem(0f,true);
-
         //myEntity.inventory.SetHoldingItemIdx(index);
-        myEntity.inventory.ForceHoldingItemUpdate();
+        myEntity.inventory.ReconcileHeldItem();
         //  myEntity.emodel.SwitchModelAndView(myEntity.emodel.IsFPV, myEntity.IsMale);
         return index;
     }
@@ -264,24 +260,24 @@ public static class EntityUtilities
             return itemStack;
 
         // Check for the items in the tool belt.
-        foreach (var stack in myEntity.inventory.GetSlots())
+        foreach (var stack in myEntity.inventory.ItemGrid.items)
         {
             if (CheckItemStack(stack, property))
                 return stack;
         }
 
         // Check for the items in the inventory.
-        foreach (var stack in myEntity.bag.GetSlots())
+        foreach (var stack in myEntity.bag.ItemGrid.items)
         {
             if (CheckItemStack(stack, property))
                 return stack;
         }
 
         // if there's no loot container, don't check it.
-        var sdxForProp = myEntity as EntityAliveSDX;
-        if (sdxForProp?.lootContainer == null) return itemStack;
+        var sdxForProp = GetSDXLootContainer(myEntity);
+        if (sdxForProp?.items == null) return itemStack;
 
-        foreach (var stack in sdxForProp.lootContainer.items)
+        foreach (var stack in sdxForProp.items)
         {
             if (CheckItemStack(stack, property))
                 return stack;
@@ -298,24 +294,24 @@ public static class EntityUtilities
             return itemStack;
 
         // Check for the items in the tool belt.
-        foreach (var stack in myEntity.inventory.GetSlots())
+        foreach (var stack in myEntity.inventory.ItemGrid.items)
         {
             if (CheckItemStack(stack, findAction))
                 return stack;
         }
 
         // Check for the items in the inventory.
-        foreach (var stack in myEntity.bag.GetSlots())
+        foreach (var stack in myEntity.bag.ItemGrid.items)
         {
             if (CheckItemStack(stack, findAction))
                 return stack;
         }
 
         // if there's no loot container, don't check it.
-        var sdxForAction = myEntity as EntityAliveSDX;
-        if (sdxForAction?.lootContainer == null) return itemStack;
+        var sdxForAction = GetSDXLootContainer(myEntity);
+        if (sdxForAction?.items == null) return itemStack;
 
-        foreach (var stack in sdxForAction.lootContainer.items)
+        foreach (var stack in sdxForAction.items)
         {
             if (CheckItemStack(stack, findAction))
                 return stack;
@@ -337,20 +333,20 @@ public static class EntityUtilities
             var item = ItemClass.GetItem(ID);
             if (item != null)
             {
-                foreach (var stack in myEntity.inventory.GetSlots())
+                foreach (var stack in myEntity.inventory.ItemGrid.items)
                 {
                     if (CheckItemStackByName(stack, ID))
                         return stack;
                 }
 
-                foreach (var stack in (myEntity as EntityAliveSDX)?.lootContainer?.items ?? System.Array.Empty<ItemStack>())
+                foreach (var stack in GetSDXLootContainer(myEntity)?.items ?? System.Array.Empty<ItemStack>())
                 {
                     if (CheckItemStackByName(stack, ID))
                         return stack;
                 }
 
                 // Check for the items in the inventory.
-                foreach (var stack in myEntity.bag.GetSlots())
+                foreach (var stack in myEntity.bag.ItemGrid.items)
                 {
                     if (CheckItemStackByName(stack, ID))
                         return stack;
@@ -399,8 +395,25 @@ public static class EntityUtilities
         }
     }
 
+    // EntityAliveSDX and EntityAliveSDXV4 are siblings under EntityTrader, not parent and child,
+    // so a cast to EntityAliveSDX alone silently skips every V4 NPC. These resolve the members
+    // both classes carry but IEntityAliveSDX does not expose.
+    public static SCoreLootContainer GetSDXLootContainer(Entity entity)
+    {
+        if (entity is EntityAliveSDX v3) return v3.lootContainer;
+        if (entity is EntityAliveSDXV4 v4) return v4.lootContainer;
+        return null;
+    }
+
+    public static QuestJournal GetSDXQuestJournal(Entity entity)
+    {
+        if (entity is EntityAliveSDX v3) return v3.questJournal;
+        if (entity is EntityAliveSDXV4 v4) return v4.questJournal;
+        return null;
+    }
+
     // The entity's item stores, in the order items are found and consumed:
-    // toolbelt, bag, the EntityAliveSDX loot container, then the player-facing harvest window.
+    // toolbelt, bag, the SDX loot container, then the player-facing harvest window.
     // Lookups and decrements must both walk this list, or an item can be found in one store
     // and "consumed" from another (the unlimited bandage bug).
     public static IEnumerable<EntityItemStore> GetItemStores(EntityAlive myEntity)
@@ -409,13 +422,13 @@ public static class EntityUtilities
             yield break;
 
         if (myEntity.inventory != null)
-            yield return new EntityItemStore(ItemStoreKind.Toolbelt, myEntity.inventory.GetSlots(), myEntity, null);
+            yield return new EntityItemStore(ItemStoreKind.Toolbelt, myEntity.inventory.ItemGrid.items, myEntity, null);
 
         // NPC bags are null unless the entity class has a LootList or BagItems.
         if (myEntity.bag != null)
-            yield return new EntityItemStore(ItemStoreKind.Bag, myEntity.bag.GetSlots(), myEntity, null);
+            yield return new EntityItemStore(ItemStoreKind.Bag, myEntity.bag.ItemGrid.items, myEntity, null);
 
-        var container = (myEntity as EntityAliveSDX)?.lootContainer;
+        var container = GetSDXLootContainer(myEntity);
         if (container?.items != null)
             yield return new EntityItemStore(ItemStoreKind.LootContainer, container.items, myEntity, container);
 
@@ -443,6 +456,51 @@ public static class EntityUtilities
         }
 
         return ItemStack.Empty;
+    }
+
+    // v3.3: Hand.SimulateActionExecution drives the transient hold slot from a live ItemStackGrid
+    // plus an index, not a detached ItemStack, so callers that want to "use" an item have to say
+    // which grid slot it really lives in. Only the toolbelt and bag are grid-backed; the loot and
+    // harvest containers in GetItemStores are not, so they cannot be simulated from.
+    public static bool TryFindItemGridSlot(EntityAlive myEntity, Predicate<ItemStack> match,
+        out ItemStackGrid grid, out int index)
+    {
+        grid = null;
+        index = -1;
+        if (myEntity == null || match == null)
+            return false;
+
+        var candidates = new[] { myEntity.inventory?.ItemGrid, myEntity.bag?.ItemGrid };
+        foreach (var candidate in candidates)
+        {
+            var stacks = candidate?.items;
+            if (stacks == null)
+                continue;
+
+            for (var i = 0; i < stacks.Length; i++)
+            {
+                if (!match(stacks[i]))
+                    continue;
+                grid = candidate;
+                index = i;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static bool TryFindItemGridSlotByTag(int EntityID, string Tag, out ItemStackGrid grid, out int index)
+    {
+        grid = null;
+        index = -1;
+
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
+            return false;
+
+        var tag = FastTags<TagGroup.Global>.Parse(Tag);
+        return TryFindItemGridSlot(myEntity, stack => CheckItemStack(stack, tag), out grid, out index);
     }
 
     public static bool MatchesItem(ItemStack stack, ItemValue itemValue)
@@ -514,7 +572,7 @@ public static class EntityUtilities
         var counter = -1;
 
         // Check for the items in the tool belt.
-        foreach (var stack in myEntity.inventory.GetSlots())
+        foreach (var stack in myEntity.inventory.ItemGrid.items)
         {
             counter++;
             if (CheckItemStack(stack, tag))
@@ -525,7 +583,7 @@ public static class EntityUtilities
         counter = -1;
 
         // Check for the items in the inventory.
-        foreach (var stack in myEntity.bag.GetSlots())
+        foreach (var stack in myEntity.bag.ItemGrid.items)
         {
             counter++;
             if (CheckItemStack(stack, tag))
@@ -535,10 +593,10 @@ public static class EntityUtilities
         // Reset counter.
         counter = -1;
 
-        var sdxForFindTag = myEntity as EntityAliveSDX;
-        if (sdxForFindTag?.lootContainer != null)
+        var sdxForFindTag = GetSDXLootContainer(myEntity);
+        if (sdxForFindTag?.items != null)
         {
-            foreach (var stack in sdxForFindTag.lootContainer.items)
+            foreach (var stack in sdxForFindTag.items)
             {
                 counter++;
                 if (CheckItemStack(stack, tag))
@@ -629,9 +687,9 @@ public static class EntityUtilities
         if (!string.IsNullOrEmpty(tags))
             fastTags = FastTags<TagGroup.Global>.Parse(tags);
 
-        var sdxForFindAction = myEntity as EntityAliveSDX;
+        var sdxForFindAction = GetSDXLootContainer(myEntity);
         var counter = -1;
-        foreach (var stack in sdxForFindAction?.lootContainer?.items ?? System.Array.Empty<ItemStack>())
+        foreach (var stack in sdxForFindAction?.items ?? System.Array.Empty<ItemStack>())
         {
             counter++;
             if (Equals(stack, ItemStack.Empty))
@@ -1297,9 +1355,11 @@ public static class EntityUtilities
 
     public static void SetOwner(int EntityID, int LeaderID)
     {
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        // IEntityAliveSDX, not EntityAliveSDX: this is the only writer of Owner, and a V4 NPC
+        // without it drops out of "hired" the moment Leader is cleared (the Loot order).
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         var leaderEntity = GameManager.Instance.World.GetEntity(LeaderID) as EntityAlive;
-        if (myEntity != null && leaderEntity != null)
+        if (myEntity is IEntityAliveSDX && leaderEntity != null)
         {
             myEntity.Buffs.SetCustomVar("Owner", LeaderID);
             leaderEntity.Buffs.SetCustomVar("EntityID", LeaderID);
@@ -1863,8 +1923,8 @@ public static class EntityUtilities
     public static int GetHireCost(int EntityID)
     {
         var result = -1;
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
-        if (myEntity)
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity is IEntityAliveSDX)
             result = GetIntValue(EntityID, "HireCost");
 
         if (result == -1)
@@ -1875,8 +1935,8 @@ public static class EntityUtilities
     public static ItemValue GetHireCurrency(int EntityID)
     {
         var result = ItemClass.GetItem("casinoCoin");
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
-        if (myEntity)
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity is IEntityAliveSDX)
             result = GetItemValue(EntityID, "HireCurrency");
 
         if (result.IsEmpty())
@@ -1887,8 +1947,8 @@ public static class EntityUtilities
     public static ItemValue GetItemValue(int EntityID, string strProperty)
     {
         var result = ItemClass.GetItem("casinoCoin");
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
-        if (myEntity)
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity is IEntityAliveSDX)
         {
             var entityClass = EntityClass.list[myEntity.entityClass];
             if (entityClass.Properties.Values.ContainsKey(strProperty))
@@ -1904,8 +1964,8 @@ public static class EntityUtilities
     {
         var result = -1;
 
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
-        if (myEntity)
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity is IEntityAliveSDX)
         {
             var entityClass = EntityClass.list[myEntity.entityClass];
             if (entityClass.Properties.Values.ContainsKey(strProperty))
@@ -2133,14 +2193,14 @@ public static class EntityUtilities
         return TempList;
     }
 
-    private static void lootContainerOpened(ITileEntityLootable _te, LocalPlayerUI _playerUI,
+    private static void lootContainerOpened(SCoreLootContainer _te, LocalPlayerUI _playerUI,
         int _entityIdThatOpenedIt)
     {
         // GameManager.lootContainerOpened and TileEntityComposite.entityId were removed in new game version.
         // Container opening is handled via OpenContainer().
     }
 
-    public static void OpenContainer(EntityPlayerLocal playerLocal, ITileEntityLootable _te)
+    public static void OpenContainer(EntityPlayerLocal playerLocal, SCoreLootContainer _te)
     {
         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPrimaryPlayer();
         uiforPlayer.windowManager.CloseAllOpenModalWindows();
@@ -2149,10 +2209,10 @@ public static class EntityUtilities
         // untouched containers and returns immediately. Forcing Open("looting") afterward
         // then opened the loot window before 'te' was bound, so XUiC_ContainerStandardControls
         // .OnOpen -> get_LockedSlots (and later XUiC_LootWindow.OnClose) NRE on a null te.
-        // Marking the container touched routes OpenLooting through openContainer(), which
-        // binds te on both the group and the loot window and opens the window itself.
-        _te.bWasTouched = true;
-        ((XUiC_LootWindowGroup)((XUiWindowGroup)window).Controller).OpenLooting(_te.lootListName, _te);
+        // 3.3: the timer is now gated on the _firstTimeTouched argument instead of the
+        // container's touched flag, so pass false to route straight through openContainer(),
+        // which binds te on both the group and the loot window and opens the window itself.
+        ((XUiC_LootWindowGroup)((XUiWindowGroup)window).Controller).OpenLooting(_te.lootListName, _te, false);
     }
     public static bool CheckFaction(int EntityID, EntityAlive entity)
     {
@@ -2268,8 +2328,8 @@ public static class EntityUtilities
 
     public static string DisplayEntityStats(int EntityID)
     {
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
-        if (myEntity == null)
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity is not IEntityAliveSDX)
             return "";
 
         var FoodAmount = Mathf.RoundToInt(myEntity.Stats.Stamina.ModifiedMax + GetCVarValue(EntityID, "foodAmount"))
@@ -2312,11 +2372,11 @@ public static class EntityUtilities
         foreach (var myCvar in myEntity.Buffs.CVars)
             strOutput += "\n\t" + myCvar.Key + " : " + myCvar.Value;
         strOutput += "\n Active Quests: ";
-        foreach (var quest in myEntity.questJournal.quests)
+        foreach (var quest in GetSDXQuestJournal(myEntity)?.quests ?? new List<Quest>())
             strOutput += "\n\t" + quest.ID + " Current State: " + quest.CurrentState + " Current Phase: " +
                          quest.CurrentPhase;
         strOutput += "\n Patrol Points: ";
-        foreach (var vec in myEntity.patrolCoordinates)
+        foreach (var vec in (myEntity as IEntityOrderReceiverSDX)?.PatrolCoordinates ?? new List<Vector3>())
             strOutput += "\n\t" + vec;
         strOutput += "\n\nCurrency: " + GetHireCurrency(EntityID) + " Faction: " + myEntity.factionId;
 
@@ -2386,12 +2446,10 @@ public static class EntityUtilities
             }
         }
     }
-    // TODO: NetPackageWeaponSwap.Setup currently requires EntityAliveSDX.
-    // Update that net package to accept IEntityAliveSDX so V4 entities are supported.
     public static void UpdateHandItem(int entityId, string item)
     {
-        var entity = GameManager.Instance.World.GetEntity(entityId) as EntityAliveSDX;
-        if (entity == null)
+        var entity = GameManager.Instance.World.GetEntity(entityId) as EntityAlive;
+        if (entity is not IEntityAliveSDX)
         {
             return;
         }

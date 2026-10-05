@@ -70,7 +70,10 @@ public partial class EntityAliveSDXV4
         // shouldn't refuse to talk or trade overnight.
         if (_playerFocusing != null && (!_playerFocusing.PlayerUI.windowManager.IsModalWindowOpen() || _playerFocusing.PlayerUI.windowManager.GetModalWindow().Id == "radial"))
         {
-            LockManager.Instance.LockRequestLocal(this, new EntityTrader.EntityTraderLockContext(_command.commandId.ToString(), this.TraderData), 0);
+            // v3.3: the lock context object is gone; EntityTrader stashes the pending command in
+            // transientLockCommand and LockRequestLocal takes just the target and channel.
+            transientLockCommand = _command.commandId.ToString();
+            LockManager.Instance.LockRequestLocal(this, 0);
         }
     }
 }

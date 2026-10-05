@@ -19,8 +19,8 @@
         if (fieldName != null)
             if (fieldName == "statement")
             {
-                var myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
-                if (myEntity) value = EntityUtilities.DisplayEntityStats(entityID);
+                var myEntity = player.world.GetEntity(entityID) as IEntityAliveSDX;
+                if (myEntity != null) value = EntityUtilities.DisplayEntityStats(entityID);
                 return false;
             }
 

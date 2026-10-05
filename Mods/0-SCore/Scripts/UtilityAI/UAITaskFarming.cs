@@ -443,7 +443,7 @@ namespace UAI
                     }
                     else if (lootContainer != null)
                     {
-                        lootContainer.items = StackSortUtil.CombineAndSortStacks(lootContainer.items, 0);
+                        lootContainer.ItemGrid.SetItems(StackSortUtil.CombineAndSortStacks(lootContainer.items, 0), false);
                         lootContainer.SetModified();
                     }
                 }

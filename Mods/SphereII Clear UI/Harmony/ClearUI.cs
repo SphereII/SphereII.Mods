@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using System.Reflection;
 
 public class ClearUI
@@ -132,18 +132,8 @@ public class ClearUI
 
     // Remove the SetLabel Text calls
     [HarmonyPatch(typeof(NGUIWindowManager))]
-    [HarmonyPatch("SetLabelText")]
-    [HarmonyPatch(new[] { typeof(EnumNGUIWindow), typeof(string) })]
-    public class SphereII_ClearUI_NGUIWindowManager
-    {
-        private static bool Prefix()
-        {
-            return false;
-        }
-    }
-
-    // Remove the SetLabel Text calls
-    [HarmonyPatch(typeof(NGUIWindowManager))]
+    // string literal, not nameof: NGUIWindowManager derives from MonoBehaviour and this project
+    // deliberately references no UnityEngine assemblies, so member lookup on the type fails.
     [HarmonyPatch("SetLabelText")]
     [HarmonyPatch(new[] { typeof(EnumNGUIWindow), typeof(string), typeof(bool) })]
     public class SphereII_ClearUI_NGUIWindowManager_SetLabelText
@@ -156,7 +146,7 @@ public class ClearUI
 
     // Removes the timer
     [HarmonyPatch(typeof(XUiC_Timer))]
-    [HarmonyPatch("OnOpen")]
+    [HarmonyPatch(nameof(XUiC_Timer.OnOpen))]
     public class SphereII_ClearUI_XUiC_Timer_OnOpen
     {
         private static bool Prefix()
@@ -168,7 +158,7 @@ public class ClearUI
 
     // Removes the timer
     [HarmonyPatch(typeof(XUiC_Timer))]
-    [HarmonyPatch("UpdateTimer")]
+    [HarmonyPatch(nameof(XUiC_Timer.updateTimer))]
     public class SphereII_ClearUI_XUiC_Timer_UpdateTimer
     {
         private static bool Prefix()

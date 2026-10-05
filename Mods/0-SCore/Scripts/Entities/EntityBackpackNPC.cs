@@ -73,15 +73,15 @@ public class EntityBackpackNPC : EntityItem
         this.bRemoved = true;
     }
 
-    public override void Write(BinaryWriter _bw, bool bNetworkWrite)
+    public override void Write(PooledBinaryWriter _bw, StreamModeWrite _eStreamMode)
     {
-        base.Write(_bw, bNetworkWrite);
+        base.Write(_bw, _eStreamMode);
         _bw.Write(this.RefPlayerId);
     }
 
-    public override void Read(byte _version, BinaryReader _br)
+    public override void Read(byte _version, PooledBinaryReader _br, StreamModeRead _eStreamMode)
     {
-        base.Read(_version, _br);
+        base.Read(_version, _br, _eStreamMode);
         this.RefPlayerId = _br.ReadInt32();
     }
 

@@ -43,7 +43,7 @@ namespace UAI
                     if (tileEntity is TileEntityComposite tec)
                     {
                         var storage = tec.GetFeature<TEFeatureStorage>();
-                        if (storage == null || !storage.bTouched) return scoreClamp;
+                        if (storage == null || !storage.ItemGrid.Touched) return scoreClamp;
                     }
                     else
                     {

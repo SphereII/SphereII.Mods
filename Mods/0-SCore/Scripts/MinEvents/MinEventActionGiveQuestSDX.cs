@@ -11,13 +11,19 @@ public class MinEventActionGiveQuestSDX : MinEventActionRemoveBuff
     {
         for (var j = 0; j < targets.Count; j++)
         {
-            var entity = targets[j] as EntityAliveSDX;
-            if (entity != null)
+            if (targets[j] is EntityAliveSDX entity)
             {
                 if (string.IsNullOrEmpty(strQuest))
                     continue;
 
                 entity.GiveQuest(strQuest);
+            }
+            else if (targets[j] is EntityAliveSDXV4 entityV4)
+            {
+                if (string.IsNullOrEmpty(strQuest))
+                    continue;
+
+                entityV4.GiveQuest(strQuest);
             }
 
             // If the target is a player.
@@ -29,7 +35,7 @@ public class MinEventActionGiveQuestSDX : MinEventActionRemoveBuff
 
                 var myQuest = QuestClass.CreateQuest(strQuest);
                 myQuest.QuestGiverID = -1;
-                Playerentity.QuestJournal.AddQuest(myQuest);
+                Playerentity.QuestJournal.AddQuest(myQuest, Quest.QuestSource.QuestSystem);
             }
         }
     }

@@ -145,13 +145,6 @@ public class NetPackageQuestTreasurePointSDX : NetPackage
 
 	}
 
-	// Token: 0x060031FC RID: 12796 RVA: 0x0015A70B File Offset: 0x0015890B
-	public override int GetLength()
-	{
-		//Log.Out("NetPackageQuestTreasurePointSDX-GetLength-Start");
-		return 8;
-	}
-
 	// Token: 0x04002215 RID: 8725
 	private int playerId;
 

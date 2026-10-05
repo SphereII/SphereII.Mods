@@ -1,4 +1,4 @@
-/// <summary>
+﻿/// <summary>
 /// Client → Server: sends the items remaining in the harvest loot window after the player
 /// closes it, so the server-side HarvestManager container stays accurate.
 /// Sent by the XUiC_LootWindowGroup_OnClose Harmony patch on dedicated-server clients.
@@ -44,5 +44,4 @@ public class NetPackageHarvestInventoryUpdate : NetPackage
         HarvestManager.Save();
     }
 
-    public override int GetLength() => 4 + (_serializedItems?.Length ?? 0);
 }

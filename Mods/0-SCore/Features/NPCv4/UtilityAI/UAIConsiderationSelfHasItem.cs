@@ -43,9 +43,9 @@ namespace UAI
                         var startsWith = parts[0];
                         var endsWith   = parts[1];
 
-                        if (_context.Self.bag?.items != null)
+                        if (_context.Self.bag?.ItemGrid?.items != null)
                         {
-                            foreach (var slot in _context.Self.bag.items)
+                            foreach (var slot in _context.Self.bag.ItemGrid.items)
                             {
                                 var itemName = slot.itemValue.ItemClass?.GetItemName();
                                 if (itemName != null && itemName.StartsWith(startsWith) && itemName.EndsWith(endsWith))

@@ -60,8 +60,8 @@ public partial class EntityAliveSDXV4
             zombieController.rightHandT = zombieController.FindTransform(GetRightHandTransformName());
 
         // Item update must happen after SwitchModelAndView so the weapon attaches to the updated hand.
-        inventory.OnUpdate();
-        inventory.ForceHoldingItemUpdate();
+        inventory.ReconcileHeldItem();
+        inventory.ReconcileHeldItem();
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public partial class EntityAliveSDXV4
         // handItem and then hands it straight to Inventory.SetBareHandItem. The two can diverge,
         // though, because SetBareHandItem rewrites the bare hand without touching the entity's
         // handItem field - so check both rather than assuming they agree.
-        var bareHand = inventory?.GetBareHandItem();
+        var bareHand = inventory?.Hand.BareHandItem;
         if (bareHand != null &&
             bareHand.GetItemName().Equals(weapon, StringComparison.InvariantCultureIgnoreCase))
             return true;
@@ -210,7 +210,7 @@ public partial class EntityAliveSDXV4
 
         newQuest.SharedOwnerID = entityId;
         newQuest.QuestGiverID  = -1;
-        questJournal.AddQuest(newQuest);
+        questJournal.AddQuest(newQuest, Quest.QuestSource.QuestSystem);
     }
 
     // =========================================================================

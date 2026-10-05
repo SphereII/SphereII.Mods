@@ -85,6 +85,189 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.3.7.636
+	Game Version: v3.3.0 (b17) (b)
+
+	*** GAME VERSION NOTICE - v3.3 ONLY ***
+
+	This build is ported to 7 Days To Die v3.3 and will not load on v3.2.
+	v3.3 is a broad engine refactor rather than a handful of renames - item
+	storage, held items, entity serialization, network packages and loot
+	containers all changed shape - so SCore was ported across roughly 110
+	files. Any modlet that ships its own DLL, or copies SCore code, needs the
+	same port before it will run on v3.3.
+
+	[ v3.3 Port - Food Spoilage ]
+		- Fixed a changed value from cachedItemValue to just itemValue.
+
+	[ v3.3 Port - Item storage now goes through ItemStackGrid ]
+		- Bag, Inventory (toolbelt), Equipment and TEFeatureStorage all moved
+		  their slots onto an ItemStackGrid. Every SCore reader of the old
+		  items / GetSlots() / m_slots / GetItems() surfaces now reads
+		  ItemGrid.items: encumbrance, remote crafting, the drop box, item
+		  degradation, challenges, NPC looting, farming, healing, pick-up and
+		  the NPC sync/serialization helpers.
+		- Equipment now holds ItemStacks rather than ItemValues, so the wear-
+		  tags challenge and the equipment encumbrance pass take .itemValue per
+		  slot.
+		- The grid owns its ItemStack instances, so nothing swaps the array
+		  wholesale any more. Places that used to (the farming stack sort, the
+		  NPC loot sync, backpack creation on NPC death) now go through
+		  ItemGrid.SetItems / Resize / Clear.
+
+	[ v3.3 Port - Held items moved to the new Hand class ]
+		- The scratch DUMMY_SLOT_IDX toolbelt slot is gone. Hiding an NPC's
+		  weapon is now Hand.SelectHoldingMode(Bare) guarded by
+		  Hand.IsHolstered, and the heal-a-target task holds its bandage as a
+		  Hand transient item instead of writing it into the dummy slot.
+		- NPC self-healing rides the new Hand.SimulateActionExecution, which
+		  takes the live grid slot the item sits in rather than a detached
+		  copy. EntityUtilities gained TryFindItemGridSlot and
+		  TryFindItemGridSlotByTag to locate that slot in the toolbelt or bag.
+		- Bare-hand access (eating, drinking, consume-product, the flock /
+		  flying / legacy zombie classes) goes through inventory.Hand.
+		- OnUpdate / ForceHoldingItemUpdate became ReconcileHeldItem, and
+		  IsHolsterDelayActive became IsHandSwitching.
+
+	[ v3.3 Port - Entity save and network serialization ]
+		- Entity Write/Read overrides moved to PooledBinaryWriter /
+		  PooledBinaryReader plus the new top-level StreamModeWrite /
+		  StreamModeRead enums, across EntityAliveSDX, EntityAliveSDXV4,
+		  EntityEnemySDX, EntityNPCBandit, the flying and flock zombies, and
+		  EntityBackpackNPC. The on-disk SDX section layout is unchanged.
+		- EntityCreationData now carries a serialized bag blob instead of a
+		  Bag, so an NPC's death backpack is written out through
+		  StreamUtils.ToBlob.
+		- NetPackage.GetLength() was removed by the game; every SCore package
+		  dropped its override (fire, farming, portals, quests, NPC sync and
+		  the rest). Challenge objectives read from PooledBinaryReader.
+
+	[ v3.3 Port - Loot containers ]
+		- ITileEntityLootable no longer exists; TEFeatureStorage is the only
+		  loot-container type. Remote crafting, the Maslow needs AI and the
+		  container slot-tag checks now bind to it directly.
+		- bTouched / bWasTouched collapsed into one ItemGrid.Touched stamp and
+		  bPlayerStorage became ItemGrid.PlayerOwned. NPC looting, the lock-
+		  picking quest-reset guard and the UAI loot considerations use the new
+		  names.
+		- SCoreLootContainer (the NPC harvest window) is rebuilt on
+		  TEFeatureStorage with a detached composite parent. The parent has its
+		  modified check disabled, so the inherited AddItem / UpdateSlot never
+		  send a tile-entity network packet. It carries a public empty
+		  constructor purely so the game's composite feature scan does not log
+		  "has no parameterless constructor".
+		- Known issue in this build: opening any NPC's inventory throws a
+		  NullReferenceException. Fixed in 3.3.7.933.
+		- Opening an NPC's container passes _firstTimeTouched: false to
+		  OpenLooting, which is how v3.3 skips the scavenge timer. The old trick
+		  of marking the container touched first no longer works.
+
+	[ v3.3 Port - Harmony patches that compiled but did not bind ]
+		- A patch whose target or injected field changed type makes
+		  Harmony.PatchAll abort for the whole SCore assembly, silently dropping
+		  every patch after it. A reflection audit turned up three of these:
+		- Food spoilage: Inventory.SetItem(int, ItemValue, int, bool) was
+		  removed. The "don't holster and re-draw spoiling food every tick" fix
+		  now lives on ItemInventoryData.NeedsRebuild, where v3.3 moved the
+		  rebuild test. Same approach: copy the live spoilage keys onto the
+		  cached comparison value, so only a real change to the item forces a
+		  rebuild.
+		- Mod.InitModCode: Mod.allAssemblies changed from a Dictionary to a
+		  List. The prefix was already a no-op, so its injection was removed.
+		- NPC progression: Progression.ProgressionValueQuickList and eventList
+		  changed type. The postfix is now disabled because v3.3's
+		  Progression(EntityAlive) constructor calls SetupData() itself for
+		  every entity. Side effect: the "noprogression" cvar/tag opt-out has
+		  nothing left to prevent.
+
+	[ v3.3 Port - Item modifications are now nullable ]
+		- ItemValue.Modifications / .CosmeticMods became the raw fields
+		  modifications / cosmeticMods, which are null whenever an item has no
+		  mod slots. The old properties were null-safe, so a plain rename
+		  compiles and then throws a NullReferenceException at runtime. It did,
+		  in MinEventActionRoutineUpdate on every buff tick.
+		- Every read is now guarded or driven from ModificationCount /
+		  GetModification(i): routine updates, item degradation, vehicle part
+		  checks, repair-mods-with-item, encumbrance, the wear-tags challenge,
+		  MinEventActionModifyItem and the workstation quality slot resize.
+
+	[ v3.3 Port - Smaller API changes ]
+		- QuestJournal.AddQuest takes a Quest.QuestSource; SCore passes
+		  QuestSystem everywhere it hands out quests.
+		- BaseObjective gained an abstract InternalToParametersDictionary.
+		  ObjectiveBlockDestroySDX, ObjectiveBuffSDX and ObjectiveRandomGotoSDX
+		  implement it, each modelled on its nearest vanilla objective.
+		- The NPC trader lock context object is gone: talking to an NPC sets
+		  transientLockCommand and calls LockRequestLocal(target, channel).
+		- ItemInventoryData.gameManager was removed (use GameManager.Instance),
+		  and its itemValue is now read-only (write through .stack.itemValue).
+		- GetItemActionDataInSlot was removed. The throw-away simulation uses
+		  GetItemDataInSlot, makes sure the action data exists, and bails out
+		  cleanly when the slot is empty.
+		- XUiC_DragAndDropWindow.itemStack became CurrentStack.
+		- TileEntity.StreamModeRead became the top-level StreamModeRead.
+
+	[ V4 NPCs - Features that only recognised legacy NPCs ]
+		- EntityAliveSDX and EntityAliveSDXV4 are siblings under EntityTrader,
+		  not parent and child. Code that cast to EntityAliveSDX got null for
+		  every V4 NPC and quietly skipped it. The checks below now accept
+		  anything implementing IEntityAliveSDX, which both classes do. They
+		  still exclude vanilla traders and SCore's other entity types, so
+		  nothing new picks up Owner or hire pricing.
+		- New helpers EntityUtilities.GetSDXLootContainer and
+		  GetSDXQuestJournal return either class's loot container and quest
+		  journal, so call sites no longer need a pair of casts.
+
+	[ V4 NPCs - The Loot order un-hired them ]
+		- Hiring sets Leader (following) and Owner (hired). SetOwner, the only
+		  writer of Owner, skipped V4 NPCs. The Loot order deliberately removes
+		  Leader and relies on Owner to keep the NPC hired, so a looting V4 NPC
+		  dropped out of the companion list, offered to be hired again, and
+		  lost its despawn protection on reload.
+		- SetOwner now covers V4. A one-time repair on load copies Leader into
+		  Owner for V4 NPCs hired before this fix, and logs
+		  "restored missing Owner cvar from Leader". An NPC that was already
+		  sent looting on an older build has lost Leader too, so it has nothing
+		  to repair from and needs re-hiring.
+
+	[ V4 NPCs - Companion list showed only legacy NPCs ]
+		- The in-game NPC menu filtered the player's hired_ cvars with a legacy
+		  cast, so hired V4 NPCs never appeared. It now lists both.
+
+	[ V4 NPCs - Weapon swaps were not seen by other players ]
+		- UpdateHandItem returned early for V4 NPCs, so NetPackageWeaponSwap was
+		  never sent, and the receiving side dropped V4 NPCs as well. In
+		  multiplayer, other players kept seeing the old weapon.
+		- Both ends now handle V4. The receiver calls the ItemValue overload of
+		  UpdateWeapon, which does not re-send, so a swap cannot bounce between
+		  server and clients. The SwapWeapon MinEvent covers V4 too.
+
+	[ V4 NPCs - Hire price ignored the entity class ]
+		- GetHireCost / GetHireCurrency skipped V4 NPCs, so every V4 hire fell
+		  back to 1000 casino coins. HireCost and HireCurrency are now honoured.
+
+	[ V4 NPCs - Pathing code window crashed ]
+		- Entering a pathing code on a V4 NPC dereferenced a null entity. It
+		  now works for both classes, and closes safely if no NPC is set.
+
+	[ V4 NPCs - Other gaps closed ]
+		- Party orders: the NotifyTeamTeleport and TeamTeleportNow buff actions,
+		  and HideNPCSDX.
+		- Quests: GiveQuestSDX, PumpQuestSDX, and the RewardQuestSDX,
+		  RewardGiveNPCSDX and RewardReassignNPCSDX quest rewards. Reassignment
+		  now searches for EntityTrader, the common base of both NPC classes.
+		- NPC inventory: RandomLootSDX, and six EntityUtilities item lookups
+		  that ignored a V4 NPC's loot container. The container is also part of
+		  GetItemStores, so items found there are consumed from there.
+		- Windows: the NPC stats window (it closed immediately on a V4 NPC),
+		  the character frame window and the NPC information panel.
+		- The remote-crafting broadcast button no longer shows on a V4 NPC's
+		  inventory window, matching legacy NPCs.
+		- Event-spawner herd leaders and the AnimatorSDX MinEvent.
+		- Left as legacy-only on purpose: the old EAI tasks and legacy Utility
+		  AI tasks (V4 has its own), NetPackageEntityAliveSDXDataSync (V4 has
+		  its own package), and the unused Maslow food/water helpers.
+
 Version: 3.2.36.628
 	Game Version: v3.2.0 (b10)
 

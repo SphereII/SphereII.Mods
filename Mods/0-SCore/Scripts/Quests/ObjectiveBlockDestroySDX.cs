@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /*	Value is the number of blocks before the objective passes
@@ -169,5 +170,14 @@ public class ObjectiveBlockDestroySDX : BaseObjective
 		return objectiveBlockDestroy;
 	}
 
+
+
+	// v3.3: BaseObjective made this abstract. Mirrors vanilla ObjectiveBlockUpgrade, the
+	// nearest surviving block-count objective.
+	public override void InternalToParametersDictionary(ref Dictionary<string, object> parameters)
+	{
+		parameters.Add("block_id", string.IsNullOrEmpty(base.ID) ? "Any Block" : base.ID);
+		parameters.Add("count", this.neededCount);
+	}
 
 }

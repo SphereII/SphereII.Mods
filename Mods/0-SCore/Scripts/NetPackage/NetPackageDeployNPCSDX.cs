@@ -87,11 +87,4 @@ public class NetPackageDeployNPCSDX : NetPackage
         }
     }
 
-    public override int GetLength()
-    {
-        // CRITICAL: Return 0. 
-        // Unlike NetPackageTurretSpawn which returns 20, our ItemValue contains variable-length metadata strings.
-        // Returning 0 forces the network layer to calculate the exact packet size header dynamically.
-        return 0;
-    }
 }

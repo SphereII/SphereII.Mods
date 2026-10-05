@@ -10,7 +10,7 @@
         if (playerUI.xui.Dialog.Respondent != null)
             newQuest.QuestGiverID = playerUI.xui.Dialog.Respondent.entityId;
         player.QuestJournal.RemoveQuest(newQuest);
-        player.QuestJournal.AddQuest(newQuest);
+        player.QuestJournal.AddQuest(newQuest, Quest.QuestSource.QuestSystem);
 
     }
 }

@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -8,7 +8,11 @@ namespace Harmony.Standard
     [HarmonyPatch(nameof(Mod.InitModCode))]
     public class SCoreMod_InitModCode
     {
-        private static bool Prefix(Mod __instance, Dictionary<string, Assembly> ___allAssemblies)
+        // NOTE: this prefix is a no-op - the body below is entirely commented out. It is kept
+        // only for the reference code. v3.3 retyped Mod.allAssemblies from
+        // Dictionary<string, Assembly> to List<Assembly>, so the old ___allAssemblies injection
+        // failed to bind and aborted Harmony.PatchAll for the whole SCore assembly.
+        private static bool Prefix(Mod __instance)
         {
             //string[] files = Directory.GetFiles(__instance.Path);
             //if (files.Length != 0)

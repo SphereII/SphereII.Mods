@@ -1,7 +1,7 @@
 ﻿public class XUiC_PathFindingKeypadWindow : XUiController
 {
     public static string ID = "";
-    public static EntityAliveSDX myEntity;
+    public static EntityAlive myEntity;
     private XUiC_TextInput txtPassword;
 
     public override void Init()
@@ -30,6 +30,12 @@
         var text = txtPassword.Text;
         var code = 0f;
         StringParsers.TryParseFloat(text, out code);
+        if (myEntity == null)
+        {
+            xui.playerUI.windowManager.Close(WindowGroup.Id);
+            return;
+        }
+
         myEntity.Buffs.AddCustomVar("PathingCode", code);
 
         SphereCache.RemovePaths(myEntity.entityId);
@@ -55,7 +61,8 @@
         if (entityID == 0)
             return;
 
-        myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
+        var npc = player.world.GetEntity(entityID) as EntityAlive;
+        myEntity = npc is IEntityAliveSDX ? npc : null;
         base.OnOpen();
 
         txtPassword.Text = "";

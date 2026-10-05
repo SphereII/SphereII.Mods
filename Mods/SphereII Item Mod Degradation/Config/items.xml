@@ -1,4 +1,4 @@
-<configs>
+﻿<configs>
 
     <append xpath="//item[starts-with(@name,'tool')]">
         <!-- Read the snippet file, and merge all the Snippet nodes that match the label. -->
@@ -14,7 +14,7 @@
 
  
     
-    <append xpath="//item[@name='toolAnvil']/effect_group[@tiered='false']">
+    <append xpath="//item[@name='toolAnvil']/effect_group[passive_effect/@name='CraftingTime']">
         <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
     </append>
 

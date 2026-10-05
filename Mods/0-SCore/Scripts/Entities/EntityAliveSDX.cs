@@ -522,7 +522,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
         // shouldn't refuse to talk or trade overnight.
         if (_playerFocusing != null && (!_playerFocusing.PlayerUI.windowManager.IsModalWindowOpen() || _playerFocusing.PlayerUI.windowManager.GetModalWindow().Id == "radial"))
         {
-            LockManager.Instance.LockRequestLocal(this, new EntityTrader.EntityTraderLockContext(_command.commandId.ToString(), this.TraderData), 0);
+            // v3.3: the lock context object is gone; EntityTrader stashes the pending command in
+            // transientLockCommand and LockRequestLocal takes just the target and channel.
+            transientLockCommand = _command.commandId.ToString();
+            LockManager.Instance.LockRequestLocal(this, 0);
         }
     }
 
@@ -642,7 +645,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
         SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(package);
     }
 
-    public void ReadSyncData(BinaryReader _br, ushort syncFlags, int senderId)
+    public void ReadSyncData(PooledBinaryReader _br, ushort syncFlags, int senderId)
     {
         // Preserve Inventory
         if (lootContainer == null) return;
@@ -750,10 +753,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
     // PERSISTENCE (SAVE / LOAD)
     // -------------------------------------------------------------------------
 
-    public override void Write(BinaryWriter _bw, bool bNetworkWrite)
+    public override void Write(PooledBinaryWriter _bw, StreamModeWrite _eStreamMode)
     {
         // 1. Base Class Data (Health, Inventory, Bag, Position, Rotation)
-        base.Write(_bw, bNetworkWrite);
+        base.Write(_bw, _eStreamMode);
 
         // 2. SDX section: component-framed so one failing component is dropped whole instead
         //    of half-written, and so the record can shed components (journal first, loot last)
@@ -813,10 +816,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
         section.WriteTo(_bw);
     }
 
-    public override void Read(byte _version, BinaryReader _br)
+    public override void Read(byte _version, PooledBinaryReader _br, StreamModeRead _eStreamMode)
     {
         // 1. Base Class Data (Reads Inventory, Bag, etc.)
-        base.Read(_version, _br);
+        base.Read(_version, _br, _eStreamMode);
 
         // Defaults first: a component that is absent (dropped on write or skipped on a failed
         // read) leaves these in a sane state instead of stale or garbage values.
@@ -888,7 +891,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
     }
 
     // Pre-framing record layout; still hit for saves written before this format existed.
-    private void ReadLegacy(BinaryReader _br)
+    private void ReadLegacy(PooledBinaryReader _br)
     {
         // 2. SDX Specific Data
         _strMyName = _br.ReadString();
@@ -898,7 +901,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
 
         // 3. Quest Journal
         questJournal = new QuestJournal();
-        questJournal.Read(_br as PooledBinaryReader);
+        questJournal.Read(_br);
 
         // 4. Patrol Coordinates
         patrolCoordinates.Clear();
@@ -942,10 +945,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
             }
         }
     }
-    public void WriteSyncData(BinaryWriter _bw, ushort syncFlags)
+    public void WriteSyncData(PooledBinaryWriter _bw, ushort syncFlags)
     {
         // Inventory
-        //var slots = this.bag.GetSlots();
+        //var slots = this.bag.ItemGrid.items;
         if (lootContainer == null) return;
         var slots = this.lootContainer.items;
         _bw.Write((byte)slots.Length);
@@ -973,7 +976,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
         // If there's no shared owner, it tries to read the PlayerLocal's entity ID. This entity doesn't have that.
         newQuest.SharedOwnerID = entityId;
         newQuest.QuestGiverID = -1;
-        questJournal.AddQuest(newQuest);
+        questJournal.AddQuest(newQuest, Quest.QuestSource.QuestSystem);
     }
 
     public override void UpdateJump()
@@ -1616,14 +1619,20 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
                 Bag backpackBag = null;
                 if (bagContainer?.items != null)
                 {
-                    backpackBag = new Bag(bagContainer.items.Length);
-                    System.Array.Copy(bagContainer.items, backpackBag.items, bagContainer.items.Length);
+                    // v3.3: Bag is grid-backed, so size it up front and copy through the grid -
+                    // its ItemStacks are bound to their slots and must not be replaced wholesale.
+                    backpackBag = new Bag(new Vector2i(bagContainer.items.Length, 1),
+                        XUiC_ItemStack.StackLocationTypes.LootContainer, null);
+                    backpackBag.ItemGrid.SetItems(bagContainer.items, false);
                 }
                 var entityCreationData = new EntityCreationData(entityBackpack)
                 {
                     entityName = Localization.Get(this.EntityName),
                     id = -1,
-                    bag = backpackBag
+                    // v3.3: EntityCreationData carries the bag as a serialized blob, not a Bag instance.
+                    bagData = backpackBag != null
+                        ? StreamUtils.ToBlob(pbw => backpackBag.Write(pbw, StreamModeWrite.ToClient))
+                        : null
                 };
 
                 GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
@@ -2158,7 +2167,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
         // new Bag() leaves items null and Bag.AddItem -> AddToItemStackArray(items) NREs.
         // new Bag(size) allocates the slot array so AddItem works.
         const int npcBagSlots = 45;
-        if (bag == null) bag = new Bag(npcBagSlots);
+        if (bag == null)
+            bag = new Bag(new Vector2i(npcBagSlots, 1), XUiC_ItemStack.StackLocationTypes.Backpack, this);
 
         // A restored NPC already has its saved bag; adding BagItems again would refill
         // stackable items on every load. Same gate as the V4 copy, and safe at this point in
@@ -2272,8 +2282,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
         }
 
         // Item update has to happen after the SwitchModelAndView, otherwise the weapon will attach to the previous hand position
-        inventory.OnUpdate();
-        inventory.ForceHoldingItemUpdate();
+        inventory.ReconcileHeldItem();
+        inventory.ReconcileHeldItem();
     }
 
     // The GetRightHandTransformName() is not virtual in the base class. There's a Harmony patch that redirects the AvatarAnimator's call here.
@@ -2385,15 +2395,16 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
             var srcItems = lootContainer.items;
             if (srcItems != null)
             {
-                storage.SetContainerSize(new Vector2i(srcItems.Length, 1), true);
-                for (int i = 0; i < srcItems.Length && storage.items != null && i < storage.items.Length; i++)
+                storage.ItemGrid.Resize(new Vector2i(srcItems.Length, 1));
+                for (int i = 0; i < srcItems.Length && storage.ItemGrid.items != null && i < storage.ItemGrid.items.Length; i++)
                     storage.UpdateSlot(i, srcItems[i]);
             }
         }
         else if (storage != null)
         {
             storage.lootListName = this.lootListOnDeath;
-            storage.SetContainerSize(LootContainer.GetLootContainer(lootListOnDeath).size, true);
+            storage.ItemGrid.Resize(LootContainer.GetLootContainer(lootListOnDeath).size);
+            storage.ItemGrid.Clear();
         }
 
         te.SetModified();

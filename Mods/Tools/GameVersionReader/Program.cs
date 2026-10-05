@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Mono.Cecil;
 
 namespace GameVersionReader
@@ -12,6 +13,11 @@ namespace GameVersionReader
     internal static class Program
     {
         private const string DefaultGameInstallPath = @"C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die";
+
+        // Matches a line this tool stamped: the version as GetGameVersion formats it, then anything
+        // appended by hand. An unrecognized line is overwritten outright, as before.
+        private static readonly Regex StampedVersionPattern = new Regex(
+            @"^\s*Game Version:\s*(?:v|Alpha)\d+(?:\.\d+)*(?:\s*\(b\d+\))?(?<suffix>.*?)\s*$");
 
         private static int Main(string[] args)
         {
@@ -97,6 +103,12 @@ namespace GameVersionReader
             string stampedLine = "\tGame Version: " + gameVersion;
             if (nextIndex < lines.Count && lines[nextIndex].TrimStart().StartsWith("Game Version:"))
             {
+                // Keep any hand-written tag after the version, e.g. "(latest_experimental)", so a
+                // rebuild refreshes the version without discarding the note.
+                var match = StampedVersionPattern.Match(lines[nextIndex]);
+                if (match.Success)
+                    stampedLine += match.Groups["suffix"].Value;
+
                 if (lines[nextIndex] == stampedLine)
                     return; // already up to date
 

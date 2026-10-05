@@ -132,12 +132,12 @@ internal class EntityAliveEventSpawnerSDX : EntityAlive
                 // EntityUtilities.SetLeaderAndOwner(this.LeaderEntityID, this.LeaderEntityID);
             }
             // Set the leaderID if its configured.
-            else if (LeaderEntityID > 0 && NewEntity is EntityAliveSDX)
+            else if (LeaderEntityID > 0 && NewEntity is IEntityAliveSDX && NewEntity is EntityAlive newAlive)
             {
                 DisplayLog(" Setting Leader ID to: " + LeaderEntityID);
                 EntityUtilities.SetLeaderAndOwner(NewEntity.entityId, LeaderEntityID);
 
-                (NewEntity as EntityAliveSDX).Buffs.SetCustomVar("Herd", LeaderEntityID);
+                newAlive.Buffs.SetCustomVar("Herd", LeaderEntityID);
             }
         }
     }

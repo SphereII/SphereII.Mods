@@ -21,7 +21,7 @@ namespace SCore.Features.ItemDegradation.Harmony.General
 
                 if (_dmResponse.ArmorSlot == armorItemClass.EquipSlot)
                 {
-                    ItemDegradationHelpers.CheckModificationOnItem(armor.Modifications, __instance);
+                    ItemDegradationHelpers.CheckModificationOnItem(armor.modifications, __instance);
                 }
             }
             

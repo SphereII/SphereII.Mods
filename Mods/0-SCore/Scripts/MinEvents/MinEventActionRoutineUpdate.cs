@@ -34,7 +34,7 @@ public class MinEventActionRoutineUpdate : MinEventActionTargetedBase
         // Backpack
         if (bBag)
         {
-            foreach (var item in _params.Self.bag.GetSlots())
+            foreach (var item in _params.Self.bag.ItemGrid.items)
                 CheckSlots(item, null);
         }
 
@@ -65,7 +65,7 @@ public class MinEventActionRoutineUpdate : MinEventActionTargetedBase
             }
             else
             {
-                foreach (var item in _params.Self.inventory.GetSlots())
+                foreach (var item in _params.Self.inventory.ItemGrid.items)
                 {
                     CheckSlots(item, null);
                 }
@@ -79,15 +79,20 @@ public class MinEventActionRoutineUpdate : MinEventActionTargetedBase
     {
         if (itemValue == null) return;
         OnSelfRoutineUpdate.RoutineUpdate(itemValue);
-        for (var i = 0; i < itemValue.Modifications.Length; i++)
+        // v3.3: ItemValue.modifications is the raw backing field and is null when the item has no
+        // mod slots. ModificationCount returns 0 for that case, so drive the loop from it.
+        for (var i = 0; i < itemValue.ModificationCount; i++)
         {
-            var mod = itemValue.Modifications[i];
+            var mod = itemValue.GetModification(i);
             if (mod?.ItemClass == null) continue;
             OnSelfRoutineUpdate.RoutineUpdate(mod);
             if (ItemDegradationHelpers.IsDegraded(mod) && mod.ItemClass.MaxUseTimesBreaksAfter.Value)
             {
                 Manager.BroadcastPlay(GameManager.Instance.World.GetPrimaryPlayer(), "itembreak");
-                itemValue.Modifications[i] = ItemValue.None.Clone();
+                // Written through the field, not SetModification, which would also fire
+                // NotifyChanged() - keep the original behaviour. Safe because ModificationCount
+                // above is only non-zero when the array exists.
+                itemValue.modifications[i] = ItemValue.None.Clone();
             }
         }
     }

@@ -27,10 +27,10 @@
 
         if (GameManager.Instance.World.Entities.dict.ContainsKey(OwnerQuest.SharedOwnerID))
         {
-            var questEntity = GameManager.Instance.World.Entities.dict[OwnerQuest.SharedOwnerID] as EntityAliveSDX;
-            if (questEntity == null)
+            var questJournal = EntityUtilities.GetSDXQuestJournal(GameManager.Instance.World.Entities.dict[OwnerQuest.SharedOwnerID]);
+            if (questJournal == null)
                 return;
-            questEntity.questJournal.AddQuest(quest);
+            questJournal.AddQuest(quest, Quest.QuestSource.QuestSystem);
         }
     }
 }

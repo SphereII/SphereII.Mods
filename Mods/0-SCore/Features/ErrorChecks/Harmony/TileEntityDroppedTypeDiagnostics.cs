@@ -37,13 +37,13 @@ namespace SCore.Features.ErrorChecks.Harmony {
         [HarmonyPatch("InstantiateFromRead")]
         public class TileEntityInstantiateFromReadDiagnostics {
             public static void Postfix(TileEntity __result, PooledBinaryReader _br,
-                TileEntity.StreamModeRead _eStreamMode, TileEntityType _type, Chunk _chunk) {
+                StreamModeRead _eStreamMode, TileEntityType _type, Chunk _chunk) {
                 if (__result != null) return;
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return;
 
                 // TryReadLegacyType returns null for these two by design - the record is read and
                 // discarded, no warning is logged, and the stream stays in sync. Not a drop.
-                if (_eStreamMode == TileEntity.StreamModeRead.Persistency &&
+                if (_eStreamMode == StreamModeRead.Persistency &&
                     (_type == TileEntityType.GoreBlock || _type == TileEntityType.Trader)) return;
 
                 try {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace UAI
@@ -104,7 +104,7 @@ namespace UAI
             if (context.Self.inventory.holdingItemIdx != 0)
             {
                 context.Self.inventory.SetHoldingItemIdx(0);
-                context.Self.inventory.OnUpdate();
+                context.Self.inventory.ReconcileHeldItem();
             }
         }
 
@@ -114,10 +114,9 @@ namespace UAI
         /// </summary>
         public static void HideWeapon(Context context)
         {
-            if (context.Self.inventory.holdingItemIdx != context.Self.inventory.DUMMY_SLOT_IDX)
+            if (!context.Self.inventory.Hand.IsHolstered)
             {
-                context.Self.inventory.SetHoldingItemIdx(context.Self.inventory.DUMMY_SLOT_IDX);
-                context.Self.inventory.OnUpdate();
+                context.Self.inventory.Hand.SelectHoldingMode(Hand.HoldingMode.Bare);
             }
         }
 

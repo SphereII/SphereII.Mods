@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -48,11 +48,4 @@ public class NetPackagePortalMapSync : NetPackage
         PortalManager.Instance.ReplaceMap(_portalMap);
     }
 
-    public override int GetLength()
-    {
-        // This is a placeholder. The actual length depends on the size of the map.
-        // A simple calculation would be:
-        // sizeof(int) for count + count * (sizeof(Vector3i) + avg_string_length)
-        return 20;
-    }
 }

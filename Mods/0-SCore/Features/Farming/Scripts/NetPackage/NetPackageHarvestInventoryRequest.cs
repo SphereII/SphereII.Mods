@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 
 /// <summary>
 /// Client → Server: request the harvest inventory for a trader-type NPC.
@@ -47,5 +47,4 @@ public class NetPackageHarvestInventoryRequest : NetPackage
             false, _playerId);
     }
 
-    public override int GetLength() => 8;
 }

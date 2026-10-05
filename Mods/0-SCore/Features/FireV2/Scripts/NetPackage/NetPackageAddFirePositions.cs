@@ -43,11 +43,6 @@ public class NetPackageAddFirePositions : NetPackage
     }
  
 
-    public override int GetLength()
-    {
-        return 6 + (_positions?.Count ?? 0) * 12;
-    }
-
     public override void ProcessPackage(World world, GameManager callbacks)
     {
         if (world == null)

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NetPackageMinEventSharedReading : NetPackage
 {
@@ -85,11 +85,6 @@ public class NetPackageMinEventSharedReading : NetPackage
         entityAlive.MinEventContext.ItemValue = itemValue;
         entityAlive.MinEventContext.ItemValue.FireEvent(MinEventTypes.onSelfPrimaryActionEnd, entityAlive.MinEventContext);
 
-    }
-
-    public override int GetLength()
-    {
-        return 32;
     }
 
 }

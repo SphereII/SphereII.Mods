@@ -8,14 +8,10 @@ public class MinEventActionHideNPCSDX : MinEventActionTargetedBase
 
     public override void Execute(MinEventParams _params)
     {
-        var entity = _params.Self as EntityAliveSDX;
-        if (entity == null)
-            return;
-
-        if (hide)
-            entity.SendOnMission(true);
-        else
-            entity.SendOnMission(false);
+        if (_params.Self is EntityAliveSDX entity)
+            entity.SendOnMission(hide);
+        else if (_params.Self is EntityAliveSDXV4 entityV4)
+            entityV4.SendOnMission(hide);
     }
 
 

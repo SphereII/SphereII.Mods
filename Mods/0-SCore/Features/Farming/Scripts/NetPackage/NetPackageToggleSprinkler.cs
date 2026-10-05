@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 [UsedImplicitly]
 public class NetPackageToggleSprinkler : NetPackage {
@@ -22,10 +22,6 @@ public class NetPackageToggleSprinkler : NetPackage {
         bw.Write(_position.y);
         bw.Write(_position.z);
         bw.Write(_isEnabled);
-    }
-
-    public override int GetLength() {
-        return 20;
     }
 
     public override void ProcessPackage(World world, GameManager callbacks) {

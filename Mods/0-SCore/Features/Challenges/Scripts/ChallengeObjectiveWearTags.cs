@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Xml.Linq;
 
 namespace Challenges {
@@ -39,9 +39,9 @@ namespace Challenges {
 
         private void CheckItems() {
             var xui = LocalPlayerUI.GetUIForPrimaryPlayer().xui;
-            foreach (var item in xui.PlayerEquipment.Equipment.GetItems())
+            foreach (var stack in xui.PlayerEquipment.Equipment.ItemGrid.items)
             {
-                CheckItemMods(item);
+                CheckItemMods(stack.itemValue);
             }
 
             CheckObjectiveComplete();
@@ -85,14 +85,22 @@ namespace Challenges {
                     Current++;
             }
 
-            foreach (var item in itemValue.Modifications)
+            // v3.3: both are raw backing fields and are null when the item has no mod /
+            // cosmetic slots, which is the common case.
+            if (itemValue.modifications != null)
             {
-                CheckItemModsTags(item);
+                foreach (var item in itemValue.modifications)
+                {
+                    CheckItemModsTags(item);
+                }
             }
 
-            foreach (var item in itemValue.CosmeticMods)
+            if (itemValue.cosmeticMods != null)
             {
-                CheckItemModsTags(item);
+                foreach (var item in itemValue.cosmeticMods)
+                {
+                    CheckItemModsTags(item);
+                }
             }
 
             CheckObjectiveComplete();

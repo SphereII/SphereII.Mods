@@ -9,12 +9,12 @@ public class MinEventActionPumpQuestSDX : MinEventActionRemoveBuff
     {
         for (var j = 0; j < targets.Count; j++)
         {
-            var entity = targets[j] as EntityAliveSDX;
-            if (entity != null)
+            var questJournal = EntityUtilities.GetSDXQuestJournal(targets[j]);
+            if (questJournal != null)
             {
-                for (var k = 0; k < entity.questJournal.quests.Count; k++)
-                    for (var l = 0; l < entity.questJournal.quests[k].Objectives.Count; l++)
-                        entity.questJournal.quests[k].Objectives[l].Refresh();
+                for (var k = 0; k < questJournal.quests.Count; k++)
+                    for (var l = 0; l < questJournal.quests[k].Objectives.Count; l++)
+                        questJournal.quests[k].Objectives[l].Refresh();
                 continue;
             }
 

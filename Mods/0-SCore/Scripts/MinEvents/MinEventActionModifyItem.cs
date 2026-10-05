@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using HarmonyLib;
 using UniLinq;
@@ -20,7 +20,8 @@ public class MinEventActionModifyItem : MinEventActionTargetedBase
 
         var newQuality = itemValue.Quality - 1;
         var newItem = new ItemValue(itemValue.type, newQuality, newQuality);
-        foreach (var itemMod in itemValue.Modifications)
+        // v3.3: raw backing field, null when the item has no mod slots.
+        foreach (var itemMod in itemValue.modifications ?? System.Array.Empty<ItemValue>())
         {
             if (itemMod == null || itemMod.IsEmpty()) continue;
             var itemStack = new ItemStack(itemMod, 1);
@@ -28,7 +29,7 @@ public class MinEventActionModifyItem : MinEventActionTargetedBase
             player.playerUI.xui.PlayerInventory.DropItem(itemStack);
         }
 
-        itemValue.Modifications = newItem.Modifications;
+        itemValue.modifications = newItem.modifications;
         itemValue.Quality = (ushort)newQuality;
     }
  

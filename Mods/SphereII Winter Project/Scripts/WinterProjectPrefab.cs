@@ -23,7 +23,7 @@ public static class WinterProjectPrefab
         ProcessChunk(chunk, position, size, false, Logging, Rpc, false);
     }
 
-    public static void SetSnowPrefab(Prefab prefab, ChunkCluster cluster, Vector3i position, FastTags<TagGroup.Poi> _questTag) {
+    public static void SetSnowPrefab(Prefab prefab, ChunkCluster cluster, Vector3i position, FastTags<TagGroup.Global> _questTag) {
         if (!ConfigureSnow())
             return;
         

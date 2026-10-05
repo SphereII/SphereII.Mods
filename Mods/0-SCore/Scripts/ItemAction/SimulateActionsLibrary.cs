@@ -29,14 +29,20 @@ public static class SimulateActionsLibrary
         yield return new WaitForSeconds(0.1f);
         _context.Self.inventory.CallOnToolbeltChangedInternal();
         yield return new WaitForSeconds(0.1f);
-        while (_context.Self.inventory.IsHolsterDelayActive())
+        while (_context.Self.inventory.IsHandSwitching())
             yield return new WaitForSeconds(0.1f);
 
 
         // We are not doing a full execute here, as the OnHolding Update does a cast of the player, to get the look position from its camera.
         // We want to avoid that, so we just skip that call, and use the position in which we pass in. 
-        var _actionData = _context.Self.inventory.GetItemActionDataInSlot(slotID, 0);
-        var myInventoryData = (ItemActionThrowAway.MyInventoryData)_actionData;
+        // v3.3: GetItemActionDataInSlot(slot, action) is gone. GetItemDataInSlot returns null when
+        // the slot holds no item, and unlike Hand.Held it does not build the action list, so make
+        // sure it exists before indexing it.
+        var _invData = _context.Self.inventory.GetItemDataInSlot(slotID);
+        _invData?.EnsureActionData();
+        var _actionData = (_invData != null && _invData.actionData.Count > 0) ? _invData.actionData[0] : null;
+        var myInventoryData = _actionData as ItemActionThrowAway.MyInventoryData;
+        if (myInventoryData == null) yield break;
 
         // Set the last ThrowTime to -1 so it doesn't trigger the base throwAway()
         myInventoryData.m_LastThrowTime = -1f;
@@ -60,7 +66,7 @@ public static class SimulateActionsLibrary
         {
             vector += 0.23f * lookVector;
             vector -= headPosition;
-            invData.gameManager.ItemDropServer(new ItemStack(holdingEntity.inventory.holdingItemItemValue, 1), vector, Vector3.zero);
+            GameManager.Instance.ItemDropServer(new ItemStack(holdingEntity.inventory.holdingItemItemValue, 1), vector, Vector3.zero);
         }
         _actionData.invData.holdingEntity.emodel.avatarController.TriggerEvent("ItemThrownTrigger");
         myInventoryData.m_LastThrowTime = 0f;
@@ -71,7 +77,7 @@ public static class SimulateActionsLibrary
         yield return new WaitForSeconds(0.1f);
         _context.Self.inventory.CallOnToolbeltChangedInternal();
         yield return new WaitForSeconds(0.1f);
-        while (_context.Self.inventory.IsHolsterDelayActive())
+        while (_context.Self.inventory.IsHandSwitching())
             yield return new WaitForSeconds(0.1f);
 
         _context.Self.IsBreakingBlocks = false;

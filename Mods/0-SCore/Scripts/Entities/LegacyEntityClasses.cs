@@ -29,7 +29,7 @@ public class EntityGenericSDX : EntityAlive
         base.Init(_entityClass, _assets, _eModelAssets);
         inventory.SetSlots(new[]
         {
-            new ItemStack(inventory.GetBareHandItemValue(), 1)
+            new ItemStack(inventory.Hand.BareHandItemValue, 1)
         });
     }
 }
@@ -64,7 +64,7 @@ public class EntityZombieCopSDX : EntityZombie
         base.Init(_entityClass, _assets, _eModelAssets);
         inventory.SetSlots(new[]
         {
-            new ItemStack(inventory.GetBareHandItemValue(), 1)
+            new ItemStack(inventory.Hand.BareHandItemValue, 1)
         });
     }
 }

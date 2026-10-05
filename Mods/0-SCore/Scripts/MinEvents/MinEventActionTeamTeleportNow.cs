@@ -12,8 +12,8 @@ public class MinEventActionTeamTeleportNow : MinEventActionTargetedBase
         foreach (var cvar in leader.Buffs.CVars)
         {
             if (!cvar.Key.StartsWith("hired_")) continue;
-            var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAliveSDX;
-            if (!entity) continue;
+            var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAlive;
+            if (!entity || entity is not IEntityAliveSDX) continue;
             if (entity.IsDead()) continue;
 
             var distance = entity.GetDistance(leader);

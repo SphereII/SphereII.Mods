@@ -66,7 +66,7 @@ public class XUiC_BroadcastButton : XUiController {
         var lootEntityId = (xui.LootContainer as SCoreLootContainer)?.EntityId ?? -1;
         if (xui.LootContainer == null || !Broadcastmanager.HasInstance ||
             xui.Vehicle != null ||
-            GameManager.Instance.World.GetEntity(lootEntityId) is EntityAliveSDX ||
+            GameManager.Instance.World.GetEntity(lootEntityId) is IEntityAliveSDX ||
             GameManager.Instance.World.GetEntity(lootEntityId) is EntityDrone) return;
 
         if (disabledsender[0] != null)

@@ -85,14 +85,13 @@ namespace UAI
             if (storage == null) return;
             if (string.IsNullOrEmpty(storage.lootListName))
                 return;
-            if (storage.bTouched)
+            if (storage.ItemGrid.Touched)
                 return;
 
-            storage.bTouched = true;
-            storage.bWasTouched = true;
+            storage.ItemGrid.Touch();
 
             // Nothing to loot.
-            if (storage.items == null) return;
+            if (storage.ItemGrid.items == null) return;
 
             _context.Self.MinEventContext.TileEntity = tileLootContainer;
             _context.Self.FireEvent(MinEventTypes.onSelfOpenLootContainer);
@@ -100,7 +99,7 @@ namespace UAI
             var lootContainer = LootContainer.GetLootContainer(storage.lootListName);
             if (lootContainer == null)
                 return;
-            var array = lootContainer.Spawn(_context.Self.rand, storage.items.Length, (float)_context.Self.Progression.GetLevel(), 0f, null, new FastTags<TagGroup.Global>(), lootContainer.UniqueItems, false, false);
+            var array = lootContainer.Spawn(_context.Self.rand, storage.ItemGrid.items.Length, (float)_context.Self.Progression.GetLevel(), 0f, null, new FastTags<TagGroup.Global>(), lootContainer.UniqueItems, false, false);
 
             AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"GetItemFromContainers(): {_context.Self.EntityName} ( {_context.Self.entityId}");
             for (var i = 0; i < array.Count; i++)

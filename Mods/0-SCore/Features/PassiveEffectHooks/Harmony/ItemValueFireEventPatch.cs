@@ -21,14 +21,14 @@
 //             if (!ItemDegradationHelpers.CanDegrade(__instance)) return;
 //             
 //             itemClass?.FireEvent(_eventType, _eventParms);
-//             foreach (var t in __instance.CosmeticMods)
+//             foreach (var t in __instance.cosmeticMods)
 //             {
 //                 if ( t == null || t.IsEmpty()) continue;
 //                 t.FireEvent(_eventType, _eventParms);
 //             }
 //             _eventParms.Self = GameManager.Instance.World.GetPrimaryPlayer();
 //             var originalItem = _eventParms.ItemValue;
-//             foreach (var mod in __instance.Modifications)
+//             foreach (var mod in __instance.modifications)
 //             {
 //                 if ( mod == null || mod.IsEmpty()) continue;
 //                 _eventParms.ItemValue = mod;

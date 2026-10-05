@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 /// <summary>
 /// Network sync package for EntityAliveSDXV4.
@@ -102,11 +102,6 @@ public class NetPackageEntityAliveSDXV4DataSync : NetPackage
                     false, -1, senderId);
             }
         }
-    }
-
-    public override int GetLength()
-    {
-        return (int)(12L + entityData.Length);
     }
 
     // -------------------------------------------------------------------------

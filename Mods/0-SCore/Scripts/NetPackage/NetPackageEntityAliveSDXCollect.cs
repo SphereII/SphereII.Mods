@@ -41,8 +41,4 @@
         EntitySyncUtils.CollectClient(this.entityId, this.playerId);
     }
 
-    public override int GetLength()
-    {
-        return 8;
-    }
 }

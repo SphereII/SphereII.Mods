@@ -132,7 +132,7 @@ public static class EntitySyncUtils
         itemValue.SetMetadata("BuffCount", buffCount, TypedMetadataValue.TypeTag.Integer);
 
         // 6. Inventory & Equipment
-        string inventoryStr = SerializeItemStackArray(npc.inventory.GetSlots());
+        string inventoryStr = SerializeItemStackArray(npc.inventory.ItemGrid.items);
         itemValue.SetMetadata("Inventory", inventoryStr, TypedMetadataValue.TypeTag.String);
 
         // 7. Bag / Loot Container
@@ -254,8 +254,12 @@ public static class EntitySyncUtils
                     npcSDX3.lootContainer.SetContainerSize(new Vector2i(8, 6));
                 }
 
+                // v3.3: the grid owns its ItemStack instances, so grow it rather than swapping the array.
                 if (npcSDX3.lootContainer.items.Length < slots.Length)
-                    npcSDX3.lootContainer.items = slots;
+                {
+                    npcSDX3.lootContainer.SetContainerSize(new Vector2i(slots.Length, 1), true);
+                    npcSDX3.lootContainer.ItemGrid.SetItems(slots, false);
+                }
                 else
                     for (int i = 0; i < slots.Length && i < npcSDX3.lootContainer.items.Length; i++)
                         npcSDX3.lootContainer.items[i] = slots[i];
@@ -412,7 +416,7 @@ public static class EntitySyncUtils
             // Mods (Attachments). Written positionally - an empty slot becomes an empty entry -
             // so mods keep the indexes the item's mod slots gave them.
             string modStr = "";
-            var modifications = stack.itemValue.Modifications;
+            var modifications = stack.itemValue.modifications;
             if (modifications != null && modifications.Length > 0)
             {
                 bool anyMod = false;
@@ -492,9 +496,9 @@ public static class EntitySyncUtils
             if (parts.Length > 4 && !string.IsNullOrEmpty(parts[4]))
             {
                 string[] modEntries = parts[4].Split(ModSeparator);
-                itemValue.Modifications = new ItemValue[modEntries.Length];
+                itemValue.modifications = new ItemValue[modEntries.Length];
                 for (int m = 0; m < modEntries.Length; m++)
-                    itemValue.Modifications[m] = DeserializeMod(modEntries[m]);
+                    itemValue.modifications[m] = DeserializeMod(modEntries[m]);
             }
 
             // Stats. Absent on strings written before stats were serialized, which leaves

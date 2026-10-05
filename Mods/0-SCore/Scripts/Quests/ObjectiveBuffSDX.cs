@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectiveBuffSDX : BaseObjective
@@ -103,4 +104,12 @@ public class ObjectiveBuffSDX : BaseObjective
         if (properties.Values.ContainsKey("buff"))
             strBuff = properties.Values["buff"].ToLower();
     }
+
+    // v3.3: BaseObjective made this abstract. Vanilla ObjectiveBuff adds nothing; the buff id is
+    // the only state worth exposing here.
+    public override void InternalToParametersDictionary(ref Dictionary<string, object> parameters)
+    {
+        parameters.Add("buff", strBuff);
+    }
+
 }

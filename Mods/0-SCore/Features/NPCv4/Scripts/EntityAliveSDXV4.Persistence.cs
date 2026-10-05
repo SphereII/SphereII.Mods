@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -9,9 +9,9 @@ public partial class EntityAliveSDXV4
     // Persistence (Save / Load)
     // =========================================================================
 
-    public override void Write(BinaryWriter _bw, bool bNetworkWrite)
+    public override void Write(PooledBinaryWriter _bw, StreamModeWrite _eStreamMode)
     {
-        base.Write(_bw, bNetworkWrite);
+        base.Write(_bw, _eStreamMode);
 
         // SDX section: component-framed so one failing component is dropped whole instead of
         // half-written, and so the record can shed components (journal first, loot last) to
@@ -61,9 +61,9 @@ public partial class EntityAliveSDXV4
         section.WriteTo(_bw);
     }
 
-    public override void Read(byte _version, BinaryReader _br)
+    public override void Read(byte _version, PooledBinaryReader _br, StreamModeRead _eStreamMode)
     {
-        base.Read(_version, _br);
+        base.Read(_version, _br, _eStreamMode);
 
         // Defaults first: a component that is absent (dropped on write or skipped on a failed
         // read) leaves these in a sane state instead of stale or garbage values.
@@ -138,7 +138,7 @@ public partial class EntityAliveSDXV4
     }
 
     // Pre-framing record layout; still hit for saves written before this format existed.
-    private void ReadLegacy(BinaryReader _br)
+    private void ReadLegacy(PooledBinaryReader _br)
     {
         _strMyName         = _br.ReadString();
         _cachedDisplayNameKey = null; // invalidate display-name cache
@@ -150,7 +150,7 @@ public partial class EntityAliveSDXV4
         _guardLookPositionLegacy = ModGeneralUtilities.StringToVector3(_br.ReadString());
 
         questJournal = new QuestJournal();
-        questJournal.Read(_br as PooledBinaryReader);
+        questJournal.Read(_br);
 
         _patrolCoordinatesLegacy = new List<Vector3>();
         var strPatrol = _br.ReadString();
@@ -186,7 +186,7 @@ public partial class EntityAliveSDXV4
         }
     }
 
-    public void WriteSyncData(BinaryWriter _bw, ushort syncFlags)
+    public void WriteSyncData(PooledBinaryWriter _bw, ushort syncFlags)
     {
         if (lootContainer == null) return;
         var slots = lootContainer.items;
@@ -197,7 +197,7 @@ public partial class EntityAliveSDXV4
         _bw.Write(EntityName);
     }
 
-    public void ReadSyncData(BinaryReader _br, ushort syncFlags, int senderId)
+    public void ReadSyncData(PooledBinaryReader _br, ushort syncFlags, int senderId)
     {
         if (lootContainer == null) return;
         var num     = (int)_br.ReadByte();

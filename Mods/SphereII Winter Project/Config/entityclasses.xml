@@ -1,7 +1,11 @@
 ﻿<configs>
-  <append xpath="/entity_classes/entity_class[@name='playerMale']/property[starts-with(@name, 'ItemsOnEnterGame')]/@value">,snowShovel</append>
+  <!-- v3.3: ItemsOnEnterGame is now a nested property class with one child per game mode
+       (GameModeSurvival / ...SP / ...MP) rather than flat ItemsOnEnterGame* properties. -->
+  <append xpath="/entity_classes/entity_class[@name='playerMale']/property[@class='ItemsOnEnterGame']/property[starts-with(@name,'GameMode')]/@value">,snowShovel</append>
 
-  <append xpath="/entity_classes/entity_class[starts-with(@name, 'zombieTemplateMale')]" >
+  <!-- v3.3 replaced zombieRegularTemplate with zombieTemplateMale / zombieTemplateShort /
+       zombieTemplateSlimFemale; match them all here instead of in two separate appends. -->
+  <append xpath="/entity_classes/entity_class[starts-with(@name, 'zombieTemplate')]" >
 	<effect_group name="frostshield">
     <triggered_effect trigger="onSelfFirstSpawn" action="AddBuff" target="self" buff="buffFrostShield">
 	<requirement name="RequirementIsOutdoor, SCore"/>
@@ -36,14 +40,6 @@
           <!-- <triggered_effect trigger="onSelfFirstSpawn" action="AddScriptToTransform, SCore" component="Animator" script="GlobalSnowEffect.GlobalSnowIgnoreCoverage, SphereII_Winter_Project"/> -->
        
     
-   <append xpath="/entity_classes/entity_class[starts-with(@name, 'zombieRegularTemplate')]" >
-	<effect_group name="frostshield">
-    <triggered_effect trigger="onSelfFirstSpawn" action="AddBuff" target="self" buff="buffFrostShield">
-	<requirement name="RequirementIsOutdoor, SCore"/>
-	</triggered_effect>
-	</effect_group> 
-  </append>  
-  
   <append xpath="/entity_classes/entity_class[@name='npcTraderTemplate']/effect_group" >
        <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" target="self" buff="buffRemoveDuplicateTrader"/>
   </append>

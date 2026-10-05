@@ -1,4 +1,4 @@
-/// <summary>
+﻿/// <summary>
 /// Server → Clients: tells each client to call RemoveBlockParticleEffect at the given position.
 /// Used by BlockUtilitiesSDX.removeParticlesCenteredServer so the server can clean up particles
 /// that were spawned via addParticlesCenteredServer / SpawnParticleEffectServer.
@@ -34,5 +34,4 @@ public class NetPackageRemoveBlockParticleEffect : NetPackage
         GameManager.Instance.RemoveBlockParticleEffect(_position);
     }
 
-    public override int GetLength() => 12;
 }

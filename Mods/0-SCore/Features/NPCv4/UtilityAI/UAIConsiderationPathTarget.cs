@@ -29,7 +29,7 @@
                     if (tileEntity is TileEntityComposite tec)
                     {
                         var storage = tec.GetFeature<TEFeatureStorage>();
-                        if (storage == null || !storage.bTouched) return 1f;
+                        if (storage == null || !storage.ItemGrid.Touched) return 1f;
                     }
                     else
                     {

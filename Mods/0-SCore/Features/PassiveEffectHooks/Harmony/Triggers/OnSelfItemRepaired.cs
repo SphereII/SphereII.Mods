@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using SCore.Features.ItemDegradation.Harmony;
 using SCore.Features.ItemDegradation.Utils;
 using UnityEngine;
@@ -20,7 +20,8 @@ public static class OnRepair
 
         if (Configuration.CheckFeatureStatus(ItemDegradationHelpers.AdvFeatureClass, "RepairModsWithItem"))
         {
-            foreach (var mod in stack.Modifications)
+            // v3.3: raw backing field, null when the item has no mod slots.
+            foreach (var mod in stack.modifications ?? System.Array.Empty<ItemValue>())
             {
                 if (ItemDegradationHelpers.CanDegrade(mod))
                 {

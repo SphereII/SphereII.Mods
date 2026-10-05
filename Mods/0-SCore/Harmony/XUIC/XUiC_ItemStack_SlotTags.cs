@@ -21,7 +21,7 @@ namespace SCore.Harmony.TileEntities
                     return true;
             }
 
-            var currentStack = itemStack.xui.DragAndDropWindow?.itemStack;
+            var currentStack = itemStack.xui.DragAndDropWindow?.CurrentStack;
             if (currentStack == null || currentStack.IsEmpty()) return true;
 
             // Check NoStorage before any container-specific guard so items like stored NPCs
@@ -120,14 +120,10 @@ namespace SCore.Harmony.TileEntities
             {
                 public static bool Prefix(TEFeatureStorage __instance, ItemStack _itemStack)
                 {
-                    if (__instance is ITileEntityLootable tileEntityLootable)
-                    {
-                        if (tileEntityLootable.GetChunk() != null)
-                            return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _itemStack);
-                        return CanPlaceItemInContainerViaTags(null, _itemStack);
-                    }
-
-                    return true;
+                    // v3.3: ITileEntityLootable is gone; __instance is already the storage feature.
+                    if (__instance.GetChunk() != null)
+                        return CanPlaceItemInContainerViaTags(__instance.blockValue.Block, _itemStack);
+                    return CanPlaceItemInContainerViaTags(null, _itemStack);
                 }
             }
 
@@ -137,12 +133,8 @@ namespace SCore.Harmony.TileEntities
             {
                 public static bool Prefix(TEFeatureStorage __instance, ItemStack _itemStack)
                 {
-                    if (__instance is ITileEntityLootable tileEntityLootable)
-                    {
-                        return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _itemStack);
-                    }
-
-                    return true;
+                    // v3.3: ITileEntityLootable is gone; __instance is already the storage feature.
+                    return CanPlaceItemInContainerViaTags(__instance.blockValue.Block, _itemStack);
                 }
             }
         }

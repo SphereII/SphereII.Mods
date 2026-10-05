@@ -1,4 +1,4 @@
-<configs>
+﻿<configs>
 
   <append xpath="/items">
 
@@ -459,12 +459,6 @@
     <property name="ShowQuality" value="false" />
     <property name="SpoilageMax" value="1000" />
   </append>
-  <append xpath="/items/item[@name='drinkJarYuccaCocktail']" >
-    <property name="Spoilable" value="true" />
-    <property name="SpoiledItem" value="drinkJarYuccaCocktailFrozen" />
-    <property name="ShowQuality" value="false" />
-    <property name="SpoilageMax" value="1000" />
-  </append>
   <append xpath="/items/item[@name='drinkYuccaJuiceSmoothie']" >
     <property name="Spoilable" value="true" />
     <property name="SpoiledItem" value="drinkYuccaJuiceSmoothieFrozen" />
@@ -767,10 +761,6 @@
     <item name="drinkJarRedTeaFrozen" >
       <property name="Extends" value="foodFrozenBase" />
       <property name="CustomIcon" value="drinkJarRedTea" />
-    </item>
-    <item name="drinkJarYuccaCocktailFrozen" >
-      <property name="Extends" value="foodFrozenBase" />
-      <property name="CustomIcon" value="drinkJarYuccaCocktail" />
     </item>
     <item name="drinkYuccaJuiceSmoothieFrozen" >
       <property name="Extends" value="foodFrozenBase" />

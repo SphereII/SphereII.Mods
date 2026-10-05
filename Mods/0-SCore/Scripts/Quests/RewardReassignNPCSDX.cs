@@ -7,8 +7,8 @@ internal class RewardReassignNPCSDX : RewardExp
     //		<reward type="ReassignNPCSDX, SCore"  /> 
     public override void GiveReward(EntityPlayer player)
     {
-        var questNPC = GameManager.Instance.World.Entities.dict[OwnerQuest.QuestGiverID] as EntityAliveSDX;
-        if (questNPC)
+        var questNPC = GameManager.Instance.World.Entities.dict[OwnerQuest.QuestGiverID] as EntityAlive;
+        if (questNPC is IEntityAliveSDX)
             CheckSurroundingEntities(questNPC, player);
     }
 
@@ -32,14 +32,16 @@ internal class RewardReassignNPCSDX : RewardExp
         ValueText = "Value Test";
     }
 
-    public void CheckSurroundingEntities(EntityAliveSDX questNPC, EntityPlayer player)
+    public void CheckSurroundingEntities(EntityAlive questNPC, EntityPlayer player)
     {
         var NearbyEntities = new List<Entity>();
         var bb = new Bounds(questNPC.position, new Vector3(questNPC.GetSeeDistance(), 20f, questNPC.GetSeeDistance()));
-        questNPC.world.GetEntitiesInBounds(typeof(EntityAliveSDX), bb, NearbyEntities);
+        // EntityTrader, not EntityAliveSDX: it is the nearest common base of the legacy and V4
+        // NPC classes. Vanilla traders are filtered out by the IEntityAliveSDX check below.
+        questNPC.world.GetEntitiesInBounds(typeof(EntityTrader), bb, NearbyEntities);
         for (var i = NearbyEntities.Count - 1; i >= 0; i--)
         {
-            var x = (EntityAliveSDX)NearbyEntities[i];
+            if (NearbyEntities[i] is not EntityAlive x || x is not IEntityAliveSDX) continue;
             if (x != questNPC && x.IsAlive())
                 if (x.Buffs.HasCustomVar("Leader") && x.Buffs.GetCustomVar("Leader") == questNPC.entityId)
                     EntityUtilities.SetOwner(x.entityId, player.entityId);

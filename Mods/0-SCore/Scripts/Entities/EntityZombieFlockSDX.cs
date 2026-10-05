@@ -132,7 +132,7 @@ public class EntityZombieFlockSDX : EntityZombie
         // Sets the hand value, so we can give our entities ranged weapons.
         inventory.SetSlots(new[]
         {
-            new ItemStack(inventory.GetBareHandItemValue(), 1)
+            new ItemStack(inventory.Hand.BareHandItemValue, 1)
         });
 
 
@@ -384,9 +384,9 @@ public class EntityZombieFlockSDX : EntityZombie
         return previousID;
     }
 
-    public override void Write(BinaryWriter _bw, bool bNetworkWrite)
+    public override void Write(PooledBinaryWriter _bw, StreamModeWrite _eStreamMode)
     {
-        base.Write(_bw, bNetworkWrite);
+        base.Write(_bw, _eStreamMode);
         // persisting current state
         try
         {
@@ -409,9 +409,9 @@ public class EntityZombieFlockSDX : EntityZombie
         }
     }
 
-    public override void Read(byte _version, BinaryReader _br)
+    public override void Read(byte _version, PooledBinaryReader _br, StreamModeRead _eStreamMode)
     {
-        base.Read(_version, _br);
+        base.Read(_version, _br, _eStreamMode);
         if (_br.BaseStream.Position == _br.BaseStream.Length)
             return; //probably a vanilla entity so just return.
         try

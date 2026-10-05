@@ -87,11 +87,6 @@ public class NetPackageQuestBlockDestroyedSDX : NetPackage
         }
     }
 
-    public override int GetLength()
-    {
-        return 20;
-    }
-
     private int senderEntityID;
     private int questCode;
     private Vector3i blockPos;

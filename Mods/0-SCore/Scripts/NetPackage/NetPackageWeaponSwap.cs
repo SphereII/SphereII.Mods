@@ -39,10 +39,18 @@ public class NetPackageWeaponSwap : NetPackage
             return;
         }
 
-        var entityAlive = _world.GetEntity(entityId) as EntityAliveSDX;
+        var entityAlive = _world.GetEntity(entityId) as EntityAlive;
         if (!entityAlive) return;
         var itemValue = ItemClass.GetItem(item);
-        entityAlive.UpdateWeapon(itemValue);
+
+        // The ItemValue overload, not UpdateWeapon(string): the string one sends this package
+        // again, which would bounce the swap between server and clients.
+        if (entityAlive is EntityAliveSDX v3)
+            v3.UpdateWeapon(itemValue);
+        else if (entityAlive is EntityAliveSDXV4 v4)
+            v4.UpdateWeapon(itemValue);
+        else
+            return;
 
         // If you are the server, relay the swap out to the other clients.
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
@@ -53,8 +61,4 @@ public class NetPackageWeaponSwap : NetPackage
         }
     }
 
-    public override int GetLength()
-    {
-        return 20;
-    }
 }

@@ -44,7 +44,7 @@ public class BlockDropBoxContainer : BlockCompositeTileEntity
             if (lootable != null)
             {
                 var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
-                var items = lootable.items;
+                var items = lootable.ItemGrid.items;
                 if (items != null)
                 {
                     for (int i = 0; i < items.Length; i++)
@@ -54,7 +54,7 @@ public class BlockDropBoxContainer : BlockCompositeTileEntity
                             items[i] = ItemStack.Empty;
                     }
                 }
-                lootable.bTouched = true;
+                lootable.ItemGrid.Touch();
                 lootable.SetModified();
             }
         }

@@ -94,11 +94,6 @@ public class NetPackageGotoPOISDX : NetPackage
         }
     }
 
-    public override int GetLength()
-    {
-        return 8;
-    }
-
 
     private byte difficulty;
     private int playerId;

@@ -119,10 +119,9 @@ namespace UAI
 
         public static void HideWeapon(Context _context)
         {
-            if (_context.Self.inventory.holdingItemIdx != _context.Self.inventory.DUMMY_SLOT_IDX)
+            if (!_context.Self.inventory.Hand.IsHolstered)
             {
-                _context.Self.inventory.SetHoldingItemIdx(_context.Self.inventory.DUMMY_SLOT_IDX);
-                _context.Self.inventory.OnUpdate();
+                _context.Self.inventory.Hand.SelectHoldingMode(Hand.HoldingMode.Bare);
             }
         }
 
@@ -132,7 +131,7 @@ namespace UAI
             if (_context.Self.inventory.holdingItemIdx != 0)
             {
                 _context.Self.inventory.SetHoldingItemIdx(0);
-                _context.Self.inventory.OnUpdate();
+                _context.Self.inventory.ReconcileHeldItem();
             }
         }
 
@@ -612,11 +611,11 @@ namespace UAI
                                     continue;
                                 // If the loot containers were already touched, don't path to them.
                                 case TileEntityType.Loot:
-                                    if ((((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>()?.bTouched ?? false) && ignoreTouch == false)
+                                    if ((((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>()?.ItemGrid.Touched ?? false) && ignoreTouch == false)
                                         continue;
                                     break;
                                 case TileEntityType.SecureLoot:
-                                    if ((((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>()?.bTouched ?? false) && ignoreTouch == false)
+                                    if ((((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>()?.ItemGrid.Touched ?? false) && ignoreTouch == false)
                                         continue;
                                     break;
                             }
@@ -936,14 +935,13 @@ namespace UAI
             if (storage == null) return;
             if (string.IsNullOrEmpty(storage.lootListName))
                 return;
-            if (storage.bTouched)
+            if (storage.ItemGrid.Touched)
                 return;
 
-            storage.bTouched = true;
-            storage.bWasTouched = true;
+            storage.ItemGrid.Touch();
 
             // Nothing to loot.
-            if (storage.items == null) return;
+            if (storage.ItemGrid.items == null) return;
             _context.Self.SetLookPosition(blockPos);
             _context.Self.MinEventContext.TileEntity = tileLootContainer;
             _context.Self.FireEvent(MinEventTypes.onSelfOpenLootContainer);
@@ -961,7 +959,7 @@ namespace UAI
             {
                 lootgameStage = leader.unModifiedGameStage;
             }
-            var array = lootContainer.Spawn(_context.Self.rand, storage.items.Length,
+            var array = lootContainer.Spawn(_context.Self.rand, storage.ItemGrid.items.Length,
                 (float) lootgameStage, 0f, leader, new FastTags<TagGroup.Global>(), lootContainer.UniqueItems, true, false);
             var selfSDX = _context.Self as EntityAliveSDX;
             for (var i = 0; i < array.Count; i++)

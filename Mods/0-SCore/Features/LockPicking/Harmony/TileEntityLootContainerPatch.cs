@@ -51,7 +51,7 @@ namespace Features.LockPicking
             {
                 // Skip player-owned containers — quest resets don't apply lock logic to them.
                 var storage = __instance.GetFeature<TEFeatureStorage>();
-                if (storage?.bPlayerStorage == true)
+                if (storage?.ItemGrid?.PlayerOwned == true)
                     return true;
 
                 // Check if this feature is enabled.

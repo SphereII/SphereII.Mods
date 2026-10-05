@@ -280,7 +280,7 @@ namespace UAI
             if (HarvestManager.Has(_context.Self.entityId))
                 items = HarvestManager.GetOrCreate(_context.Self.entityId).items;
             else
-                items = _context.Self.bag?.items;
+                items = _context.Self.bag?.ItemGrid?.items;
 
             if (items == null) return false;
 
@@ -483,7 +483,7 @@ namespace UAI
                     }
                     else if (lootContainer != null)
                     {
-                        lootContainer.items = StackSortUtil.CombineAndSortStacks(lootContainer.items, 0);
+                        lootContainer.ItemGrid.SetItems(StackSortUtil.CombineAndSortStacks(lootContainer.items, 0), false);
                         lootContainer.SetModified();
                     }
                 }

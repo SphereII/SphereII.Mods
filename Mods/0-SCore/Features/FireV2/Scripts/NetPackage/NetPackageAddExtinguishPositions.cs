@@ -42,12 +42,6 @@ public class NetPackageAddExtinguishPositions : NetPackage
         bw.Write(_entityThatCausedIt);
     }
 
-    public override int GetLength()
-    {
-        // 2 (count) + (12 per Vector3i) + 4 (entityId)
-        return 6 + (_positions?.Count ?? 0) * 12;
-    }
-
     public override void ProcessPackage(World world, GameManager callbacks)
     {
         if (world == null)

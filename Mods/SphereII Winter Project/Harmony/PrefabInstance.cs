@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using System;
 using System.Reflection;
 using System.Collections.Generic;
@@ -79,7 +79,7 @@ public class SphereII_WinterProject
     }
 
     [HarmonyPatch(typeof(DynamicPrefabDecorator))]
-    [HarmonyPatch("AddPrefab")]
+    [HarmonyPatch(nameof(DynamicPrefabDecorator.AddWorldPrefab))]
     public class SphereII_DynamicPrefabDecorator
     {
         public static bool Prefix(DynamicPrefabDecorator __instance, PrefabInstance _pi)
@@ -134,7 +134,7 @@ public class SphereII_WinterProject
     [HarmonyPatch(nameof(Prefab.CopyIntoLocal))]
     public class SphereII_WinterProject_Prefab_Prefix
     {
-        public static void Postfix(Prefab __instance, Vector3i _destinationPos, ChunkCluster _cluster, FastTags<TagGroup.Poi> _questTags)
+        public static void Postfix(Prefab __instance, Vector3i _destinationPos, ChunkCluster _cluster, FastTags<TagGroup.Global> _questTags)
         {
 
             if (__instance.Tags.Test_AllSet(FastTags<TagGroup.Poi>.Parse("SKIP_HARMONY_COPY_INTO_LOCAL")))

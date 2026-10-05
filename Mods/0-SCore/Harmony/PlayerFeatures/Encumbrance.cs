@@ -31,7 +31,8 @@ namespace SCore.Harmony.PlayerFeatures {
 
                     // calculate the mods, if available. Since Items with mods don't stack, this won't effect
                     // the calculate below for the total weight.
-                    foreach (var mod in itemValue.Modifications)
+                    // v3.3: raw backing field, null when the item has no mod slots.
+                    foreach (var mod in itemValue.modifications ?? System.Array.Empty<ItemValue>())
                     {
                         itemWeight += GetWeightValue(mod);
                     }
@@ -90,7 +91,7 @@ namespace SCore.Harmony.PlayerFeatures {
 
                 try
                 {
-                    var slots = localPlayer.bag.GetSlots();
+                    var slots = localPlayer.bag.ItemGrid.items;
                     var flTotalEncumbrance = CalculateSlots(slots);
                     AdvLogging.DisplayLog(AdvFeatureClass,
                         $"\tBackpack Total encumbrance: {flTotalEncumbrance} from {slots.Length} Slots.");
@@ -98,7 +99,7 @@ namespace SCore.Harmony.PlayerFeatures {
                     if (Configuration.CheckFeatureStatus(AdvFeatureClass, "Encumbrance_ToolBelt"))
                     {
                         var toolbeltWeight = 0f;
-                        var toolbeltSlots = localPlayer.inventory.GetSlots();
+                        var toolbeltSlots = localPlayer.inventory.ItemGrid.items;
                         toolbeltWeight = CalculateSlots(toolbeltSlots);
                         flTotalEncumbrance += toolbeltWeight;
                         AdvLogging.DisplayLog(AdvFeatureClass,
@@ -108,15 +109,17 @@ namespace SCore.Harmony.PlayerFeatures {
                     if (Configuration.CheckFeatureStatus(AdvFeatureClass, "Encumbrance_Equipment"))
                     {
                         var equipmentWeight = 0f;
-                        var items = localPlayer.equipment.GetItems();
-                        foreach (var item in items)
+                        var items = localPlayer.equipment.ItemGrid.items;
+                        foreach (var stack in items)
                         {
+                            var item = stack?.itemValue;
                             if (item == null) continue;
                             if (ItemClass.GetForId(item.type) == null) continue;
 
                             var itemWeight = GetWeightValue(item);
                             equipmentWeight += itemWeight;
-                            foreach (var mod in item.Modifications)
+                            // v3.3: raw backing field, null when the item has no mod slots.
+                            foreach (var mod in item.modifications ?? System.Array.Empty<ItemValue>())
                             {
                                 if ( mod == null || mod.IsEmpty()) continue;
                                 

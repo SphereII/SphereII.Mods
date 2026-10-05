@@ -162,8 +162,8 @@ public static class ModGeneralUtilities
         // bare hand permanently set to that weapon. Nothing resets it afterwards, and the
         // entity's own handItem field is never touched, so from then on GetHandItem() and
         // Inventory.GetBareHandItem() disagree for the rest of that NPC's life.
-        var originalBareHand = myEntity.inventory.GetBareHandItemValue();
-        myEntity.inventory.SetBareHandItem(item);
+        var originalBareHand = myEntity.inventory.Hand.BareHandItemValue;
+        myEntity.inventory.Hand.SetBareHandItem(item);
 
         try
         {
@@ -171,8 +171,8 @@ public static class ModGeneralUtilities
             // of those fall through to the bare hand ONLY when the toolbelt slot is empty, so for
             // an armed NPC they still resolve to its weapon - the swap above changed nothing they
             // can see, and this method ran the weapon's action instead of the food's.
-            var handItem = myEntity.inventory.GetBareHandItem();
-            var handData = myEntity.inventory.bareHandItemInventoryData;
+            var handItem = myEntity.inventory.Hand.BareHandItem;
+            var handData = myEntity.inventory.Hand.bareHandData;
             var itemAction = handItem?.Actions[0];
             var actionData = handData?.actionData != null && handData.actionData.Count > 0
                 ? handData.actionData[0]
@@ -183,7 +183,7 @@ public static class ModGeneralUtilities
                 // Attack() resolves through holdingItem as well, so on an armed NPC it would fire
                 // the weapon for real - a swing or a shot in the middle of eating. It is only safe
                 // when the NPC is genuinely bare-handed, which is the state this method assumes.
-                if (myEntity.inventory.UsingBareHand())
+                if (myEntity.inventory.Hand.UsingBareHand())
                     myEntity.Attack(true);
 
                 DisplayLog("ConsumeProduct(): Hold Item has Action0. Executing..");
@@ -205,7 +205,7 @@ public static class ModGeneralUtilities
             // hand is the same permanent corruption this method used to cause by restoring from
             // the wrong item.
             DisplayLog(" ConsumeProduct(): Restoring bare hand item");
-            myEntity.inventory.SetBareHandItem(originalBareHand);
+            myEntity.inventory.Hand.SetBareHandItem(originalBareHand);
         }
 
         return result;
@@ -217,11 +217,11 @@ public static class ModGeneralUtilities
         DisplayLog(" Check Contents of Container: " + tileLootContainer);
         var storage = tileLootContainer.GetFeature<TEFeatureStorage>();
         if (storage == null) return null;
-        DisplayLog(" TileEntity: " + storage.items.Length);
+        DisplayLog(" TileEntity: " + storage.ItemGrid.items.Length);
         ItemValue myItem = null;
-        if (storage.items != null)
+        if (storage.ItemGrid.items != null)
         {
-            var array = storage.items;
+            var array = storage.ItemGrid.items;
             for (var i = 0; i < array.Length; i++)
             {
                 if (array[i].IsEmpty())

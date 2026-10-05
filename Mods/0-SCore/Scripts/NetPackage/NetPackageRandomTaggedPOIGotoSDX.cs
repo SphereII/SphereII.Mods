@@ -31,11 +31,6 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
 
     public float minSearchDistance;
 
-    public override int GetLength()
-    {
-        return 20;
-    }
-
     public override void ProcessPackage(World _world, GameManager _callbacks)
     {
         if (_world == null)

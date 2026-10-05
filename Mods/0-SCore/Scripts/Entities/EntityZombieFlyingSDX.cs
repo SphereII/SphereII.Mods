@@ -93,7 +93,7 @@ public class EntityZombieFlyingSDX : EntityFlying
         // Sets the hand value, so we can give our entities ranged weapons.
         inventory.SetSlots(new[]
         {
-            new ItemStack(inventory.GetBareHandItemValue(), 1)
+            new ItemStack(inventory.Hand.BareHandItemValue, 1)
         });
 
         string[] auxList = null;
@@ -182,7 +182,7 @@ public class EntityZombieFlyingSDX : EntityFlying
                 hunterLevel = (int)(player as EntityPlayer).inventory.holdingItemData.itemValue.UseTimes;
                 (player as EntityPlayer).inventory.holdingItemItemValue.UseTimes = 0;
                 (player as EntityPlayer).inventory.holdingItemItemValue.Meta = 1;
-                (player as EntityPlayer).inventory.ForceHoldingItemUpdate(); // see if this refreshes the item
+                (player as EntityPlayer).inventory.ReconcileHeldItem(); // see if this refreshes the item
                 (player as EntityPlayer).inventory.CallOnToolbeltChangedInternal();
             }
 
@@ -225,7 +225,7 @@ public class EntityZombieFlyingSDX : EntityFlying
                         if (debug) Debug.Log("Found owner with ID = " + ownerID + " and huntinglevel = " + hunterLevel);
                         (_other as EntityPlayer).inventory.holdingItemItemValue.UseTimes = 0;
                         (_other as EntityPlayer).inventory.holdingItemItemValue.Meta = 1;
-                        (_other as EntityPlayer).inventory.ForceHoldingItemUpdate();
+                        (_other as EntityPlayer).inventory.ReconcileHeldItem();
                         (_other as EntityPlayer).inventory.CallOnToolbeltChangedInternal();
                         return true;
                     }
@@ -359,9 +359,9 @@ public class EntityZombieFlyingSDX : EntityFlying
     }
 
     // binary read
-    public override void Write(BinaryWriter _bw, bool bNetworkWrite)
+    public override void Write(PooledBinaryWriter _bw, StreamModeWrite _eStreamMode)
     {
-        base.Write(_bw, bNetworkWrite);
+        base.Write(_bw, _eStreamMode);
         // persisting current state
         try
         {
@@ -381,9 +381,9 @@ public class EntityZombieFlyingSDX : EntityFlying
         }
     }
 
-    public override void Read(byte _version, BinaryReader _br)
+    public override void Read(byte _version, PooledBinaryReader _br, StreamModeRead _eStreamMode)
     {
-        base.Read(_version, _br);
+        base.Read(_version, _br, _eStreamMode);
         if (_br.BaseStream.Position == _br.BaseStream.Length)
             return; //probably a vanilla entity so just return.
         try

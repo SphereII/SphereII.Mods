@@ -48,10 +48,10 @@ public class XUiC_NPCStatWindow : XUiController
                     break;
 
                 case "npcnametitle":
-                    value = Localization.Get(entityAliveSDX.Title);
+                    value = Localization.Get(((IEntityAliveSDX)entityAliveSDX).Title);
                     break;
                 case "npcfirstname":
-                    value = Localization.Get(entityAliveSDX.FirstName);
+                    value = Localization.Get(((IEntityAliveSDX)entityAliveSDX).FirstName);
                     break;
                 case "npcfaction":
                     value = Localization.Get(FactionManager.Instance.GetFaction(entityAliveSDX.factionId).Name);
@@ -242,7 +242,8 @@ public class XUiC_NPCStatWindow : XUiController
         this.IsDirty = true;
         this.player = base.xui.playerUI.entityPlayer;
         this.NPC = base.xui.Dialog.Respondent;
-        this.entityAliveSDX = this.NPC as EntityAliveSDX;
+        // EntityTrader is the common base of the legacy and V4 NPC classes; both implement IEntityAliveSDX.
+        this.entityAliveSDX = this.NPC is IEntityAliveSDX ? this.NPC as EntityTrader : null;
         if ( this.entityAliveSDX == null )
         {
             OnClose();
@@ -255,7 +256,7 @@ public class XUiC_NPCStatWindow : XUiController
     public EntityVehicle Vehicle { get; private set; }
 
     public EntityNPC NPC;
-    public EntityAliveSDX entityAliveSDX;
+    public EntityTrader entityAliveSDX;
 
     private readonly CachedStringFormatter<int> playerDeathsFormatter = new CachedStringFormatter<int>((int _i) => _i.ToString());
 

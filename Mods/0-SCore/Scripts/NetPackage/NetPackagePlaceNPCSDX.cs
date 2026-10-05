@@ -50,8 +50,4 @@ public class NetPackagePlaceNPCSDX : global::NetPackage
         world.SpawnEntityInWorld(entityAlive);
     }
 
-    public override int GetLength()
-    {
-        return 20;
-    }
 }

@@ -103,14 +103,14 @@ namespace Challenges
             
             var tags = FastTags<TagGroup.Global>.Parse(itemTags);
             var playerInventory = LocalPlayerUI.GetUIForPrimaryPlayer().xui.PlayerInventory;
-            foreach (var item in playerInventory.Backpack.GetSlots())
+            foreach (var item in playerInventory.Backpack.ItemGrid.items)
             {
                 if (item.IsEmpty()) continue;
                 if (item.itemValue.ItemClass.HasAnyTags(tags))
                     num += item.count;
             }
 
-            foreach (var item in playerInventory.Toolbelt.GetSlots())
+            foreach (var item in playerInventory.Toolbelt.ItemGrid.items)
             {
                 if (item.IsEmpty()) continue;
                 if (item.itemValue.ItemClass.HasAnyTags(tags))

@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using SCore.Features.ItemDegradation.Utils;
 
 namespace SCore.Features.ItemDegradation.Harmony.Vehicles
@@ -31,7 +31,11 @@ namespace SCore.Features.ItemDegradation.Harmony.Vehicles
         {
             var tags = FastTags<TagGroup.Global>.Parse(tagString);
 
-            foreach (var mod in vehiclePart.vehicle.itemValue.Modifications)
+            // v3.3: raw backing field, null when the item has no mod slots.
+            var mods = vehiclePart.vehicle.itemValue.modifications;
+            if (mods == null) return false;
+
+            foreach (var mod in mods)
             {
                 // Use 'is' and 'as' for cleaner null and type checks.
                 if (mod?.ItemClass is not ItemClassModifier itemClassModifier) continue;

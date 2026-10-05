@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Audio;
 using HarmonyLib;
@@ -170,6 +170,10 @@ namespace SCore.Features.ItemDegradation.Utils
 
         public static void CheckModificationOnItem(ItemValue[] items, EntityAlive player)
         {
+            // v3.3: callers pass ItemValue.modifications, the raw backing field, which is null
+            // whenever the item has no mod slots.
+            if (items == null) return;
+
             for (var i = 0; i < items.Length; i++)
             {
                 if (items[i]?.ItemClass == null) continue;
@@ -223,11 +227,11 @@ namespace SCore.Features.ItemDegradation.Utils
             }
 
             // Find items in bag
-            FindItemValues(entityAlive.bag.GetSlots(), itemName, tags, itemValues);
+            FindItemValues(entityAlive.bag.ItemGrid.items, itemName, tags, itemValues);
             // Find items in inventory
-            FindItemValues(entityAlive.inventory.GetSlots(), itemName, tags, itemValues);
+            FindItemValues(entityAlive.inventory.ItemGrid.items, itemName, tags, itemValues);
             // Find items in equipment
-            FindItemValues(entityAlive.equipment.m_slots, itemName, tags, itemValues);
+            FindItemValues(entityAlive.equipment.ItemGrid.items, itemName, tags, itemValues);
 
             return itemValues;
         }

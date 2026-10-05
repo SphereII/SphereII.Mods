@@ -46,13 +46,13 @@ namespace UAI
                         case TileEntityType.Loot:
                         {
                             var s = ((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>();
-                            if (s == null || !s.bTouched) return scoreClamp;
+                            if (s == null || !s.ItemGrid.Touched) return scoreClamp;
                             break;
                         }
                         case TileEntityType.SecureLoot:
                         {
                             var s = ((TileEntityComposite)tileEntity).GetFeature<TEFeatureStorage>();
-                            if (s == null || !s.bTouched) return scoreClamp;
+                            if (s == null || !s.ItemGrid.Touched) return scoreClamp;
                             break;
                         }
                         default:

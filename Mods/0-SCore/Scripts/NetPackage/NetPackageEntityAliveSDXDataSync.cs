@@ -86,11 +86,6 @@ public class NetPackageEntityAliveSDXDataSync : NetPackage
         }
     }
 
-    public override int GetLength()
-    {
-        return (int) (12L + this.entityData.Length);
-    }
-
     private int senderId;
 
     private int vehicleId;

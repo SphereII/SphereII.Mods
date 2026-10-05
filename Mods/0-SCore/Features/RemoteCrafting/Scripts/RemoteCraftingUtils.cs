@@ -124,7 +124,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 {
                     continue;
                 }
-                if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity))
+                if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var lootTileEntity))
                 {
                     continue;
                 }
@@ -162,7 +162,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
 
         public static bool DisableSender(IEnumerable<string> value, ITileEntity tileEntity)
         {
-            if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) return false;
+            if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var lootTileEntity)) return false;
             var invertdisable = bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "Invertdisable"));
             if (!invertdisable)
             {
@@ -186,7 +186,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
         {
             var result = false;
             if (player is not EntityPlayerLocal playerLocal) return false;
-            if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) return false;
+            if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var lootTileEntity)) return false;
 
             // TODO: we want to refactor this to remove the complex LinQ.
             // bind storage to workstation
@@ -216,7 +216,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
         {
             var result = false;
             if (player is not EntityPlayerLocal playerLocal) return false;
-            if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) return false;
+            if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var lootTileEntity)) return false;
 
             foreach (var bind in value.Split(';'))
             {
@@ -231,7 +231,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
 
         public static bool IsLootContainerOpenByAnotherPlayer(TileEntity tileEntity, EntityAlive player)
         {
-            if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var tileEntityLootable)) return true;
+            if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var tileEntityLootable)) return true;
             if (tileEntityLootable.IsUserAccessing()) return false;
             return false;
         }
@@ -242,14 +242,14 @@ namespace SCore.Features.RemoteCrafting.Scripts
             var tileEntities = GetTileEntities(player);
             foreach (var tileEntity in tileEntities)
             {
-                if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity))
+                if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var lootTileEntity))
                     continue;
                 if (IsLootContainerOpenByAnotherPlayer(tileEntity, player))
                 {
                     continue;
                 }
 
-                items.AddRange(lootTileEntity.items);
+                items.AddRange(lootTileEntity.ItemGrid.items);
             }
 
             return items;
@@ -261,10 +261,10 @@ namespace SCore.Features.RemoteCrafting.Scripts
             var tileEntities = GetTileEntities(player);
             foreach (var tileEntity in tileEntities)
             {
-                if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) continue;
+                if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var lootTileEntity)) continue;
                 if (IsLootContainerOpenByAnotherPlayer(tileEntity, player)) continue;
 
-                item.AddRange(lootTileEntity.items);
+                item.AddRange(lootTileEntity.ItemGrid.items);
             }
 
             var items = new List<ItemStack>();
@@ -288,10 +288,10 @@ namespace SCore.Features.RemoteCrafting.Scripts
             var tileEntities = GetTileEntities(player, distance, false);
             foreach (var tileEntity in tileEntities)
             {
-                if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity))
+                if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var lootTileEntity))
                     continue;
                 if (IsLootContainerOpenByAnotherPlayer(tileEntity, player)) continue;
-                item.AddRange(lootTileEntity.items);
+                item.AddRange(lootTileEntity.ItemGrid.items);
             }
 
 
@@ -313,7 +313,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
             var itemName = itemStack.itemValue?.ItemClass?.GetItemName() ?? "unknown";
             foreach (var tileEntity in tileEntities)
             {
-                if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) continue;
+                if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var lootTileEntity)) continue;
                 if (IsLootContainerOpenByAnotherPlayer(tileEntity, player)) continue;
                 if (CheckTileEntity(itemStack, lootTileEntity))
                 {
@@ -325,10 +325,10 @@ namespace SCore.Features.RemoteCrafting.Scripts
         }
 
 
-        private static bool CheckTileEntity(ItemStack itemStack, ITileEntityLootable lootTileEntity)
+        private static bool CheckTileEntity(ItemStack itemStack, TEFeatureStorage lootTileEntity)
         {
             var itemName = itemStack.itemValue?.ItemClass?.GetItemName() ?? "unknown";
-            var containerPos = (lootTileEntity as TileEntity)?.ToWorldPos().ToString() ?? "?";
+            var containerPos = lootTileEntity?.ToWorldPos().ToString() ?? "?";
 
             if (lootTileEntity == null || lootTileEntity.IsUserAccessing())
             {
@@ -405,7 +405,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 foreach (var tileEntity in tileEntities)
                 {
                     if (num <= 0) break;
-                    if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity))
+                    if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var lootTileEntity))
                         continue;
                     // If someone is using the tool account, skip it.
                     if (IsLootContainerOpenByAnotherPlayer(tileEntity, localPlayer)) continue;
@@ -414,9 +414,9 @@ namespace SCore.Features.RemoteCrafting.Scripts
 
                     if (!lootTileEntity.HasItem(enumerable[i].itemValue)) continue;
 
-                    for (var y = 0; y < lootTileEntity.items.Length; y++)
+                    for (var y = 0; y < lootTileEntity.ItemGrid.items.Length; y++)
                     {
-                        var item = lootTileEntity.items[y];
+                        var item = lootTileEntity.ItemGrid.items[y];
                         if (item.IsEmpty()) continue;
                         if (item.itemValue.ItemClass != enumerable[i].itemValue.ItemClass) continue;
 

@@ -271,9 +271,9 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
         }
     }
 
-    public override void Read(byte _version, BinaryReader _br)
+    public override void Read(byte _version, PooledBinaryReader _br, StreamModeRead _eStreamMode)
     {
-        base.Read(_version, _br);
+        base.Read(_version, _br, _eStreamMode);
         try
         {
             var strPatrol = _br.ReadString();
@@ -307,9 +307,9 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
         }
     }
 
-    public override void Write(BinaryWriter _bw, bool _bNetworkWrite)
+    public override void Write(PooledBinaryWriter _bw, StreamModeWrite _eStreamMode)
     {
-        base.Write(_bw, _bNetworkWrite);
+        base.Write(_bw, _eStreamMode);
         try
         {
             var strPatrolCoordinates = "";

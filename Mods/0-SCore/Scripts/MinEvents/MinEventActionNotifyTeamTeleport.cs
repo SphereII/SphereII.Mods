@@ -13,8 +13,8 @@ public class MinEventActionNotifyTeamTeleport : MinEventActionTargetedBase
         {
             if (cvar.Key.StartsWith("hired_"))
             {
-                var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAliveSDX;
-                if (entity)
+                var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAlive;
+                if (entity is IEntityAliveSDX sdx)
                 {
                     if (entity.IsDead()) continue;
 
@@ -25,7 +25,7 @@ public class MinEventActionNotifyTeamTeleport : MinEventActionTargetedBase
                         {
                             case EntityUtilities.Orders.Loot:
                             case EntityUtilities.Orders.Follow:
-                                entity.TeleportToPlayer(leader, true);
+                                sdx.TeleportToPlayer(leader, true);
                                 break;
                             case EntityUtilities.Orders.Stay:
                             case EntityUtilities.Orders.Wander:

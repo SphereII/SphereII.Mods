@@ -154,12 +154,6 @@ public class NetPackageQuestGotoPointSDX : NetPackage
 		}
 	}
 
-	// Token: 0x060031EA RID: 12778 RVA: 0x00159EAB File Offset: 0x001580AB
-	public override int GetLength()
-	{
-		return 8;
-	}
-
 	// Token: 0x04002208 RID: 8712
 	private int playerId;
 

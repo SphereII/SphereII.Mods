@@ -97,7 +97,7 @@ namespace UAI
 
                             if (tileEntity.GetTileEntityType() == TileEntityType.None) continue;
                             if (!ignoreTouch && tileEntity is TileEntityComposite tec &&
-                                tec.GetFeature<TEFeatureStorage>()?.bTouched == true)
+                                tec.GetFeature<TEFeatureStorage>()?.ItemGrid.Touched == true)
                                 continue;
 
                             if (!string.IsNullOrEmpty(blockNames) &&
@@ -131,12 +131,11 @@ namespace UAI
             var blockPos = tileContainer.ToWorldPos();
 
             if (string.IsNullOrEmpty(storage.lootListName)) return;
-            if (storage.bTouched) return;
+            if (storage.ItemGrid.Touched) return;
 
-            storage.bTouched    = true;
-            storage.bWasTouched = true;
+            storage.ItemGrid.Touch();
 
-            if (storage.items == null) return;
+            if (storage.ItemGrid.items == null) return;
 
             context.Self.SetLookPosition(blockPos);
             context.Self.MinEventContext.TileEntity = tileContainer;
@@ -154,7 +153,7 @@ namespace UAI
 
             var items = lootContainer.Spawn(
                 context.Self.rand,
-                storage.items.Length,
+                storage.ItemGrid.items.Length,
                 lootGameStage,
                 0f,
                 leader,

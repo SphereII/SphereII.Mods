@@ -43,7 +43,7 @@ namespace Harmony.TileEntities
         public class TileEntityInstantiate
         {
             public static bool Prefix(ref TileEntity __result, PooledBinaryReader _br,
-                TileEntity.StreamModeRead _eStreamMode, TileEntityType _type, Chunk _chunk)
+                StreamModeRead _eStreamMode, TileEntityType _type, Chunk _chunk)
             {
                 TileEntity tileEntity;
 

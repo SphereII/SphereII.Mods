@@ -16,7 +16,7 @@ public class DialogActionPickUpNPC : BaseDialogAction
 
         if (!string.IsNullOrEmpty(ID))
         {
-            if (myEntity.bag?.items?.Length > 0)
+            if (myEntity.bag?.ItemGrid?.items?.Length > 0)
             {
                 GameManager.ShowTooltip(player as EntityPlayerLocal, Localization.Get("npcHasItems"), string.Empty, "ui_denied", null);
                 return;
@@ -37,7 +37,7 @@ public class DialogActionPickUpNPC : BaseDialogAction
 
     private static bool HasNpcInInventory(EntityAlive entity)
     {
-        foreach (var stack in entity.inventory.GetSlots())
+        foreach (var stack in entity.inventory.ItemGrid.items)
         {
             if (!stack.IsEmpty() && stack.itemValue.HasMetadata("EntityClassId"))
                 return true;
@@ -52,9 +52,9 @@ public class DialogActionPickUpNPC : BaseDialogAction
                     return true;
             }
         }
-        else if (entity.bag.items != null)
+        else if (entity.bag.ItemGrid.items != null)
         {
-            foreach (var stack in entity.bag.items)
+            foreach (var stack in entity.bag.ItemGrid.items)
             {
                 if (!stack.IsEmpty() && stack.itemValue.HasMetadata("EntityClassId"))
                     return true;

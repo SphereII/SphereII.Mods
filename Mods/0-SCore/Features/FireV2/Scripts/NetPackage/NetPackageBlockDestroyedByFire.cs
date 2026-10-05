@@ -27,11 +27,6 @@ public class NetPackageBlockDestroyedByFire : NetPackage
         bw.Write(_count);
     }
 
-    public override int GetLength()
-    {
-        return 20;
-    }
-
     public override void ProcessPackage(World world, GameManager callbacks)
     {
         if (world == null)

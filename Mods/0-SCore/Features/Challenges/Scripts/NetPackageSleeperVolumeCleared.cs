@@ -1,4 +1,4 @@
-
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,11 +46,6 @@ public class NetPackageSleeperVolumeCleared : NetPackage
 		{
 			EventOnSleeperVolumeClearedUpdate.SleeperVolumeCleared(position);
 		}
-	}
-
-	public override int GetLength()
-	{
-		return 20;
 	}
 
 	

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 
@@ -310,4 +311,11 @@ public class ObjectiveRandomGotoSDX : BaseObjective
 		// Token: 0x04006932 RID: 26930
 		Completed
 	}
+
+	// v3.3: BaseObjective made this abstract. Matches vanilla ObjectiveRandomGoto.
+	public override void InternalToParametersDictionary(ref Dictionary<string, object> parameters)
+	{
+		parameters.Add("position", this.position.ToString());
+	}
+
 }

@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +12,25 @@ namespace Harmony.Progression
     // This gives "human" tagged entityalives access to the progression and levelling system.
     public class EntityAliveSDXProgressionHooks
     {
-        [HarmonyPatch(typeof(global::Progression))]
-        [HarmonyPatch(MethodType.Constructor)]
-        [HarmonyPatch(new[] { typeof(global::EntityAlive) })]
+        // DISABLED for game v3.3 - the patch is both broken and redundant.
+        //
+        // Broken: it injects ___ProgressionValueQuickList as ProgressionValue[] and ___eventList as
+        // List<ProgressionClass>. In v3.3 those fields are List<ProgressionValue> and
+        // List<ProgressionValue>, so neither injection binds and Harmony.PatchAll aborts for the
+        // entire SCore assembly.
+        //
+        // Redundant: Progression(EntityAlive) now calls SetupData() itself, for any EntityAlive and
+        // not just players. SetupData fills ProgressionValues, ProgressionValueQuickList, eventList
+        // AND passiveEffects - a superset of what this postfix hand-rolled - so re-running that work
+        // here would re-Add keys that already exist in ProgressionValues.
+        //
+        // Behaviour change to be aware of: the "noprogression" cvar/tag guard below used to stop
+        // progression data being built for an NPC. Vanilla now always builds it in the constructor,
+        // so that opt-out no longer has anything to prevent at this point.
+        //
+        // [HarmonyPatch(typeof(global::Progression))]
+        // [HarmonyPatch(MethodType.Constructor)]
+        // [HarmonyPatch(new[] { typeof(global::EntityAlive) })]
         public class ProgressionAddPerksToNPCs
         {
             private static int getExpForLevel(float _level)

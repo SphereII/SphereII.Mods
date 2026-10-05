@@ -11,7 +11,7 @@ public class MinEventActionAnimatorSpeedSDX : MinEventActionRemoveBuff
     {
         for (var i = 0; i < targets.Count; i++)
         {
-            var entity = targets[i] as EntityAliveSDX;
+            var entity = targets[i] as IEntityAliveSDX;
             if (entity != null)
                 if (targets[i].emodel != null && targets[i].emodel.avatarController != null)
                     targets[i].emodel.avatarController.GetAnimator().speed = floatSpeed;

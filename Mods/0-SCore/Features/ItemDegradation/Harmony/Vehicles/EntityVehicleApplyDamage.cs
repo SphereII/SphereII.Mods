@@ -13,7 +13,7 @@ namespace SCore.Features.ItemDegradation.Harmony.Vehicles
             var vehicle = __instance.GetVehicle();
             var itemValue = vehicle.GetUpdatedItemValue();
             var currentPlayer = __instance.AttachedMainEntity as EntityPlayer;
-            ItemDegradationHelpers.CheckModificationOnItem(itemValue.Modifications, currentPlayer);
+            ItemDegradationHelpers.CheckModificationOnItem(itemValue.modifications, currentPlayer);
         }
     }
 }

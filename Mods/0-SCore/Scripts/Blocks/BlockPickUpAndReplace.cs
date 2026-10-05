@@ -187,7 +187,7 @@ public class BlockTakeAndReplace : Block {
             // Calculate the degradation value.
             itemValue.UseTimes +=
                 (int)EffectManager.GetValue(PassiveEffects.DegradationPerUse, itemValue, 1f, _player);
-            _player.inventory.holdingItemData.itemValue = itemValue;
+            _player.inventory.holdingItemData.stack.itemValue = itemValue;
 
             // Automatically reduce the take delay by half if you have a crow bar or claw hammer.
             newTakeTime = fTakeDelay / 2;

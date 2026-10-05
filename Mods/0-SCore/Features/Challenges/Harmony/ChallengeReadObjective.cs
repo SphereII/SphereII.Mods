@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using Challenges;
@@ -49,7 +49,7 @@ namespace SCore.Features.Challenges.Harmony
             };
         }
 
-        public static BaseChallengeObjective Postfix(BaseChallengeObjective __result, byte _currentVersion, ChallengeObjectiveType _type, BinaryReader _br)
+        public static BaseChallengeObjective Postfix(BaseChallengeObjective __result, byte _currentVersion, ChallengeObjectiveType _type, PooledBinaryReader _br)
         {
             // If the base method already returned an objective, we don't need to do anything.
             if (__result != null) return __result;
