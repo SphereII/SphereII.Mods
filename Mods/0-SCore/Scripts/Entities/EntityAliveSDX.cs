@@ -1580,10 +1580,20 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
 
     public override void OnEntityUnload()
     {
-        var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayer;
-        if (leader)
+        // Removing a companion refreshes the HUD list. On exit the HUD can already be gone, and an
+        // exception here propagates into World.UnloadWorld and aborts the whole world unload
+        // (seen as "Disconnecting failed" followed by a crash on exit). Never let it escape.
+        try
         {
-            leader.Companions.Remove(this);
+            var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayer;
+            if (leader)
+            {
+                leader.Companions.Remove(this);
+            }
+        }
+        catch (System.Exception e)
+        {
+            Log.Warning($"[SCore] {EntityName} ({entityId}) OnEntityUnload: companion removal failed, continuing unload: {e.Message}");
         }
 
         base.OnEntityUnload();
@@ -1712,18 +1722,26 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
             return;
         }
 
-        if (this.position.y <= 0)
+        // Below the world. Without a rescue the game's own check in base logs "fell off the
+        // world" and unloads the NPC, which is how hired NPCs go missing.
+        if (this.position.y <= 0 && !isEntityRemote && !IsDead())
         {
             var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
-            if (leader)
+            if (FallRescue.TryRescue(this, leader, GuardPosition, ref _fallRescue, out var destination))
             {
-                TeleportToPlayer(leader);
+                motion = Vector3.zero;
+                navigator?.clearPath();
+                SphereCache.RemovePaths(entityId);
+                SetPosition(destination, true);
                 return;
             }
+            if (_fallRescue.Waiting) return; // between attempts: keep the game from unloading her
         }
 
         base.OnUpdatePosition(_partialTicks);
     }
+
+    private FallRescue.State _fallRescue;
 
     public override bool CanDamageEntity(int _sourceEntityId)
     {

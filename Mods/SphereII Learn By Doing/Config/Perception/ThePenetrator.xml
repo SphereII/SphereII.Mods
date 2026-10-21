@@ -60,6 +60,21 @@
 		</triggered_effect>
 
 	</effect_group>
+
+        <!-- Mirrors the XP awards above, minus their cooldowns and repeat-craft checks:
+             whatever earns perkPenetrator XP counts as using it, so it also holds off decay. -->
+        <effect_group name="LBD Decay Activity Resets for perkPenetrator">
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkpenetrator_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkDeadEye,perkJavelinMaster"/>
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="HasBuff" buff="buffLBD_Penetrator_MultiHitWindow"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkpenetrator_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkDeadEye,perkJavelinMaster"/>
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="EntityTagCompare" target="other" tags="feral,soldier,demolition"/>
+            </triggered_effect>
+        </effect_group>
 	</append>
 
 	<append xpath="/buffs">

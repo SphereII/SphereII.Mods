@@ -35,6 +35,68 @@
                 <requirement name="NotHasBuff" buff="buffLBD_craftingExplosives_ActionCoolDown"/>
             </triggered_effect>
 
+            <!--
+                =====================================================================
+                THE MINES, WHICH EVERY PATH ABOVE IS BLIND TO
+                =====================================================================
+
+                Three of the fourteen recipes craftingExplosives unlocks produce BLOCKS
+                rather than items - mineCookingPot at level 10, mineHubcap at 20 and
+                mineAirFilter at 25. Their UnlockedBy lives on the block in blocks.xml, but
+                the ItemClassBlock the game builds for a block starts with empty
+                Properties and never copies the block's, so every ItemHasProperty gate
+                above matches nothing when one is crafted. A fifth of this skill's own recipe list trained it
+                for exactly zero XP.
+
+                This is the same defect already found and fixed in CraftingTraps.xml,
+                where it was fatal because EVERY traps recipe is a block. Here it is
+                merely silent: the launcher, the thrown charges, the rocket parts and the
+                gunpowder are all real items and kept the skill moving, which is why it
+                went unnoticed.
+
+                RequirementCraftedBlockHasTags resolves the crafted item back to its block
+                and tests that block's tags, which is the only way to ask this question.
+
+                WHY tags="Mine" AND NOT THE THREE TIER TAGS. Every mine carries the generic
+                "Mine" alongside its Mine1..Mine4 tier tag, so one term covers all of them
+                and cannot go stale when a tier is added. It also picks up mineCandyTin,
+                which is deliberate: the candy tin is the one mine with no unlock gate at
+                all - no learnable tag, no craft_area - so it is craftable from level 0 and
+                is how a player first meets this recipe family. Leaving it out would have
+                meant the entry-level mine trained nothing while its three older siblings
+                did. mineCandyTinTwitch comes along too, harmlessly.
+
+                The decoy hubcapNoMine carries no Mine tag and is correctly excluded.
+
+                NO SALVAGE PATH, unlike Traps. Traps needs one because its blocks are
+                world furniture you strip with a wrench, and because its recipes are
+                locked until level 25 so salvage is the only way in. Mines are neither:
+                they are consumed when they detonate, and retrieving one is a BlockPickup
+                granted by perkInfiltrator rather than a salvage swing, so there is no
+                wrenching to reward and no bootstrap to solve.
+            -->
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Explosives - Attempting Block Craft XP (+@$lbd_xp_crafting_base)">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="Mine"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingExplosives_ActionCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingexplosives_lbd_lastitem"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingexplosives_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="Mine"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingExplosives_ActionCoolDown"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingexplosives_lbd_lastitem"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Explosives - Attempting Block Scrap XP (+@$lbd_xp_scrapping_base)">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="Mine"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingExplosives_ActionCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingexplosives_lbd_xp" operation="add" value="@$lbd_xp_scrapping_base">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="Mine"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingExplosives_ActionCoolDown"/>
+            </triggered_effect>
+
             <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Explosives - Applying Cooldown (Craft)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingExplosives"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingExplosives_ActionCoolDown"/>
@@ -98,56 +160,8 @@
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingexplosives_lbd_xp" operation="GTE" value="@$craftingexplosives_lbd_xptonext"/>
             </triggered_effect>
-            <!--
-                =====================================================================
-                THE MINES, WHICH EVERY PATH ABOVE IS BLIND TO
-                =====================================================================
 
-                Three of the fourteen recipes craftingExplosives unlocks produce BLOCKS
-                rather than items - mineCookingPot at level 10, mineHubcap at 20 and
-                mineAirFilter at 25. Blocks have no entry in items.xml, so they carry no
-                UnlockedBy property, so every ItemHasProperty gate above matches nothing
-                when one is crafted. A fifth of this skill's own recipe list trained it
-                for exactly zero XP.
-
-                This is the same defect already found and fixed in CraftingTraps.xml,
-                where it was fatal because EVERY traps recipe is a block. Here it is
-                merely silent: the launcher, the thrown charges, the rocket parts and the
-                gunpowder are all real items and kept the skill moving, which is why it
-                went unnoticed.
-
-                RequirementCraftedBlockHasTags resolves the crafted item back to its block
-                and tests that block's tags, which is the only way to ask this question.
-
-                WHY tags="Mine" AND NOT THE THREE TIER TAGS. Every mine carries the generic
-                "Mine" alongside its Mine1..Mine4 tier tag, so one term covers all of them
-                and cannot go stale when a tier is added. It also picks up mineCandyTin,
-                which is deliberate: the candy tin is the one mine with no unlock gate at
-                all - no learnable tag, no craft_area - so it is craftable from level 0 and
-                is how a player first meets this recipe family. Leaving it out would have
-                meant the entry-level mine trained nothing while its three older siblings
-                did. mineCandyTinTwitch comes along too, harmlessly.
-
-                The decoy hubcapNoMine carries no Mine tag and is correctly excluded.
-
-                NO SALVAGE PATH, unlike Traps. Traps needs one because its blocks are
-                world furniture you strip with a wrench, and because its recipes are
-                locked until level 25 so salvage is the only way in. Mines are neither:
-                they are consumed when they detonate, and retrieving one is a BlockPickup
-                granted by perkInfiltrator rather than a salvage swing, so there is no
-                wrenching to reward and no bootstrap to solve.
-            -->
-            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Explosives - Attempting Block Craft XP (+@$lbd_xp_crafting_base)">
-                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="Mine"/>
-                <requirement name="NotHasBuff" buff="buffLBD_craftingExplosives_ActionCoolDown"/>
-                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
-                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingexplosives_lbd_lastitem"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingexplosives_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
-                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="Mine"/>
-                <requirement name="NotHasBuff" buff="buffLBD_craftingExplosives_ActionCoolDown"/>
-                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingexplosives_lbd_lastitem"/>
-            </triggered_effect>
+            <!-- Mine path cooldown and level up checks, ordered after every award and log line above. -->
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingExplosives_ActionCoolDown">
                 <requirement name="RequirementCraftedBlockHasTags, SCore" tags="Mine"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingExplosives_ActionCoolDown"/>
@@ -155,16 +169,6 @@
             <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingExplosives_LevelUpCheck">
                 <requirement name="RequirementCraftedBlockHasTags, SCore" tags="Mine"/>
                 <requirement name="CVarCompare" cvar="$craftingexplosives_lbd_xp" operation="GTE" value="@$craftingexplosives_lbd_xptonext"/>
-            </triggered_effect>
-
-            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Explosives - Attempting Block Scrap XP (+@$lbd_xp_scrapping_base)">
-                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="Mine"/>
-                <requirement name="NotHasBuff" buff="buffLBD_craftingExplosives_ActionCoolDown"/>
-                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingexplosives_lbd_xp" operation="add" value="@$lbd_xp_scrapping_base">
-                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="Mine"/>
-                <requirement name="NotHasBuff" buff="buffLBD_craftingExplosives_ActionCoolDown"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingExplosives_ActionCoolDown">
                 <requirement name="RequirementCraftedBlockHasTags, SCore" tags="Mine"/>
@@ -186,6 +190,28 @@
         </effect_group>
 
    
+
+        <!-- Mirrors the XP awards above, minus their cooldowns and repeat-craft checks:
+             whatever earns craftingExplosives XP counts as using it, so it also holds off decay. -->
+        <effect_group name="LBD Decay Activity Resets for craftingExplosives">
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingexplosives_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingExplosives"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingexplosives_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingExplosives"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingexplosives_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingExplosives"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingexplosives_decay_counter" operation="set" value="0">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="Mine"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingexplosives_decay_counter" operation="set" value="0">
+                <requirement name="RequirementCraftedBlockHasTags, SCore" tags="Mine"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfExplosionDamagedOther" action="ModifyCVar" cvar="$craftingexplosives_decay_counter" operation="set" value="0"/>
+        </effect_group>
     </append>
 
     <!--

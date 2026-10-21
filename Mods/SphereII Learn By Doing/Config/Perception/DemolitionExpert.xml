@@ -27,6 +27,17 @@
 				<requirement name="IsAlive" target="other"/>
 			</triggered_effect>
 		</effect_group>
+
+        <!-- Mirrors the XP awards above, minus their cooldowns and repeat-craft checks:
+             whatever earns perkDemolitionsExpert XP counts as using it, so it also holds off decay. -->
+        <effect_group name="LBD Decay Activity Resets for perkDemolitionsExpert">
+            <triggered_effect trigger="onSelfExplosionDamagedOther" action="ModifyCVar" cvar="$perkdemolitionsexpert_decay_counter" operation="set" value="0">
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfExplosionAttackedOther" action="ModifyCVar" cvar="$perkdemolitionsexpert_decay_counter" operation="set" value="0">
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+        </effect_group>
 	</append>
 	<append xpath="/buffs">
 		<!-- Level-Up Handler for Demolitions Expert -->

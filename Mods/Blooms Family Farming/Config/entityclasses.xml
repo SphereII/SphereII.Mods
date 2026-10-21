@@ -17,21 +17,36 @@
                               value="NPCModCore,NPCModNPCHired, NPCModNPCMeleeBasic,NPCModNPCRangedBasic,NPCFarming"/>
                 </entity_class>
 
-                <entity_class name="MyFarmerV4" extends="npcAdvancedEmptyHandTemplate">
+                <!-- Frankie on the NPCSdcsCharacters format. npcHumanoidPlayerCtrl supplies the
+                     V4 entity class, the player-controller avatar, the physics body, hiring and
+                     the order modes, so this class only sets the mesh, the name, the gear and
+                     the farming package. -->
+                <entity_class name="MyFarmerV4" extends="npcHumanoidPlayerCtrl">
                     <property name="UserSpawnType" value="Menu"/>
-                    <property name="Class" value="EntityAliveSDXV4, SCore"/>
-
-                    <property name="Tags" value="entity,male,npc,melee,cp,DRMid,notrample"/>
-                    <property name="Faction" value="whiteriver"/>
                     <property name="Names" value="Farmer Frankie"/>
+                    <!-- The mesh needs a Humanoid avatar for the player controller. -->
                     <property name="Mesh" value="#@modfolder(0-XNPCCore):Resources/XythNPCs.unity3d?Baker_X"/>
 <!--
                     <property name="Mesh" value="#@modfolder:Resources/FarmerFrankie.unity3d?FarmerFrankie_X"/>
  -->
-                    <property name="NPCID" value="NPCFrankieFarmer"/>
-                    <property name="dialogWindow" value="dialog"/>
-                    <property name="AIPackages"
-                              value="NPCFarmingGeneralV4,NPCModNPCHiredV4,NPCModNPCMeleeBasicV4,NPCModNPCRangedBasicV4,NPCFarmingV4"/>
+                    <!-- Own npc_info, so the legacy MyFarmer keeps its dialog. -->
+                    <property name="NPCID" value="NPCFrankieFarmerV4"/>
+                    <!-- The npcSdcsBase male tags (sdcsnpc plus the sdcsSwap_ weapon tags that the
+                         dialog weapon menu and the voice swap commands gate on), plus notrample so
+                         Frankie does not trample his own crops. -->
+                    <property name="Tags" value="entity,male,npc,human,sdcsnpc,notrample,sdcsSwap_meleeWpnBladeT1HuntingKnife,sdcsSwap_meleeWpnBladeT3Machete,sdcsSwap_meleeWpnClubT0WoodenClub,sdcsSwap_meleeWpnClubT1BaseballBat,sdcsSwap_meleeToolAxeT1IronFireaxe,sdcsSwap_meleeWpnSpearT1IronSpear,sdcsSwap_gunHandgunT3SMG5,sdcsSwap_gunHandgunT0PipePistol,sdcsSwap_gunShotgunT0PipeShotgun,sdcsSwap_gunRifleT0PipeRifle,sdcsSwap_gunMGT0PipeMachineGun,sdcsSwap_gunMGT3M60,sdcsSwap_gunHandgunT1Pistol,sdcsSwap_gunHandgunT3DesertVulture,sdcsSwap_gunMGT1AK47,sdcsSwap_gunMGT2TacticalAR,sdcsSwap_gunRifleT1HuntingRifle,sdcsSwap_gunRifleT3SniperRifle,sdcsSwap_gunBowT1WoodenBow,sdcsSwap_gunBowT1IronCrossbow,sdcsSwap_gunShotgunT2PumpShotgun,sdcsSwap_gunShotgunT3AutoShotgun,sdcsSwap_gunExplosivesT3RocketLauncher,sdcsSwap_meleeWpnBladeT0BoneKnife,sdcsSwap_meleeWpnClubT3SteelClub,sdcsSwap_meleeWpnBatonT0PipeBaton,sdcsSwap_meleeWpnBatonT2StunBaton,sdcsSwap_meleeWpnKnucklesT0LeatherKnuckles,sdcsSwap_meleeWpnKnucklesT1IronKnuckles,sdcsSwap_meleeWpnKnucklesT3SteelKnuckles,sdcsSwap_meleeToolAxeT2SteelAxe,sdcsSwap_meleeToolAxeT3Chainsaw,sdcsSwap_meleeWpnSledgeT0StoneSledgehammer,sdcsSwap_meleeWpnSledgeT1IronSledgehammer,sdcsSwap_meleeWpnSledgeT3SteelSledgehammer,sdcsSwap_meleeWpnSpearT0StoneSpear,sdcsSwap_meleeWpnSpearT3SteelSpear,sdcsSwap_gunHandgunT2Magnum44,sdcsSwap_gunRifleT2LeverActionRifle,sdcsSwap_gunShotgunT1DoubleBarrel,sdcsSwap_gunBowT0PrimitiveBow,sdcsSwap_gunBowT3CompoundBow,sdcsSwap_gunBowT3CompoundCrossbow"/>
+                    <!-- The npcSdcsBase stack plus NPCFarmingSdcs. SdcsNpcLeave is left out on
+                         purpose: a farmer should not walk off his farm. -->
+                    <property name="AIPackages" value="NPCModCore, SdcsNpcRangedAdvanced, NPCModNPCHired, SdcsNpcLoot, NPCFarmingSdcs"/>
+                    <!-- Melee kit. The weapon must be in BagItems as well as ItemsOnEnterGame,
+                         or the rearm cannot equip it. -->
+                    <property name="BagItems" value="meleeWpnClubT0WoodenClub"/>
+                    <property name="HarvestItems" value="medicalFirstAidBandage=2"/>
+                    <property class="ItemsOnEnterGame">
+                        <property name="GameModeSurvival" value="meleeWpnClubT0WoodenClub"/>
+                        <property name="GameModeSurvivalSP" value="meleeWpnClubT0WoodenClub"/>
+                        <property name="GameModeSurvivalMP" value="meleeWpnClubT0WoodenClub"/>
+                    </property>
                 </entity_class>
 
                 <entity_class name="MyPather" extends="npcAdvancedEmptyHandTemplate">

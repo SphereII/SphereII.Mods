@@ -29,6 +29,7 @@ namespace UAI
             {
                 entityAlive.moveHelper.Stop();
                 entityAlive.navigator.clearPath();
+                entityAlive.SetMoveForward(0f); // StopMove leaves it set mid-jump, and Guard may not move again
             }
         }
 

@@ -13,5 +13,19 @@
             dialog_id="FrankieFarmerDialog"
             quest_list="frankie_quests"
             localization_id="npc_FrankieFarmer" />
+    <!-- MyFarmerV4 (NPCSdcsCharacters format). Same as above, on the V4 dialog. -->
+    <npc_info
+            id="NPCFrankieFarmerV4"
+            name="NPC"
+            name_key="npc_FrankieFarmer"
+            faction="whiteriver"
+            portrait="npc_joel"
+            greeting_type="nearby"
+            stance="Neutral"
+            voice_set=""
+            trader_id="200"
+            dialog_id="FrankieFarmerDialogV4"
+            quest_list="frankie_quests"
+            localization_id="npc_FrankieFarmer" />
     </insertAfter>
 </configs>

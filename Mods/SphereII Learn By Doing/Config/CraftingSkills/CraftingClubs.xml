@@ -191,6 +191,35 @@
         </effect_group>
 
    
+
+        <!-- Mirrors the XP awards above, minus their cooldowns and repeat-craft checks:
+             whatever earns craftingClubs XP counts as using it, so it also holds off decay. -->
+        <effect_group name="LBD Decay Activity Resets for craftingClubs">
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingclubs_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingClubs"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingclubs_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingClubs"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingclubs_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingClubs"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingclubs_decay_counter" operation="set" value="0">
+                <requirement name="ProgressionLevel" progression_name="craftingClubs" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="clubSkill"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingclubs_decay_counter" operation="set" value="0">
+                <requirement name="ProgressionLevel" progression_name="craftingClubs" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="clubSkill"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$craftingclubs_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="clubSkill"/>
+            </triggered_effect>
+        </effect_group>
     </append>
 
     <!--

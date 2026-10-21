@@ -57,6 +57,23 @@
 		</triggered_effect>
 
 	</effect_group>
+
+        <!-- Mirrors the XP awards above, minus their cooldowns and repeat-craft checks:
+             whatever earns perkAnimalTracker XP counts as using it, so it also holds off decay. -->
+        <effect_group name="LBD Decay Activity Resets for perkAnimalTracker">
+            <triggered_effect trigger="onSelfKilledOther" action="ModifyCVar" cvar="$perkanimaltracker_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="animal"/>
+                <requirements compare_type="or">
+                    <requirement name="HitLocation" body_part="Head"/>
+                    <requirement name="CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
+                </requirements>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfKilledOther" action="ModifyCVar" cvar="$perkanimaltracker_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="animal"/>
+                <requirement name="!HitLocation" body_part="Head"/>
+                <requirement name="!CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
+            </triggered_effect>
+        </effect_group>
 	</append>
 	<append xpath="/buffs">
 		<buff name="buffLBD_perkAnimalTracker_LevelUpCheck" hidden="true">

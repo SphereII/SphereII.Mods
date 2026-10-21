@@ -179,6 +179,35 @@
         </effect_group>
 
      
+
+        <!-- Mirrors the XP awards above, minus their cooldowns and repeat-craft checks:
+             whatever earns craftingRifles XP counts as using it, so it also holds off decay. -->
+        <effect_group name="LBD Decay Activity Resets for craftingRifles">
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingrifles_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingRifles"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingrifles_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingRifles"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingrifles_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingRifles"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingrifles_decay_counter" operation="set" value="0">
+                <requirement name="ProgressionLevel" progression_name="craftingRifles" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="rifleSkill"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingrifles_decay_counter" operation="set" value="0">
+                <requirement name="ProgressionLevel" progression_name="craftingRifles" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="rifleSkill"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$craftingrifles_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="rifleSkill"/>
+            </triggered_effect>
+        </effect_group>
     </append>
 
     <!--

@@ -19,7 +19,7 @@ When both of these conditions are met, a second buff, `buffLBD_perkPerceptionMas
 
 ### Progression Milestones
 
-The `perkPerceptionMastery` levels up at specific milestones of the `attPerception` attribute, and an internal CVar (`$perkperceptionmastery_lbd_level`) is used to track the progress and ensure each tier is unlocked only once.
+The `perkPerceptionMastery` levels up at specific milestones of the `attPerception` attribute, and each tier is gated on the perk's own level, so a tier is granted only while the perk is below it - including after decay has taken one away. (`$perkperceptionmastery_lbd_level` is still incremented but no longer read.)
 
 * **Tier 1:** Unlocks at `attPerception` Level **6**
 * **Tier 2:** Unlocks at `attPerception` Level **7**
@@ -46,61 +46,61 @@ This design ensures that a player's overall proficiency in Perception leads to t
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals"
                                  value="10"/>
-                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="5"/>
+                    <requirement name="ProgressionLevel" progression_name="perkPerceptionMastery" operation="LT" value="5"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
                                   buff="buffLBD_perkPerceptionMastery_LevelUpCheck">
                     <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals"
                                  value="10"/>
-                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="5"/>
+                    <requirement name="ProgressionLevel" progression_name="perkPerceptionMastery" operation="LT" value="5"/>
                 </triggered_effect>
 
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore"
                                   message="LBD DEBUG: Perception Mastery - Triggering Level Up Check (Tier 4)">
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="9"/>
-                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="4"/>
+                    <requirement name="ProgressionLevel" progression_name="perkPerceptionMastery" operation="LT" value="4"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
                                   buff="buffLBD_perkPerceptionMastery_LevelUpCheck">
                     <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="9"/>
-                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="4"/>
+                    <requirement name="ProgressionLevel" progression_name="perkPerceptionMastery" operation="LT" value="4"/>
                 </triggered_effect>
 
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore"
                                   message="LBD DEBUG: Perception Mastery - Triggering Level Up Check (Tier 3)">
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="8"/>
-                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="3"/>
+                    <requirement name="ProgressionLevel" progression_name="perkPerceptionMastery" operation="LT" value="3"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
                                   buff="buffLBD_perkPerceptionMastery_LevelUpCheck">
                     <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="8"/>
-                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="3"/>
+                    <requirement name="ProgressionLevel" progression_name="perkPerceptionMastery" operation="LT" value="3"/>
                 </triggered_effect>
 
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore"
                                   message="LBD DEBUG: Perception Mastery - Triggering Level Up Check (Tier 2)">
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="7"/>
-                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="2"/>
+                    <requirement name="ProgressionLevel" progression_name="perkPerceptionMastery" operation="LT" value="2"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
                                   buff="buffLBD_perkPerceptionMastery_LevelUpCheck">
                     <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="7"/>
-                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="2"/>
+                    <requirement name="ProgressionLevel" progression_name="perkPerceptionMastery" operation="LT" value="2"/>
                 </triggered_effect>
 
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore"
                                   message="LBD DEBUG: Perception Mastery - Triggering Level Up Check (Tier 1)">
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="6"/>
-                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="1"/>
+                    <requirement name="ProgressionLevel" progression_name="perkPerceptionMastery" operation="LT" value="1"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
                                   buff="buffLBD_perkPerceptionMastery_LevelUpCheck">
                     <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="6"/>
-                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="1"/>
+                    <requirement name="ProgressionLevel" progression_name="perkPerceptionMastery" operation="LT" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>
@@ -108,7 +108,7 @@ This design ensures that a player's overall proficiency in Perception leads to t
             <stack_type value="ignore"/>
             <duration value="1"/>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkPerceptionMastery"/>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkPerceptionMastery"/>
 
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Perception Mastery - Level Up SUCCESS (perkPerceptionMastery)">
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
@@ -123,7 +123,7 @@ This design ensures that a player's overall proficiency in Perception leads to t
             </effect_group>
 
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkPerceptionMastery"/>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkPerceptionMastery"/>
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore"
                                   message="LBD DEBUG: Perception Mastery - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>

@@ -46,6 +46,7 @@ namespace UAI
         private string _seedPatternStartsWith = string.Empty; // Cache for seed pattern matching.
         private string _seedPatternEndsWith = string.Empty; // Cache for seed pattern matching.
         private string _cooldownBuff = "buffFarmerCoolDown";
+        private bool _run = false; // "run" parameter: panic speed between plots instead of a walk.
 
 
         /// <summary>
@@ -59,6 +60,10 @@ namespace UAI
                 _cooldownBuff = cooldownBuff;
          
             if (Parameters.TryGetValue("buff", out _workBuff)) { }
+
+            // run="true" moves between plots at panic speed; the default is a walk.
+            if (Parameters.TryGetValue("run", out var run))
+                _run = StringParsers.ParseBool(run);
 
             if (Parameters.TryGetValue("seed", out _seedIdentifier))
             {
@@ -114,8 +119,7 @@ namespace UAI
 
             // Found a plot, set target position and pathfind.
             _targetFarmPlotPosition = _targetFarmPlotData.GetBlockPos();
-            SCoreUtils.FindPath(_context, _targetFarmPlotPosition,
-                false); // Assuming SCoreUtils handles path finding initiation.
+            SCoreUtils.FindPath(_context, _targetFarmPlotPosition, _run); // walk unless run="true"
 
             _context.ActionData.Started = true;
             _context.ActionData.Executing = true;
@@ -188,12 +192,20 @@ namespace UAI
             if (sqrDist >= SquaredApproachDistance)
             {
                 // Still too far, continue moving.
-                _context.Self.moveHelper.SetMoveTo(_targetFarmPlotPosition, false);
+                // Pass the speed: the two-argument overload uses the aggro speed, which is a run.
+                var speed = _run ? _context.Self.GetMoveSpeedPanic() : _context.Self.GetMoveSpeed();
+                _context.Self.moveHelper.SetMoveTo(_targetFarmPlotPosition, false, speed);
                 return;
             }
 
             // Arrived at the plot. Stop moving and apply the work buff.
             _context.Self.moveHelper.Stop(); // Ensure entity stops moving
+
+            // StopMove skips resetting the walk input while the entity is jumping, and a step up
+            // onto the plot counts as a jump. Left alone, the last walk direction keeps driving the
+            // body for the whole work buff, so clear it here. The NPC is already within
+            // ApproachDistance, so losing the rest of the step costs nothing.
+            _context.Self.SetMoveForward(0f);
             if (GameManager.IsDedicatedServer)
                 BlockUtilitiesSDX.addParticlesCenteredServer(string.Empty,
                     new Vector3i(_targetFarmPlotPosition)); // Add visual effect (DS: server→clients)

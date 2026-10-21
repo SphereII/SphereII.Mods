@@ -65,7 +65,7 @@
     
     <!-- The main perception manager. The individual skills are appended to this -->
     <append xpath="/buffs">
-        <buff name="buffLBD_PerceptionManager" hidden="true">
+        <buff name="buffLBD_PerceptionManager" hidden="true" remove_on_death="false">
             <stack_type value="ignore"/>
         </buff>
     </append>

@@ -11,50 +11,50 @@
             </requirements>
 
             <!-- XP Gain -->
-            <triggered_effect trigger="onSelfRun" action="LogMessageCVars, SCore" message="LBD DEBUG: From the Shadows - Attempting Stealth Walk XP (+@$lbd_xp_attribute_synergy_base)">
+            <triggered_effect trigger="onSelfCrouchRun" action="LogMessageCVars, SCore" message="LBD DEBUG: From the Shadows - Attempting Stealth Walk XP (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkFromTheShadows_XPCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkfromtheshadows_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+            <triggered_effect trigger="onSelfCrouchRun" action="ModifyCVar" cvar="$perkfromtheshadows_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkFromTheShadows_XPCoolDown"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="LogMessageCVars, SCore" message="LBD DEBUG: From the Shadows - Attempting Stealth Walk XP (+@$lbd_xp_attribute_synergy_base)">
+            <triggered_effect trigger="onSelfCrouchWalk" action="LogMessageCVars, SCore" message="LBD DEBUG: From the Shadows - Attempting Stealth Walk XP (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkFromTheShadows_XPCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkfromtheshadows_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+            <triggered_effect trigger="onSelfCrouchWalk" action="ModifyCVar" cvar="$perkfromtheshadows_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkFromTheShadows_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Cooldown Application -->
-            <triggered_effect trigger="onSelfRun" action="LogMessageCVars, SCore" message="LBD DEBUG: From the Shadows - Applying Cooldown">
+            <triggered_effect trigger="onSelfCrouchRun" action="LogMessageCVars, SCore" message="LBD DEBUG: From the Shadows - Applying Cooldown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkFromTheShadows_XPCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_perkFromTheShadows_XPCoolDown">
+            <triggered_effect trigger="onSelfCrouchRun" action="AddBuff" buff="buffLBD_perkFromTheShadows_XPCoolDown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkFromTheShadows_XPCoolDown"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="LogMessageCVars, SCore" message="LBD DEBUG: From the Shadows - Applying Cooldown">
+            <triggered_effect trigger="onSelfCrouchWalk" action="LogMessageCVars, SCore" message="LBD DEBUG: From the Shadows - Applying Cooldown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkFromTheShadows_XPCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_perkFromTheShadows_XPCoolDown">
+            <triggered_effect trigger="onSelfCrouchWalk" action="AddBuff" buff="buffLBD_perkFromTheShadows_XPCoolDown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkFromTheShadows_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Level Up Check -->
-            <triggered_effect trigger="onSelfRun" action="LogMessageCVars, SCore" message="LBD DEBUG: From the Shadows - Triggering Level Up Check (Run)">
+            <triggered_effect trigger="onSelfCrouchRun" action="LogMessageCVars, SCore" message="LBD DEBUG: From the Shadows - Triggering Level Up Check (Run)">
                 <requirement name="CVarCompare" cvar="$perkfromtheshadows_lbd_xp" operation="GTE" value="@$perkfromtheshadows_lbd_xptonext"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_perkFromTheShadows_LevelUpCheck">
+            <triggered_effect trigger="onSelfCrouchRun" action="AddBuff" buff="buffLBD_perkFromTheShadows_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkfromtheshadows_lbd_xp" operation="GTE" value="@$perkfromtheshadows_lbd_xptonext"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="LogMessageCVars, SCore" message="LBD DEBUG: From the Shadows - Triggering Level Up Check (Walk)">
+            <triggered_effect trigger="onSelfCrouchWalk" action="LogMessageCVars, SCore" message="LBD DEBUG: From the Shadows - Triggering Level Up Check (Walk)">
                 <requirement name="CVarCompare" cvar="$perkfromtheshadows_lbd_xp" operation="GTE" value="@$perkfromtheshadows_lbd_xptonext"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_perkFromTheShadows_LevelUpCheck">
+            <triggered_effect trigger="onSelfCrouchWalk" action="AddBuff" buff="buffLBD_perkFromTheShadows_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkfromtheshadows_lbd_xp" operation="GTE" value="@$perkfromtheshadows_lbd_xptonext"/>
             </triggered_effect>
         </effect_group>

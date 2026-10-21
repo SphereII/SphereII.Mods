@@ -7,40 +7,11 @@ namespace SphereII.FoodSpoilage.HarmonyPatches
 {
     /// <summary>
     /// Harmony patches for implementing the Food Spoilage system.
-    /// Includes patches for ItemValue cloning and the core spoilage logic in XUiC_ItemStack.Update.
+    /// Includes the core spoilage logic in XUiC_ItemStack.Update. There is no ItemValue.Clone
+    /// patch: vanilla Clone already deep-copies Metadata, null-safely.
     /// </summary>
     public class FoodSpoilagePatches
     {
-        // --- ItemValue Clone Patch ---
-        [HarmonyPatch(typeof(ItemValue))]
-        [HarmonyPatch("Clone")]
-        public class ItemValueClonePatch
-        {
-            private static void Postfix(ref ItemValue __result, ItemValue __instance)
-            {
-                // Check if the core feature and the alternate value usage are enabled
-                if (!SpoilageConfig.IsFoodSpoilageEnabled || !SpoilageConfig.UseAlternateItemValue)
-                    return;
-
-                // Check if the item instance itself is spoilable
-                if (__instance?.ItemClass == null ||
-                    !__instance.ItemClass.Properties.GetBool(SpoilageConstants.PropSpoilable))
-                    return;
-
-                // If metadata exists, perform a deep clone
-                if (__instance.Metadata != null)
-                {
-                    // Create a new dictionary for the clone to avoid reference sharing.
-                    __result.Metadata = new Dictionary<string, TypedMetadataValue>();
-                    foreach (var kvp in __instance.Metadata)
-                    {
-                        // Clone the metadata value itself before adding.
-                        __result.SetMetadata(kvp.Key, kvp.Value.Clone());
-                    }
-                }
-            }
-        }
-
         // --- ItemStack Update Patch (Core Spoilage Logic) ---
         [HarmonyPatch(typeof(XUiC_ItemStack))]
         [HarmonyPatch("Update")]

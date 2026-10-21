@@ -59,24 +59,24 @@
             </triggered_effect>
 
             <!-- Synergy XP for moving in low light (from From the Shadows) -->
-            <triggered_effect trigger="onSelfRun" action="LogMessageCVars, SCore" message="LBD DEBUG: Agility Attribute - Shadow Walker Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+            <triggered_effect trigger="onSelfCrouchRun" action="LogMessageCVars, SCore" message="LBD DEBUG: Agility Attribute - Shadow Walker Synergy XP (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
                 <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attAgility_MoveCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$attagility_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+            <triggered_effect trigger="onSelfCrouchRun" action="ModifyCVar" cvar="$attagility_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
                 <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
                 <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attAgility_MoveCoolDown"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="LogMessageCVars, SCore" message="LBD DEBUG: Agility Attribute - Shadow Walker Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+            <triggered_effect trigger="onSelfCrouchWalk" action="LogMessageCVars, SCore" message="LBD DEBUG: Agility Attribute - Shadow Walker Synergy XP (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
                 <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attAgility_MoveCoolDown"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$attagility_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+            <triggered_effect trigger="onSelfCrouchWalk" action="ModifyCVar" cvar="$attagility_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
                 <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
                 <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attAgility_MoveCoolDown"/>
@@ -115,6 +115,14 @@
                     <requirement name="EntityHasMovementTag" tags="walking"/>
                 </requirements>
             </triggered_effect>
+            <!-- Crouched movement fires onSelfCrouchRun/onSelfCrouchWalk, never onSelfRun/onSelfWalk,
+                 so the Shadow Walker award above needs its own throttle and level-up check. -->
+            <triggered_effect trigger="onSelfCrouchRun" action="AddBuff" buff="buffLBD_attAgility_MoveCoolDown">
+                <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCrouchWalk" action="AddBuff" buff="buffLBD_attAgility_MoveCoolDown">
+                <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
+            </triggered_effect>
 
             <!-- Level Up Check for all synergy actions -->
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attAgility_LevelUpCheck">
@@ -130,6 +138,12 @@
                 <requirement name="CVarCompare" cvar="$attagility_lbd_xp" operation="GTE" value="@$attagility_lbd_xptonext"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_attAgility_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$attagility_lbd_xp" operation="GTE" value="@$attagility_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCrouchRun" action="AddBuff" buff="buffLBD_attAgility_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$attagility_lbd_xp" operation="GTE" value="@$attagility_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCrouchWalk" action="AddBuff" buff="buffLBD_attAgility_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$attagility_lbd_xp" operation="GTE" value="@$attagility_lbd_xptonext"/>
             </triggered_effect>
 

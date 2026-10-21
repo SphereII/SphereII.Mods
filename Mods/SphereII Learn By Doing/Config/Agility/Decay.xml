@@ -1,7 +1,7 @@
 <configs>
     <append xpath="/buffs">
         <!-- Main permanent buff that handles all Agility decay logic. -->
-        <buff name="buffLBD_Agility_DecayManager" hidden="true">
+        <buff name="buffLBD_Agility_DecayManager" hidden="true" remove_on_death="false">
             <duration value="0"/> <!-- Permanent -->
             <update_rate value="3000"/> <!-- Ticks every 3000 seconds -->
 
@@ -45,14 +45,6 @@
                 </triggered_effect>
             </effect_group>
 
-            <!-- Logic for perkLightArmor Decay -->
-            <effect_group name="Light Armor Perk Decay">
-                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perklightarmor_decay_counter" operation="add" value="1"/>
-                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkLightArmor_Decay">
-                    <requirement name="CVarCompare" cvar="$perklightarmor_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
-                </triggered_effect>
-            </effect_group>
-
             <!-- Logic for perkRunAndGun Decay -->
             <effect_group name="Run and Gun Perk Decay">
                 <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkrunandgun_decay_counter" operation="add" value="1"/>
@@ -82,6 +74,21 @@
                 <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkflurryofagility_decay_counter" operation="add" value="1"/>
                 <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkFlurryOfAgility_Decay">
                     <requirement name="CVarCompare" cvar="$perkflurryofagility_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Gives back an Agility Mastery tier lost to decay. The Mastery checker used to run
+                 only when attAgility gained a level, which cannot happen at 10, so a decayed
+                 tier was gone for good. It now also runs on any tick where the attribute was
+                 used since the last one, one tier per tick.
+
+                 Must stay ABOVE the decay group below: that group increments the counter, so
+                 0 here means an activity reset happened during the interval. The decay buff
+                 leaves the counter at 1 rather than 0 for the same reason - otherwise the tick
+                 after a decay would look like activity and hand the tier straight back. -->
+            <effect_group name="Agility Mastery Re-grant">
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_attAgility_MasteryChecker">
+                    <requirement name="CVarCompare" cvar="$perkagilitymastery_decay_counter" operation="Equals" value="0"/>
                 </triggered_effect>
             </effect_group>
 
@@ -150,17 +157,6 @@
             </effect_group>
         </buff>
 
-        <!-- Temporary buff that actually performs the perkLightArmor decay -->
-        <buff name="buffLBD_perkLightArmor_Decay" hidden="true">
-            <stack_type value="ignore"/><duration value="1"/>
-            <effect_group>
-                <requirement name="ProgressionLevel" progression_name="perkLightArmor" operation="GT" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkLightArmor" level="-1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perklightarmor_decay_counter" operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkLightArmor" sound="ui_skill_decay" />
-            </effect_group>
-        </buff>
-
         <!-- Temporary buff that actually performs the perkRunAndGun decay -->
         <buff name="buffLBD_perkRunAndGun_Decay" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
@@ -211,7 +207,7 @@
             <effect_group>
                 <requirement name="ProgressionLevel" progression_name="perkAgilityMastery" operation="GT" value="0"/>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkAgilityMastery" level="-1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkagilitymastery_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkagilitymastery_decay_counter" operation="set" value="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkAgilityMastery" sound="ui_skill_decay" />
             </effect_group>
         </buff>
@@ -219,6 +215,12 @@
 
     <!-- NEW: Append the activity reset logic to the main Agility Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_AgilityManager']">
+        <!-- Starts the decay ticker. Only Perception did this, so the other five trees'
+             decay managers were defined but never applied and never ticked. Existing
+             characters get it from the Manager Restore group in buffs.xml instead. -->
+        <effect_group name="Decay">
+            <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_Agility_DecayManager"/>
+        </effect_group>
         <effect_group name="LBD Decay Activity Resets">
             <!-- Reset Decay Counter on attAgility Activity -->
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attagility_decay_counter" operation="set" value="0">
@@ -303,11 +305,11 @@
             </triggered_effect>
 
             <!-- Reset Decay Counter on perkFromTheShadows Activity -->
-            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkfromtheshadows_decay_counter" operation="set" value="0">
+            <triggered_effect trigger="onSelfCrouchRun" action="ModifyCVar" cvar="$perkfromtheshadows_decay_counter" operation="set" value="0">
                 <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
                 <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkfromtheshadows_decay_counter" operation="set" value="0">
+            <triggered_effect trigger="onSelfCrouchWalk" action="ModifyCVar" cvar="$perkfromtheshadows_decay_counter" operation="set" value="0">
                 <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
                 <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
             </triggered_effect>
@@ -321,6 +323,40 @@
             <!-- Reset Decay Counter on perkAgilityMastery Activity -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkagilitymastery_decay_counter" operation="set" value="0">
                 <requirement name="ProgressionLevel" progression_name="attAgility" operation="GT" value="0"/>
+            </triggered_effect>
+        </effect_group>
+
+        <!-- Agility Mastery earns no XP of its own - it follows the attribute level - so
+             it follows the attribute's activity too: one reset for each of the attAgility
+             resets in this file. -->
+        <effect_group name="LBD Decay Activity Resets for perkAgilityMastery">
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkagilitymastery_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="attAgility"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfFallImpact" action="ModifyCVar" cvar="$perkagilitymastery_decay_counter" operation="set" value="0">
+                <requirement name="CVarCompare" cvar="_fallSpeed" operation="GTE" value=".08"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$perkagilitymastery_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="CVarCompare" cvar=".ArmorLightWorn" operation="GTE" value="3"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkagilitymastery_decay_counter" operation="set" value="0">
+                <requirements compare_type="or">
+                    <requirement name="EntityHasMovementTag" tags="running"/>
+                    <requirement name="EntityHasMovementTag" tags="walking"/>
+                </requirements>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkagilitymastery_decay_counter" operation="set" value="0">
+                <requirements compare_type="or">
+                    <requirement name="EntityHasMovementTag" tags="running"/>
+                    <requirement name="EntityHasMovementTag" tags="walking"/>
+                </requirements>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkagilitymastery_decay_counter" operation="set" value="0">
+                <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
+                <requirement name="CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
+                <requirement name="!ItemHasTags" tags="perkSkullCrusher"/>
             </triggered_effect>
         </effect_group>
     </append>

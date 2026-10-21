@@ -430,6 +430,7 @@
     <Compile Include="Harmony\EntityDrone\EntityDronePatches.cs" />
     <Compile Include="Harmony\EntityGroups\EntityGroupsGetRandomFromGroup.cs" />
     <Compile Include="Harmony\EntityMoveHelper\DigStart.cs" />
+    <Compile Include="Harmony\EntityMoveHelper\NpcMovementTrace.cs" />
     <Compile Include="Harmony\EntityMoveHelper\StartJump.cs" />
     <Compile Include="Harmony\EntityMoveHelper\Stop.cs" />
     <Compile Include="Harmony\EntityMoveHelper\UpdateMoveHelper.cs" />
@@ -652,6 +653,7 @@
     <Compile Include="Scripts\EAI\EAISwimSDX.cs" />
     <Compile Include="Scripts\EAI\EAIWanderSDX.cs" />
     <Compile Include="Scripts\Entities\EntityAliveSDX.cs" />
+    <Compile Include="Scripts\Entities\FallRescue.cs" />
     <Compile Include="Scripts\Entities\EntityBackpackNPC.cs" />
     <Compile Include="Scripts\Entities\EntityEnemySDX.cs" />
     <Compile Include="Scripts\Entities\EntityAliveEventSpawnerSDX.cs" />

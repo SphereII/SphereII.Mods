@@ -7,6 +7,92 @@
             </triggered_effect>
             <triggered_effect trigger="onSelfEnteredGame" action="LogMessageCVars, SCore" message="Learn By Doing Active"/>
         </effect_group>
+        <!-- Self-heal for the manager buffs. Every award path lives on them, and Init is
+             the only other thing that adds them - once per character, since its gate
+             above closes as soon as $lbd_xp_melee_base is set. They used to be removed on
+             death, which left a character earning nothing in any skill from its first
+             death onward. They now carry remove_on_death="false"; this puts them back on
+             characters that had already died, and on anything else that strips them.
+             Gated on the same cvar Init sets, so it never runs ahead of Init on a new
+             character. XP and thresholds are cvars and were never lost. -->
+        <effect_group name="Learn By Doing Manager Restore">
+            <requirement name="CVarCompare" cvar="$lbd_xp_melee_base" operation="GTE" value="1"/>
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffLBD_PerceptionManager">
+                <requirement name="NotHasBuff" buff="buffLBD_PerceptionManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffLBD_StrengthManager">
+                <requirement name="NotHasBuff" buff="buffLBD_StrengthManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffLBD_FortitudeManager">
+                <requirement name="NotHasBuff" buff="buffLBD_FortitudeManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffLBD_AgilityManager">
+                <requirement name="NotHasBuff" buff="buffLBD_AgilityManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffLBD_IntellectManager">
+                <requirement name="NotHasBuff" buff="buffLBD_IntellectManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffLBD_GeneralManager">
+                <requirement name="NotHasBuff" buff="buffLBD_GeneralManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRespawn" action="AddBuff" buff="buffLBD_PerceptionManager">
+                <requirement name="NotHasBuff" buff="buffLBD_PerceptionManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRespawn" action="AddBuff" buff="buffLBD_StrengthManager">
+                <requirement name="NotHasBuff" buff="buffLBD_StrengthManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRespawn" action="AddBuff" buff="buffLBD_FortitudeManager">
+                <requirement name="NotHasBuff" buff="buffLBD_FortitudeManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRespawn" action="AddBuff" buff="buffLBD_AgilityManager">
+                <requirement name="NotHasBuff" buff="buffLBD_AgilityManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRespawn" action="AddBuff" buff="buffLBD_IntellectManager">
+                <requirement name="NotHasBuff" buff="buffLBD_IntellectManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRespawn" action="AddBuff" buff="buffLBD_GeneralManager">
+                <requirement name="NotHasBuff" buff="buffLBD_GeneralManager"/>
+            </triggered_effect>
+            <!-- The decay tickers. Each tree's manager starts its own on onSelfBuffStart, but
+                 that only fires when the manager is first applied, so a character that
+                 already has the managers would never get the five that used to go unapplied. -->
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffLBD_Perception_DecayManager">
+                <requirement name="NotHasBuff" buff="buffLBD_Perception_DecayManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffLBD_Strength_DecayManager">
+                <requirement name="NotHasBuff" buff="buffLBD_Strength_DecayManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffLBD_Fortitude_DecayManager">
+                <requirement name="NotHasBuff" buff="buffLBD_Fortitude_DecayManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffLBD_Agility_DecayManager">
+                <requirement name="NotHasBuff" buff="buffLBD_Agility_DecayManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffLBD_Intellect_DecayManager">
+                <requirement name="NotHasBuff" buff="buffLBD_Intellect_DecayManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffLBD_General_DecayManager">
+                <requirement name="NotHasBuff" buff="buffLBD_General_DecayManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRespawn" action="AddBuff" buff="buffLBD_Perception_DecayManager">
+                <requirement name="NotHasBuff" buff="buffLBD_Perception_DecayManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRespawn" action="AddBuff" buff="buffLBD_Strength_DecayManager">
+                <requirement name="NotHasBuff" buff="buffLBD_Strength_DecayManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRespawn" action="AddBuff" buff="buffLBD_Fortitude_DecayManager">
+                <requirement name="NotHasBuff" buff="buffLBD_Fortitude_DecayManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRespawn" action="AddBuff" buff="buffLBD_Agility_DecayManager">
+                <requirement name="NotHasBuff" buff="buffLBD_Agility_DecayManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRespawn" action="AddBuff" buff="buffLBD_Intellect_DecayManager">
+                <requirement name="NotHasBuff" buff="buffLBD_Intellect_DecayManager"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRespawn" action="AddBuff" buff="buffLBD_General_DecayManager">
+                <requirement name="NotHasBuff" buff="buffLBD_General_DecayManager"/>
+            </triggered_effect>
+        </effect_group>
     </append>
     <append xpath="/buffs">
         <!-- 1. THE GLOBAL INITIALIZER -->

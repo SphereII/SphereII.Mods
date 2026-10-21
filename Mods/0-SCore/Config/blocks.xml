@@ -427,6 +427,11 @@
                 <!-- Farming -->
                 <property name="UAITaskFarming" value="false" />
 
+                <!-- [NPC-TRACE] movement trace for SCore NPCs: new move targets and path requests with the
+                     code that issued them, UAI action and order changes, guard spot changes, fast runs.
+                     Also switchable in game: setcvar AdvancedTroubleshootingFeatures_NPCMovementTrace 1 -->
+                <property name="NPCMovementTrace" value="false" />
+
             </property>
 
             <property class="AdvancedPrefabFeatures">

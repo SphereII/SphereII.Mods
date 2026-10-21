@@ -80,8 +80,18 @@ public partial class EntityAliveSDXV4
         for (int i = 0; i < _components.Length; i++)
             _components[i].OnUnload();
 
-        var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayer;
-        leader?.Companions.Remove(this);
+        // Removing a companion refreshes the HUD list. On exit the HUD can already be gone, and an
+        // exception here propagates into World.UnloadWorld and aborts the whole world unload
+        // (seen as "Disconnecting failed" followed by a crash on exit). Never let it escape.
+        try
+        {
+            var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayer;
+            leader?.Companions.Remove(this);
+        }
+        catch (System.Exception e)
+        {
+            Log.Warning($"[SCore] {EntityName} ({entityId}) OnEntityUnload: companion removal failed, continuing unload: {e.Message}");
+        }
         base.OnEntityUnload();
     }
 

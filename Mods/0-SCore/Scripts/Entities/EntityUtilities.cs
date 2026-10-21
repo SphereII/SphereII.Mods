@@ -790,6 +790,11 @@ public static class EntityUtilities
         myEntity.navigator?.clearPath();
         myEntity.moveHelper?.Stop();
 
+        // StopMove skips resetting the walk input while the entity is jumping (a step up counts),
+        // and nothing resets it later while the helper is off, so a task that stops once and then
+        // waits on a buff (looting, farming) let the NPC run off in its last direction. Reset it here.
+        myEntity.SetMoveForward(0f);
+
         // clearPath() leaves a finished-but-undelivered path in the pathfinder thread. The next
         // updateTasks tick hands it to the navigator, which re-arms the move helper and makes the
         // NPC twitch its yaw. Discard it so the stop sticks.
@@ -1593,7 +1598,10 @@ public static class EntityUtilities
                 if (orderReceiver != null) orderReceiver.GuardPosition = position;
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Stopping Move Helper()");
                 if (entityAlive.moveHelper != null) // No move helper on the client when on Dedi
+                {
                     entityAlive.moveHelper.Stop();
+                    entityAlive.SetMoveForward(0f); // StopMove leaves it set mid-jump
+                }
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
                 break;
 
@@ -1608,7 +1616,10 @@ public static class EntityUtilities
                     orderReceiver.GuardPosition = position;
                     AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Stopping Move Helper()");
                     if (entityAlive.moveHelper != null) // No move helper on the client when on Dedi
+                    {
                         entityAlive.moveHelper.Stop();
+                        entityAlive.SetMoveForward(0f); // StopMove leaves it set mid-jump
+                    }
                     AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Guard Look");
                     orderReceiver.GuardLookPosition = player.GetLookVector();
                 }
@@ -1771,7 +1782,11 @@ public static class EntityUtilities
                 // Stay at current position — same as the existing StayHere command.
                 SetCurrentOrder(EntityID, Orders.Stay);
                 if (orderReceiver != null) orderReceiver.GuardPosition = position;
-                if (entityAlive.moveHelper != null) entityAlive.moveHelper.Stop();
+                if (entityAlive.moveHelper != null)
+                {
+                    entityAlive.moveHelper.Stop();
+                    entityAlive.SetMoveForward(0f); // StopMove leaves it set mid-jump
+                }
 
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " FarmHere: done");
                 break;

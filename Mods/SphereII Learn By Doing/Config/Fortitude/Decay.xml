@@ -1,7 +1,7 @@
 <configs>
     <append xpath="/buffs">
         <!-- Main permanent buff that handles all Fortitude decay logic. -->
-        <buff name="buffLBD_Fortitude_DecayManager" hidden="true">
+        <buff name="buffLBD_Fortitude_DecayManager" hidden="true" remove_on_death="false">
             <duration value="0"/> <!-- Permanent -->
             <update_rate value="3000"/> <!-- Ticks every 3000 seconds -->
 
@@ -82,6 +82,21 @@
                 <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkruleonecardio_decay_counter" operation="add" value="1"/>
                 <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkRuleOneCardio_Decay">
                     <requirement name="CVarCompare" cvar="$perkruleonecardio_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Gives back a Fortitude Mastery tier lost to decay. The Mastery checker used to run
+                 only when attFortitude gained a level, which cannot happen at 10, so a decayed
+                 tier was gone for good. It now also runs on any tick where the attribute was
+                 used since the last one, one tier per tick.
+
+                 Must stay ABOVE the decay group below: that group increments the counter, so
+                 0 here means an activity reset happened during the interval. The decay buff
+                 leaves the counter at 1 rather than 0 for the same reason - otherwise the tick
+                 after a decay would look like activity and hand the tier straight back. -->
+            <effect_group name="Fortitude Mastery Re-grant">
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_attFortitude_MasteryChecker">
+                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_decay_counter" operation="Equals" value="0"/>
                 </triggered_effect>
             </effect_group>
 
@@ -211,7 +226,7 @@
             <effect_group>
                 <requirement name="ProgressionLevel" progression_name="perkFortitudeMastery" operation="GT" value="0"/>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFortitudeMastery" level="-1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_decay_counter" operation="set" value="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFortitudeMastery" sound="ui_skill_decay" />
             </effect_group>
         </buff>
@@ -219,6 +234,12 @@
 
     <!-- NEW: Append the activity reset logic to the main Fortitude Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_FortitudeManager']">
+        <!-- Starts the decay ticker. Only Perception did this, so the other five trees'
+             decay managers were defined but never applied and never ticked. Existing
+             characters get it from the Manager Restore group in buffs.xml instead. -->
+        <effect_group name="Decay">
+            <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_Fortitude_DecayManager"/>
+        </effect_group>
         <effect_group name="LBD Decay Activity Resets">
             <!-- Reset Decay Counter on attFortitude Activity -->
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attfortitude_decay_counter" operation="set" value="0">
@@ -311,6 +332,38 @@
             <!-- Reset Decay Counter on perkFortitudeMastery Activity -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_decay_counter" operation="set" value="0">
                 <requirement name="ProgressionLevel" progression_name="attFortitude" operation="GT" value="0"/>
+            </triggered_effect>
+        </effect_group>
+
+        <!-- Fortitude Mastery earns no XP of its own - it follows the attribute level - so
+             it follows the attribute's activity too: one reset for each of the attFortitude
+             resets in this file. -->
+        <effect_group name="LBD Decay Activity Resets for perkFortitudeMastery">
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkfortitudemastery_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="attFortitude"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHarvestOther" action="ModifyCVar" cvar="$perkfortitudemastery_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkTheHuntsman"/>
+                <requirement name="EntityTagCompare" target="other" tags="animal"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$perkfortitudemastery_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="Health" operation="LTE" value=".75"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkfortitudemastery_decay_counter" operation="set" value="0">
+                <requirements compare_type="or">
+                    <requirement name="HasBuff" buff="buffEncumberedInv"/>
+                    <requirement name="HasBuff" buff="buffStatusHungry03"/>
+                    <requirement name="HasBuff" buff="buffStatusThirsty03"/>
+                </requirements>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkfortitudemastery_decay_counter" operation="set" value="0">
+                <requirements compare_type="or">
+                    <requirement name="HasBuff" buff="buffEncumberedInv"/>
+                    <requirement name="HasBuff" buff="buffStatusHungry03"/>
+                    <requirement name="HasBuff" buff="buffStatusThirsty03"/>
+                </requirements>
             </triggered_effect>
         </effect_group>
     </append>

@@ -21,6 +21,7 @@ farmer_quest_goldenrod_desc,"The local farmer needs help gathering some goldenro
 farmer_quest_goldenrod_offer,"Howdy, friend. Goldenrod's blooming nicely, but my back isn't what it used to be. Could you gather 20 Goldenrod Plants for me? I'll make it worth your while."
 farmer_quest_goldenrod_objective,Harvest 20 Goldenrod Plants
 
+npc_FrankieFarmer,"Farmer Frankie"
 Frankie_start,"[Frankie looks up from his work, wary] Well now... ain't seen many new faces 'round here lately. What do you want?"
 Frankie_resp_ask_rain,"Could use some rain, huh?"
 Frankie_resp_ask_origin,"Are you from around here originally?"

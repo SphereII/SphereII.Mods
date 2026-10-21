@@ -14,11 +14,13 @@ namespace UAI
         private Vector3 position;
         private string _buff = "";
         private bool hadBuff = true;
+        private bool _run = false; // "run" parameter: panic speed between patrol points instead of a walk.
 
         public override void initializeParameters()
         {
             base.initializeParameters();
             if (Parameters.ContainsKey("buff")) _buff = Parameters["buff"];
+            if (Parameters.TryGetValue("run", out var run)) _run = StringParsers.ParseBool(run);
         }
         public override void Start(Context _context)
         {
@@ -72,7 +74,9 @@ namespace UAI
             }
 
             base.Update(_context);
-            _context.Self.moveHelper.SetMoveTo(position, true);
+            // Pass the speed: the two-argument overload uses the aggro speed, so patrols jogged.
+            var speed = _run ? _context.Self.GetMoveSpeedPanic() : _context.Self.GetMoveSpeed();
+            _context.Self.moveHelper.SetMoveTo(position, true, speed);
 
             var dist = Vector3.Distance(position, _context.Self.position);
             if (dist < 1f)

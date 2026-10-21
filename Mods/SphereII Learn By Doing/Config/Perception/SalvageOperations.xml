@@ -34,6 +34,19 @@
 				<requirement name="CVarCompare" cvar="$perksalvageoperations_lbd_xp" operation="GTE" value="@$perksalvageoperations_lbd_xptonext"/>
 			</triggered_effect>
 		</effect_group>
+
+        <!-- Mirrors the XP awards above, minus their cooldowns and repeat-craft checks:
+             whatever earns perkSalvageOperations XP counts as using it, so it also holds off decay. -->
+        <effect_group name="LBD Decay Activity Resets for perkSalvageOperations">
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perksalvageoperations_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="salvageHarvest"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perksalvageoperations_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="salvageHarvest"/>
+            </triggered_effect>
+        </effect_group>
 	</append>
 	<append xpath="/buffs">
 		<buff name="buffLBD_perkSalvageOperations_LevelUpCheck" hidden="true">

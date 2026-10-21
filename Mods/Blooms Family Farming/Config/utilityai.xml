@@ -99,5 +99,19 @@
 			</action>
 		</ai_package>
 
+		<!-- SDCS package (MyFarmerV4 on the NPCSdcsCharacters format). Sits beside that mod's
+		     NPCModCore stack. Weight 3 so a farm in reach beats the Stay order's Guard action
+		     (weight 2) in farm mode; Guard brings Frankie back to his spot between plots. Not
+		     while following, so a hired Frankie keeps up with his leader. -->
+		<ai_package name="NPCFarmingSdcs">
+			<action name="Harvest" weight="3" entity_filter="IsSelf">
+				<task class="FarmingV4, SCore" run="false" buff="IsGathering" cooldownBuff="buffFarmerCoolDown"/>
+				<consideration class="NotHasOrderV4, SCore" order="Follow"/>
+				<consideration class="SelfNotHasBuffV4, SCore" buffs="buffFarmerCoolDown"/>
+				<consideration class="IsNearFarmV4, SCore" distance="50" />
+				<consideration class="EnemyNotNearV4, SCore" distance="15"/>
+			</action>
+		</ai_package>
+
 	</append>
 </config>

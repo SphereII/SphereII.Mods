@@ -37,6 +37,21 @@
 				<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
 			</triggered_effect>
 		</effect_group>
+
+        <!-- Mirrors the XP awards above, minus their cooldowns and repeat-craft checks:
+             whatever earns perkFlurryOfPerception XP counts as using it, so it also holds off decay. -->
+        <effect_group name="LBD Decay Activity Resets for perkFlurryOfPerception">
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofperception_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofperception_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+            </triggered_effect>
+        </effect_group>
 	</append>
 
 	<!-- Define the Level-Up Handler and the Combo Window buff. -->

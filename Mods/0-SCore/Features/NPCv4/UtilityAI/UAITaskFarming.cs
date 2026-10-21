@@ -23,6 +23,12 @@ namespace UAI
         private const int DefaultSearchRange = 50; // Default search radius for farm plots if not found nearby.
         private const string DefaultSeedPattern = "planted*1"; // Default pattern to identify seeds in inventory.
 
+        // Logging switch: ConfigFeatureBlock / AdvancedTroubleshootingFeatures / UAITaskFarming.
+        // The [FARM] lifecycle lines also turn on with
+        // setcvar AdvancedTroubleshootingFeatures_UAITaskFarming 1 in the console.
+        private const string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
+        private const string FarmingFeature = "UAITaskFarming";
+
         // --- Configurable Parameters ---
         private string _workBuff = string.Empty; // The buff applied while the entity is "working" on the plot.
 
@@ -47,9 +53,11 @@ namespace UAI
         private string _seedPatternStartsWith = string.Empty; // Cache for seed pattern matching.
         private string _seedPatternEndsWith = string.Empty; // Cache for seed pattern matching.
         private string _cooldownBuff = "buffFarmerCoolDown";
+        private bool _run = false; // "run" parameter: panic speed between plots instead of a walk.
 
         // Resolved once in Start(): non-null when this NPC is hired by a player leader.
         // When set, FindTargetFarmPlot restricts candidates to plots inside that player's land claim.
+        // Left null when that player has no land claim, so the NPC may work any plot.
         private PersistentPlayerData _leaderPlayerData;
 
 
@@ -64,6 +72,10 @@ namespace UAI
                 _cooldownBuff = cooldownBuff;
          
             if (Parameters.TryGetValue("buff", out _workBuff)) { }
+
+            // run="true" moves between plots at panic speed; the default is a walk.
+            if (Parameters.TryGetValue("run", out var run))
+                _run = StringParsers.ParseBool(run);
 
             if (Parameters.TryGetValue("seed", out _seedIdentifier))
             {
@@ -122,6 +134,11 @@ namespace UAI
                                                ?.GetPlayerDataFromEntityID(ownerId);
             }
 
+            // Only enforce the land claim when the owner has one. Without a claim there is
+            // nothing to restrict to, and every plot would be refused.
+            if (_leaderPlayerData != null && !FarmLandClaimUtils.HasLandClaim(_leaderPlayerData))
+                _leaderPlayerData = null;
+
             Vector3i currentPosition = new Vector3i(_context.Self.position);
             _hasSeedInInventory = CheckHasSeed(_context);
 
@@ -130,6 +147,7 @@ namespace UAI
 
             if (_targetFarmPlotData == null)
             {
+                FarmLog(_context, $"Start: no plot found (hasSeed={_hasSeedInInventory}, landClaimFilter={_leaderPlayerData != null}, range={_searchRange}); giving up, adding {_cooldownBuff}");
                 // Could not find any suitable plot. Maybe reset nearby plots if needed?
                 FarmPlotManager.Instance.ResetPlantsInRange(currentPosition); // Consider if this reset is always desired on failure.
                 _context.Self.PlayGiveUpSound();
@@ -144,8 +162,8 @@ namespace UAI
 
             // Found a plot, set target position and pathfind.
             _targetFarmPlotPosition = _targetFarmPlotData.GetBlockPos();
-            PathingUtils.FindPath(_context, _targetFarmPlotPosition,
-                false); // Assuming SCoreUtils handles path finding initiation.
+            FarmLog(_context, $"Start: target plot {_targetFarmPlotPosition} dist={Vector3.Distance(_context.Self.position, _targetFarmPlotPosition):F1} empty={_targetFarmPlotData.IsEmpty()} water={_targetFarmPlotData.HasWater()} hasSeed={_hasSeedInInventory} landClaimFilter={_leaderPlayerData != null}");
+            PathingUtils.FindPath(_context, _targetFarmPlotPosition, _run); // walk unless run="true"
 
             _context.ActionData.Started = true;
             _context.ActionData.Executing = true;
@@ -181,6 +199,7 @@ namespace UAI
             _currentTimeout -= Time.deltaTime;
             if (_currentTimeout <= 0f)
             {
+                FarmLog(_context, $"Update: timed out or blocked going to {_targetFarmPlotPosition} (dist={Vector3.Distance(_context.Self.position, _targetFarmPlotPosition):F1}, blockedTime={_context.Self.moveHelper.BlockedTime:F2}); marking plot visited");
                 // Task timed out (e.g., stuck). Clean up and stop.
                Log.Out($"UAITaskFarmingV4 timed out for entity {_context.Self.entityId}");
                 _targetFarmPlotData.Visited = true;
@@ -208,6 +227,7 @@ namespace UAI
             if (_hasWorkBuffApplied) // Buff was active previously, but isn't now.
             {
                 // Work is complete. Handle harvesting/planting.
+                FarmLog(_context, $"Update: work finished at {_targetFarmPlotPosition}, managing plot");
                 HandleHarvestingAndCleanup(_context);
                 Stop(_context); // Task complete for this plot.
                 return;
@@ -218,12 +238,22 @@ namespace UAI
             if (sqrDist >= SquaredApproachDistance)
             {
                 // Still too far, continue moving.
-                _context.Self.moveHelper.SetMoveTo(_targetFarmPlotPosition, false);
+                // Pass the speed: the two-argument overload uses the aggro speed, which is a run.
+                var speed = _run ? _context.Self.GetMoveSpeedPanic() : _context.Self.GetMoveSpeed();
+                _context.Self.moveHelper.SetMoveTo(_targetFarmPlotPosition, false, speed);
                 return;
             }
 
             // Arrived at the plot. Stop moving and apply the work buff.
+            FarmLog(_context, $"Update: arrived at {_targetFarmPlotPosition}, starting work buff '{_workBuff}'");
             _context.Self.moveHelper.Stop(); // Ensure entity stops moving
+
+            // StopMove skips resetting the walk input while the entity is jumping, and a step up
+            // onto the plot counts as a jump. Left alone, the last walk direction keeps driving the
+            // body for the whole work buff (an SDCS NPC ran 16 m off the plot this way), so clear
+            // it here. The NPC is already within ApproachDistance, so losing the rest of the step
+            // costs nothing.
+            _context.Self.SetMoveForward(0f);
             if (GameManager.IsDedicatedServer)
                 BlockUtilitiesSDX.addParticlesCenteredServer(string.Empty,
                     new Vector3i(_targetFarmPlotPosition)); // Add visual effect (DS: server→clients)
@@ -253,6 +283,10 @@ namespace UAI
         /// </summary>
         public override void Stop(Context _context)
         {
+            // A non-null target here means the task was cut off before the plot was managed
+            // (another action won, or a timeout); null means it finished or never started.
+            FarmLog(_context, $"Stop: {(_targetFarmPlotData != null ? "interrupted" : "done")} at pos={_context.Self.position} plot={_targetFarmPlotPosition}; home area set to plot, radius 10");
+
             // Release the plot claim so other farmers can target it on their next cycle.
             if (_claimedPosition != Vector3i.zero)
             {
@@ -270,6 +304,14 @@ namespace UAI
 
 
         // --- Helper Methods ---
+
+        // Task lifecycle line. Checks the console cvar as well as the XML flag, so it can be
+        // switched on mid-game; the older harvest detail lines follow the XML flag only.
+        private static void FarmLog(Context _context, string message)
+        {
+            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, FarmingFeature, true)) return;
+            Log.Out($"[FARM] {_context.Self.EntityName}#{_context.Self.entityId} {message}");
+        }
 
         /// <summary>
         /// Checks if the entity has items matching the seed identifier in its inventory.
@@ -367,7 +409,8 @@ namespace UAI
         /// <summary>
         /// Returns true if this NPC is allowed to work the given plot.
         /// Un-hired NPCs (<see cref="_leaderPlayerData"/> is null) may work any plot.
-        /// Hired NPCs are restricted to plots inside their leader's land claim.
+        /// Hired NPCs are restricted to plots inside their leader's land claim, when the leader
+        /// has one (Start clears <see cref="_leaderPlayerData"/> otherwise).
         /// </summary>
         private bool IsAllowed(FarmPlotData plot)
         {
@@ -394,7 +437,7 @@ namespace UAI
 
             var harvestedItemStacks = _targetFarmPlotData.Manage(_context.Self);
 
-            AdvLogging.DisplayLog("AdvancedTroubleshootingFeatures", "UAITaskFarmingV4",
+            AdvLogging.DisplayLog(AdvFeatureClass, FarmingFeature,
                 $"Entity {_context.Self.entityId} harvested {harvestedItemStacks?.Count ?? 0} item type(s) from {_targetFarmPlotPosition}.");
 
             // EntityAliveSDXV4 extends EntityTrader. TileEntityComposite.AddItem() always
@@ -419,7 +462,7 @@ namespace UAI
                     // Skip items that fail the probability roll.
                     if (item.prob < 1f && random.RandomFloat > item.prob)
                     {
-                        AdvLogging.DisplayLog("AdvancedTroubleshootingFeatures", "UAITaskFarmingV4",
+                        AdvLogging.DisplayLog(AdvFeatureClass, FarmingFeature,
                             $"  Skipping '{item.name}' — prob roll failed (prob={item.prob:F2}).");
                         continue;
                     }
@@ -439,7 +482,7 @@ namespace UAI
 
                     var itemStack = new ItemStack(itemValue, count);
 
-                    AdvLogging.DisplayLog("AdvancedTroubleshootingFeatures", "UAITaskFarmingV4",
+                    AdvLogging.DisplayLog(AdvFeatureClass, FarmingFeature,
                         $"  Attempting to add {count}x '{item.name}' to entity {_context.Self.entityId} inventory.");
 
                     if (isTraderEntity)
@@ -447,27 +490,27 @@ namespace UAI
                         // Store in HarvestManager — never touches the trader's lootContainer.
                         if (!HarvestManager.AddItem(_context.Self.entityId, itemStack))
                         {
-                            AdvLogging.DisplayLog("AdvancedTroubleshootingFeatures", "UAITaskFarmingV4",
+                            AdvLogging.DisplayLog(AdvFeatureClass, FarmingFeature,
                                 $"  Harvest container full — dropping {count}x '{item.name}' on ground.");
                             _context.Self.world.GetGameManager().ItemDropServer(
                                 itemStack, _context.Self.position, Vector3.zero);
                         }
                         else
                         {
-                            AdvLogging.DisplayLog("AdvancedTroubleshootingFeatures", "UAITaskFarmingV4",
+                            AdvLogging.DisplayLog(AdvFeatureClass, FarmingFeature,
                                 $"  Added {count}x '{item.name}' to harvest container.");
                             addedItems = true;
                         }
                     }
                     else if (lootContainer != null && lootContainer.AddItem(itemStack))
                     {
-                        AdvLogging.DisplayLog("AdvancedTroubleshootingFeatures", "UAITaskFarmingV4",
+                        AdvLogging.DisplayLog(AdvFeatureClass, FarmingFeature,
                             $"  Added {count}x '{item.name}' to inventory.");
                         addedItems = true;
                     }
                     else
                     {
-                        AdvLogging.DisplayLog("AdvancedTroubleshootingFeatures", "UAITaskFarmingV4",
+                        AdvLogging.DisplayLog(AdvFeatureClass, FarmingFeature,
                             $"  Inventory full or null — dropping {count}x '{item.name}' on ground.");
                         _context.Self.world.GetGameManager().ItemDropServer(
                             itemStack, _context.Self.position, Vector3.zero);

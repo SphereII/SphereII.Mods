@@ -14,6 +14,24 @@ using UnityEngine;
 /// </summary>
 public static class FarmLandClaimUtils
 {
+    /// <summary>
+    /// True when the player owns at least one active land claim block.
+    /// </summary>
+    public static bool HasLandClaim(PersistentPlayerData owner)
+    {
+        if (owner == null) return false;
+
+        var persistentList = GameManager.Instance?.GetPersistentPlayerList();
+        if (persistentList?.m_lpBlockMap == null) return false;
+
+        foreach (var entry in persistentList.m_lpBlockMap)
+        {
+            if (entry.Value == owner) return true;
+        }
+
+        return false;
+    }
+
     public static bool IsPlotInLandClaim(
         Vector3i plotPos,
         PersistentPlayerData ownerFilter = null)

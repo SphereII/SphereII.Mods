@@ -86,6 +86,25 @@
 			<requirement name="CVarCompare" cvar="$perktreasurehunter_lbd_xp" operation="GTE" value="@$perktreasurehunter_lbd_xptonext"/>
 		</triggered_effect>
 	</effect_group>
+
+        <!-- Mirrors the XP awards above, minus their cooldowns and repeat-craft checks:
+             whatever earns perkTreasureHunter XP counts as using it, so it also holds off decay. -->
+        <effect_group name="LBD Decay Activity Resets for perkTreasureHunter">
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perktreasurehunter_decay_counter" operation="set" value="0">
+                <requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
+                <requirement name="HoldingItemHasTags" tags="tool"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$perktreasurehunter_decay_counter" operation="set" value="0">
+                <requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perktreasurehunter_decay_counter" operation="set" value="0">
+                <requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
+                <requirement name="HoldingItemHasTags" tags="tool"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
+            </triggered_effect>
+        </effect_group>
 	</append>
 
 	<append xpath="/buffs">

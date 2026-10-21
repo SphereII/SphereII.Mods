@@ -65,7 +65,7 @@
     <!-- First, define the empty shell of the Fortitude Manager buff. -->
     <!-- This is CRITICAL. It must exist before the other files try to append to it. -->
     <append xpath="/buffs">
-        <buff name="buffLBD_FortitudeManager" hidden="true">
+        <buff name="buffLBD_FortitudeManager" hidden="true" remove_on_death="false">
             <stack_type value="ignore"/>
         </buff>
     </append>

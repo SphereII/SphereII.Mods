@@ -9,20 +9,27 @@ public partial class EntityAliveSDXV4
 
     public override void OnUpdatePosition(float _partialTicks)
     {
-        if (isHirable && position.y <= 0)
+        // Below the world. Without a rescue the game's own check in base logs "fell off the
+        // world" and unloads the NPC, which is how hired NPCs go missing.
+        if (isHirable && position.y <= 0 && !isEntityRemote && !IsDead())
         {
-            // Use frame cache leader if available; otherwise fall back to a direct lookup.
             var leader = _frameCache.HasLeader
                 ? _frameCache.Leader
                 : EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
-            if (leader != null)
+            if (FallRescue.TryRescue(this, leader, GuardPosition, ref _fallRescue, out var destination))
             {
-                TeleportToPlayer(leader);
+                motion = Vector3.zero;
+                navigator?.clearPath();
+                SphereCache.RemovePaths(entityId);
+                SetPosition(destination, true);
                 return;
             }
+            if (_fallRescue.Waiting) return; // between attempts: keep the game from unloading her
         }
         base.OnUpdatePosition(_partialTicks);
     }
+
+    private FallRescue.State _fallRescue;
 
     // =========================================================================
     // Movement

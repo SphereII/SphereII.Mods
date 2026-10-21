@@ -9,58 +9,58 @@
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Fortitude Mastery - Triggering Level Up Check (Tier 5)">
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="10"/>
-                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="5"/>
+                    <requirement name="ProgressionLevel" progression_name="perkFortitudeMastery" operation="LT" value="5"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_perkFortitudeMastery_LevelUpCheck">
                     <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="10"/>
-                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="5"/>
+                    <requirement name="ProgressionLevel" progression_name="perkFortitudeMastery" operation="LT" value="5"/>
                 </triggered_effect>
 
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Fortitude Mastery - Triggering Level Up Check (Tier 4)">
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="9"/>
-                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="4"/>
+                    <requirement name="ProgressionLevel" progression_name="perkFortitudeMastery" operation="LT" value="4"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_perkFortitudeMastery_LevelUpCheck">
                     <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="9"/>
-                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="4"/>
+                    <requirement name="ProgressionLevel" progression_name="perkFortitudeMastery" operation="LT" value="4"/>
                 </triggered_effect>
 
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Fortitude Mastery - Triggering Level Up Check (Tier 3)">
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="8"/>
-                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="3"/>
+                    <requirement name="ProgressionLevel" progression_name="perkFortitudeMastery" operation="LT" value="3"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_perkFortitudeMastery_LevelUpCheck">
                     <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="8"/>
-                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="3"/>
+                    <requirement name="ProgressionLevel" progression_name="perkFortitudeMastery" operation="LT" value="3"/>
                 </triggered_effect>
 
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Fortitude Mastery - Triggering Level Up Check (Tier 2)">
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="7"/>
-                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="2"/>
+                    <requirement name="ProgressionLevel" progression_name="perkFortitudeMastery" operation="LT" value="2"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_perkFortitudeMastery_LevelUpCheck">
                     <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="7"/>
-                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="2"/>
+                    <requirement name="ProgressionLevel" progression_name="perkFortitudeMastery" operation="LT" value="2"/>
                 </triggered_effect>
 
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Fortitude Mastery - Triggering Level Up Check (Tier 1)">
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                     <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="6"/>
-                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="1"/>
+                    <requirement name="ProgressionLevel" progression_name="perkFortitudeMastery" operation="LT" value="1"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_perkFortitudeMastery_LevelUpCheck">
                     <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="6"/>
-                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="1"/>
+                    <requirement name="ProgressionLevel" progression_name="perkFortitudeMastery" operation="LT" value="1"/>
                 </triggered_effect>
             </effect_group>
         </buff>
         <buff name="buffLBD_perkFortitudeMastery_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkFortitudeMastery" />
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkFortitudeMastery"/>
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Fortitude Mastery - Level Up SUCCESS (perkFortitudeMastery)">
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>
@@ -69,7 +69,7 @@
                 <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkFortitudeMasteryLeveledUp"/>
             </effect_group>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkFortitudeMastery" />
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkFortitudeMastery"/>
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Fortitude Mastery - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
                 </triggered_effect>

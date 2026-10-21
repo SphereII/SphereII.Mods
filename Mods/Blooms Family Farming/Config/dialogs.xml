@@ -19,9 +19,9 @@
                 -->
                 <response_entry id="PickUp" ref_text="Frankie_resp_ask_who"/>
 
-                <!-- Farm assignment — visible only to the hired leader when not yet in farm mode -->
+                <!-- Farm assignment: visible only to the hired leader when not yet in farm mode -->
                 <response_entry id="frankie_farm_here" />
-                <!-- Recall — visible only to the original owner when NPC is in farm mode -->
+                <!-- Recall: visible only to the original owner when NPC is in farm mode -->
                 <response_entry id="frankie_recall_farmer" />
 
                 <response_entry id="done" ref_text="Frankie_resp_ask_since_apo_cont"/>
@@ -114,5 +114,112 @@
             </response>
 
         </dialog>
+    </append>
+
+    <!--
+        MyFarmerV4 dialog, on the NPCSdcsCharacters format.
+
+        It extends SdcsNPC, so the Hire row, the Command Menu (the order modes: patrol, follow,
+        guard, stay, loot, dismiss), the Weapon Menu, the Admin Menu, Pickup and Show Me all come
+        from the base mod and stay in step with it. It also extends trader for the shop and the
+        jobs rows. The SCore extends merge appends the parents' start rows to this start
+        statement, so only the Frankie rows are listed here.
+
+        Farm mode is an order, so "tend the farm" sits in the Command Menu with the other modes.
+        The same merge appends the base Command Menu rows (patrol, follow, guard, stay, loot,
+        dismiss) after it. The recall row stays on the start screen: FarmHere zeroes the leader,
+        which hides the Command Menu until Frankie is recalled.
+
+        Row budget: the dialog grid shows 10 rows. A hired NPC with an admin player shows at most
+        Command, Weapon, Admin Menu, Pickup, Show Me, shop, one jobs row, trader admin and done.
+        The Command Menu holds the farm row plus the 7 base orders and done.
+    -->
+    <append xpath="/dialogs">
+        <conditional>
+            <if cond="mod_loaded('0-XNPCCore')">
+                <dialog id="FrankieFarmerDialogV4" startstatementid="start" extends="SdcsNPC,trader">
+
+                    <statement id="start" text="Frankie_start" ref_text="[Frankie looks up from his work, wary] Well now... ain't seen many new faces 'round here lately. What do you want?">
+                        <response_entry id="frankie_ask_who" />
+                        <response_entry id="frankie_recall_farmer" />
+                        <response_entry id="done" />
+                    </statement>
+
+                    <!-- Same id and text as the base Command Menu, so the base order rows merge in below the farm row. -->
+                    <statement id="Command Menu" text="SdcsNPC_Command Menu" ref_text="Command Menu">
+                        <response_entry id="frankie_farm_here" />
+                        <response_entry id="done" />
+                    </statement>
+
+                    <!-- Small talk. Only offered before Frankie is hired. -->
+                    <statement id="frankie_who" text="Frankie_who_frankie" ref_text="Name's Frankie. This farm... it's all I got left. Just tryin' to make it day by day.">
+                        <response_entry id="frankie_ask_rain" />
+                        <response_entry id="frankie_ask_origin" />
+                        <response_entry id="frankie_ask_since_apo" />
+                        <response_entry id="frankie_back" />
+                    </statement>
+                    <statement id="frankie_rain" text="Frankie_rain_talk" ref_text="[Nods slowly] Tell me about it. Crops are thirsty.">
+                        <response_entry id="frankie_ask_origin" />
+                        <response_entry id="frankie_ask_since_apo" />
+                        <response_entry id="frankie_back" />
+                    </statement>
+                    <statement id="frankie_origin" text="Frankie_origin_talk" ref_text="Born and raised right here on this land.">
+                        <response_entry id="frankie_ask_rain" />
+                        <response_entry id="frankie_ask_since_apo" />
+                        <response_entry id="frankie_back" />
+                    </statement>
+                    <statement id="frankie_since_apo" text="Frankie_since_apo_talk" ref_text="Mostly just this. Tryin' to keep the fences up, crops growin', and the dead... well, dead-er.">
+                        <response_entry id="frankie_ask_rain" />
+                        <response_entry id="frankie_ask_origin" />
+                        <response_entry id="frankie_back" />
+                    </statement>
+
+                    <!-- Shown after the player assigns Frankie to farm mode. -->
+                    <statement id="frankie_farm_mode_active" text="Frankie_farm_mode_active" ref_text="[Frankie nods and grips his tools.] I'll keep things runnin' here. You go do what you gotta do. I ain't goin' nowhere.">
+                        <response_entry id="done" />
+                    </statement>
+
+                    <!-- Shown after the player recalls Frankie back to active hire. -->
+                    <statement id="frankie_farm_recalled" text="Frankie_farm_recalled" ref_text="[Frankie straightens up and wipes his hands on his overalls.] Right then. Lead the way.">
+                        <response_entry id="done" />
+                    </statement>
+
+                    <response id="frankie_ask_who" text="Frankie_ask_who" ref_text="Who are you?" nextstatementid="frankie_who">
+                        <requirement type="HiredSDX, SCore" requirementtype="Hide" value="not" />
+                    </response>
+                    <response id="frankie_ask_rain" text="Frankie_ask_rain" ref_text="Could use some rain, huh?" nextstatementid="frankie_rain" />
+                    <response id="frankie_ask_origin" text="Frankie_ask_origin" ref_text="Are you from around here originally?" nextstatementid="frankie_origin" />
+                    <response id="frankie_ask_since_apo" text="Frankie_ask_since_apo" ref_text="What have you been up to since it all went bad?" nextstatementid="frankie_since_apo" />
+                    <response id="frankie_back" text="ui_greetings_generic_okay" ref_text="Oh Okay." nextstatementid="start" />
+
+                    <!--
+                        Farm mode. FarmHere detaches Frankie from the party (Leader and Owner zeroed),
+                        stores the player as the farm owner and puts him on Stay at this spot.
+                        Like every other order row it ends the follow and loot mode.
+                        Shown to the leader only, and only while not already farming.
+                    -->
+                    <response id="frankie_farm_here" text="Frankie_farm_here" ref_text="Stay here and tend the farm. I'll come back for you." nextstatementid="frankie_farm_mode_active">
+                        <requirement type="Leader, SCore" requirementtype="Hide" />
+                        <requirement type="IsFarmOwner, SCore" requirementtype="Hide" value="not" />
+                        <action type="ExecuteCommandSDX, SCore" id="FarmHere" />
+                        <action type="AddBuffSDX, SCore" id="buffSdcsLootModeClear" value="Self" />
+                    </response>
+
+                    <!--
+                        Recall from farm mode. RecallFarmer re-hires Frankie to the farm owner and puts
+                        him back on Follow. Only the farm owner sees it, and the command checks the
+                        owner again in code.
+                    -->
+                    <response id="frankie_recall_farmer" text="Frankie_recall_farmer" ref_text="Come follow me again." nextstatementid="frankie_farm_recalled">
+                        <requirement type="IsFarmOwner, SCore" requirementtype="Hide" />
+                        <action type="ExecuteCommandSDX, SCore" id="RecallFarmer" />
+                        <action type="AddBuffSDX, SCore" id="buffSdcsLootModeClear" value="Self" />
+                    </response>
+
+                    <!-- Closes the dialog. Defined here so it wins over the parents' done rows. -->
+                    <response id="done" text="SdcsNPC_done" ref_text="Nevermind." />
+                </dialog>
+            </if>
+        </conditional>
     </append>
 </configs>
