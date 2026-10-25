@@ -128,6 +128,15 @@
             <triggered_effect trigger="onSelfHealedOther" action="ModifyCVar" cvar="$craftingmedical_decay_counter" operation="set" value="0">
                 <requirement name="HoldingItemHasTags" tags="medical"/>
             </triggered_effect>
+            <!-- Treating yourself counts even when no health comes back (a splint, antibiotics,
+                 painkillers). That reset sits on the medical items themselves in Config/items.xml,
+                 so it only fires when one is actually used. -->
+            <!-- Practice without making anything: any repair of its items counts (the 50% damage
+                 gate above only throttles XP). Reading this skill's magazine counts too; that
+                 reset sits on the magazine itself in Config/items.xml. -->
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingmedical_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMedical"/>
+            </triggered_effect>
         </effect_group>
     </append>
 

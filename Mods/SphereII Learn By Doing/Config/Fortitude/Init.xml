@@ -57,7 +57,7 @@
 
             <!-- perkFortitudeMastery -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_lbd_xptonext" operation="set" value="1200"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_lbd_xptonext" operation="set" value="3000"/> <!-- Matches the other four Mastery perks. Mastery earns no XP (it is granted from the attribute level), so this is never spent. -->
 
         </effect_group>
     </append>

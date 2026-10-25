@@ -37,6 +37,14 @@
                 </triggered_effect>
             </effect_group>
 
+            <!-- Logic for perkHardTarget Decay. Hard Target earned XP but had no decay rule. -->
+            <effect_group name="Hard Target Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkhardtarget_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkHardTarget_Decay">
+                    <requirement name="CVarCompare" cvar="$perkhardtarget_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
             <!-- Logic for perkParkour Decay -->
             <effect_group name="Parkour Perk Decay">
                 <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkparkour_decay_counter" operation="add" value="1"/>
@@ -143,6 +151,17 @@
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkDeepCuts" level="-1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeepcuts_decay_counter" operation="set" value="0"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkDeepCuts" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkHardTarget decay -->
+        <buff name="buffLBD_perkHardTarget_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkHardTarget" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkHardTarget" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkhardtarget_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkHardTarget" sound="ui_skill_decay"/>
             </effect_group>
         </buff>
 
@@ -271,6 +290,19 @@
                 <requirement name="IsAlive" target="other"/>
             </triggered_effect>
 
+            <!-- Reset Decay Counter on perkHardTarget Activity: mirrors its XP award, taking a hit
+                 from a zombie or animal while running or walking (one trigger each, since the
+                 award's OR group lives on its effect_group). -->
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$perkhardtarget_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="IsAlive" target="self"/>
+                <requirement name="EntityHasMovementTag" tags="running"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$perkhardtarget_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="IsAlive" target="self"/>
+                <requirement name="EntityHasMovementTag" tags="walking"/>
+            </triggered_effect>
             <!-- Reset Decay Counter on perkParkour Activity -->
             <triggered_effect trigger="onSelfFallImpact" action="ModifyCVar" cvar="$perkparkour_decay_counter" operation="set" value="0">
                 <requirement name="CVarCompare" cvar="_fallSpeed" operation="GTE" value=".08"/>
@@ -316,6 +348,10 @@
 
             <!-- Reset Decay Counter on perkFlurryOfAgility Activity -->
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofagility_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkFlurryOfAgility"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofagility_decay_counter" operation="set" value="0">
                 <requirement name="HoldingItemHasTags" tags="perkFlurryOfAgility"/>
                 <requirement name="IsAlive" target="other"/>
             </triggered_effect>

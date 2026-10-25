@@ -282,6 +282,82 @@ public class FireManager : MonoBehaviour
         ExtinguishFire(blockPos, entityId);
     }
 
+    /// <summary>
+    /// Puts out every fire within <paramref name="range"/> blocks (a cube) of <paramref name="center"/>.
+    /// A client clears the fires it knows about straight away, then asks the server, which checks its
+    /// own fire map and tells every client what went out. The client's copy of the fire map can miss
+    /// fires (for example, fires in chunks it had not loaded yet), so the server always decides.
+    /// </summary>
+    public void ExtinguishArea(Vector3i center, int range, int entityId = -1)
+    {
+        if (!Enabled) return;
+
+        try
+        {
+            range = Math.Max(0, range);
+            var burning = new List<Vector3i>();
+            for (var x = -range; x <= range; x++)
+            for (var y = -range; y <= range; y++)
+            for (var z = -range; z <= range; z++)
+            {
+                var position = new Vector3i(center.x + x, center.y + y, center.z + z);
+                if (_fireHandler.IsBurning(position))
+                    burning.Add(position);
+            }
+
+            var removed = ExtinguishLocal(burning, entityId);
+
+            if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+                _networkManager.SyncExtinguishFireBatch(removed, entityId);
+            else
+                _networkManager.SyncExtinguishArea(center, range, entityId);
+
+            if (_config.Logging)
+                Log.Out($"[FireManager] ExtinguishArea {center} range {range}: extinguished {removed.Count} fires (server: {SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer})");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error extinguishing fires around {center}: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Puts out fires at a list of positions. A client clears what it knows about and sends the whole
+    /// list to the server; the server clears what it has and tells every client what went out.
+    /// </summary>
+    public void ExtinguishFires(List<Vector3i> positions, int entityId = -1)
+    {
+        if (!Enabled || positions == null || positions.Count == 0) return;
+
+        try
+        {
+            var removed = ExtinguishLocal(positions, entityId);
+            if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+                _networkManager.SyncExtinguishFireBatch(removed, entityId);
+            else
+                _networkManager.SyncExtinguishFireBatch(positions, entityId);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error extinguishing {positions.Count} fires: {ex.Message}");
+        }
+    }
+
+    /// <summary>Removes the burning positions from this machine's fire map, adding smoke. Returns what was removed.</summary>
+    private List<Vector3i> ExtinguishLocal(List<Vector3i> positions, int entityId)
+    {
+        var removed = new List<Vector3i>();
+        foreach (var position in positions)
+        {
+            if (!_fireHandler.IsBurning(position)) continue;
+            _fireHandler.RemoveFire(position, entityId);
+            _smokeHandler.AddSmoke(position);
+            removed.Add(position);
+        }
+
+        return removed;
+    }
+
     public void ClearPosition(Vector3i blockPos)
     {
         _fireHandler.RemoveFire(blockPos);

@@ -46,17 +46,30 @@ public class FireNetworkManager : IFireNetworkManager
     }
 
 
+    // The batch packet stores its count as a short, so large batches go out in chunks.
+    private const int MaxPositionsPerPackage = 1000;
+
     public void SyncExtinguishFireBatch(List<Vector3i> positions, int entityId = -1)
     {
-        if (!_connectionManager.IsServer)
-        {
-            _connectionManager.SendToServer(
-                NetPackageManager.GetPackage<NetPackageAddExtinguishPositions>().Setup(positions, entityId));
-            return;
-        }
+        if (positions == null || positions.Count == 0) return;
 
-        _connectionManager.SendPackage(
-            NetPackageManager.GetPackage<NetPackageAddExtinguishPositions>().Setup(positions, entityId));
+        for (var start = 0; start < positions.Count; start += MaxPositionsPerPackage)
+        {
+            var chunk = positions.GetRange(start, Math.Min(MaxPositionsPerPackage, positions.Count - start));
+            var package = NetPackageManager.GetPackage<NetPackageAddExtinguishPositions>().Setup(chunk, entityId);
+            if (_connectionManager.IsServer)
+                _connectionManager.SendPackage(package);
+            else
+                _connectionManager.SendToServer(package);
+        }
+    }
+
+    public void SyncExtinguishArea(Vector3i center, int range, int entityId = -1)
+    {
+        // Only clients ask; the server works the area out itself.
+        if (_connectionManager.IsServer) return;
+        _connectionManager.SendToServer(
+            NetPackageManager.GetPackage<NetPackageExtinguishArea>().Setup(center, range, entityId));
     }
 
     public void SyncRemoveFire(Vector3i blockPos, int entityId = -1)

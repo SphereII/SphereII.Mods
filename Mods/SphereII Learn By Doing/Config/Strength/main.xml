@@ -33,7 +33,7 @@
     - Grand Slam:
       Gain XP by landing a running power attack with a Club or Sledgehammer.
 
-    - Flurry of Blows:
+    - Flurry of Strength:
       Gain XP by landing rapid, successive strikes with a Club or Sledgehammer, rewarding a "combo" playstyle.
 
     - Miner 69'r:
@@ -85,7 +85,7 @@
     
     <!-- Includes the LBD logic for each individual perk in the Strength tree. -->
     <include filename="Boomstick.xml" />
-    <include filename="FlurryOfBlows.xml" />
+    <include filename="FlurryOfStrength.xml" />
     <include filename="GrandSlam.xml" />
     <include filename="JunkMiner.xml" />
     <include filename="Miner69er.xml" />

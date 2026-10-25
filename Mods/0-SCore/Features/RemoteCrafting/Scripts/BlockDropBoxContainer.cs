@@ -43,15 +43,17 @@ public class BlockDropBoxContainer : BlockCompositeTileEntity
             var lootable = tileEntity.GetFeature<TEFeatureStorage>();
             if (lootable != null)
             {
-                var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
+                // Sort around the box itself, for the box's owner. This used to search around
+                // GetPrimaryPlayer(): on a P2P host that is the host, so every player's box emptied
+                // into the host's containers; on a dedicated server it is null and nothing sorted.
                 var items = lootable.ItemGrid.items;
                 if (items != null)
                 {
                     for (int i = 0; i < items.Length; i++)
                     {
                         if (items[i].IsEmpty()) continue;
-                        if (RemoteCraftingUtils.AddToNearbyContainer(primaryPlayer, items[i], _distance))
-                            items[i] = ItemStack.Empty;
+                        if (RemoteCraftingUtils.AddToContainersNearBox(tileEntity, items[i], _distance))
+                            items[i] = ItemStack.Empty.Clone();
                     }
                 }
                 lootable.ItemGrid.Touch();

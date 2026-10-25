@@ -2,6 +2,8 @@
     <!-- Append the LBD logic for Flurry of Intellect to the main Intellect Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
         <effect_group name="Flurry of Intellect">
+            <!-- Power attacks count too: every primary-hit trigger below has an onSelfSecondaryActionRayHit
+                 twin, the same as Flurry of Strength, Flurry of Fortitude and Flurry of Perception. -->
             <!-- Master requirement: This group applies when holding a Robotic Weapon or Stun Baton. -->
             <requirement name="HoldingItemHasTags" tags="perkElectrocutioner"/>
             <requirement name="IsAlive" target="other"/>
@@ -11,7 +13,14 @@
                 <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Intellect"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Intellect Power - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Intellect"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofintellect_lbd_xp" operation="add" value="@$lbd_xp_flurry_bonus">
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Intellect"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofintellect_lbd_xp" operation="add" value="@$lbd_xp_flurry_bonus">
                 <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Intellect"/>
             </triggered_effect>
 
@@ -20,7 +29,13 @@
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Intellect - Starting/Refreshing Combo Window">
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Intellect Power - Starting/Refreshing Combo Window">
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Intellect">
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Intellect">
                 <requirement name="IsAlive" target="other"/>
             </triggered_effect>
 
@@ -29,7 +44,14 @@
                 <requirement name="CVarCompare" cvar="$perkflurryofintellect_lbd_xp" operation="GTE" value="@$perkflurryofintellect_lbd_xptonext"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Intellect Power - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkflurryofintellect_lbd_xp" operation="GTE" value="@$perkflurryofintellect_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfIntellect_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkflurryofintellect_lbd_xp" operation="GTE" value="@$perkflurryofintellect_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfIntellect_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkflurryofintellect_lbd_xp" operation="GTE" value="@$perkflurryofintellect_lbd_xptonext"/>
             </triggered_effect>
         </effect_group>

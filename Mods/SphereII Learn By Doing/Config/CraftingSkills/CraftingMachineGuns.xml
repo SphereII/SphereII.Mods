@@ -179,6 +179,41 @@
         </effect_group>
 
      
+
+        <!-- Decay resets: mirrors the XP awards above (same triggers and requirements,
+             without the XP cooldowns and the repeat-craft check). -->
+        <effect_group name="LBD Decay Activity Resets for craftingMachineGuns">
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingmachineguns_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingmachineguns_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingmachineguns_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingmachineguns_decay_counter" operation="set" value="0">
+                <requirement name="ProgressionLevel" progression_name="craftingMachineGuns" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="machinegunSkill"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingmachineguns_decay_counter" operation="set" value="0">
+                <requirement name="ProgressionLevel" progression_name="craftingMachineGuns" operation="LTE" value="10"/>
+                <requirement name="ItemHasTags" tags="T0"/>
+                <requirement name="ItemHasTags" tags="machinegunSkill"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$craftingmachineguns_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="machinegunSkill"/>
+            </triggered_effect>
+            <!-- Practice without making anything: any repair of its items counts (the 50% damage
+                 gate above only throttles XP). Reading this skill's magazine counts too; that
+                 reset sits on the magazine itself in Config/items.xml. -->
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingmachineguns_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+            </triggered_effect>
+        </effect_group>
     </append>
 
     <!--

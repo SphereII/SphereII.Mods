@@ -6,7 +6,7 @@
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpummelpete_decay_counter" operation="set" value="0"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkskullcrusher_decay_counter" operation="set" value="0"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgrandslam_decay_counter" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofblows_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofstrength_decay_counter" operation="set" value="0"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkminer69r_decay_counter" operation="set" value="0"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmotherlode_decay_counter" operation="set" value="0"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjunkminer_decay_counter" operation="set" value="0"/>
@@ -65,11 +65,11 @@
                 <requirement name="IsAlive" target="other"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofblows_decay_counter" operation="set" value="0">
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofstrength_decay_counter" operation="set" value="0">
                 <requirement name="HoldingItemHasTags" tags="perkPummelPete,perkSkullCrusher"/>
                 <requirement name="IsAlive" target="other"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofblows_decay_counter" operation="set" value="0">
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofstrength_decay_counter" operation="set" value="0">
                 <requirement name="HoldingItemHasTags" tags="perkPummelPete,perkSkullCrusher"/>
                 <requirement name="IsAlive" target="other"/>
             </triggered_effect>
@@ -168,10 +168,10 @@
                 </triggered_effect>
             </effect_group>
 
-            <effect_group name="Flurry of Blows Perk Decay">
-                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkflurryofblows_decay_counter" operation="add" value="1"/>
-                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkFlurryOfBlows_Decay">
-                    <requirement name="CVarCompare" cvar="$perkflurryofblows_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            <effect_group name="Flurry of Strength Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkflurryofstrength_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkFlurryOfStrength_Decay">
+                    <requirement name="CVarCompare" cvar="$perkflurryofstrength_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
                 </triggered_effect>
             </effect_group>
 
@@ -277,12 +277,12 @@
             </effect_group>
         </buff>
 
-        <buff name="buffLBD_perkFlurryOfBlows_Decay" hidden="true">
+        <buff name="buffLBD_perkFlurryOfStrength_Decay" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="ProgressionLevel" progression_name="perkFlurryOfStrength" operation="GT" value="0"/>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfStrength" level="-1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofblows_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofstrength_decay_counter" operation="set" value="0"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFlurryOfStrength" sound="ui_skill_decay" />
             </effect_group>
         </buff>

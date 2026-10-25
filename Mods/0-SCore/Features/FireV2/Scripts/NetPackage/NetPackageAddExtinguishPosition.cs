@@ -44,7 +44,9 @@ public class NetPackageAddExtinguishPosition : NetPackage
             return;
         }
 
-        FireManager.Instance?.ExtinguishFire(_position, _entityThatCausedIt, false);
+        // On the server, pass it on so every other client puts the fire out too.
+        var isServer = SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer;
+        FireManager.Instance?.ExtinguishFire(_position, _entityThatCausedIt, isServer);
     }
 }
 

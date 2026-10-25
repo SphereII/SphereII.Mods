@@ -131,6 +131,12 @@
                 <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
                 <requirement name="RequirementBlockHasHarvestTags, SCore" tags="salvageHarvest"/>
             </triggered_effect>
+            <!-- Practice without making anything: any repair of its items counts (the 50% damage
+                 gate above only throttles XP). Reading this skill's magazine counts too; that
+                 reset sits on the magazine itself in Config/items.xml. -->
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingsalvagetools_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSalvageTools"/>
+            </triggered_effect>
         </effect_group>
     </append>
 
@@ -238,7 +244,7 @@
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingSalvageTools" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingsalvagetools_lbd_xp" operation="subtract" value="@$craftingsalvagetools_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingsalvagetools_lbd_xptonext" operation="multiply" value="@$lbd_xp_crafting_curve_multiplier"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingsalvagetools" sound="read_skillbook_final" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingSalvageTools" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="craftingSalvageTools" />

@@ -15,6 +15,48 @@
              characters that had already died, and on anything else that strips them.
              Gated on the same cvar Init sets, so it never runs ahead of Init on a new
              character. XP and thresholds are cvars and were never lost. -->
+        <!-- Settings added after a character was first initialised. Init runs once per character
+             (its gate above closes when $lbd_xp_melee_base is set), so a value added to it later
+             never reaches existing characters and reads as 0. Each one is filled in here if it is
+             unset; a value already set is left alone. -->
+        <effect_group name="Learn By Doing Settings Restore">
+            <requirement name="CVarCompare" cvar="$lbd_xp_melee_base" operation="GTE" value="1"/>
+            <!-- Flurry of Strength migration. Its cvars were named after the old perk, Flurry of Blows,
+                 and were renamed to match perkFlurryOfStrength. A character created before the
+                 rename has its XP, threshold and decay counter under the old names; copy them across
+                 once and remove the old ones. Gated on the old threshold being set, so it runs only
+                 for those characters, and the removal comes last so the copies can still read it. -->
+            <triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$perkflurryofstrength_lbd_xp" operation="set" value="@$perkflurryofblows_lbd_xp">
+                <requirement name="CVarCompare" cvar="$perkflurryofblows_lbd_xptonext" operation="GT" value="0"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$perkflurryofstrength_lbd_xptonext" operation="set" value="@$perkflurryofblows_lbd_xptonext">
+                <requirement name="CVarCompare" cvar="$perkflurryofblows_lbd_xptonext" operation="GT" value="0"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$perkflurryofstrength_decay_counter" operation="set" value="@$perkflurryofblows_decay_counter">
+                <requirement name="CVarCompare" cvar="$perkflurryofblows_lbd_xptonext" operation="GT" value="0"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="RemoveCVar" cvar="$perkflurryofblows_lbd_xp,$perkflurryofblows_lbd_xptonext,$perkflurryofblows_decay_counter">
+                <requirement name="CVarCompare" cvar="$perkflurryofblows_lbd_xptonext" operation="GT" value="0"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$lbd_xp_animaltracker_skillful_kill" operation="set" value="30">
+                <requirement name="CVarCompare" cvar="$lbd_xp_animaltracker_skillful_kill" operation="LTE" value="0"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$lbd_xp_animaltracker_kill" operation="set" value="15">
+                <requirement name="CVarCompare" cvar="$lbd_xp_animaltracker_kill" operation="LTE" value="0"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$lbd_xp_penetrator_multikill" operation="set" value="40">
+                <requirement name="CVarCompare" cvar="$lbd_xp_penetrator_multikill" operation="LTE" value="0"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$lbd_xp_penetrator_armored_hit" operation="set" value="18">
+                <requirement name="CVarCompare" cvar="$lbd_xp_penetrator_armored_hit" operation="LTE" value="0"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$lbd_xp_treasurehunter_chest" operation="set" value="150">
+                <requirement name="CVarCompare" cvar="$lbd_xp_treasurehunter_chest" operation="LTE" value="0"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$lbd_xp_treasurehunter_dig" operation="set" value="5">
+                <requirement name="CVarCompare" cvar="$lbd_xp_treasurehunter_dig" operation="LTE" value="0"/>
+            </triggered_effect>
+        </effect_group>
         <effect_group name="Learn By Doing Manager Restore">
             <requirement name="CVarCompare" cvar="$lbd_xp_melee_base" operation="GTE" value="1"/>
             <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffLBD_PerceptionManager">
@@ -198,6 +240,20 @@
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_greasemonkey_longcraft_bonus" operation="set" value="30"/>
                 <!-- Long crafting bonus for food -->
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_masterchef_longcraft_bonus" operation="set" value="20"/>
+                <!-- Event awards for Animal Tracker, Penetrator and Treasure Hunter. These were literal
+                     numbers in their files, so they could not be tuned with the other XP values. -->
+                <!-- Animal Tracker, skillful kill -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_animaltracker_skillful_kill" operation="set" value="30"/>
+                <!-- Animal Tracker, standard kill -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_animaltracker_kill" operation="set" value="15"/>
+                <!-- Penetrator, multi-kill -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_penetrator_multikill" operation="set" value="40"/>
+                <!-- Penetrator, armored hit -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_penetrator_armored_hit" operation="set" value="18"/>
+                <!-- Treasure Hunter, buried treasure opened -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_treasurehunter_chest" operation="set" value="150"/>
+                <!-- Treasure Hunter, digging hit -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_treasurehunter_dig" operation="set" value="5"/>
             </effect_group>
             <effect_group name="Master Level">
                 <!-- NEW: LBD Level Trackers for Mastery Perks -->

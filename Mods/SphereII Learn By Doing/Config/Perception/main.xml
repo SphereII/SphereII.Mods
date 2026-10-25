@@ -77,10 +77,14 @@
     <include filename="Javelin.xml" />
     <include filename="SalvageOperations.xml" />
     <include filename="AnimalTracker.xml" />
-    <include filename="FlurryOfPerceptions.xml" />
+    <include filename="FlurryOfPerception.xml" />
     <include filename="ThePenetrator.xml" />
     <include filename="TreasureHunter.xml" />
     <include filename="TheInfiltrator.xml" />
+    <!-- The Mastery file was not included, so its MasteryChecker buff never existed in game:
+         the attribute and the decay manager added a buff that was not defined, and the Mastery
+         perk was never granted from the attribute level, while its decay still ticked. -->
+    <include filename="PerceptionMastery.xml" />
 
     <include filename="Cooldowns.xml" />
     <include filename="Decay.xml" />

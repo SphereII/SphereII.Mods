@@ -160,6 +160,7 @@
     <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageAddFirePosition.cs" />
     <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageAddFirePositions.cs" />
     <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageBlockDestroyedByFire.cs" />
+    <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageExtinguishArea.cs" />
     <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageFireUpdate.cs" />
     <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageRemoveFirePosition.cs" />
     <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageRemoveFirePositions.cs" />

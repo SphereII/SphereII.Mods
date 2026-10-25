@@ -125,6 +125,12 @@
             </triggered_effect>
             <triggered_effect trigger="onSelfRepairBlock" action="ModifyCVar" cvar="$craftingrepairtools_decay_counter" operation="set" value="0"/>
             <triggered_effect trigger="onSelfUpgradedBlock" action="ModifyCVar" cvar="$craftingrepairtools_decay_counter" operation="set" value="0"/>
+            <!-- Practice without making anything: any repair of its items counts (the 50% damage
+                 gate above only throttles XP). Reading this skill's magazine counts too; that
+                 reset sits on the magazine itself in Config/items.xml. -->
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingrepairtools_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingRepairTools"/>
+            </triggered_effect>
         </effect_group>
     </append>
 
@@ -220,19 +226,5 @@
         <!-- Throttles learning by use. Separate from ActionCoolDown, which exists to stop
              a single craft double-scoring and only needs a second. -->
         <buff name="buffLBD_craftingRepairTools_UseCoolDown" hidden="true"><duration value="15"/></buff>
-
-        <buff name="buffLBD_craftingRepairTools_Decay" hidden="true">
-            <stack_type value="ignore"/>
-            <duration value="1"/>
-            <effect_group>
-                <requirement name="ProgressionLevel" progression_name="craftingRepairTools" operation="GT" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
-                                  progression_name="craftingRepairTools" level="-1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
-                                  cvar="$craftingrepairtools_decay_counter" operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingRepairTools"
-                                  sound="ui_skill_decay"/>
-            </effect_group>
-        </buff>
     </append>
 </configs>

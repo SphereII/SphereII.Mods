@@ -91,6 +91,10 @@
     <include filename="SiphoningStrikes.xml" />
     <include filename="SlowMetabolism.xml" />
     <include filename="TheHuntsman.xml" />
+    <!-- The Mastery file was not included, so its MasteryChecker buff never existed in game:
+         the attribute and the decay manager added a buff that was not defined, and the Mastery
+         perk was never granted from the attribute level, while its decay still ticked. -->
+    <include filename="FortitudeMastery.xml" />
     
     <!-- Includes all the supporting cooldown and special mechanic buffs for the Fortitude tree. -->
     <include filename="Cooldowns.xml" />

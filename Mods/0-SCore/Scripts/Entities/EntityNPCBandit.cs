@@ -42,6 +42,9 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
     private int _initializationFrameCount = 0;
     #endregion
 
+    // Set once the always-awake wake-up has been sent to the animator.
+    private bool _alwaysAwakeWoken;
+
     /// <summary>
     /// If true, the entity should awaken as soon as it is spawned into a sleeper volume,
     /// regardless of the type of sleeper volume, without being triggered.
@@ -194,9 +197,16 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
             return;
         }
 
-        // Wake them up if they are sleeping, since the trigger sleeper makes them go idle again.
-        if (!sleepingOrWakingUp && IsAlwaysAwake)
+        // OnAddedToWorld clears IsSleeping without telling the animator, so wake the animator once here.
+        // This used to run every tick, which re-fired the wake animation (and a network packet)
+        // constantly and pinned the NPC in place. It re-arms if the NPC goes back to sleep.
+        if (IsSleeping)
         {
+            _alwaysAwakeWoken = false;
+        }
+        else if (IsAlwaysAwake && !_alwaysAwakeWoken)
+        {
+            _alwaysAwakeWoken = true;
             IsSleeping = true;
             ConditionalTriggerSleeperWakeUp();
         }

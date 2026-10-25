@@ -206,6 +206,12 @@
             <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$craftinghandguns_decay_counter" operation="set" value="0">
                 <requirement name="HoldingItemHasTags" tags="handgunSkill"/>
             </triggered_effect>
+            <!-- Practice without making anything: any repair of its items counts (the 50% damage
+                 gate above only throttles XP). Reading this skill's magazine counts too; that
+                 reset sits on the magazine itself in Config/items.xml. -->
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftinghandguns_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingHandguns"/>
+            </triggered_effect>
         </effect_group>
     </append>
 

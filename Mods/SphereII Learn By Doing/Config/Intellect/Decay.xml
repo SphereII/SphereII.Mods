@@ -376,6 +376,11 @@
                 <requirement name="HoldingItemHasTags" tags="perkElectrocutioner"/>
                 <requirement name="IsAlive" target="other"/>
             </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar"
+                              cvar="$perkflurryofintellect_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkElectrocutioner"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
 
             <!-- Reset Decay Counter on perkBetterBarter Activity -->
             <triggered_effect trigger="onSelfItemSold" action="ModifyCVar" cvar="$perkbetterbarter_decay_counter"

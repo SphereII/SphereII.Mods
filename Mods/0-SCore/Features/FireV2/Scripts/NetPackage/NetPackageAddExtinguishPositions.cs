@@ -48,6 +48,13 @@ public class NetPackageAddExtinguishPositions : NetPackage
         {
             return;
         }
+        // On the server, put out what it has and tell every client. On a client, just apply it.
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            FireManager.Instance?.ExtinguishFires(_positions, _entityThatCausedIt);
+            return;
+        }
+
         foreach (var position in _positions)
             FireManager.Instance?.ExtinguishFire(position, _entityThatCausedIt, false);
     }

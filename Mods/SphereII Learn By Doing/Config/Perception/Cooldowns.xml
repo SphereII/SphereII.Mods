@@ -24,11 +24,6 @@
 			<duration value="1"/>
 		</buff>
 
-		<!-- For perkFlurryOfPerception -->
-		<buff name="buffLBD_Flurry_ComboWindow" hidden="true">
-			<stack_type value="replace"/>
-			<duration value="2"/>
-		</buff>
 		<!-- For perkThePenetrator -->
 		<buff name="buffLBD_perkPenetrator_XPCoolDown" hidden="true">
 			<duration value="1"/>
@@ -47,13 +42,6 @@
 		<!-- For perkInfiltrator -->
 		<buff name="buffLBD_perkInfiltrator_ActionCoolDown" hidden="true">
 			<duration value="2"/>
-		</buff>
-		<!-- For perkPerceptionMastery -->
-		<buff name="buffLBD_perkPerceptionMastery_HarvestCoolDown" hidden="true">
-			<duration value="2"/>
-		</buff>
-		<buff name="buffLBD_perkPerceptionMastery_CombatCoolDown" hidden="true">
-			<duration value="1"/>
 		</buff>
 	</append>
 </configs>

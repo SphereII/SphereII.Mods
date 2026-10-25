@@ -12,17 +12,6 @@
         <!-- Cooldown for perkRoboticTurrets -->
         <buff name="buffLBD_perkTurrets_XPCoolDown" hidden="true"><duration value="1"/></buff>
 
-        <!-- Cooldown for perkFlurryOfIntellect -->
-        <buff name="buffLBD_Flurry_ComboWindow_Intellect" hidden="true">
-            <stack_type value="replace"/>
-            <duration value="2"/>
-        </buff>
-        <buff name="buffLBD_perkFlurryOfIntellect_XPCoolDown" hidden="true"><duration value="1"/></buff>
-
-        <!-- Cooldowns for perkBetterBarter -->
-        <buff name="buffLBD_perkBetterBarter_SoldCoolDown" hidden="true"><duration value="5"/></buff>
-        <buff name="buffLBD_perkBetterBarter_BoughtCoolDown" hidden="true"><duration value="5"/></buff>
-
         <!-- Cooldown for perkDaringAdventurer -->
         <buff name="buffLBD_perkDaringAdventurer_XPCoolDown" hidden="true"><duration value="60"/></buff>
 
@@ -53,9 +42,6 @@
 
         <!-- Cooldown for perkCharismaticNature -->
         <buff name="buffLBD_perkCharismaticNature_XPCoolDown" hidden="true"><duration value="10"/></buff>
-
-        <!-- Cooldown for perkIntellectMastery -->
-        <buff name="buffLBD_perkIntellectMastery_XPCoolDown" hidden="true"><duration value="1"/></buff>
 
     </append>
 </configs>

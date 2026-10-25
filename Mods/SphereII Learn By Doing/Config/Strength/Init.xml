@@ -41,9 +41,9 @@
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgrandslam_lbd_xp" operation="set" value="0"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgrandslam_lbd_xptonext" operation="set" value="1200"/>
 
-            <!-- perkFlurryOfBlows -->
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofblows_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofblows_lbd_xptonext" operation="set" value="1200"/>
+            <!-- perkFlurryOfStrength -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofstrength_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofstrength_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkMiner69r -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkminer69r_lbd_xp" operation="set" value="0"/>

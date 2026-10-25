@@ -207,6 +207,12 @@
             <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$craftingspears_decay_counter" operation="set" value="0">
                 <requirement name="HoldingItemHasTags" tags="spearSkill"/>
             </triggered_effect>
+            <!-- Practice without making anything: any repair of its items counts (the 50% damage
+                 gate above only throttles XP). Reading this skill's magazine counts too; that
+                 reset sits on the magazine itself in Config/items.xml. -->
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingspears_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSpears"/>
+            </triggered_effect>
         </effect_group>
     </append>
 
@@ -265,7 +271,7 @@
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingSpears" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingspears_lbd_xp" operation="subtract" value="@$craftingspears_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingspears_lbd_xptonext" operation="multiply" value="@$lbd_xp_crafting_curve_multiplier"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingspears" sound="read_skillbook_final" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingSpears" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="craftingSpears" />

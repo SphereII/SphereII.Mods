@@ -3,34 +3,34 @@
 	<!-- Group for Treasure Hunter Perk -->
 	<effect_group name="Treasure Hunter">
 		<requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
-		<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Treasure Hunter - DIGGING! Attempting XP Gain (+5)">
+		<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Treasure Hunter - DIGGING! Attempting XP Gain (+@$lbd_xp_treasurehunter_dig)">
 			<requirement name="HoldingItemHasTags" tags="tool"/>
 			<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
 			<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_DigCoolDown"/>
 			<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
 		</triggered_effect>
-		<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xp" operation="add" value="5">
+		<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xp" operation="add" value="@$lbd_xp_treasurehunter_dig">
 			<requirement name="HoldingItemHasTags" tags="tool"/>
 			<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
 			<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_DigCoolDown"/>
 		</triggered_effect>
-		<triggered_effect trigger="onSelfCloseLootContainer" action="LogMessageCVars, SCore" message="LBD DEBUG: Treasure Hunter - TREASURE CHEST OPENED! Attempting XP Gain (+150)">
+		<triggered_effect trigger="onSelfCloseLootContainer" action="LogMessageCVars, SCore" message="LBD DEBUG: Treasure Hunter - TREASURE CHEST OPENED! Attempting XP Gain (+@$lbd_xp_treasurehunter_chest)">
 			<requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
 			<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_LootCoolDown"/>
 			<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
 		</triggered_effect>
-		<triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xp" operation="add" value="150">
+		<triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xp" operation="add" value="@$lbd_xp_treasurehunter_chest">
 			<requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
 			<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_LootCoolDown"/>
 		</triggered_effect>
 
-		<triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Treasure Hunter - SECONDARY DIGGING! Attempting XP Gain (+5)">
+		<triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Treasure Hunter - SECONDARY DIGGING! Attempting XP Gain (+@$lbd_xp_treasurehunter_dig)">
 			<requirement name="HoldingItemHasTags" tags="tool"/>
 			<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
 			<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_DigCoolDown"/>
 			<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
 		</triggered_effect>
-		<triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xp" operation="add" value="5">
+		<triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xp" operation="add" value="@$lbd_xp_treasurehunter_dig">
 			<requirement name="HoldingItemHasTags" tags="tool"/>
 			<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
 			<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_DigCoolDown"/>

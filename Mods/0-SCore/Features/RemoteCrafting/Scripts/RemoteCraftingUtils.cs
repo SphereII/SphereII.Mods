@@ -325,6 +325,102 @@ namespace SCore.Features.RemoteCrafting.Scripts
         }
 
 
+        /// <summary>
+        /// Moves an item stack from a drop box into a container near the box. Used by the drop box's
+        /// timed sort, which runs on the server. The search is centred on the box and limited to
+        /// containers the box's owner could use, so it does not depend on which player is the host.
+        /// </summary>
+        public static bool AddToContainersNearBox(TileEntityComposite box, ItemStack itemStack, float distance)
+        {
+            foreach (var tileEntity in GetTileEntitiesNearBox(box, distance))
+            {
+                if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var lootTileEntity)) continue;
+                if (CheckTileEntity(itemStack, lootTileEntity))
+                {
+                    if (Configuration.CheckFeatureStatus(AdvFeatureClass, "Debug"))
+                        Log.Out($"[DropBox] Timed sort: moved {itemStack.itemValue?.ItemClass?.GetItemName()} from {box.ToWorldPos()} to {tileEntity.ToWorldPos()}");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Containers within <paramref name="distance"/> of the drop box that the box's owner may use,
+        /// nearest first. A box with no owner (not placed by a player) gets no containers.
+        /// </summary>
+        public static List<TileEntity> GetTileEntitiesNearBox(TileEntityComposite box, float distance)
+        {
+            var tileEntities = new List<TileEntity>();
+            var owner = box?.Owner;
+            if (owner == null) return tileEntities;
+
+            var world = GameManager.Instance.World;
+            var ownerData = GameManager.Instance.GetPersistentPlayerList()?.GetPlayerData(owner);
+            if (ownerData == null) return tileEntities;
+
+            var boxPos = box.ToWorldPos();
+            if (CheckForLandClaimPlayer() && !world.IsMyLandProtectedBlock(boxPos, ownerData))
+                return tileEntities;
+
+            var landClaimContainersOnly = CheckForLandClaimContainers();
+            var disabledSender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
+            var center = boxPos.ToVector3();
+            var chunkRadius = Mathf.CeilToInt(distance / 16f);
+            var chunkX = World.toChunkXZ(boxPos.x);
+            var chunkZ = World.toChunkXZ(boxPos.z);
+
+            for (var cz = chunkZ - chunkRadius; cz <= chunkZ + chunkRadius; cz++)
+            {
+                for (var cx = chunkX - chunkRadius; cx <= chunkX + chunkRadius; cx++)
+                {
+                    if (world.GetChunkSync(cx, cz) is not Chunk chunk) continue;
+                    foreach (var tileEntity in chunk.GetTileEntities().list)
+                    {
+                        if (tileEntity == null || tileEntity == box) continue;
+                        if (!IsContainerType(tileEntity.GetTileEntityType())) continue;
+
+                        var pos = tileEntity.ToWorldPos();
+                        if (Vector3.Distance(center, pos.ToVector3()) >= distance) continue;
+                        if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out _)) continue;
+                        if (IsDropBox(tileEntity.blockValue.Block)) continue;
+
+                        // Locked containers must allow the box's owner.
+                        if (tileEntity.TryGetSelfOrFeature<ILockable>(out var lockable) && lockable.IsLocked() &&
+                            !lockable.IsUserAllowed(owner))
+                            continue;
+
+                        // Never sort into containers inside someone else's land claim.
+                        if (world.GetLandClaimOwner(pos, ownerData) == EnumLandClaimOwner.Other) continue;
+                        if (landClaimContainersOnly && !world.IsMyLandProtectedBlock(pos, ownerData)) continue;
+
+                        if (Broadcastmanager.HasInstance && !Broadcastmanager.Instance.Check(pos)) continue;
+                        if (disabledSender[0] != null && DisableSender(disabledSender, tileEntity)) continue;
+
+                        tileEntities.Add(tileEntity);
+                    }
+                }
+            }
+
+            tileEntities.Sort((a, b) =>
+                Vector3.Distance(center, a.ToWorldPos().ToVector3())
+                    .CompareTo(Vector3.Distance(center, b.ToWorldPos().ToVector3())));
+            return tileEntities;
+        }
+
+        private static bool IsContainerType(TileEntityType type)
+        {
+            return type is TileEntityType.Loot or TileEntityType.SecureLoot or TileEntityType.SecureLootSigned
+                or TileEntityType.Composite;
+        }
+
+        /// <summary>A drop box is either a BlockDropBoxContainer or any block with the DropBox property.</summary>
+        public static bool IsDropBox(Block block)
+        {
+            return block is BlockDropBoxContainer || block.Properties.Values.ContainsKey("DropBox");
+        }
+
         private static bool CheckTileEntity(ItemStack itemStack, TEFeatureStorage lootTileEntity)
         {
             var itemName = itemStack.itemValue?.ItemClass?.GetItemName() ?? "unknown";
@@ -335,8 +431,8 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 return false;
             }
 
-            // Skip the drop box itself — don't distribute back into drop boxes
-            if (lootTileEntity.blockValue.Block.Properties.Values.ContainsKey("DropBox"))
+            // Never distribute into a drop box, whether marked by its class or the DropBox property.
+            if (IsDropBox(lootTileEntity.blockValue.Block))
             {
                 return false;
             }

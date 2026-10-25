@@ -146,6 +146,11 @@
             <triggered_effect trigger="onSelfCrouchWalk" action="AddBuff" buff="buffLBD_attAgility_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$attagility_lbd_xp" operation="GTE" value="@$attagility_lbd_xptonext"/>
             </triggered_effect>
+            <!-- The Hidden Strike synergy awards on onSelfDamagedOther, which had no check here, so a
+                 level earned by a stealth hit waited for the next unrelated Agility action. -->
+            <triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_attAgility_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$attagility_lbd_xp" operation="GTE" value="@$attagility_lbd_xptonext"/>
+            </triggered_effect>
 
         </effect_group>
     </append>

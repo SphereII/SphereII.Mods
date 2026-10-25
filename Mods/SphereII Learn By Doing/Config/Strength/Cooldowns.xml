@@ -18,12 +18,6 @@
         <!-- Cooldown for perkGrandSlam -->
         <buff name="buffLBD_perkGrandSlam_XPCoolDown" hidden="true"><duration value="1"/></buff>
 
-        <!-- Special Mechanic Buff for perkFlurryOfBlows -->
-        <buff name="buffLBD_Flurry_ComboWindow_Strength" hidden="true">
-            <stack_type value="replace"/>
-            <duration value="2"/>
-        </buff>
-
         <!-- Cooldown for perkMiner69r -->
         <buff name="buffLBD_perkMiner69r_XPCoolDown" hidden="true"><duration value="1.5"/></buff>
 
@@ -39,9 +33,5 @@
              clearing the 1200 to level 1 in four minutes of ordinary walking. -->
         <buff name="buffLBD_perkPackMule_XPCoolDown" hidden="true"><duration value="5"/></buff>
 
-        <!-- Cooldowns for perkStrengthMastery -->
-        <buff name="buffLBD_perkStrengthMastery_CombatCoolDown" hidden="true"><duration value="1"/></buff>
-        <buff name="buffLBD_perkStrengthMastery_MiningCoolDown" hidden="true"><duration value="2"/></buff>
-        
     </append>
 </configs>

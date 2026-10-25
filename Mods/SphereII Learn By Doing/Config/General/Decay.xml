@@ -187,6 +187,53 @@
                 <requirement name="IsAlive" target="self"/>
                 <requirement name="CVarCompare" cvar=".ArmorHeavyWorn" operation="GTE" value="3"/>
             </triggered_effect>
+
+            <!-- Armor is used by fighting in it, not only by being hit. Taking hits was the only
+                 reset, so a player who fought well and avoided damage lost armor levels. These
+                 reset decay only and earn no XP; the XP award stays on taking hits. -->
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perklightarmor_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="CVarCompare" cvar=".ArmorLightWorn" operation="GTE" value="3"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkmediumarmor_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="CVarCompare" cvar=".ArmorMediumWorn" operation="GTE" value="3"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkheavyarmor_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="CVarCompare" cvar=".ArmorHeavyWorn" operation="GTE" value="3"/>
+            </triggered_effect>
+
+            <!-- Hauling the weight counts: sprinting in medium or heavy armor. -->
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkmediumarmor_decay_counter" operation="set" value="0">
+                <requirement name="CVarCompare" cvar=".ArmorMediumWorn" operation="GTE" value="3"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkheavyarmor_decay_counter" operation="set" value="0">
+                <requirement name="CVarCompare" cvar=".ArmorHeavyWorn" operation="GTE" value="3"/>
+            </triggered_effect>
+
+            <!-- Upkeep counts: repairing or crafting a piece of that armor class. -->
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$perklightarmor_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasTags" tags="lightArmor"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perklightarmor_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasTags" tags="lightArmor"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$perkmediumarmor_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasTags" tags="mediumArmor"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkmediumarmor_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasTags" tags="mediumArmor"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$perkheavyarmor_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasTags" tags="heavyArmor"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkheavyarmor_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasTags" tags="heavyArmor"/>
+            </triggered_effect>
+
+            <!-- Eating food counts for the cook. That reset sits on the food items themselves in
+                 Config/items.xml, so it only fires when food is actually eaten. -->
         </effect_group>
     </append>
 </configs>

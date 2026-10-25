@@ -58,6 +58,34 @@ namespace Harmony.EntityAlive
         }
 
         /// <summary>
+        /// Sleeper poses other than the standing idle (5) shrink physicsHeight to 0.85. On wake-up the
+        /// game sees a height under 1 and plays a "Crouch Walk 8" crossfade instead of the normal
+        /// sleeper trigger, which leaves NPC animators locked in place. Restore full height first so
+        /// SCore NPCs always use the normal wake-up.
+        /// </summary>
+        [HarmonyPatch(typeof(global::EntityAlive))]
+        [HarmonyPatch(nameof(global::EntityAlive.ConditionalTriggerSleeperWakeUp))]
+        public class ConditionalTriggerSleeperWakeUp
+        {
+            public static void Prefix(global::EntityAlive __instance)
+            {
+                if (!(__instance is IEntityAliveSDX || __instance is EntityNPCBandit)) return;
+                if (!__instance.IsSleeping || __instance.IsDead()) return;
+                if (__instance.physicsHeight >= 1f || __instance.physicsBaseHeight < 1f) return;
+                if (__instance.IsWalkTypeACrawl()) return;
+
+                try
+                {
+                    __instance.SetHeight(__instance.physicsBaseHeight);
+                }
+                catch (Exception)
+                {
+                    // No character controller yet; fall back to the game's own wake-up.
+                }
+            }
+        }
+
+        /// <summary>
         /// Postfix for <see cref="global::EntityAlive.PostInit"/> that adds a read-only cvar
         /// containing the entity ID.
         /// </summary>

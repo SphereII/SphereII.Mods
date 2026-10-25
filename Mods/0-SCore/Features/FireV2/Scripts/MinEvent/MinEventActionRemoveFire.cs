@@ -31,20 +31,9 @@ public class MinEventActionRemoveFire : MinEventActionRemoveBuff
         }
         AdvLogging.DisplayLog(AdvFeatureClass, $"Executing RemoveFire() at {position}  Self: {@params.Self.position} Range: {maxRange}");
 
-        var range = (int)maxRange;
-        for (var x = -range; x <= range; x++)
-        {
-            for (var z = -range; z <= range; z++)
-            {
-                for (var y = -range; y <= range; y++)
-                {
-                    var vector = new Vector3i(position.x + x, position.y + y, position.z + z);
-                   // FireManager.Instance.Remove(vector);
-                    FireManager.Instance.ExtinguishFire(vector,entityId);
-
-                }
-            }
-        }
+        // The server decides which fires are in range: a client's copy of the fire map can be missing
+        // fires, which left them burning on dedicated servers.
+        FireManager.Instance.ExtinguishArea(World.worldToBlockPos(position), (int)maxRange, entityId);
 
 
     }

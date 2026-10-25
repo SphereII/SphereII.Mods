@@ -98,6 +98,7 @@
             <triggered_effect trigger="onSelfHarvestBlock" action="ModifyCVar" cvar="$craftingseeds_decay_counter" operation="set" value="0">
                 <requirement name="RequirementBlockHasHarvestTags, SCore" tags="cropHarvest"/>
             </triggered_effect>
+            <!-- Reading this skill's magazine counts too; that reset sits on the magazine itself in Config/items.xml. -->
         </effect_group>
     </append>
 

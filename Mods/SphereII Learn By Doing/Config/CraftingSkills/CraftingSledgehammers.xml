@@ -207,6 +207,12 @@
             <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$craftingsledgehammers_decay_counter" operation="set" value="0">
                 <requirement name="HoldingItemHasTags" tags="sledgeSkill"/>
             </triggered_effect>
+            <!-- Practice without making anything: any repair of its items counts (the 50% damage
+                 gate above only throttles XP). Reading this skill's magazine counts too; that
+                 reset sits on the magazine itself in Config/items.xml. -->
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingsledgehammers_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSledgehammers"/>
+            </triggered_effect>
         </effect_group>
     </append>
 
@@ -265,7 +271,7 @@
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingSledgehammers" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingsledgehammers_lbd_xp" operation="subtract" value="@$craftingsledgehammers_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingsledgehammers_lbd_xptonext" operation="multiply" value="@$lbd_xp_crafting_curve_multiplier"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingsledgehammers" sound="read_skillbook_final" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingSledgehammers" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="craftingSledgehammers" />

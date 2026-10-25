@@ -2,6 +2,8 @@
     <!-- Append the LBD logic for Flurry of Agility to the main Agility Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_AgilityManager']">
         <effect_group name="Flurry of Agility">
+            <!-- Power attacks count too: every primary-hit trigger below has an onSelfSecondaryActionRayHit
+                 twin, the same as Flurry of Strength, Flurry of Fortitude and Flurry of Perception. -->
             <!-- Master requirement: This group applies when holding a Bladed weapon. -->
             <requirement name="HoldingItemHasTags" tags="perkFlurryOfAgility"/>
             <requirement name="IsAlive" target="other"/>
@@ -12,7 +14,14 @@
                 <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Agility"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Agility Power - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Agility"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofagility_lbd_xp" operation="add" value="@$lbd_xp_flurry_bonus">
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Agility"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofagility_lbd_xp" operation="add" value="@$lbd_xp_flurry_bonus">
                 <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Agility"/>
             </triggered_effect>
 
@@ -21,7 +30,13 @@
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Agility - Starting/Refreshing Combo Window">
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Agility Power - Starting/Refreshing Combo Window">
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Agility">
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Agility">
                 <requirement name="IsAlive" target="other"/>
             </triggered_effect>
 
@@ -30,7 +45,14 @@
                 <requirement name="CVarCompare" cvar="$perkflurryofagility_lbd_xp" operation="GTE" value="@$perkflurryofagility_lbd_xptonext"/>
                 <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
             </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Agility Power - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkflurryofagility_lbd_xp" operation="GTE" value="@$perkflurryofagility_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfAgility_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkflurryofagility_lbd_xp" operation="GTE" value="@$perkflurryofagility_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfAgility_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkflurryofagility_lbd_xp" operation="GTE" value="@$perkflurryofagility_lbd_xptonext"/>
             </triggered_effect>
         </effect_group>

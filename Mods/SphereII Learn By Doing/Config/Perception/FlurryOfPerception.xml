@@ -6,14 +6,14 @@
 			<requirement name="IsAlive" target="other"/>
 
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xp" operation="add" value="@$lbd_xp_flurry_bonus">
-				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Perception"/>
 			</triggered_effect>
 			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xp" operation="add" value="@$lbd_xp_flurry_bonus">
-				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Perception"/>
 			</triggered_effect>
 
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow"/>
-			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow"/>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Perception"/>
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Perception"/>
 
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfPerception_LevelUpCheck">
 				<requirement name="CVarCompare" cvar="$perkflurryofperception_lbd_xp" operation="GTE" value="@$perkflurryofperception_lbd_xptonext"/>
@@ -23,11 +23,11 @@
 			</triggered_effect>
 
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Perception Primary - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
-				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Perception"/>
 				<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
 			</triggered_effect>
 			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Perception Secondary - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
-				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Perception"/>
 				<requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
 			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessageCVars, SCore" message="LBD DEBUG: Flurry of Perception Primary - Starting/Refreshing Combo Window">
@@ -44,12 +44,12 @@
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofperception_decay_counter" operation="set" value="0">
                 <requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
                 <requirement name="IsAlive" target="other"/>
-                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Perception"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofperception_decay_counter" operation="set" value="0">
                 <requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
                 <requirement name="IsAlive" target="other"/>
-                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Perception"/>
             </triggered_effect>
         </effect_group>
 	</append>
@@ -57,7 +57,7 @@
 	<!-- Define the Level-Up Handler and the Combo Window buff. -->
 	<append xpath="/buffs">
 		<!-- The temporary buff that creates the combo window. 'stack_type="replace"' is CRITICAL. -->
-		<buff name="buffLBD_Flurry_ComboWindow" hidden="true">
+		<buff name="buffLBD_Flurry_ComboWindow_Perception" hidden="true">
 			<stack_type value="replace"/>
 			<duration value="2"/>
 		</buff>

@@ -33,16 +33,17 @@ namespace Features.Fire.Harmony
                 }
             }
 
-            foreach (var position in __instance.ChangedBlockPositions)
+            // Negative block damage extinguishes. Send the whole set at once so the server decides,
+            // even for fires this machine does not know about.
+            if (___explosionData.BlockDamage < 0f)
             {
-                // Negative block damages extinguishes
-                if (___explosionData.BlockDamage < 0f)
-                {
-                    FireManager.Instance.ExtinguishFire(position.Key);
-                }
-                else
-                    FireManager.Instance.AddFire(position.Key,_entityThatCausedExplosion);
+                var positions = new System.Collections.Generic.List<Vector3i>(__instance.ChangedBlockPositions.Keys);
+                FireManager.Instance.ExtinguishFires(positions, _entityThatCausedExplosion);
+                return;
             }
+
+            foreach (var position in __instance.ChangedBlockPositions)
+                FireManager.Instance.AddFire(position.Key, _entityThatCausedExplosion);
 
             return ;
             //return ___explosionData.BlockDamage > 0f;

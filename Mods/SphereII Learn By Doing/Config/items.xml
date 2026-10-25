@@ -2,4 +2,170 @@
     <append xpath="//item[@name='drinkJarGrandpasForgettingElixir']/effect_group">
         <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="ProgressionLearnByDoing_Init" />
     </append>
+
+    <!-- LBD decay resets that need proof the item was actually used up.
+
+         These sit on the items, not the player. When an item is eaten, read or applied, the
+         game fires onSelfPrimaryActionEnd on that item's own effects (ItemActionEat:
+         stack.itemValue.FireEvent(...)), the same way a magazine's own AddProgressionLevel
+         runs. A player-level onSelfPrimaryActionEnd is also raised by melee swings without
+         setting the event's item, so a reset there could fire on a swing long after the
+         last meal, bandage or magazine.
+
+         Effects are parsed from each item's own node and are not inherited through Extends,
+         so the medical and food patches also name the vanilla items that take their Tags from
+         a parent. A modded item that inherits its food or medical tag without declaring Tags
+         will not be matched. The names are listed rather than matched through Extends because
+         an XPath that follows Extends compares node-sets and is slow on every game load. -->
+
+    <!-- Reading this skill's magazine keeps craftingArmor sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingArmor']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingarmor_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingBlades sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingBlades']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingblades_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingBows sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingBows']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingbows_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingClubs sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingClubs']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingclubs_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingElectrician sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingElectrician']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingelectrician_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingExplosives sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingExplosives']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingexplosives_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingFood sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingFood']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingfood_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingHandguns sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingHandguns']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftinghandguns_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingHarvestingTools sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingHarvestingTools']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingharvestingtools_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingKnuckles sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingKnuckles']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingknuckles_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingMachineGuns sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingMachineGuns']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingmachineguns_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingMedical sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingMedical']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingmedical_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingRepairTools sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingRepairTools']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingrepairtools_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingRifles sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingRifles']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingrifles_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingRobotics sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingRobotics']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingrobotics_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingSalvageTools sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingSalvageTools']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingsalvagetools_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingSeeds sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingSeeds']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingseeds_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingShotguns sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingShotguns']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingshotguns_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingSledgehammers sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingSledgehammers']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingsledgehammers_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingSpears sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingSpears']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingspears_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingTraps sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingTraps']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingtraps_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingVehicles sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingVehicles']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingvehicles_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Reading this skill's magazine keeps craftingWorkstations sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingWorkstations']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingworkstations_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Using any medical item on yourself keeps Crafting Medical sharp, whether or not it heals. -->
+    <append xpath="/items/item[property[@name='Tags' and contains(concat(',',translate(@value,' ',''),','),',medical,')] or @name='drugCovertCats' or @name='drugEyeKandy' or @name='drugFortBites' or @name='drugHackers' or @name='drugHealthBar' or @name='drugJailBreakers' or @name='drugNerdTats' or @name='drugOhShitzDrops' or @name='drugRockBusters' or @name='drugSkullCrushers' or @name='drugSteroids' or @name='drugSugarButts' or @name='medicalFirstAidBandage' or @name='medicalFirstAidKit']">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingmedical_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
+    <!-- Eating food keeps Master Chef sharp. -->
+    <append xpath="/items/item[property[@name='Tags' and contains(concat(',',translate(@value,' ',''),','),',food,')] or @name='foodCanCatfood' or @name='foodCanChicken' or @name='foodCanChili' or @name='foodCanDogfood' or @name='foodCanLamb' or @name='foodCanMiso' or @name='foodCanPasta' or @name='foodCanPears' or @name='foodCanPeas' or @name='foodCanSalmon' or @name='foodCanSham' or @name='foodCanSoup' or @name='foodCanStock' or @name='foodCanTuna' or @name='foodShamChowder']">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$perkmasterchef_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
 </configs>

@@ -38,6 +38,11 @@ public class SCore_QuickLoad
     [HarmonyPatch("OnOpen")]
     public class SphereII_Main_Menu_AutoClick
     {
+        // Set once the first main menu has auto-continued. This used to be stored in the game's
+        // AutopilotMode pref, but the game quits on every server stop while AutopilotMode > 0,
+        // which closed the game when starting a Play Test from the Prefab Editor.
+        private static bool _autoContinued;
+
         private static void Postfix(XUiC_MainMenu __instance)
         {
             var autoStart = false;
@@ -47,13 +52,13 @@ public class SCore_QuickLoad
 
             if (!autoStart) return;
 
-            if (GamePrefs.GetInt(EnumGamePrefs.AutopilotMode) == 0)
+            if (!_autoContinued)
             {
-                GamePrefs.Set(EnumGamePrefs.AutopilotMode, 1);
+                _autoContinued = true;
                 var method = __instance.GetType().GetMethod("btnContinueGame_OnPressed", BindingFlags.NonPublic | BindingFlags.Instance);
                 method?.Invoke(__instance, new object[] { null, null });
             }
-            else if (GamePrefs.GetInt(EnumGamePrefs.AutopilotMode) == 1)
+            else
             {
                 var method = __instance.GetType().GetMethod("btnQuit_OnPressed", BindingFlags.NonPublic | BindingFlags.Instance);
                 method?.Invoke(__instance, new object[] { null, null });

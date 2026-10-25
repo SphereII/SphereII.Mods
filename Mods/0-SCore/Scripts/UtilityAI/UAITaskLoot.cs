@@ -99,7 +99,10 @@ namespace UAI
             //    ForceStop(_context);
             //    return;
             //}
-            if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled) )
+            // Debug aid: mark the container this NPC is heading for. Shown only in debug mode,
+            // like the wander task's path smoke. The test was inverted, so the smoke showed in
+            // normal play and turned off when debug mode was enabled.
+            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
                 BlockUtilitiesSDX.addParticles("", new Vector3i(_vector));
 
             _leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;

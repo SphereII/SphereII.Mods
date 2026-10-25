@@ -85,6 +85,174 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.3.32.992
+	Game Version: v3.3.0 (b18)
+
+	[ NPC Sleepers - stuck in place after waking ]
+		- Bandit-class NPCs (EntityNPCBandit) spawned from any sleeper block
+		  other than the standing Sleeper Idle could not move after waking.
+		- Since game 3.x, every sleeper pose except standing idle shrinks the
+		  entity's physics height to 0.85. On wake-up the game sees a height
+		  under 1 and plays a "Crouch Walk 8" crossfade instead of the normal
+		  sleeper trigger.
+		- EntityNPCBandit also re-sent the wake-up every tick (plus a network
+		  packet each time), which kept restarting that crossfade and pinned
+		  the NPC in place.
+		- Only Bandit-class NPCs were affected. EntityAliveSDX and
+		  EntityAliveSDXV4 declare their own IsSleeping property, which hides
+		  the game's IsSleeping field, so their copy of the every-tick wake-up
+		  never reaches the game's wake-up code. Their loop is left as it is:
+		  making it work would change them to wake instantly in POIs.
+		- New patch on EntityAlive.ConditionalTriggerSleeperWakeUp
+		  (Harmony/EntityAlive/EntityAlivePatches.cs): for SCore NPCs
+		  (EntityAliveSDX, EntityAliveSDXV4, EntityNPCBandit) it restores full
+		  height before any wake-up (volume trigger, noise, damage), so the
+		  normal wake animation plays. Crawlers are left alone.
+		- EntityNPCBandit (Scripts/Entities/EntityNPCBandit.cs) now sends its
+		  always-awake wake-up once, and again only if the NPC goes back to
+		  sleep.
+		- Thanks to arramus for the report.
+
+	[ Fire Management - extinguishing did not work on dedicated servers ]
+		- A water bucket (RemoveFire, target="positionAOE") could leave fires
+		  burning on a dedicated server.
+		- RemoveFire runs on the player's client. The client only put out a
+		  block, and only told the server, if its own copy of the fire map
+		  said that block was burning. That copy can miss fires: a client
+		  only records a fire if it can see a flammable block there when the
+		  server's message arrives, so fires in chunks it had not loaded yet
+		  were dropped until the next fire update. Fires restored from the
+		  save at server start were sent before anyone was connected.
+		- When the server did hear about an extinguished fire from a client,
+		  it put it out without telling the other clients, so they kept the
+		  flames.
+		- Now the server decides:
+		  - RemoveFire sends one "extinguish area" message (centre, range,
+		    player) to the server (new NetPackageExtinguishArea). The server
+		    checks its own fire map, puts out everything in range and tells
+		    every client which blocks went out. The client still clears what
+		    it knows about straight away, so the bucket feels instant.
+		  - This replaces one check per block in the area (17 x 17 x 17 =
+		    4,913 at range 8) with a single message.
+		  - Single and batch extinguish messages from a client are now
+		    passed on to every client by the server.
+		  - Explosions with negative BlockDamage send their changed blocks
+		    to the server the same way.
+		  - Batch extinguish messages are split into packets of 1,000
+		    positions, since the packet stores its count as a 16-bit number.
+		- With Logging set to true under FireManagement, each area
+		  extinguish logs a line: [FireManager] ExtinguishArea <centre>
+		  range <n>: extinguished <count> fires (server: True/False).
+		- Files: Features/FireV2/Scripts/FireManager.cs (ExtinguishArea,
+		  ExtinguishFires), FireNetworkManager.cs,
+		  Interfaces/IFireNetworkManager.cs,
+		  MinEvent/MinEventActionRemoveFire.cs, Harmony/Explosion.cs,
+		  NetPackage/NetPackageAddExtinguishPosition.cs,
+		  NetPackage/NetPackageAddExtinguishPositions.cs and the new
+		  NetPackage/NetPackageExtinguishArea.cs.
+		- Server and clients must run the same SCore build, because a new
+		  network package was added.
+		- To test on a dedicated server: start a fire, walk to it from far
+		  enough away that its chunks were not loaded when it started, then
+		  use the bucket. The fires should go out for every connected
+		  player, and the server log should show "ExtinguishArea ... (server:
+		  True)" with a count above 0.
+		- Thanks to arramus for the report.
+
+	[ Auto-Sort Drop Box - P2P host received other players' items ]
+		- In P2P games, items a client put in their drop box ended up in the
+		  host's containers, even when the two players were not allied and
+		  were thousands of blocks apart.
+		- The drop box's timed sort (BlockDropBoxContainer.UpdateTick) runs
+		  on the server and searched for containers around
+		  GetPrimaryPlayer(). On a P2P host that is always the host's own
+		  player, so every box in loaded chunks emptied into containers near
+		  the host. On a dedicated server there is no primary player, so the
+		  scan failed and the timed sort never moved anything. That is why
+		  the bug only showed in P2P.
+		- The timed sort now searches around the drop box itself, for the
+		  box's owner (the player who placed it):
+		  - Locked containers must allow the owner.
+		  - Containers inside someone else's land claim are skipped.
+		  - LandClaimContainersOnly and LandClaimPlayerOnly apply to the
+		    owner.
+		  - A box with no owner (not placed by a player) does not sort.
+		- Drop boxes are never used as targets, whether they are marked by
+		  the BlockDropBoxContainer class or the DropBox property. Before,
+		  only the property was checked.
+		- The timed sort works the same in single player, P2P and on
+		  dedicated servers. The sort when you close a box is unchanged.
+		- Emptied slots are now cleared with a copy of ItemStack.Empty
+		  instead of the shared instance.
+		- Behaviour changes:
+		  - Dedicated servers: drop boxes now empty on their own timer,
+		    which they never did before.
+		  - P2P hosts: the host's own box now sorts only into containers
+		    near the box, not near wherever the host is standing.
+		  - The timed sort ignores BlockOnNearbyEnemies and the
+		    bindtoWorkstation / nottoWorkstation options. Those apply to a
+		    player at a workstation, not to a box on the server.
+		- With Debug set to true under AdvancedRecipes, every item the timed
+		  sort moves logs a line: [DropBox] Timed sort: moved <item> from
+		  <box> to <container>.
+		- Files: Features/RemoteCrafting/Scripts/BlockDropBoxContainer.cs,
+		  Features/RemoteCrafting/Scripts/RemoteCraftingUtils.cs
+		  (AddToContainersNearBox, GetTileEntitiesNearBox, IsDropBox).
+		- Thanks to arramus for the report.
+
+	[ QuickContinue (-autostart) - Play Test closed the game ]
+		- With -autostart, starting a Play Test from the Prefab Editor quit
+		  the game instead of loading the test world.
+		- QuickContinue remembered that it had already auto-continued by
+		  setting the game's AutopilotMode pref to 1. That pref is the game's
+		  test-automation switch: while it is above 0, every server stop or
+		  disconnect calls Application.Quit. Play Test starts by
+		  disconnecting from the editor world, so the game quit.
+		- The log showed a clean quit, not a crash: the game's
+		  ConnectionManager.StopServers called Application.Quit because
+		  AutopilotMode was 1.
+		- QuickContinue (Harmony/QuickContinue/QuickContinue.cs) now keeps its
+		  own flag and leaves AutopilotMode alone. Auto-continue on the first
+		  main menu, and quitting when you return to the main menu later, work
+		  as before. Play Test does not open the main menu, so it is not
+		  affected.
+		- Tested: with -autostart, Play Test now loads the test world, and
+		  AutopilotMode stays at 0.
+
+	[ NPC Looting - target smoke marker ]
+		- The smoke marker on the container a looting NPC is heading for is
+		  a debug aid, like the wander task's path smoke, but its test was
+		  inverted: if (!DebugMenuEnabled). It showed in normal play and
+		  turned off when debug mode was enabled. Both loot tasks (LootV4 and
+		  the legacy Loot) now show it only in debug mode. The inverted test
+		  dates from the first version of the legacy task, and LootV4 copied
+		  it.
+		- Thanks to Xyth for the report.
+
+	[ Crash on exit with a hired NPC ]
+		- Note: this fix is already in the 3.3.28.1111 release download (its
+		  SCore.dll reports 3.3.28.1131); it was left out of that entry's notes.
+		- Exiting a game with a hired NPC could crash the game. While the
+		  world unloads, the NPC's OnEntityUnload removes it from the player's
+		  companion list. That refreshes the companion HUD
+		  (XUiC_CompanionEntryList.RefreshPartyList), and vanilla writes to the
+		  HUD's transform with no check. On exit the HUD is already destroyed,
+		  so the write threw, the exception escaped into World.UnloadWorld and
+		  the rest of the world unload was skipped ("Disconnecting failed" in
+		  the log). After that, the half-unloaded NPCs threw errors every
+		  frame, the ChunkCalc and ChunkMeshBake threads each hit their 30s
+		  shutdown timeout, and the game crashed natively when the garbage
+		  collector released sign rendering buffers after the graphics device
+		  was gone.
+		- RefreshPartyList now skips itself when its HUD is destroyed or there
+		  is no player. This guard is always on, not tied to the
+		  FixCompanionEntryListDrift setting, and covers every caller including
+		  vanilla's. The drift postfix on the same method repeats the check,
+		  since Harmony runs postfixes even when a prefix skips the original.
+		- OnEntityUnload (EntityAliveSDX and EntityAliveSDXV4) now catches a
+		  failed companion removal, logs a warning and carries on, so a UI
+		  error can never abort the world unload again.
+
 Version: 3.3.28.1111
 	Game Version: v3.3.0 (b18)
 

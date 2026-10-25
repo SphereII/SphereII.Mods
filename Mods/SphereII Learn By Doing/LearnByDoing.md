@@ -87,12 +87,16 @@ represent your overall mastery of an attribute.
 To add a layer of realism and strategic depth, your skills (both main attributes and LBD perks) can now **decay** if you
 don't use them for a long period of time.
 
-* **How it Works:** Each LBD skill has a hidden "inactivity timer." Every few game days (or real-time hours, depending
-  on server settings), this timer will tick up if you haven't performed any actions related to that specific skill.
-* **When Decay Occurs:** If the inactivity timer for a skill reaches a certain threshold (e.g., 7 days of not using your
-  mining tools), you will lose one level in that skill.
+* **How it Works:** Every LBD skill has a hidden "inactivity timer." It ticks once every 3000 seconds (50
+  minutes) of play, counting up whenever you haven't performed any action related to that specific skill.
+* **When Decay Occurs:** When a skill's timer reaches 7 ticks (about 6 hours of play without using it), you lose one
+  level in that skill and its timer starts again. The skill bar shows how close it is: green while recently used,
+  yellow as it drifts, red when a level is about to go.
 * **Resetting the Timer:** Simply performing any action related to that skill (e.g., hitting a zombie for Brawler,
   harvesting an animal for The Huntsman, or mining ore for Miner 69'r) will reset its inactivity timer back to zero.
+  Use is counted more broadly than XP is: fighting, sprinting in or repairing your armor keeps an armor perk, any
+  medical item keeps Medical, eating keeps Master Chef, and reading a crafting magazine or repairing gear keeps that
+  crafting skill.
 * **Why it's Designed This Way:** It encourages players to diversify their activities and maintain proficiency across
   their learned skills. It means your character's skills truly reflect their current gameplay style, adding a dynamic
   challenge to long-term survival.
