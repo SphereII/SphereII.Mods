@@ -7,7 +7,7 @@ namespace Harmony.NPCFeatures
     [HarmonyPatch("GetBindingValueInternal")]
     public class xuic_Backpack_GetBindingValue
     {
-        private static void Postfix(ref bool __result, XUiC_Backpack __instance, ref  string value, string bindingName)
+        private static void Postfix(ref bool __result, XUiC_BackpackWindow __instance, ref  string value, string bindingName)
         {
             if (bindingName == "lootingorvehiclestorage")
             {

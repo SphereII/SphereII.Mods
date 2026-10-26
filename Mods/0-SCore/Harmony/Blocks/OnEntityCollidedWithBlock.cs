@@ -40,17 +40,22 @@ namespace Features.LockPicking
         }
 
         // Let the NPCs pass by traps without being hurt.
-        [HarmonyPatch(typeof(Block))]
-        [HarmonyPatch(nameof(Block.OnEntityCollidedWithBlock))]
+        // Targets BlockDamage, not Block: BlockDamage overrides this method without calling the
+        // base, so a patch on Block never ran for traps. BlockBarbed and BlockSpikes call
+        // BlockDamage's version first and stop when it returns false, so they're covered too.
+        // The entity is bound by position (__3) because its parameter name has changed between
+        // game versions (_entity on Block, _targetEntity on BlockDamage).
+        [HarmonyPatch(typeof(BlockDamage))]
+        [HarmonyPatch(nameof(BlockDamage.OnEntityCollidedWithBlock))]
         public class SCoreBlockDamage_OnEntityCollidedWithBlock
         {
-            public static bool Prefix(BlockDamage __instance, Entity _entity)
+            public static bool Prefix(BlockDamage __instance, Entity __3)
             {
-                if (_entity == null)
+                if (__3 == null)
                     return false;
 
                 // For hired entities, take a move penalty, but no damage.
-                var entityAlive = _entity as global::EntityAlive;
+                var entityAlive = __3 as global::EntityAlive;
                 if (entityAlive == null) return true;
 
                 if (EntityUtilities.GetLeaderOrOwner(entityAlive.entityId) != null )

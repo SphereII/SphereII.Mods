@@ -70,7 +70,8 @@ namespace Harmony.UtilityAI
         [HarmonyPatch("updateAction")]
         public class UAITaskBaseUpdateAction
         {
-            public static void Postfix(UAITaskBase __instance, Context _context)
+            // UAIBase.updateAction is static, so there is no __instance to bind.
+            public static void Postfix(Context _context)
             {
                 var message = "";
                 if (!_context.ActionData.Initialized)

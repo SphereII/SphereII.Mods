@@ -25,7 +25,7 @@ namespace SCore.Features.PassiveEffectHooks.Harmony
             return true;
         }
 
-        public static void Postfix(ItemActionEntryPurchase __instance)
+        public static void Postfix(ItemActionEntrySell __instance)
         {
             var xuiCItemStack = (XUiC_ItemStack)__instance.ItemController;
             if (xuiCItemStack.itemStack.IsEmpty())

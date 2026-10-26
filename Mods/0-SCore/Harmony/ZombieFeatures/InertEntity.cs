@@ -80,9 +80,10 @@ namespace Harmony.ZombieFeatures
         [HarmonyPatch("CanDamageEntity")]
         public class EntityCanUpdateEntity
         {
-            public static bool Prefix(global::EntityAlive __instance, ref bool __result)
+            // Patched on Entity, so __instance can be any entity (vehicles, items); only living ones can be inert.
+            public static bool Prefix(Entity __instance, ref bool __result)
             {
-                if (!IsInert(__instance)) return true;
+                if (!IsInert(__instance as global::EntityAlive)) return true;
 
                 __result = false;
                 return false;

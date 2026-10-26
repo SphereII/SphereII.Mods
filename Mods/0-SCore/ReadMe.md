@@ -85,6 +85,74 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.4.1.1453
+	Game Version: v3.4.0 (b6)
+
+	[ Game 3.4 Update ]
+		- SCore now builds against 7 Days To Die V3.4 (b6). Version numbers
+		  restart at 3.4.1 (Properties/AssemblyInfo.tt).
+		- No code changes were needed to compile. Every Harmony patch target
+		  was checked against the 3.4 game DLL and still matches.
+
+	[ Demolisher Sleepers - stuck crouch-walking after waking ]
+		- This is a vanilla bug. A Demolisher spawned from any sleeper pose
+		  other than standing idle woke up crouch-walking and stayed that way.
+		- Same cause as the NPC sleeper fix in 3.3.32.992: sleeper poses
+		  shrink physics height to 0.85, and on wake-up the game plays a
+		  "Crouch Walk 8" crossfade. Normally CrouchHeightFixedUpdate then
+		  stands the entity back up, but it returns early for any entity with
+		  CrouchType 0, and the Demolisher is the only vanilla entity with
+		  CrouchType 0. Its height stayed at 0.85 forever.
+		- Besides looking wrong, this changed its AI. EAIBreakBlock only
+		  breaks blocks at head height when a CrouchType 0 entity is at least
+		  1 tall, so a stuck Demolisher got caught under overhangs it should
+		  have smashed through.
+		- The wake-up patch on EntityAlive.ConditionalTriggerSleeperWakeUp
+		  (Harmony/EntityAlive/EntityAlivePatches.cs) now also covers any
+		  entity with CrouchType 0. It restores full height before waking, so
+		  the normal wake animation plays. Standing sleepers, crawlers and
+		  normal spawns are unaffected.
+
+	[ Hired NPCs - traps were still hurting them ]
+		- The patch that lets hired NPCs pass through traps unhurt had
+		  stopped working. BlockDamage overrides OnEntityCollidedWithBlock
+		  without calling the Block version, and the patch was on Block, so
+		  it never ran for traps.
+		- The patch is back on BlockDamage (Harmony/Blocks/
+		  OnEntityCollidedWithBlock.cs), where it was in 1.0. Barbed wire and
+		  spikes run the BlockDamage code first, so they are covered too.
+		- Behavior change: hired NPCs now walk through damage traps slowed
+		  but unhurt, and the traps no longer wear down from them.
+
+	[ Harmony Patch Cleanup ]
+		- Five more patches declared __instance as a class other than the
+		  one they patch. None changed behavior, but they could misbehave if
+		  the game changed underneath them:
+		  - XUiCCraftingInfoWindowSetRecipe: the logging line read
+		    OutputQuality off the wrong class. It now logs the window's
+		    selected crafting tier.
+		  - ItemActionEntrySellOnActivated: the postfix now declares
+		    ItemActionEntrySell, not ItemActionEntryPurchase.
+		  - InertEntity (CanDamageEntity): the patch runs on every entity, so
+		    it now takes Entity and only checks living entities.
+		  - UAITaskBaseUpdateAction: UAIBase.updateAction is static, so the
+		    unused __instance was removed.
+		  - xuic_Backpack_GetBindingValue: now declares XUiC_BackpackWindow,
+		    the class it actually patches.
+
+	[ Developer Tool - Harmony patch checker ]
+		- New: Mods/Tools/HarmonyAudit (exe in Mods/Tools/bin). It checks a
+		  mod DLL's [HarmonyPatch] targets against the game DLL without
+		  loading anything: target method and overload, ___field injections
+		  and parameter names. A clean compile does not prove patches still
+		  attach, and one bad patch makes Harmony skip every patch after it.
+		- Run it from Mods/ after each game update:
+		  Tools/bin/HarmonyAudit.exe 0-SCore/SCore.dll
+		      ../7DaysToDie_Data/Managed 0_TFP_Harmony
+		- It exits with code 2 if anything is broken. SCore currently reports
+		  0 broken. It cannot check patches that pick their target in code
+		  (TargetMethod), or ones applied with harmony.Patch(...) calls.
+
 Version: 3.3.32.992
 	Game Version: v3.3.0 (b18)
 

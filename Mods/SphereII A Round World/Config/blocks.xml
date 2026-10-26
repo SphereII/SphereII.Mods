@@ -28,6 +28,7 @@
             <property name="LootList" value="playerWoodWritableStorage"/>
             <property name="DescriptionKey" value="cntSphereDropBoxDesc"/>
             <property name="DropBox" value="true" />
+            <property name="CustomIcon" value="cntWoodWritableCrate"/>
 
             <!-- Mirror vanilla's crate upgrade path, but stay in the drop box family -->
             <property class="UpgradeBlock">
