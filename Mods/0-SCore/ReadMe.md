@@ -85,12 +85,82 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.4.3.826
+	Game Version: v3.4.0 (b6)
+
+	[ NPC Harvest Window - lost and duplicated items on dedicated servers ]
+		- A remote player opening a trader-type NPC's harvest window got a
+		  copy of it, and closing the window replaced the whole server
+		  container with that copy. Anything the server changed meanwhile
+		  was undone: crops harvested by the NPC disappeared, and ammo an
+		  NPC used reloading came back.
+		- Two players could also open the same NPC at once and both take
+		  the same items, or one player's close put back what the other
+		  took.
+		- Only one player at a time can now have an NPC's harvest window
+		  open. A second player, or the host, gets the "in use" message.
+		  A player's hold is released when they close the window or leave
+		  the game.
+		- On close, the server applies only what the player changed, by
+		  item and count, on top of what the container holds now. If the
+		  server changed nothing, the player's layout is kept as is.
+		  Items the player added that no longer fit are dropped at the NPC.
+		- If a player leaves the game with the window open, nothing they
+		  did in it is applied: the container keeps its contents as the
+		  server last had them.
+		- Server and clients need the same SCore build: the harvest
+		  window's network message changed.
+
+	[ NPC Item Saving - item details were lost ]
+		- Items saved by SCore's item string lost details: loaded rounds,
+		  the Activated state, selected ammo type, seed, cosmetic mods,
+		  item metadata and paint/texture. Mods inside items lost the same.
+		  This hit the harvest window on dedicated servers (every open and
+		  close), HarvestManager.bin, and picking up an NPC.
+		- The format now keeps all of these. Durability is written in a
+		  format that reads back exactly.
+		- The new fields are added at the end, so strings saved by older
+		  builds still load. Item names are still used rather than the
+		  game's numeric item ids, which change when the mod list does.
+
+	[ Harvest Container - partial stacks duplicated on overflow ]
+		- When a harvested item partly stacked into the container and the
+		  rest did not fit, the whole stack was dropped on the ground, so
+		  the part that stacked was duplicated. Now only the rest drops.
+
+	[ Drop Box - items duplicated on dedicated servers ]
+		- On a dedicated server, every item put in a drop box was sorted
+		  twice: 2 pistols in, 4 pistols out. Stackables and tool parts too.
+		  Single player and a host's own boxes were not affected.
+		- Cause: in 3.4 the game tracks open containers in its new
+		  LockManager only. The server's copy of a box no longer knows a
+		  player has it open, so the timed sort emptied the box while the
+		  player was still filling it. Closing the box then sent the
+		  player's copy, still full, back to the server, and everything
+		  was sorted again.
+		- The drop box sort now waits while anyone has the box open, by
+		  also checking LockManager on the server
+		  (RemoteCraftingUtils.IsStorageInUse).
+		- The sort also skips target chests another player has open.
+		  Before, that player's close could overwrite the sorted items.
+		- With ReadFromContainers on, remote clients no longer sort when
+		  they close the box. The server sorts instead, once the player
+		  closes it (patch on TEFeatureStorage.OnUnlockedServer). This
+		  also covers blocks that only have the DropBox property.
+		- Behavior change: on a dedicated server, the close-time sort now
+		  searches around the box for its owner, not around the player who
+		  closed it. A box with no owner does not sort for remote players.
+		- Sorted slots are now cleared in place. Replacing the slot, as the
+		  old code did, cut it off from its container in 3.4.
+		- The timed sort only sends a network update when something moved,
+		  instead of every tick for every drop box.
+
 Version: 3.4.1.1453
 	Game Version: v3.4.0 (b6)
 
 	[ Game 3.4 Update ]
 		- SCore now builds against 7 Days To Die V3.4 (b6). Version numbers
-		  restart at 3.4.1 (Properties/AssemblyInfo.tt).
+		  restart at 3.4.1 
 		- No code changes were needed to compile. Every Harmony patch target
 		  was checked against the 3.4 game DLL and still matches.
 

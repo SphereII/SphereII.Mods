@@ -1,8 +1,9 @@
-﻿using System.IO;
+using System.IO;
 
 /// <summary>
 /// Client → Server: request the harvest inventory for a trader-type NPC.
-/// The server responds with NetPackageHarvestInventoryData.
+/// The server responds with NetPackageHarvestInventoryData: the contents, or a refusal when
+/// someone else has the container open.
 /// </summary>
 public class NetPackageHarvestInventoryRequest : NetPackage
 {
@@ -33,18 +34,26 @@ public class NetPackageHarvestInventoryRequest : NetPackage
     {
         if (world == null) return;
 
-        // Runs on the SERVER.
-        // Serialise current harvest contents and send to the requesting client.
-        // We do NOT clear the container here — the client will send back whatever
-        // items the player didn't take via NetPackageHarvestInventoryUpdate when the
-        // loot window closes, keeping the server-side container accurate.
-        var container  = HarvestManager.GetOrCreate(_npcEntityId);
-        var serialized = EntitySyncUtils.SerializeItemStackArray(container.items);
+        // Runs on the SERVER. Trust the connection, not the payload, for who is asking.
+        var playerId = Sender?.entityId ?? _playerId;
+        var reply    = NetPackageManager.GetPackage<NetPackageHarvestInventoryData>();
 
-        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
-            NetPackageManager.GetPackage<NetPackageHarvestInventoryData>()
-                .Setup(_npcEntityId, serialized),
-            false, _playerId);
+        // One copy out at a time. A second copy would let two players take the same items, or
+        // let one player's close put back what the other took.
+        if (HarvestManager.IsOpenByOther(_npcEntityId, playerId))
+        {
+            reply.SetupInUse(_npcEntityId);
+        }
+        else
+        {
+            // We do NOT clear the container here. The client sends back what the player left
+            // when the window closes, and HarvestManager merges it against this snapshot.
+            var container = HarvestManager.GetOrCreate(_npcEntityId);
+            HarvestManager.BeginRemoteSession(_npcEntityId, playerId);
+            reply.Setup(_npcEntityId, EntitySyncUtils.SerializeItemStackArray(container.items));
+        }
+
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(reply, false, playerId);
     }
 
 }

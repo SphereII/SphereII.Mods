@@ -6,6 +6,10 @@ namespace Features.RemoteCrafting {
         private const string AdvFeatureClass = "AdvancedRecipes";
         private const string Feature = "ReadFromContainers";
 
+        private static bool IsServer => SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer;
+
+        // Distribute when the box closes. Single player and a P2P host's own boxes do it here,
+        // where the local copy is the authoritative one.
         [HarmonyPatch(typeof(XUiC_LootContainer))]
         [HarmonyPatch(nameof(XUiC_LootContainer.OnClose))]
         public class XUiCLootContainerOnClose {
@@ -13,6 +17,12 @@ namespace Features.RemoteCrafting {
 
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return true;
+
+                // A remote client must not distribute: it would write into containers it has not
+                // locked and the server would also sort the box, duplicating every item. The server
+                // distributes when the client's lock is released (see TEFeatureStorageOnUnlockedServer).
+                if (!IsServer)
                     return true;
 
                 if (__instance.localTileEntity == null)
@@ -28,23 +38,16 @@ namespace Features.RemoteCrafting {
                 }
 
                 var pos = composite.ToWorldPos();
-                var blockValue = GameManager.Instance.World.GetBlock(pos);
-                var block = blockValue.Block;
-                var hasDropBoxProperty = block.Properties.Values.TryGetValue("DropBox", out var dropBoxStr) &&
-                                         StringParsers.TryParseBool(dropBoxStr, out var dropBoxBool) && dropBoxBool;
-                if (block is not BlockDropBoxContainer && !hasDropBoxProperty)
+                var block = GameManager.Instance.World.GetBlock(pos).Block;
+                if (!RemoteCraftingUtils.IsDropBoxEnabled(block))
                 {
                     Log.Out($"[DropBox] OnClose: block at {pos} ({block.GetBlockName()}) is not a drop box, skipping.");
                     return true;
                 }
 
-                var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
-                var distance = 30f;
-                if (!string.IsNullOrEmpty(strDistance))
-                    distance = StringParsers.ParseFloat(strDistance);
-
+                var distance = RemoteCraftingUtils.GetDropBoxDistance();
                 var primaryPlayer = __instance.xui.playerUI.entityPlayer;
-                Log.Out($"[DropBox] OnClose: distributing from {block.GetBlockName()} at {pos}, player={primaryPlayer?.EntityName ?? "null"}, distance={distance}, IsServer={SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer}");
+                Log.Out($"[DropBox] OnClose: distributing from {block.GetBlockName()} at {pos}, player={primaryPlayer?.EntityName ?? "null"}, distance={distance}");
 
                 if (__instance.localTileEntity.ItemGrid.items == null)
                 {
@@ -62,16 +65,43 @@ namespace Features.RemoteCrafting {
                     if (RemoteCraftingUtils.AddToNearbyContainer(primaryPlayer, items[i], distance))
                     {
                         Log.Out($"[DropBox] OnClose: distributed {itemName} successfully, clearing slot {i}.");
-                        items[i] = ItemStack.Empty.Clone();
+                        RemoteCraftingUtils.ClearSlot(items, i);
                         continue;
                     }
 
                     Log.Out($"[DropBox] OnClose: no container accepted {itemName}, leaving in slot {i}.");
-                    __instance.localTileEntity.UpdateSlot(i, items[i]);
                 }
 
                 __instance.localTileEntity.SetModified();
                 return true;
+            }
+        }
+
+        // Dedicated server / remote clients: distribute on the server once the client's lock is
+        // released. The client's final box contents arrive before its unlock request (same channel),
+        // so this sorts exactly what the player left in the box, once.
+        [HarmonyPatch(typeof(TEFeatureStorage))]
+        [HarmonyPatch(nameof(TEFeatureStorage.OnUnlockedServer))]
+        public class TEFeatureStorageOnUnlockedServer {
+            public static void Postfix(TEFeatureStorage __instance, int _unlockingPlayerId) {
+                if (!IsServer) return;
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return;
+
+                var world = GameManager.Instance.World;
+                if (world == null) return;
+
+                // The host's own close already distributed in the OnClose prefix.
+                if (_unlockingPlayerId == world.GetPrimaryPlayerId()) return;
+
+                var box = __instance.Parent;
+                if (box == null) return;
+
+                // OnUnlockedServer may have just removed the tile entity.
+                var pos = __instance.ToWorldPos();
+                if (world.GetTileEntity(pos) != box) return;
+                if (!RemoteCraftingUtils.IsDropBoxEnabled(world.GetBlock(pos).Block)) return;
+
+                RemoteCraftingUtils.DistributeDropBox(box, __instance, RemoteCraftingUtils.GetDropBoxDistance());
             }
         }
     }

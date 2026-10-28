@@ -16,6 +16,7 @@ public class SCoreModEvents {
         ModEvents.GameStartDone.RegisterHandler(EntityPool);
         ModEvents.GameStartDone.RegisterHandler(HarvestManager.Load);
         ModEvents.GameShutdown.RegisterHandler(new ModEvents.ModEventHandlerDelegate<ModEvents.SGameShutdownData>(HarvestManager.Save));
+        ModEvents.PlayerDisconnected.RegisterHandler(HarvestManager.OnPlayerDisconnected);
 
         VersionCheck.LoadConfig();
         ModEvents.GameStartDone.RegisterHandler(VersionCheck.OnGameStartDone);

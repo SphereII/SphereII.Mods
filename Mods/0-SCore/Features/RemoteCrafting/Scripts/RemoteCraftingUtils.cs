@@ -338,12 +338,91 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 if (CheckTileEntity(itemStack, lootTileEntity))
                 {
                     if (Configuration.CheckFeatureStatus(AdvFeatureClass, "Debug"))
-                        Log.Out($"[DropBox] Timed sort: moved {itemStack.itemValue?.ItemClass?.GetItemName()} from {box.ToWorldPos()} to {tileEntity.ToWorldPos()}");
+                        Log.Out($"[DropBox] Server sort: moved {itemStack.itemValue?.ItemClass?.GetItemName()} from {box.ToWorldPos()} to {tileEntity.ToWorldPos()}");
                     return true;
                 }
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Moves every stack out of a drop box into containers near it. Server only. Returns true if
+        /// anything moved. Skips the box while any player has it open.
+        /// </summary>
+        public static bool DistributeDropBox(TileEntityComposite box, TEFeatureStorage storage, float distance)
+        {
+            if (box == null || storage == null || IsStorageInUse(storage)) return false;
+
+            var items = storage.ItemGrid.items;
+            if (items == null) return false;
+
+            var moved = false;
+            for (var i = 0; i < items.Length; i++)
+            {
+                if (items[i].IsEmpty()) continue;
+                var countBefore = items[i].count;
+                if (AddToContainersNearBox(box, items[i], distance))
+                {
+                    ClearSlot(items, i);
+                    moved = true;
+                }
+                else if (items[i].count != countBefore)
+                {
+                    // Part of the stack was topped up into a container.
+                    moved = true;
+                }
+            }
+
+            if (moved)
+            {
+                storage.ItemGrid.Touch();
+                storage.SetModified();
+            }
+
+            return moved;
+        }
+
+        /// <summary>
+        /// True when a player has this container open. Since 3.4 the server tracks open containers
+        /// in LockManager only, so the server-side TileEntity's IsUserAccessing() stays false while a
+        /// remote player has it open. Checking only that let the server sort a drop box mid-edit,
+        /// then the client's close sent the old contents back and they were sorted again.
+        /// </summary>
+        public static bool IsStorageInUse(TEFeatureStorage storage)
+        {
+            if (storage == null) return true;
+            if (storage.IsUserAccessing()) return true;
+
+            var connectionManager = SingletonMonoBehaviour<ConnectionManager>.Instance;
+            if (connectionManager == null || !connectionManager.IsServer) return false;
+
+            // The loot window locks the TEFeatureStorage itself on channel 0.
+            return LockManager.Instance != null && LockManager.Instance.IsLockedServer(storage);
+        }
+
+        /// <summary>
+        /// Empties a slot in place. Grid slots in 3.4 are bound to their grid; replacing the array
+        /// entry with a new ItemStack breaks that binding and skips change notifications.
+        /// </summary>
+        public static void ClearSlot(ItemStack[] items, int index)
+        {
+            items[index].Set(ItemValue.None.Clone(), 0);
+        }
+
+        /// <summary>True for a BlockDropBoxContainer or a block whose DropBox property is true.</summary>
+        public static bool IsDropBoxEnabled(Block block)
+        {
+            if (block == null) return false;
+            if (block is BlockDropBoxContainer) return true;
+            return block.Properties.Values.TryGetValue("DropBox", out var value) &&
+                   StringParsers.TryParseBool(value, out var enabled) && enabled;
+        }
+
+        public static float GetDropBoxDistance()
+        {
+            var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
+            return string.IsNullOrEmpty(strDistance) ? 30f : StringParsers.ParseFloat(strDistance);
         }
 
         /// <summary>
@@ -426,7 +505,8 @@ namespace SCore.Features.RemoteCrafting.Scripts
             var itemName = itemStack.itemValue?.ItemClass?.GetItemName() ?? "unknown";
             var containerPos = lootTileEntity?.ToWorldPos().ToString() ?? "?";
 
-            if (lootTileEntity == null || lootTileEntity.IsUserAccessing())
+            // Never write into a container someone has open: their close would overwrite it.
+            if (lootTileEntity == null || IsStorageInUse(lootTileEntity))
             {
                 return false;
             }

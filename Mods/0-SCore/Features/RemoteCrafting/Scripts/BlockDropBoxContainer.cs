@@ -38,28 +38,9 @@ public class BlockDropBoxContainer : BlockCompositeTileEntity
         var tileEntity = world.GetTileEntity(_blockPos) as TileEntityComposite;
         if (tileEntity == null) return false;
 
-        if (!tileEntity.IsUserAccessing())
-        {
-            var lootable = tileEntity.GetFeature<TEFeatureStorage>();
-            if (lootable != null)
-            {
-                // Sort around the box itself, for the box's owner. This used to search around
-                // GetPrimaryPlayer(): on a P2P host that is the host, so every player's box emptied
-                // into the host's containers; on a dedicated server it is null and nothing sorted.
-                var items = lootable.ItemGrid.items;
-                if (items != null)
-                {
-                    for (int i = 0; i < items.Length; i++)
-                    {
-                        if (items[i].IsEmpty()) continue;
-                        if (RemoteCraftingUtils.AddToContainersNearBox(tileEntity, items[i], _distance))
-                            items[i] = ItemStack.Empty.Clone();
-                    }
-                }
-                lootable.ItemGrid.Touch();
-                lootable.SetModified();
-            }
-        }
+        // Sort around the box itself, for the box's owner. DistributeDropBox skips the box while
+        // anyone has it open, including remote players on a dedicated server.
+        RemoteCraftingUtils.DistributeDropBox(tileEntity, tileEntity.GetFeature<TEFeatureStorage>(), _distance);
 
         world.GetWBT().AddScheduledBlockUpdate(_blockPos, this.blockID, GetTickRate());
         return true;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 
 /// <summary>
 /// Maintains a per-NPC harvest inventory for trader-type entities (e.g. EntityAliveSDXV4).
@@ -106,48 +107,264 @@ public static class HarvestManager
     /// Writes directly to items[] without calling SetModified, so no network packet is sent.
     /// Stacks with existing entries where possible.
     /// </summary>
-    /// <returns>True if the item fit; false if the container was full (caller should drop).</returns>
+    /// <returns>
+    /// True if the item fit. False if the container was full; <paramref name="itemStack"/>'s
+    /// count is then reduced to what did not fit, so a caller that drops it drops only the rest.
+    /// </returns>
     public static bool AddItem(int entityId, ItemStack itemStack)
     {
-        var container = GetOrCreate(entityId);
-        var items = container.items;
+        var leftover = AddToItems(GetOrCreate(entityId).items, itemStack);
+        if (leftover <= 0) return true;
+
+        itemStack.count = leftover;
+        return false; // container full
+    }
+
+    /// <summary>Stacks first, then fills empty slots. Returns the count that did not fit.</summary>
+    private static int AddToItems(ItemStack[] items, ItemStack itemStack)
+    {
+        var remaining = itemStack.count;
 
         // Pass 1 — try to stack with an existing slot
-        for (int i = 0; i < items.Length; i++)
+        var cls = ItemClass.GetForId(itemStack.itemValue.type);
+        if (cls != null && cls.CanStack())
         {
-            if (items[i].IsEmpty() || items[i].itemValue.type != itemStack.itemValue.type) continue;
+            for (int i = 0; i < items.Length && remaining > 0; i++)
+            {
+                if (items[i].IsEmpty() || items[i].itemValue.type != itemStack.itemValue.type) continue;
 
-            var cls = ItemClass.GetForId(itemStack.itemValue.type);
-            if (cls == null || !cls.CanStack()) continue;
+                int space = cls.Stacknumber.Value - items[i].count;
+                if (space <= 0) continue;
 
-            int space = cls.Stacknumber.Value - items[i].count;
-            if (space <= 0) continue;
-
-            int toAdd = Math.Min(itemStack.count, space);
-            items[i].count += toAdd;
-            itemStack = new ItemStack(itemStack.itemValue, itemStack.count - toAdd);
-            if (itemStack.count <= 0) return true;
+                int toAdd = Math.Min(remaining, space);
+                items[i].count += toAdd;
+                remaining -= toAdd;
+            }
         }
 
-        // Pass 2 — find an empty slot
-        for (int i = 0; i < items.Length; i++)
+        // Pass 2 — empty slots, a full stack at most per slot
+        var maxStack = cls != null && cls.CanStack() ? Math.Max(1, cls.Stacknumber.Value) : 1;
+        for (int i = 0; i < items.Length && remaining > 0; i++)
         {
             if (!items[i].IsEmpty()) continue;
-            items[i] = itemStack.Clone();
-            return true;
+            int toAdd = Math.Min(remaining, maxStack);
+            SetSlot(items, i, new ItemStack(itemStack.itemValue, toAdd));
+            remaining -= toAdd;
         }
 
-        return false; // container full
+        return remaining;
+    }
+
+    /// <summary>
+    /// Writes a slot in place. Since 3.3 each slot is an ItemStack bound to its grid; replacing
+    /// the array entry with a new ItemStack breaks that binding and skips change notifications.
+    /// </summary>
+    public static void SetSlot(ItemStack[] items, int index, ItemStack stack)
+    {
+        if (stack == null || stack.IsEmpty())
+            items[index].Set(ItemValue.None.Clone(), 0);
+        else
+            items[index].Set(stack.itemValue.Clone(), stack.count);
     }
 
     /// <summary>
     /// Removes the harvest container for an entity.
     /// Call this when the NPC is picked up (EntitySyncUtils.Collect) or dies.
     /// </summary>
-    public static void Remove(int entityId) => _containers.Remove(entityId);
+    public static void Remove(int entityId)
+    {
+        _containers.Remove(entityId);
+        _remoteSessions.Remove(entityId);
+    }
 
     /// <summary>Returns true if a non-empty harvest container exists for the entity.</summary>
     public static bool Has(int entityId) => _containers.ContainsKey(entityId);
+
+    // -------------------------------------------------------------------------
+    // Server-side remote sessions (dedicated-server clients)
+    // -------------------------------------------------------------------------
+    // A remote client edits a copy of the container and sends it back on close. The player's
+    // takes are already in their own inventory by then and cannot be undone, so the server must
+    // never let two copies be out at once, and must apply only what the player changed: farming
+    // adds crops and NPC reloads use ammo while the window is open.
+
+    private class RemoteSession
+    {
+        public int PlayerId;
+        public ItemStack[] Snapshot;
+    }
+
+    // Keyed by NPC entity ID.
+    private static readonly Dictionary<int, RemoteSession> _remoteSessions =
+        new Dictionary<int, RemoteSession>();
+
+    /// <summary>
+    /// True when someone other than <paramref name="playerId"/> has the container open: a remote
+    /// player with a session, or the host in its own loot window.
+    /// </summary>
+    public static bool IsOpenByOther(int entityId, int playerId)
+    {
+        if (_containers.TryGetValue(entityId, out var container) && container.IsUserAccessing())
+            return true;
+
+        if (!_remoteSessions.TryGetValue(entityId, out var session) || session.PlayerId == playerId)
+            return false;
+
+        // A session whose player has left the world cannot be closed by them any more.
+        if (GameManager.Instance.World?.GetEntity(session.PlayerId) is EntityPlayer) return true;
+
+        _remoteSessions.Remove(entityId);
+        return false;
+    }
+
+    /// <summary>True when a remote player has the container open. Used to keep the host out.</summary>
+    public static bool HasRemoteSession(int entityId)
+    {
+        if (!_remoteSessions.TryGetValue(entityId, out var session)) return false;
+        if (GameManager.Instance.World?.GetEntity(session.PlayerId) is EntityPlayer) return true;
+
+        _remoteSessions.Remove(entityId);
+        return false;
+    }
+
+    /// <summary>
+    /// Records that <paramref name="playerId"/> was sent the container's current contents.
+    /// The caller checks <see cref="IsOpenByOther"/> first.
+    /// </summary>
+    public static void BeginRemoteSession(int entityId, int playerId)
+    {
+        var items = GetOrCreate(entityId).items;
+        var snapshot = new ItemStack[items.Length];
+        for (var i = 0; i < items.Length; i++)
+            snapshot[i] = items[i].Clone();
+
+        _remoteSessions[entityId] = new RemoteSession { PlayerId = playerId, Snapshot = snapshot };
+    }
+
+    /// <summary>
+    /// Applies a remote player's closed window to the container and ends their session.
+    /// If nothing changed on the server since the snapshot, the player's copy is taken as-is,
+    /// layout included. Otherwise only the player's change (per item, by count) is applied on
+    /// top of the server's current contents.
+    /// </summary>
+    public static void EndRemoteSession(int entityId, int playerId, ItemStack[] clientItems)
+    {
+        if (!_remoteSessions.TryGetValue(entityId, out var session) || session.PlayerId != playerId)
+        {
+            Log.Warning($"[HarvestManager] Ignoring a harvest window update for NPC {entityId} from player {playerId}: they have no open session.");
+            return;
+        }
+
+        _remoteSessions.Remove(entityId);
+
+        // The NPC was picked up or died while the window was open.
+        if (!_containers.TryGetValue(entityId, out var container)) return;
+
+        var items = container.items;
+        if (SameContents(items, session.Snapshot))
+        {
+            for (var i = 0; i < items.Length; i++)
+                SetSlot(items, i, i < clientItems.Length ? clientItems[i] : null);
+            return;
+        }
+
+        // Server changed the container while the window was open. Apply the player's change only.
+        var delta = new Dictionary<string, int>();
+        var values = new Dictionary<string, ItemValue>();
+        Tally(session.Snapshot, delta, values, -1);
+        Tally(clientItems, delta, values, +1);
+
+        foreach (var pair in delta)
+        {
+            if (pair.Value < 0)
+            {
+                var shortfall = RemoveFromItems(items, pair.Key, -pair.Value);
+                if (shortfall > 0)
+                    Log.Warning($"[HarvestManager] NPC {entityId}: player {playerId} took {-pair.Value}x {values[pair.Key].ItemClass?.GetItemName()}, but the server had already used {shortfall} of them.");
+            }
+            else if (pair.Value > 0)
+            {
+                var leftover = AddToItems(items, new ItemStack(values[pair.Key], pair.Value));
+                if (leftover > 0)
+                    DropNearEntity(entityId, new ItemStack(values[pair.Key].Clone(), leftover));
+            }
+        }
+    }
+
+    /// <summary>Ends every session a player holds. Their window can no longer report back.</summary>
+    public static void EndSessionsForPlayer(int playerId)
+    {
+        var ended = new List<int>();
+        foreach (var pair in _remoteSessions)
+            if (pair.Value.PlayerId == playerId) ended.Add(pair.Key);
+
+        foreach (var entityId in ended)
+        {
+            _remoteSessions.Remove(entityId);
+            Log.Warning($"[HarvestManager] Player {playerId} left with NPC {entityId}'s harvest window open; its contents stay as the server last had them.");
+        }
+    }
+
+    public static void OnPlayerDisconnected(ref ModEvents.SPlayerDisconnectedData data)
+    {
+        if (data.ClientInfo == null) return;
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
+        EndSessionsForPlayer(data.ClientInfo.entityId);
+    }
+
+    private static bool SameContents(ItemStack[] a, ItemStack[] b)
+    {
+        var length = Math.Max(a.Length, b.Length);
+        for (var i = 0; i < length; i++)
+        {
+            var sa = i < a.Length ? a[i] : null;
+            var sb = i < b.Length ? b[i] : null;
+            var emptyA = sa == null || sa.IsEmpty();
+            var emptyB = sb == null || sb.IsEmpty();
+            if (emptyA && emptyB) continue;
+            if (emptyA != emptyB || sa.count != sb.count) return false;
+            if (EntitySyncUtils.ItemKey(sa.itemValue) != EntitySyncUtils.ItemKey(sb.itemValue)) return false;
+        }
+
+        return true;
+    }
+
+    private static void Tally(ItemStack[] stacks, Dictionary<string, int> delta, Dictionary<string, ItemValue> values, int sign)
+    {
+        foreach (var stack in stacks)
+        {
+            if (stack == null || stack.IsEmpty()) continue;
+            var key = EntitySyncUtils.ItemKey(stack.itemValue);
+            delta.TryGetValue(key, out var count);
+            delta[key] = count + sign * stack.count;
+            if (!values.ContainsKey(key)) values[key] = stack.itemValue.Clone();
+        }
+    }
+
+    /// <summary>Removes up to <paramref name="count"/> matching items. Returns how many were missing.</summary>
+    private static int RemoveFromItems(ItemStack[] items, string key, int count)
+    {
+        for (var i = 0; i < items.Length && count > 0; i++)
+        {
+            if (items[i].IsEmpty() || EntitySyncUtils.ItemKey(items[i].itemValue) != key) continue;
+
+            var take = Math.Min(count, items[i].count);
+            count -= take;
+            if (take >= items[i].count)
+                SetSlot(items, i, null);
+            else
+                items[i].count -= take;
+        }
+
+        return count;
+    }
+
+    private static void DropNearEntity(int entityId, ItemStack stack)
+    {
+        var entity = GameManager.Instance.World?.GetEntity(entityId);
+        if (entity == null) return;
+        GameManager.Instance.ItemDropServer(stack, entity.position, Vector3.zero);
+    }
 
     // -------------------------------------------------------------------------
     // Persistence
@@ -223,7 +440,7 @@ public static class HarvestManager
                 var    items      = EntitySyncUtils.DeserializeItemStackArray(serialized);
                 var    container  = GetOrCreate(entityId);
                 for (int j = 0; j < items.Length && j < container.items.Length; j++)
-                    container.items[j] = items[j];
+                    SetSlot(container.items, j, items[j]);
             }
             Log.Out($"[HarvestManager] Loaded {_containers.Count} harvest container(s) from {path}.");
         }

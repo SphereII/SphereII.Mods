@@ -12,11 +12,22 @@ public class NetPackageHarvestInventoryData : NetPackage
 {
     private int    _npcEntityId;
     private string _serializedItems;
+    private bool   _inUse;
 
     public NetPackageHarvestInventoryData Setup(int npcEntityId, string serializedItems)
     {
         _npcEntityId     = npcEntityId;
         _serializedItems = serializedItems;
+        _inUse           = false;
+        return this;
+    }
+
+    /// <summary>Refusal: someone else has this NPC's harvest window open.</summary>
+    public NetPackageHarvestInventoryData SetupInUse(int npcEntityId)
+    {
+        _npcEntityId     = npcEntityId;
+        _serializedItems = string.Empty;
+        _inUse           = true;
         return this;
     }
 
@@ -25,12 +36,14 @@ public class NetPackageHarvestInventoryData : NetPackage
         base.write(bw);
         bw.Write(_npcEntityId);
         bw.Write(_serializedItems ?? string.Empty);
+        bw.Write(_inUse);
     }
 
     public override void read(PooledBinaryReader br)
     {
         _npcEntityId     = br.ReadInt32();
         _serializedItems = br.ReadString();
+        _inUse           = br.ReadBoolean();
     }
 
     public override void ProcessPackage(World world, GameManager callbacks)
@@ -38,6 +51,13 @@ public class NetPackageHarvestInventoryData : NetPackage
         if (world == null) return;
 
         // Runs on the CLIENT.
+        if (_inUse)
+        {
+            if (world.GetPrimaryPlayer() is EntityPlayerLocal deniedPlayer)
+                GameManager.ShowTooltip(deniedPlayer, Localization.Get("ttNoInteractItem"), string.Empty, "ui_denied");
+            return;
+        }
+
         var items = EntitySyncUtils.DeserializeItemStackArray(_serializedItems);
 
         // Build a local-only loot container with a valid chunk reference so the
@@ -62,7 +82,7 @@ public class NetPackageHarvestInventoryData : NetPackage
         HarvestManager.PositionAtEntity(container, _npcEntityId);
 
         for (int i = 0; i < items.Length && i < container.items.Length; i++)
-            container.items[i] = items[i];
+            HarvestManager.SetSlot(container.items, i, items[i]);
 
         var playerLocal = world.GetPrimaryPlayer() as EntityPlayerLocal;
         if (playerLocal == null)

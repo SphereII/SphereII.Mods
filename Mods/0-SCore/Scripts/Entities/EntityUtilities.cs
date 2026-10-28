@@ -1681,9 +1681,18 @@ public static class EntityUtilities
                     {
                         if (player is EntityPlayerLocal playerLocal)
                         {
-                            AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Opening HarvestManager container (listen server)");
-                            var harvestContainer = HarvestManager.GetOrCreate(entityAlive.entityId);
-                            OpenContainer(playerLocal, harvestContainer);
+                            // A remote player has a copy out; editing the live container now
+                            // would race with their close.
+                            if (HarvestManager.HasRemoteSession(entityAlive.entityId))
+                            {
+                                GameManager.ShowTooltip(playerLocal, Localization.Get("ttNoInteractItem"), string.Empty, "ui_denied");
+                            }
+                            else
+                            {
+                                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Opening HarvestManager container (listen server)");
+                                var harvestContainer = HarvestManager.GetOrCreate(entityAlive.entityId);
+                                OpenContainer(playerLocal, harvestContainer);
+                            }
                         }
                         else
                         {
