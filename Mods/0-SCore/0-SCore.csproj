@@ -800,6 +800,7 @@
     <Compile Include="Scripts\Signs\ImageWrapper.cs" />
     <Compile Include="Scripts\SoundData\SoundDataNodeClass.cs" />
     <Compile Include="Scripts\TileEntities\SCoreLootContainer.cs" />
+    <Compile Include="Scripts\TileEntities\StorageLockUtils.cs" />
     <Compile Include="Scripts\TileEntities\TileEntityAoE.cs" />
     <Compile Include="Scripts\TileEntities\TileEntityPoweredPortal.cs" />
     <Compile Include="Scripts\TileEntities\TileEntityPoweredWorkstationSdx.cs" />

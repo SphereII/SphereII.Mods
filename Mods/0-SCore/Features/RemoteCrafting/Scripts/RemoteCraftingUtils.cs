@@ -232,8 +232,9 @@ namespace SCore.Features.RemoteCrafting.Scripts
         public static bool IsLootContainerOpenByAnotherPlayer(TileEntity tileEntity, EntityAlive player)
         {
             if (!tileEntity.TryGetSelfOrFeature<TEFeatureStorage>(out var tileEntityLootable)) return true;
-            if (tileEntityLootable.IsUserAccessing()) return false;
-            return false;
+            // Taking from or adding to a box another player has open is undone, or duplicated, when
+            // their close sends their copy back. Only the server can see other players' locks.
+            return StorageLockUtils.IsLockedByOtherPlayer(tileEntityLootable);
         }
 
         public static List<ItemStack> SearchNearbyContainers(EntityAlive player)
@@ -384,21 +385,14 @@ namespace SCore.Features.RemoteCrafting.Scripts
         }
 
         /// <summary>
-        /// True when a player has this container open. Since 3.4 the server tracks open containers
-        /// in LockManager only, so the server-side TileEntity's IsUserAccessing() stays false while a
-        /// remote player has it open. Checking only that let the server sort a drop box mid-edit,
-        /// then the client's close sent the old contents back and they were sorted again.
+        /// True when a player has this container open, by its LockManager lock. Since 3.4 the
+        /// server-side IsUserAccessing() stays false while a remote player has it open. Checking only
+        /// that let the server sort a drop box mid-edit, then the client's close sent the old
+        /// contents back and they were sorted again.
         /// </summary>
         public static bool IsStorageInUse(TEFeatureStorage storage)
         {
-            if (storage == null) return true;
-            if (storage.IsUserAccessing()) return true;
-
-            var connectionManager = SingletonMonoBehaviour<ConnectionManager>.Instance;
-            if (connectionManager == null || !connectionManager.IsServer) return false;
-
-            // The loot window locks the TEFeatureStorage itself on channel 0.
-            return LockManager.Instance != null && LockManager.Instance.IsLockedServer(storage);
+            return StorageLockUtils.IsInUse(storage);
         }
 
         /// <summary>
@@ -523,7 +517,6 @@ namespace SCore.Features.RemoteCrafting.Scripts
             }
 
             bool changed = false;
-            lootTileEntity.SetUserAccessing(true);
 
             try
             {
@@ -545,8 +538,6 @@ namespace SCore.Features.RemoteCrafting.Scripts
             {
                 if (changed)
                     lootTileEntity.SetModified();
-
-                lootTileEntity.SetUserAccessing(false);
             }
 
             return false;

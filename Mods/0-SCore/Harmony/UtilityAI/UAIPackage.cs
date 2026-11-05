@@ -286,4 +286,18 @@ namespace Harmony.UtilityAI
             //}
         }
     }
+
+    /// <summary>
+    /// An entity's cached UAI target filters go with it: OnEntityUnload is the end of every
+    /// removal (a kill, a despawn, a chunk unload), and every override calls the base.
+    /// </summary>
+    [HarmonyPatch(typeof(Entity))]
+    [HarmonyPatch(nameof(Entity.OnEntityUnload))]
+    public class EntityOnEntityUnloadForgetFilters
+    {
+        public static void Postfix(Entity __instance)
+        {
+            SCoreUtils.ForgetEntityFilters(__instance);
+        }
+    }
 }

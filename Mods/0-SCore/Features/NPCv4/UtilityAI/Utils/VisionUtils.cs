@@ -173,6 +173,9 @@ namespace UAI
 
         public static bool CanShoot(EntityAlive sourceEntity, EntityAlive targetEntity, float maxDistance = -1f)
         {
+            if (sourceEntity == null || targetEntity == null)
+                return false;
+
             var headPos   = sourceEntity.getHeadPosition();
             var headPos2  = targetEntity.getHeadPosition();
             var direction = headPos2 - headPos;

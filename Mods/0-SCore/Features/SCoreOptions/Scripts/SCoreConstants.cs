@@ -1,11 +1,44 @@
 public class SCoreConstants
 {
     // NPC
-    public static readonly float BlockTimeToJump =
-        StringParsers.ParseFloat(Configuration.GetPropertyValue("AdvancedNPCFeatures", "BlockTimeToJump"));
+    // These start at the defaults from Config/blocks.xml and are read from ConfigFeatureBlock by Load().
+    // Nothing is parsed when the class loads, so another mod touching this class during startup
+    // (before blocks exist) can't break it for the whole session.
+    // They stay as fields, not properties, so mods compiled against them keep working.
+    public const float DefaultBlockTimeToJump = 0.19f;
+    public const float DefaultBlockedTime = 0.2f;
 
-    public static readonly float BlockedTime =
-        StringParsers.ParseFloat(Configuration.GetPropertyValue("AdvancedNPCFeatures", "BlockedTime"));
+    public static float BlockTimeToJump = DefaultBlockTimeToJump;
+    public static float BlockedTime = DefaultBlockedTime;
+
+    private const string AdvancedNPCFeatures = "AdvancedNPCFeatures";
+
+    /// <summary>
+    /// Reads the values from ConfigFeatureBlock. Does nothing if the block isn't loaded yet.
+    /// A missing or bad value keeps its default and logs a warning.
+    /// </summary>
+    public static void Load()
+    {
+        if (Block.GetBlockValue("ConfigFeatureBlock").type == 0) return;
+
+        BlockTimeToJump = ReadFloat("BlockTimeToJump", DefaultBlockTimeToJump);
+        BlockedTime = ReadFloat("BlockedTime", DefaultBlockedTime);
+    }
+
+    public static void Load(ref ModEvents.SGameStartDoneData data)
+    {
+        Load();
+    }
+
+    private static float ReadFloat(string property, float fallback)
+    {
+        var value = Configuration.GetPropertyValue(AdvancedNPCFeatures, property);
+        if (StringParsers.TryParseFloat(value, out var result))
+            return result;
+
+        Log.Warning($"[0-SCore] {AdvancedNPCFeatures}/{property} is missing or not a number ('{value}'). Using {fallback}.");
+        return fallback;
+    }
 
     // EntityAlive SDX
 

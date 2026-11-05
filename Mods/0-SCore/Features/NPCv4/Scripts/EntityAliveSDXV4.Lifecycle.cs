@@ -231,7 +231,7 @@ public partial class EntityAliveSDXV4
 
     public Vector3i dropCorpseBlock()
     {
-        if (lootContainer != null && lootContainer.IsUserAccessing()) return Vector3i.zero;
+        if (lootContainer != null && StorageLockUtils.IsOpenInLocalLootWindow(lootContainer)) return Vector3i.zero;
         if (_corpseBlockValue.isair)                                   return Vector3i.zero;
         if (rand.RandomFloat > _corpseBlockChance)                     return Vector3i.zero;
 

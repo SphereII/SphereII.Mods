@@ -85,6 +85,72 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.4.11.645
+	Game Version: v3.4.0 (b10)
+
+	[ UAI Target Filters - cached instead of rebuilt on every rescore ]
+		- Each rescore looked up every package's and action's
+		  entity_filter / waypoint_filter from scratch: a key string, an
+		  XML read, a type lookup by name and a new filter object, for
+		  every action of every NPC.
+		- The filter type is now resolved once per package and action,
+		  and each NPC keeps the filters it built. They are dropped when
+		  the NPC unloads, and the cache is cleared when the UAI XML
+		  reloads. Behaviour is unchanged.
+		- Measured by xyth: the filter lookup cost dropped about 90%
+		  (single player 4.99 -> 0.65 ms/s, dedicated server
+		  14.54 -> 1.95 ms/s, 25 bandits + 25 zombies).
+
+	[ UAI Debug Text - not built on dedicated servers ]
+		- The UAI debug nameplate text (action, task, target) was built
+		  for every NPC on every frame on a dedicated server, which has
+		  no nameplates to show it. The "debug view off" check only
+		  applied to non-dedicated games.
+		- A dedicated server now skips it. Single player and clients are
+		  unchanged. Applies to the V4 NPCs' copy too.
+
+	[ Containers - "is it open?" now asks LockManager ]
+		- TileEntity.IsUserAccessing() is now a local flag, set only by this
+		  machine's loot window, and is being replaced by LockManager. SCore
+		  no longer uses it or SetUserAccessing().
+		- New StorageLockUtils: on the server it reports any player's lock on
+		  a container; on a client, only the local player's.
+		- Drop box sorting, and remote crafting adding to containers, skip any
+		  container with a lock.
+		- Remote crafting no longer takes from or adds to a container another
+		  player has open, when run on the host. That used to be undone or
+		  duplicated when they closed it. A client can't see other players'
+		  locks, so this check only works on the host.
+		- NPC loot containers are not in the world, so they can't be locked.
+		  For them SCore checks whether the local loot window is showing that
+		  container: the harvest window's "in use" check, and corpse-block
+		  drop on death.
+
+	[ SCore Constants - early access no longer breaks NPC AI ]
+		- AdvancedNPCFeatures/BlockedTime and BlockTimeToJump were parsed
+		  the first time anything touched SCoreConstants. If another mod
+		  touched it during startup, before the blocks were loaded, or a
+		  patch removed either property, parsing threw. The class then
+		  stayed broken for the session, and NPC AI that checks BlockedTime
+		  failed on every use.
+		- They now start at their defaults (0.19 and 0.2) and are read from
+		  the config when each game starts. A missing or bad value keeps
+		  its default and logs a warning.
+		- They are still fields, so mods compiled against them keep working.
+
+	[ UAI Weapon Range - errors on position targets ]
+		- InWeaponRange and NotInWeaponRange (and their V4 versions)
+		  handled position (Vector3) targets, but with a ranged weapon
+		  they then ran the shooting check against a null entity. That
+		  threw an Entity Exception on every AI tick, so the NPC could
+		  not choose an action while the position was in its target list.
+		- Stock SCore adds no position targets, so this only hit mods
+		  that add UAI waypoint targets, such as block positions to
+		  bash or burn.
+		- Position targets now get a plain distance-to-range check.
+		  SCoreUtils.CanShoot and VisionUtils.CanShoot return false if
+		  either entity is null.
+
 Version: 3.4.3.826
 	Game Version: v3.4.0 (b6)
 

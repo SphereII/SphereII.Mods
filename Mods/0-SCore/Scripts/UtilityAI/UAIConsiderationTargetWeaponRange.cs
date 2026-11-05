@@ -49,6 +49,10 @@ namespace UAI
             }
             range = itemActionRanged.GetRange(itemActionData);
 
+            // Position targets (Vector3 waypoints) have no entity to line-of-sight check against.
+            if (entityAlive == null)
+                return result <= range ? 1f : 0f;
+
             if (!SCoreUtils.CanShoot(context.Self, entityAlive, range))
             {
                 return 0f;

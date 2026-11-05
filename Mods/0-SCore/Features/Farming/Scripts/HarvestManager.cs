@@ -204,7 +204,7 @@ public static class HarvestManager
     /// </summary>
     public static bool IsOpenByOther(int entityId, int playerId)
     {
-        if (_containers.TryGetValue(entityId, out var container) && container.IsUserAccessing())
+        if (_containers.TryGetValue(entityId, out var container) && StorageLockUtils.IsOpenInLocalLootWindow(container))
             return true;
 
         if (!_remoteSessions.TryGetValue(entityId, out var session) || session.PlayerId == playerId)

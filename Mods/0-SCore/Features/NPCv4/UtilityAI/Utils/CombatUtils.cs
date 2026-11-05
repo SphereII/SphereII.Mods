@@ -29,17 +29,18 @@ namespace UAI
         /// </summary>
         public static void DisplayDebugInformation(Context context, string prefix = "", string postfix = "")
         {
-            if (!GameManager.IsDedicatedServer)
-            {
-                if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuShowTasks) || context.Self.IsDead())
-                {
-                    if (EntityUtilities.GetLeaderOrOwner(context.Self.entityId) == null)
-                        context.Self.DebugNameInfo = String.Empty;
-                    else if (string.IsNullOrEmpty(context.Self.DebugNameInfo))
-                        context.Self.DebugNameInfo = context.Self.EntityName;
+            // A dedicated server draws no nameplates, so the debug text is never seen there.
+            if (GameManager.IsDedicatedServer)
+                return;
 
-                    return;
-                }
+            if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuShowTasks) || context.Self.IsDead())
+            {
+                if (EntityUtilities.GetLeaderOrOwner(context.Self.entityId) == null)
+                    context.Self.DebugNameInfo = String.Empty;
+                else if (string.IsNullOrEmpty(context.Self.DebugNameInfo))
+                    context.Self.DebugNameInfo = context.Self.EntityName;
+
+                return;
             }
 
             var msg = $" ( {context.Self.entityId} ) {prefix}\n";

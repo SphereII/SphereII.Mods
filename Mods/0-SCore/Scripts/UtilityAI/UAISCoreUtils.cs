@@ -15,20 +15,21 @@ namespace UAI
         private static readonly string Feature = "UtilityAILoggingMin";
         public static void DisplayDebugInformation(Context _context, string prefix = "", string postfix = "")
         {
-            if (!GameManager.IsDedicatedServer)
-            {
-                if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuShowTasks) || _context.Self.IsDead())
-                {
-                    if (EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) == null)
-                        _context.Self.DebugNameInfo = String.Empty;
-                    else
-                    {
-                        if (string.IsNullOrEmpty(_context.Self.DebugNameInfo))
-                            _context.Self.DebugNameInfo = _context.Self.EntityName;
-                    }
+            // A dedicated server draws no nameplates, so the debug text is never seen there.
+            if (GameManager.IsDedicatedServer)
+                return;
 
-                    return;
+            if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuShowTasks) || _context.Self.IsDead())
+            {
+                if (EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) == null)
+                    _context.Self.DebugNameInfo = String.Empty;
+                else
+                {
+                    if (string.IsNullOrEmpty(_context.Self.DebugNameInfo))
+                        _context.Self.DebugNameInfo = _context.Self.EntityName;
                 }
+
+                return;
             }
 
             var message = $" ( {_context.Self.entityId} ) {prefix}\n";
@@ -311,6 +312,9 @@ namespace UAI
 
         public static bool CanShoot(EntityAlive sourceEntity, EntityAlive targetEntity, float maxDistance = -1)
         {
+            if (sourceEntity == null || targetEntity == null)
+                return false;
+
             var headPosition = sourceEntity.getHeadPosition();
             var headPosition2 = targetEntity.getHeadPosition();
             var direction = headPosition2 - headPosition;
@@ -1021,6 +1025,8 @@ namespace UAI
             UAIPackage package,
             XElement element)
         {
+            // An XML reload builds new package and action objects: drop the old factories.
+            _filterFactories.Clear();
             var key = GetKey(package, null);
             if (key != null)
                 _storedElements[key] = element;
@@ -1044,6 +1050,8 @@ namespace UAI
             UAIAction action,
             XElement element)
         {
+            // An XML reload builds new package and action objects: drop the old factories.
+            _filterFactories.Clear();
             var key = GetKey(package, action);
             if (key != null)
                 _storedElements[key] = element;
@@ -1081,11 +1089,61 @@ namespace UAI
             return $"{package?.Name}-{action?.Name}";
         }
 
+        // The filter factory per (package, action, attribute): the key string, the XML read,
+        // the type lookup by name and the constructor lookup happen once; a miss (no filter
+        // attribute, an unknown filter) is cached too, as null. Cleared by StoreAttributes,
+        // since an XML reload builds new package and action objects.
+        private static readonly Dictionary<(UAIPackage, UAIAction, string), Func<EntityAlive, object>> _filterFactories =
+            new Dictionary<(UAIPackage, UAIAction, string), Func<EntityAlive, object>>();
+
+        // One built filter per entity and (package, action, attribute). Every filter holds only
+        // a readonly reference to the entity it was built for, so a reused one answers exactly as
+        // a new one would. Keyed by entity id and checked against the live entity on every read
+        // (ids are reused); an entity's entry is dropped when it unloads (ForgetEntityFilters).
+        private sealed class EntityFilters
+        {
+            public EntityAlive Owner;
+            public readonly Dictionary<(UAIPackage, UAIAction, string), object> Filters =
+                new Dictionary<(UAIPackage, UAIAction, string), object>();
+        }
+
+        private static readonly Dictionary<int, EntityFilters> _filtersByEntity = new Dictionary<int, EntityFilters>();
+
         private static IUAITargetFilter<T> GetTargetFilter<T>(
             UAIPackage package,
             UAIAction action,
             EntityAlive self,
             string attribute)
+        {
+            var cacheKey = (package, action, attribute);
+            if (!_filterFactories.TryGetValue(cacheKey, out var factory))
+            {
+                factory = BuildFilterFactory(package, action, attribute);
+                _filterFactories[cacheKey] = factory;
+            }
+
+            if (factory == null)
+                return null;
+
+            if (self == null)
+                return factory(null) as IUAITargetFilter<T>;
+
+            if (!_filtersByEntity.TryGetValue(self.entityId, out var perEntity) || !ReferenceEquals(perEntity.Owner, self))
+            {
+                perEntity = new EntityFilters { Owner = self };
+                _filtersByEntity[self.entityId] = perEntity;
+            }
+
+            if (!perEntity.Filters.TryGetValue(cacheKey, out var filter))
+            {
+                filter = factory(self);
+                perEntity.Filters[cacheKey] = filter;
+            }
+
+            return filter as IUAITargetFilter<T>;
+        }
+
+        private static Func<EntityAlive, object> BuildFilterFactory(UAIPackage package, UAIAction action, string attribute)
         {
             var key = GetKey(package, action);
             if (key == null)
@@ -1105,7 +1163,21 @@ namespace UAI
             if (type == null)
                 return null;
 
-            return Activator.CreateInstance(type, new object[] {self}) as IUAITargetFilter<T>;
+            var ctor = type.GetConstructor(new[] { typeof(EntityAlive) });
+            if (ctor == null)
+                return null;
+
+            return entity => ctor.Invoke(new object[] { entity });
+        }
+
+        // An entity's built filters go with it (the Entity.OnEntityUnload postfix in
+        // Harmony/UtilityAI/UAIPackage.cs: the end of every removal).
+        internal static void ForgetEntityFilters(Entity entity)
+        {
+            if (entity == null)
+                return;
+            if (_filtersByEntity.TryGetValue(entity.entityId, out var perEntity) && ReferenceEquals(perEntity.Owner, entity))
+                _filtersByEntity.Remove(entity.entityId);
         }
 
         private static readonly string EntityFilterAttribute = "entity_filter";

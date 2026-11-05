@@ -152,6 +152,23 @@
                 <!--                                                                                        -->
                 <!-- The "Crafting Max Tier" sandbox option overrides it when a player sets it; its default  -->
                 <!-- of -1 means "inherit max_quality_tier", which is what you want.                         -->
+                <!--                                                                                        -->
+                <!-- CraftingTier steps: a passive_effect with several levels and several values BLENDS     -->
+                <!-- between them (vanilla PassiveEffect.ModValue lerps each pair). Vanilla's own lines step -->
+                <!-- by 1, so the fractions are cut off and it looks stepped. Stepping by 100 does not:     -->
+                <!--   level="3,6,9" value="99,199,299"  gives 99 at 3, then about +33 per skill level.      -->
+                <!-- For flat jumps, repeat each value at both ends of its range. Skill levels are whole    -->
+                <!-- numbers, so the gap between ranges (5 to 6) is never blended:                          -->
+                <!--                                                                                        -->
+                <!--   <passive_effect name="CraftingTier" operation="base_add"                             -->
+                <!--       level="3,5,6,8,9,11,12,14,15,99,100"                                             -->
+                <!--       value="99,99,199,199,299,299,399,399,499,499,599" tags="..."/>                   -->
+                <!--                                                                                        -->
+                <!-- That gives 99 at levels 3-5, 199 at 6-8 ... 499 at 15-99 and 599 at 100. One line per  -->
+                <!-- step also works: level="3,5" value="99", level="6,8" value="199", and so on; a range   -->
+                <!-- with a single value applies it flat. REPLACE vanilla's CraftingTier line for the same  -->
+                <!-- tags (progression.xml) rather than adding next to it: otherwise vanilla's own 1-5 is  -->
+                <!-- added on top, and quality 100 shows as 101.                                            -->
                 <!-- Percentage of current quality lost each time an item is repaired (whole number, 0-100).           -->
                 <!-- value="0"  = no quality loss (default — preserves vanilla durability repair without quality drop) -->
                 <!-- value="10" = a quality-600 item loses Ceil(600 * 0.10) = 60 quality per repair                  -->

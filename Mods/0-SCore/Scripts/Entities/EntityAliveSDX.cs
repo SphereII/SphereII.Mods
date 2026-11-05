@@ -2363,7 +2363,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX, IEntityAliv
 
     public Vector3i dropCorpseBlock()
     {
-        if (lootContainer != null && lootContainer.IsUserAccessing())
+        if (lootContainer != null && StorageLockUtils.IsOpenInLocalLootWindow(lootContainer))
         {
             return Vector3i.zero;
         }
