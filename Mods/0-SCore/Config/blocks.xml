@@ -103,7 +103,7 @@
 
 
             <property class="AdvancedQuests">
-                <!-- Allows POIs to be re-used go GotoPOISDX -->
+                <!-- true: GotoPOISDX may send the player to a POI they have already been sent to. false: it skips those. -->
                 <property name="ReusePOILocations" value="false"/>
             </property>
             <property class="AdvancedItemFeatures">

@@ -239,6 +239,16 @@
         True if the NPC is currently not hired by the player
           <requirement type="HiredSDX, SCore" requirementtype="Hide" value="not" />    
 
+      IsCaptiveSDX
+        Checks if the NPC is a Quest Rescue captive (spawned by RescueNPCSDX) that hasn't been freed yet.
+        Pair it with the FreeCaptiveSDX action. See Features/QuestRescue/ReadMe.md.
+
+        True if the NPC is a captive waiting to be freed
+          <requirement type="IsCaptiveSDX, SCore" requirementtype="Hide" />
+
+        True if the NPC is not a captive, e.g. to hide the normal Hire response while it is one
+          <requirement type="IsCaptiveSDX, SCore" requirementtype="Hide" value="not" />
+
       RandomRoll
         Rolls a random value to be true. Value range is 0 to 10. The random roll must be less than the specified value, out of 10.
         
@@ -388,6 +398,17 @@
         Pop ups a tool tip with the prompt
         
           <action type="ShowToolTipSDX, SCore" id="This is my tool tip" />
+
+      FreeCaptiveSDX
+        Frees a Quest Rescue captive: it follows the player at no cost, its captive_buff is removed,
+        and the RescueNPCSDX objective completes for everyone on the quest. Whether it stays hired
+        afterwards is up to the quest's EscortNPCSDX (on_complete). See Features/QuestRescue/ReadMe.md.
+
+        A "free" response that only shows on a captive:
+          <response id="rescueFree" text="You're free. Follow me." nextstatementid="rescueFreed">
+            <requirement type="IsCaptiveSDX, SCore" requirementtype="Hide" />
+            <action type="FreeCaptiveSDX, SCore" />
+          </response>
           
     -->
 

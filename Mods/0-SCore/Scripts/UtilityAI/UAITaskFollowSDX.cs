@@ -1,4 +1,4 @@
-﻿using GamePath;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Scripting;
 
@@ -7,20 +7,32 @@ namespace UAI
     [Preserve]
     public class UAITaskFollowSDX : UAITaskBase
     {
-        private EntityAlive _leader;
-        
         // Configurable Parameters
         private float _minDistance = 2f;      // Stop moving when this close
         private float _maxDistance = 25f;     // Teleport if this far
         private float _teleportDelay = 5f;    // How long to stay stuck before teleporting
-        
-        // State Variables
-        private Vector3 _lastLeaderPos;
-        private float _stuckTimer;
-        private float _pathRecalculateTimer;
+        private float _runDistance = 10f;     // Run to catch up when farther than this
+
         private const float PathRecalculateInterval = 0.5f; // Only pathfind every 0.5 seconds max
-        private float _pathRetryTimer;
         private const float PathRetryInterval = 1f; // while stuck, retry pathing this often
+
+        private static readonly FastTags<TagGroup.Global> RunningTag = FastTags<TagGroup.Global>.Parse("running");
+
+        /// <summary>
+        /// Per-NPC state. The game keeps one copy of each AI package for every NPC that uses it, so
+        /// this task object is shared; anything stored in a plain field would be overwritten by
+        /// the next NPC that runs it (e.g. two followers swapping leaders and stuck timers).
+        /// </summary>
+        private class FollowState
+        {
+            public EntityAlive Leader;
+            public Vector3 LastLeaderPos;
+            public float StuckTimer;
+            public float PathRecalculateTimer;
+            public float PathRetryTimer;
+        }
+
+        private readonly Dictionary<int, FollowState> _states = new Dictionary<int, FollowState>();
 
         public override void initializeParameters()
         {
@@ -28,29 +40,40 @@ namespace UAI
             if (Parameters.ContainsKey("stop_distance")) _minDistance = StringParsers.ParseFloat(Parameters["stop_distance"]);
             if (Parameters.ContainsKey("max_distance")) _maxDistance = StringParsers.ParseFloat(Parameters["max_distance"]);
             if (Parameters.ContainsKey("teleport_time")) _teleportDelay = StringParsers.ParseFloat(Parameters["teleport_time"]);
+            if (Parameters.ContainsKey("run_distance")) _runDistance = StringParsers.ParseFloat(Parameters["run_distance"]);
         }
 
         public override void Start(Context context)
         {
             base.Start(context);
-            
-            _leader = EntityUtilities.GetLeaderOrOwner(context.Self.entityId) as EntityAlive;
-            if (_leader == null)
+
+            var leader = EntityUtilities.GetLeaderOrOwner(context.Self.entityId) as EntityAlive;
+            if (leader == null)
             {
                 Stop(context);
                 return;
             }
 
-            // Reset timers
-            _stuckTimer = 0f;
-            _pathRecalculateTimer = 0f;
-            _lastLeaderPos = _leader.position;
+            var state = new FollowState { Leader = leader, LastLeaderPos = leader.position };
+            _states[context.Self.entityId] = state;
 
-            SCoreUtils.SetCrouching(context, _leader.IsCrouching);
+            SCoreUtils.SetCrouching(context, leader.IsCrouching);
             EntityUtilities.ClearAttackTargets(context.Self.entityId);
 
             // Initial Move
-            MoveToLeader(context);
+            MoveToLeader(context, state);
+        }
+
+        public override void Stop(Context context)
+        {
+            _states.Remove(context.Self.entityId);
+            base.Stop(context);
+        }
+
+        public override void Reset(Context context)
+        {
+            _states.Remove(context.Self.entityId);
+            base.Reset(context);
         }
 
         public override void Update(Context context)
@@ -58,16 +81,17 @@ namespace UAI
             base.Update(context);
 
             // Safety Check: Leader might have died or disconnected since Start()
-            if (_leader == null || _leader.IsDead())
+            if (!_states.TryGetValue(context.Self.entityId, out var state) || state.Leader == null || state.Leader.IsDead())
             {
                 Stop(context);
                 return;
             }
 
-            SCoreUtils.SetSpeed(context, true);
-            SCoreUtils.SetCrouching(context, _leader.IsCrouching);
+            var leader = state.Leader;
+            float distToLeader = Vector3.Distance(context.Self.position, leader.position);
 
-            float distToLeader = Vector3.Distance(context.Self.position, _leader.position);
+            SCoreUtils.SetSpeed(context, ShouldRun(leader, distToLeader));
+            SCoreUtils.SetCrouching(context, leader.IsCrouching);
 
             // 1. TELEPORT CHECKS
             // Condition A: Too far away
@@ -81,33 +105,31 @@ namespace UAI
             // Condition B: Blocked / Stuck logic
             if (SCoreUtils.IsBlocked(context))
             {
-                _stuckTimer += Time.deltaTime;
+                state.StuckTimer += Time.deltaTime;
 
                 // While stuck, retry pathing toward the leader more aggressively than the normal
                 // 0.5s/1m-moved gate in UpdatePathing() - the cached path may itself be why we're
                 // stuck (a locally bad route), and that gate would otherwise never recalculate it
                 // as long as the leader stays still.
-                _pathRetryTimer -= Time.deltaTime;
-                if (_pathRetryTimer <= 0f)
+                state.PathRetryTimer -= Time.deltaTime;
+                if (state.PathRetryTimer <= 0f)
                 {
-                    MoveToLeader(context);
-                    _pathRetryTimer = PathRetryInterval;
+                    MoveToLeader(context, state);
+                    state.PathRetryTimer = PathRetryInterval;
                 }
 
-                if (_stuckTimer >= _teleportDelay)
+                if (state.StuckTimer >= _teleportDelay)
                 {
                     SCoreUtils.TeleportToLeader(context, false);
-                    _stuckTimer = 0f;
+                    state.StuckTimer = 0f;
                 }
                 // If we are stuck, we don't want to run the movement logic below
                 return;
             }
-            else
-            {
-                // Reset stuck timer if we are moving freely
-                _stuckTimer = 0f;
-                _pathRetryTimer = 0f; // reset so the next stuck episode retries immediately
-            }
+
+            // Reset stuck timer if we are moving freely
+            state.StuckTimer = 0f;
+            state.PathRetryTimer = 0f; // reset so the next stuck episode retries immediately
 
             // 2. MOVEMENT LOGIC
             if (distToLeader <= _minDistance)
@@ -118,35 +140,44 @@ namespace UAI
                 {
                     context.Self.navigator.clearPath();
                 }
-                
+
                 // Face the leader while waiting
                 // V4 models show the stored body pitch as a whole-body lean, so don't pitch them.
-                context.Self.RotateTo(_leader.position.x, _leader.position.y, _leader.position.z, 8f, context.Self is EntityAliveSDXV4 ? 0f : 8f);
+                context.Self.RotateTo(leader.position.x, leader.position.y, leader.position.z, 8f, context.Self is EntityAliveSDXV4 ? 0f : 8f);
             }
             else
             {
                 // We are too far, check if we need to update our path
-                UpdatePathing(context);
+                UpdatePathing(context, state);
             }
         }
 
-        private void MoveToLeader(Context context)
+        /// <summary>
+        /// Match the leader's pace: run when they run, or to catch up when we've fallen behind.
+        /// This used to pass panic=true every tick, which overrode the pace matching in
+        /// SCoreUtils.FindPath and made followers sprint all the time.
+        /// </summary>
+        private bool ShouldRun(EntityAlive leader, float distToLeader)
         {
-            _lastLeaderPos = _leader.position;
-            // Use boolean 'false' for run to prevent constant sprinting if you want them to match speed, 
-            // otherwise 'true' forces sprint. SCoreUtils usually handles speed based on distance.
-            SCoreUtils.FindPath(context, _lastLeaderPos, false); 
+            if (distToLeader > _runDistance) return true;
+            return leader.CurrentMovementTag.Test_AllSet(RunningTag);
         }
 
-        private void UpdatePathing(Context context)
+        private void MoveToLeader(Context context, FollowState state)
         {
-            _pathRecalculateTimer -= Time.deltaTime;
+            state.LastLeaderPos = state.Leader.position;
+            SCoreUtils.FindPath(context, state.LastLeaderPos, false);
+        }
+
+        private void UpdatePathing(Context context, FollowState state)
+        {
+            state.PathRecalculateTimer -= Time.deltaTime;
 
             // Don't recalc if we are on cooldown
-            if (_pathRecalculateTimer > 0f) return;
+            if (state.PathRecalculateTimer > 0f) return;
 
             // Don't recalc if the leader hasn't moved much since our last path
-            float leaderMovement = Vector3.Distance(_leader.position, _lastLeaderPos);
+            float leaderMovement = Vector3.Distance(state.Leader.position, state.LastLeaderPos);
             if (leaderMovement < 1f)
             {
                 // Leader is roughly in the same spot, do we still have a path?
@@ -154,10 +185,10 @@ namespace UAI
             }
 
             // Leader moved > 1m OR we have no path. Recalculate.
-            MoveToLeader(context);
-            
+            MoveToLeader(context, state);
+
             // Reset cooldown
-            _pathRecalculateTimer = PathRecalculateInterval;
+            state.PathRecalculateTimer = PathRecalculateInterval;
         }
     }
 }

@@ -47,6 +47,10 @@ Note: Most of this documentation is AI Generated with tweaks and corrections man
 
 [Trader](../Features/Trader/ReadMe.md)
 
+[Quest POI Variants](../Features/QuestPOIVariants/ReadMe.md) ([Tutorial](../Features/QuestPOIVariants/Tutorial.md))
+
+[Quest Rescue](../Features/QuestRescue/ReadMe.md) ([Tutorial](../Features/QuestRescue/Tutorial.md))
+
 [Version Check](../Features/VersionCheck/Readme.md)
 
 [Weapon Camera Sway](../Features/WeaponCameraSway/ReadMe.md)

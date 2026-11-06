@@ -33,6 +33,18 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
     public const string PropExcludeTags = "exclude_tags";
 
     /// <summary>
+    /// The name of the property that limits the search to POIs with a variant for the quest's
+    /// "poi_variant_suffix" (see QuestPOIVariantManager).
+    /// </summary>
+    public const string PropRequirePoiVariant = "require_poi_variant";
+
+    /// <summary>
+    /// The name of the property that lets the quest pick POIs the player already completed for
+    /// this trader, instead of waiting out the trader's 7 day cooldown.
+    /// </summary>
+    public const string PropReuseCompletedPois = "reuse_completed_pois";
+
+    /// <summary>
     /// A prefab must have at least one of these POI tags to be included in the search for POIs.
     /// </summary>
     public FastTags<TagGroup.Poi> IncludeTags { get; internal set; } = FastTags<TagGroup.Poi>.none;
@@ -51,6 +63,17 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
     /// The maximum distance to search. POIs outside this distance will not be returned.
     /// </summary>
     public float MaxSearchDistance { get; internal set; } = -1;
+
+    /// <summary>
+    /// If true, only POIs that have a variant prefab for the quest's "poi_variant_suffix" are returned.
+    /// </summary>
+    public bool RequirePoiVariant { get; internal set; }
+
+    /// <summary>
+    /// If true, POIs the player already completed for the trader can be picked again. POIs that are
+    /// locked by another quest, or already in the same job list, are still skipped.
+    /// </summary>
+    public bool ReuseCompletedPois { get; internal set; }
 
     /// <summary>
     /// Sets up the quest objective.
@@ -74,6 +97,14 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
         if (properties.Values.ContainsKey(PropExcludeTags))
         {
             ExcludeTags = FastTags<TagGroup.Poi>.Parse(properties.Values[PropExcludeTags].Replace(" ", ""));
+        }
+        if (properties.Values.ContainsKey(PropRequirePoiVariant))
+        {
+            RequirePoiVariant = StringParsers.ParseBool(properties.Values[PropRequirePoiVariant]);
+        }
+        if (properties.Values.ContainsKey(PropReuseCompletedPois))
+        {
+            ReuseCompletedPois = StringParsers.ParseBool(properties.Values[PropReuseCompletedPois]);
         }
         if (properties.Values.ContainsKey(PropDistance))
         {
@@ -117,7 +148,11 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
                 position.x + poiSize.x / 2f,
                 position.z + poiSize.z / 2f);
 
+            var poiY = position.y;
             position = PrefabCenterToPosition(poiCenter);
+            // No height data (e.g. Playtest): (0,0,0) would read as "no POI found", so use the POI's own height.
+            if (position.y == 0)
+                position.y = poiY;
 
             OwnerQuest.Position = position;
 
@@ -134,6 +169,14 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
 
         EntityAlive questOwner = ownerNPC ?? (EntityAlive)OwnerQuest.OwnerJournal.OwnerPlayer;
 
+        string variantSuffix = null;
+        if (RequirePoiVariant)
+        {
+            variantSuffix = QuestPOIVariantManager.GetSuffix(OwnerQuest.QuestClass);
+            if (string.IsNullOrEmpty(variantSuffix))
+                Log.Warning($"ObjectiveRandomTaggedPOIGotoSDX: quest {OwnerQuest.ID} has {PropRequirePoiVariant} but no {QuestPOIVariantManager.PropVariantSuffix}; ignoring it.");
+        }
+
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             PrefabInstance prefabInstance;
@@ -142,6 +185,17 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
             // Core NPCs descend from traders, and this will allow them to give POI quests.
             if (questOwner is EntityTrader trader && trader.traderArea != null)
             {
+                // The trader's list of used POIs holds the player's completed POIs for this trader,
+                // plus the POIs already taken by this job list. Drop only the completed ones.
+                var searchUsedPoiLocations = usedPoiLocations;
+                if (ReuseCompletedPois)
+                {
+                    searchUsedPoiLocations = QuestUtils.WithoutCompletedPOIs(
+                        usedPoiLocations,
+                        entityPlayer ?? OwnerQuest.OwnerJournal?.OwnerPlayer,
+                        new Vector2(trader.traderArea.Position.x, trader.traderArea.Position.z));
+                }
+
                 prefabInstance = QuestUtils.GetRandomPOINearTrader(
                     trader,
                     OwnerQuest.QuestTags,
@@ -150,10 +204,11 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
                     ExcludeTags,
                     MinSearchDistance,
                     MaxSearchDistance,
-                    usedPoiLocations,
+                    searchUsedPoiLocations,
                     entityIdForQuests,
                     biomeFilterType,
-                    biomeFilter);
+                    biomeFilter,
+                    variantSuffix);
             }
             else
             {
@@ -169,7 +224,8 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
                     usedPoiLocations,
                     entityIdForQuests,
                     biomeFilterType,
-                    biomeFilter);
+                    biomeFilter,
+                    variantSuffix);
             }
 
             if (prefabInstance == null)
@@ -187,6 +243,10 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
             }
 
             position = PrefabCenterToPosition(prefabCenter);
+            // No height data (e.g. Playtest, where the POI is centered on 0,0): a position of (0,0,0)
+            // would read as "no POI found", so use the POI's own height.
+            if (position.y == 0)
+                position.y = prefabInstance.boundingBoxPosition.y;
 
             if (GameManager.Instance.World.IsPositionInBounds(position))
             {
@@ -213,6 +273,9 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
                         prefabInstance.boundingBoxPosition.z));
                 }
 
+                // FinalizePoint recomputes position with the same height lookup, so apply the fallback again.
+                if (position.y == 0)
+                    position.y = prefabInstance.boundingBoxPosition.y;
                 return position;
             }
         }
@@ -231,7 +294,9 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
                     0, -1, // POI boundingBoxPosition
                     0f, 0f, 0f, // POI boundingBoxSize
                     biomeFilterType,
-                    biomeFilter),
+                    biomeFilter,
+                    variantSuffix,
+                    ReuseCompletedPois),
                 false);
 
             CurrentValue = 1;
@@ -276,6 +341,8 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
         obj.ExcludeTags = ExcludeTags;
         obj.MinSearchDistance = MinSearchDistance;
         obj.MaxSearchDistance = MaxSearchDistance;
+        obj.RequirePoiVariant = RequirePoiVariant;
+        obj.ReuseCompletedPois = ReuseCompletedPois;
         // These values are copied in ObjectiveRandomPOIGoto.Clone, and this class can't call that
         // base class method because it creates the wrong object type. So, copy the values here.
         obj.poiTier = poiTier;

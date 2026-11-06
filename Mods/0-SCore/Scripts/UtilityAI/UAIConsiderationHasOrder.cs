@@ -19,17 +19,11 @@ namespace UAI
             base.Init(parameters);
             if (parameters.ContainsKey("order"))
             {
-                var parameter = parameters["order"];
-                // If there's no comma, it's just one tag
-                if (!parameter.Contains(","))
+                // One order, or a comma-separated list such as "Follow,Loot".
+                foreach (var order in parameters["order"].Split(','))
                 {
-                    foreach (var order in parameter.Split(','))
-                        _orders.Add(EnumUtils.Parse<EntityUtilities.Orders>(order, true));
-                }
-                else
-                {
-                    _orders.Add(EnumUtils.Parse<EntityUtilities.Orders>(parameter, true));
-
+                    if (string.IsNullOrWhiteSpace(order)) continue;
+                    _orders.Add(EnumUtils.Parse<EntityUtilities.Orders>(order.Trim(), true));
                 }
             }
             else

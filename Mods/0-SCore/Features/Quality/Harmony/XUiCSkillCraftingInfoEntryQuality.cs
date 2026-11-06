@@ -19,6 +19,10 @@ namespace SCore.Features.Quality.Harmony
     /// bindings after the fact. A locked entry still reports zero, so the locked styling is
     /// untouched.
     /// </para>
+    /// <para>
+    /// The next quality is the recipe's crafting tier evaluated at the next unlock_level, so it
+    /// shows exactly what the next unlock grants.
+    /// </para>
     /// </summary>
     [HarmonyPatch(typeof(XUiC_SkillCraftingInfoEntry))]
     [HarmonyPatch(nameof(XUiC_SkillCraftingInfoEntry.GetBindingValueInternal))]
@@ -50,7 +54,9 @@ namespace SCore.Features.Quality.Harmony
             var player = __instance.xui?.playerUI?.entityPlayer;
             if (player == null) return;
 
-            var level = player.Progression.GetProgressionValue(data.Owner.Name).Level;
+            var progressionValue = player.Progression.GetProgressionValue(data.Owner.Name);
+            if (progressionValue == null) return;
+            var level = progressionValue.Level;
 
             // Zero means not unlocked yet. Leave that alone so the locked styling still reads.
             if (data.GetQualityLevel(level) == 0) return;
@@ -58,8 +64,12 @@ namespace SCore.Features.Quality.Harmony
             var quality = GetCraftableQuality(data, player);
             if (quality <= 0) return;
 
-            var perTier = QualityUtils.GetQualityPerTier();
-            var next = Mathf.Min(quality + perTier, QualityUtils.GetMaxQuality());
+            // The next unlock's quality is whatever the recipe resolves to at the next unlock_level.
+            // Once every unlock is reached there is no next, so show the current quality.
+            var next = quality;
+            var nextLevel = data.GetNextPoints(level);
+            if (nextLevel > 0)
+                next = Mathf.Max(quality, GetCraftableQualityAtLevel(data, player, progressionValue, nextLevel));
 
             switch (_bindingName)
             {
@@ -77,6 +87,32 @@ namespace SCore.Features.Quality.Harmony
                 case "nextqualitycolor":
                     _value = __instance.nextdurabilitycolorFormatter.Format(QualityInfo.GetTierColor(next));
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Resolves what this entry's item would be crafted at if the skill were at the given level.
+        /// <para>
+        /// The skill's CraftingTier effect is evaluated against ProgressionValue.GetCalculatedLevel,
+        /// which caches its result for the current frame. Seeding that cache with the level makes
+        /// one evaluation use it; the cache is put back straight after, so nothing else sees it.
+        /// </para>
+        /// </summary>
+        private static int GetCraftableQualityAtLevel(ProgressionClass.DisplayData data, EntityPlayer player,
+            ProgressionValue progressionValue, int level)
+        {
+            var savedFrame = progressionValue.calculatedFrame;
+            var savedLevel = progressionValue.calculatedLevel;
+            try
+            {
+                progressionValue.calculatedFrame = Time.frameCount;
+                progressionValue.calculatedLevel = level;
+                return GetCraftableQuality(data, player);
+            }
+            finally
+            {
+                progressionValue.calculatedFrame = savedFrame;
+                progressionValue.calculatedLevel = savedLevel;
             }
         }
 

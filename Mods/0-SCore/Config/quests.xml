@@ -215,6 +215,93 @@
 			<reward type="Exp" value="50"/>
 			<reward type="Quest" id="quest_BasicSurvival8"/>
 		</quest>
+		<!--
+      Sample rescue quest (Quest Rescue: RescueNPCSDX, EscortNPCSDX). Commented out because the
+      captive must come from an NPC pack, such as 0-XNPCCore.
+
+      Phase 3: clear the POI and free the captive. RescueNPCSDX spawns a captive from entity_group
+      once the rally point has rebuilt the POI, at a random spawn_block marker if the POI has one,
+      else at a sleeper spawn point. captive_buff is applied until it's freed. Freeing takes the
+      FreeCaptiveSDX dialog action (see Config/dialogs.xml), so the captive's dialog needs it.
+
+      Phase 4: EscortNPCSDX. With the default on_complete="leave" the escort ends once the captive
+      is distance blocks outside the POI; it's then dismissed and removed leave_delay seconds later.
+      Use on_complete="join" to keep the captive as a hire; it's then escorted to the quest giver.
+      Add NPCModRescueEscort (Config/utilityai.xml) to the captive's AIPackages so it keeps
+      following through fights.
+
+      Full working examples: Features/QuestRescue/Tutorial.md.
+
+		<quest id="score_tier1_rescue">
+			<property name="name_key" value="Rescue" />
+			<property name="subtitle_key" value="Rescue a survivor" />
+			<property name="description_key" value="A survivor is held in a building overrun by the dead. Clear it and get them out." />
+			<property name="icon" value="ui_game_symbol_quest" />
+			<property name="repeatable" value="true" />
+			<property name="category_key" value="quest" />
+			<property name="offer_key" value="Someone is trapped in there." />
+			<property name="difficulty" value="medium" />
+			<property name="difficulty_tier" value="1" />
+			<property name="statement_key" value="Clear the building and free the survivor." />
+			<property name="response_key" value="Rescue ([DECEA3]{poi.distance} {poi.direction}[-])" />
+			<property name="login_rally_reset" value="true" />
+			<property name="completiontype" value="TurnIn" />
+			<property name="completion_key" value="They made it out. Thank you." />
+
+			<objective type="RandomTaggedPOIGotoSDX, SCore">
+				<property name="phase" value="1" />
+				<property name="nav_object" value="quest" />
+				<property name="include_tags" value="residential,countryresidential" />
+			</objective>
+
+			<objective type="RallyPoint">
+				<property name="phase" value="2" />
+				<property name="nav_object" value="rally" />
+			</objective>
+
+			<objective type="ClearSleepers">
+				<property name="phase" value="3" />
+				<property name="nav_object" value="sleeper_volume" />
+			</objective>
+
+			<objective type="RescueNPCSDX, SCore">
+				<property name="phase" value="3" />
+				<property name="entity_group" value="npcMyCaptiveGroup" />
+				<property name="spawn_block" value="captiveSpawnMarker" />
+				<property name="captive_buff" value="buffMyCaptive" />
+				<property name="nav_object" value="quest" />
+			</objective>
+
+			<objective type="POIStayWithin">
+				<property name="phase" value="3" />
+				<property name="radius" value="25" />
+			</objective>
+
+			<action type="UnlockPOI">
+				<property name="phase" value="4" />
+			</action>
+
+			<objective type="ReturnToNPC">
+				<property name="phase" value="4" />
+				<property name="nav_object" value="return_to_trader" />
+			</objective>
+
+			<objective type="EscortNPCSDX, SCore">
+				<property name="phase" value="4" />
+				<property name="distance" value="10" />
+				<property name="nav_object" value="quest" />
+				<property name="on_complete" value="leave" />
+				<property name="leave_delay" value="10" />
+			</objective>
+
+			<objective type="InteractWithNPC">
+				<property name="phase" value="4" />
+				<property name="nav_object" value="return_to_trader" />
+			</objective>
+
+			<reward type="Exp" value="1000" />
+		</quest>
+		-->
 	</insertBefore>
 
 	<!-- Uncomment to add test quests to trader quest list -->

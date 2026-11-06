@@ -35,6 +35,8 @@ has probably already done it:
 | Gate a patch on another modlet being installed | `SphereII Peace of Mind/Config/blocks.xml`, or any `Config/XUi_InGame/windows.xml` contributing a help section |
 | Read and display a value off a skill row | `0-SCore/Features/LearnByDoing/Harmony/`, consumed by `SphereII Learn By Doing/Config/XUi_InGame/templates.xml` |
 | Turn SCore features on without writing anything new | `SphereII A Round World/Config/blocks.xml` |
+| Write a rescue quest: spawn a captive in a POI, free it, escort it out | `0-SCore/Features/QuestRescue/Tutorial.md` (three complete examples), and the commented sample quest `score_tier1_rescue` in `0-SCore/Config/quests.xml` |
+| Rebuild a quest's POI from a variant prefab (e.g. a bandit version) | `0-SCore/Features/QuestPOIVariants/Tutorial.md` |
 
 Note the load-order rule that governs all of the above: modlets are applied in **alphabetical order
 of folder name**, and a modlet patching a file or node that does not exist yet is skipped in full,
@@ -84,6 +86,179 @@ This release of 0-SCore introduces significant enhancements across several core 
 		- Check the cubes themselves as well as their text: off the BlockSign
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
+
+Version: 3.4.12.1040
+	Game Version: v3.4.0 (b10)
+
+	[ Quest Rescue - New Feature ]
+		- New quest objective RescueNPCSDX. Once the rally point has
+		  rebuilt the POI, the server spawns a captive NPC inside it (from
+		  entity_group, a group or a single entity class). The objective
+		  completes when the captive is freed, and the quest fails if the
+		  captive dies first.
+		- A group's "none" entries are skipped, so a biome spawn group
+		  padded with "none" (as most NPC pack groups are) still always
+		  spawns a captive.
+		- The captive spawns at a random spawn_block marker in the POI
+		  (comma list of block names), else at a random sleeper spawn
+		  point, else at the POI's center. captive_buff is applied at
+		  spawn (e.g. to make it invulnerable until freed), and nav_object
+		  puts a compass marker on it.
+		- Until freed, the captive has the Stay order, guards its spawn
+		  point and doesn't despawn. Party members share one captive. If
+		  the quest fails or is abandoned before it's freed, the captive
+		  is removed, unless a party member is still on the quest. The
+		  captive's ID is saved with the quest, so it survives a restart.
+		- New dialog action FreeCaptiveSDX and requirement IsCaptiveSDX.
+		  Freeing hires the captive at no cost (leader, owner, Follow
+		  order), removes the captive_buff and completes the objective for
+		  everyone on the quest. It follows the player for the rest of the
+		  quest, but only stays hired if the quest opts in (see
+		  on_complete below).
+		- New quest objective EscortNPCSDX for the turn-in phase. The freed
+		  captive must get to safety: distance blocks (default 10) outside
+		  the POI, or within distance of the quest giver (see escort_to
+		  below). The quest fails if the captive dies. While it runs, the
+		  captive has the cvar RescueEscort = 1.
+		- EscortNPCSDX's on_complete chooses what happens next: "leave"
+		  (default) dismisses the captive when the escort completes, and
+		  removes it leave_delay seconds later (default 10) unless a player
+		  hires it again; "join" keeps it hired. If the quest fails or is
+		  abandoned during the escort, the captive leaves either way.
+		- In a quest without an EscortNPCSDX, the freed captive leaves when
+		  the quest ends (completed, failed or abandoned), after
+		  RescueNPCSDX's leave_delay. A captive never stays hired unless a
+		  completed quest opted in with "join".
+		- EscortNPCSDX's escort_to chooses where the escort ends: "poi"
+		  (distance blocks outside the POI) or "quest_giver". It defaults
+		  to "poi" for a captive that leaves, so a captive that isn't
+		  meant to stay goes away once it's out of the POI, and to
+		  "quest_giver" for one that joins.
+		- An escort to the quest giver in a quest with no quest giver
+		  (givequest) completes once the captive is out of the POI.
+		- New AI packages NPCModRescueEscort (V3 tasks) and
+		  NPCModRescueEscortV4. Add one to the captive's AIPackages: it
+		  keeps the captive following during the escort, where the normal
+		  hired follow actions stop whenever an enemy is near.
+		- Works with Quest POI Variants: a variant prefab can hold the
+		  spawn markers.
+		- Documentation is in Features/QuestRescue/ReadMe.md. Three complete
+		  examples are in Features/QuestRescue/Tutorial.md: a custom captive
+		  that joins the player, an SDCS test baker that spawns at marker
+		  blocks in a POI variant and leaves, and a stock NPC-pack civilian
+		  that leaves.
+		- Example XML in SCore's Config: a commented-out sample quest,
+		  score_tier1_rescue, in quests.xml; IsCaptiveSDX and FreeCaptiveSDX
+		  in the dialogs.xml reference; NPCModRescueEscort and
+		  NPCModRescueEscortV4 in utilityai.xml.
+		- Requested by bdubyah, via arramus.
+
+	[ UAI Follow (FollowSDX, FollowSDXV4) - followers sharing state ]
+		- The game keeps one copy of each AI package for every NPC that
+		  uses it, so the follow task's leader and stuck timers were shared
+		  between NPCs. With two followers on the same package, one could
+		  pick up the other's leader (a different player in multiplayer),
+		  or teleport on the other's stuck timer. Each NPC now keeps its
+		  own state.
+		- Followers no longer sprint all the time. The task forced panic
+		  speed every tick, overriding the walk/run matching. They now walk
+		  when the leader walks and run when the leader runs, or to catch
+		  up when farther behind than the new run_distance parameter
+		  (default 10).
+
+	[ UAI Considerations - HasOrder and FailOnDistanceToLeader ]
+		- HasOrder / NotHasOrder (and V4): an order list such as
+		  order="Follow,Loot" didn't work; the check for a comma was
+		  backwards, so a list was parsed as one order name. Single orders
+		  are unchanged.
+		- FailOnDistanceToLeader (and V4): a FailOnDistance cvar on a
+		  leader or NPC overwrote the package's max_distance for every NPC
+		  using that package. It now applies only to that NPC.
+
+	[ Quest POI Variants - Reusing Completed POIs ]
+		- RandomTaggedPOIGotoSDX has a new property, reuse_completed_pois.
+		  When true, the quest can pick POIs the player already completed
+		  for the trader.
+		- Vanilla traders skip a POI the player completed there for 7 days,
+		  or until every POI of that tier near the trader has been done.
+		  That record is saved with the game, so a restart or a new day
+		  doesn't clear it. With only a few POIs that have a bandit
+		  variant, a require_poi_variant quest ran out after one or two
+		  runs, and the log filled with "has already been used" and
+		  "Unable to find POI for quest clear!".
+		- Only the completed POIs are dropped. POIs locked by another
+		  quest, and POIs already taken by another quest in the same job
+		  list, are still skipped.
+		- Reported by arramus.
+
+	[ AdvancedQuests - ReusePOILocations ]
+		- ReusePOILocations worked backwards. It is documented as "true
+		  allows POIs to be reused", but GotoPOISDX only skipped visited
+		  POIs when it was true, and reused them when it was false.
+		- It now matches the documentation. Note that this changes the
+		  default: with the shipped value of false, GotoPOISDX now skips
+		  POIs the player has already been sent to, where before it
+		  reused them. Set it to true to keep the old behaviour.
+		- Test setups with only one matching POI (for example one cabin_01
+		  in Playtest) should set it to true, or the quest drops out of
+		  the job list after the first run:
+			<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedQuests']/property[@name='ReusePOILocations']/@value">true</set>
+
+Version: 3.4.11.1559
+	Game Version: v3.4.0 (b10)
+
+	[ Quest POI Variants - New Feature ]
+		- A quest can now rebuild its POI from a variant prefab when the
+		  rally point resets it. Add poi_variant_suffix to the quest, e.g.
+		  "_bandit", and a POI named cabin_01 is rebuilt from
+		  cabin_01_bandit: a reinforced version with bandit sleepers and
+		  different loot, or anything else built in the prefab editor.
+		- The variant must have the same footprint (x and z) as the
+		  original. It may be taller or shorter, and is built at the
+		  original's base height.
+		- The swap is not reverted on its own. The POI keeps the variant
+		  until another quest resets it; a quest without the suffix
+		  rebuilds the original. Blocks are rebuilt on the server, so every
+		  player sees the same building.
+		- Nothing is saved. Every reset of a POI that has a variant first
+		  removes all sleeper and trigger volumes in the POI's column, and
+		  clears blocks above the prefab being built up to the tallest
+		  variant, so leftovers from a different version can't survive a
+		  restart or a shorter rebuild. Anything players built in that
+		  space above the POI is removed too.
+		- RandomTaggedPOIGotoSDX has a new property, require_poi_variant.
+		  When true, the quest picks only POIs at its tier that have a
+		  variant for its poi_variant_suffix, so adding a variant prefab is
+		  all it takes to add a POI to the quest. No PrefabName or POI tags
+		  are needed.
+		- Documentation and a step-by-step example, including the test
+		  quest, trader and dialog setup, are in
+		  Features/QuestPOIVariants/ReadMe.md and Tutorial.md.
+		- Requested and tested by arramus.
+
+	[ POI Goto Objectives - Playtest and Missing Biomes ]
+		- GotoPOISDX and RandomTaggedPOIGotoSDX now work in Playtest. There
+		  the POI sits on 0,0 with no terrain height, so the quest position
+		  came out as 0,0,0, which the game reads as "no POI found". The
+		  quest was left out of the trader's list, and once accepted it
+		  showed no marker. Both objectives now fall back to the POI's own
+		  height.
+		- GotoPOISDX no longer throws a NullReferenceException in
+		  QuestUtils.FindClosesPrefabs when there is no biome data, as in
+		  Playtest. The biome filter is skipped when there is nothing to
+		  filter on.
+
+	[ Custom Quality Levels - Skills Window Next Quality ]
+		- The skills window's "next quality" now shows what the next unlock
+		  actually grants. It used to show the current quality plus one
+		  colour band (QualityPerTier, 100 by default), capped at the
+		  maximum. On a skill whose levels craft 1, then 100, the level that
+		  crafts 1 listed 101 as next, while reaching that level showed and
+		  crafted 100.
+		- The next value is now the recipe's crafting tier evaluated at the
+		  next unlock_level, resolved and clamped the same way as the current
+		  value. Once every unlock is reached, it shows the current quality.
+		- Reported by bdubyah.
 
 Version: 3.4.11.645
 	Game Version: v3.4.0 (b10)

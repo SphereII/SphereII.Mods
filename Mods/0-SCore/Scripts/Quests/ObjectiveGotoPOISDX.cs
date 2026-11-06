@@ -36,6 +36,9 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
             var vector2 = new Vector2(position.x + vector.x / 2f, position.z + vector.z / 2f);
             var num = (int)vector2.x;
             var num2 = (int)GameManager.Instance.World.GetHeightAt(vector2.x, vector2.y);
+            // No height data (e.g. Playtest): (0,0,0) would read as "no POI found", so use the POI's own height.
+            if (num2 == 0)
+                num2 = (int)position.y;
             var num3 = (int)vector2.y;
             position = new Vector3(num, num2, num3);
             OwnerQuest.Position = position;
@@ -61,6 +64,10 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
 
             var num = (int)vector.x;
             var num2 = (int)GameManager.Instance.World.GetHeightAt(vector.x, vector.y);
+            // No height data (e.g. Playtest, where the POI is centered on 0,0): a position of (0,0,0)
+            // would read as "no POI found", so use the POI's own height.
+            if (num2 == 0)
+                num2 = randomPOINearWorldPos.boundingBoxPosition.y;
             var num3 = (int)vector.y;
             position = new Vector3(num, num2, num3);
             if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
@@ -74,6 +81,10 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
                     usedPOILocations.Add(new Vector2(randomPOINearWorldPos.boundingBoxPosition.x, randomPOINearWorldPos.boundingBoxPosition.z));
 
                 OwnerQuest.HandleMapObject(Quest.PositionDataTypes.POIPosition, NavObjectName);
+
+                // FinalizePoint recomputes position with the same height lookup, so apply the fallback again.
+                if (position.y == 0)
+                    position.y = num2;
                 return position;
             }
 

@@ -31,6 +31,12 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
 
     public float minSearchDistance;
 
+    // Quest POI Variants: only pick POIs with a variant for this suffix. Empty means no filter.
+    private string variantSuffix;
+
+    // Let the quest pick POIs the player already completed for this trader.
+    private bool reuseCompletedPois;
+
     public override void ProcessPackage(World _world, GameManager _callbacks)
     {
         if (_world == null)
@@ -52,7 +58,8 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
                 // Same logic as ObjectiveRandomTaggedPOIGotoSDX
                 if (questOwner is EntityTrader trader && trader.traderArea != null)
                 {
-                    usedPoiLocations = primaryPlayer.QuestJournal.GetUsedPOIs(
+                    // These are only the completed POIs for this trader, so reuse means none.
+                    usedPoiLocations = reuseCompletedPois ? null : primaryPlayer.QuestJournal.GetUsedPOIs(
                         new Vector2(trader.traderArea.Position.x, trader.traderArea.Position.z),
                         difficulty);
 
@@ -67,11 +74,12 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
                         usedPoiLocations,
                         entityId,
                         biomeFilterType,
-                        biomeFilter);
+                        biomeFilter,
+                        variantSuffix);
                 }
                 else
                 {
-                    usedPoiLocations = primaryPlayer.QuestJournal.GetUsedPOIs(
+                    usedPoiLocations = reuseCompletedPois ? null : primaryPlayer.QuestJournal.GetUsedPOIs(
                         new Vector2(questOwner.position.x, questOwner.position.z),
                         difficulty);
 
@@ -87,7 +95,8 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
                         usedPoiLocations,
                         entityId,
                         biomeFilterType,
-                        biomeFilter);
+                        biomeFilter,
+                        variantSuffix);
                 }
 
                 if (prefabInstance != null)
@@ -151,6 +160,8 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
         excludeTags = FastTags<TagGroup.Poi>.Parse(excludeTagsString);
         maxSearchDistance = _br.ReadSingle();
         minSearchDistance = _br.ReadSingle();
+        variantSuffix = _br.ReadString();
+        reuseCompletedPois = _br.ReadBoolean();
     }
 
     public override void write(PooledBinaryWriter _bw)
@@ -173,6 +184,8 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
         _bw.Write(excludeTags.ToString());
         _bw.Write(maxSearchDistance);
         _bw.Write(minSearchDistance);
+        _bw.Write(variantSuffix ?? string.Empty);
+        _bw.Write(reuseCompletedPois);
     }
 
     public NetPackageRandomTaggedPOIGotoSDX Setup(
@@ -187,7 +200,9 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
         int posX = 0, int posZ = -1,
         float sizeX = 0f, float sizeY = 0f, float sizeZ = 0f,
         BiomeFilterTypes _biomeFilterType = BiomeFilterTypes.AnyBiome,
-        string _biomeFilter = "")
+        string _biomeFilter = "",
+        string _variantSuffix = null,
+        bool _reuseCompletedPois = false)
     {
         entityId = _ownerId;
         questCode = _questCode;
@@ -201,6 +216,8 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
         size = new Vector3(sizeX, sizeY, sizeZ);
         biomeFilterType = _biomeFilterType;
         biomeFilter = _biomeFilter;
+        variantSuffix = _variantSuffix;
+        reuseCompletedPois = _reuseCompletedPois;
         return this;
     }
 }

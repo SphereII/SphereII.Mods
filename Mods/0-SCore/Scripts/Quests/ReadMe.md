@@ -15,6 +15,11 @@ These define various conditions that players must fulfill to complete a quest st
 * **ObjectiveRandomPOIGotoSDX**: Requires the player to go to a randomly selected POI.
 * **ObjectiveRandomTaggedPOIGotoSDX**: Requires the player to go to a randomly selected POI that has specific tags.
 * **ObjectiveFetchByTags**: Requires the player to gather items bia tag.
+* **ObjectiveRescueNPCSDX** (`RescueNPCSDX, SCore`): Spawns a captive NPC in the quest's POI and
+  completes when the player frees it. See `Features/QuestRescue/ReadMe.md`.
+* **ObjectiveEscortNPCSDX** (`EscortNPCSDX, SCore`): The freed captive must get out of the POI, or to
+  the quest giver, alive. Decides whether it then leaves or stays hired. See
+  `Features/QuestRescue/ReadMe.md`.
 
 ### Quest Actions
 

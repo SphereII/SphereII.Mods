@@ -1012,5 +1012,33 @@ More examples:
             </action>
         </ai_package>
 
+
+        <!-- ═══════════════════════════════════════════════════════
+             RESCUE ESCORT  (Quest Rescue: EscortNPCSDX objective)
+             While an escort objective runs, the captive has the cvar RescueEscort = 1, and this
+             action keeps it following its leader even with enemies around, where the normal
+             hired follow actions stop. Weight 10 puts it above combat and flee actions.
+             Add it to the captive's AIPackages alongside its usual packages:
+               V3 tasks (0-XNPCCore NPCs): NPCModRescueEscort
+               V4 tasks:                   NPCModRescueEscortV4
+             ═══════════════════════════════════════════════════════ -->
+
+        <ai_package name="NPCModRescueEscort" entity_filter="IsLeader">
+            <action name="RescueEscortFollow" weight="10">
+                <task class="FollowSDX, SCore"/>
+                <consideration class="SelfHasCVar, SCore" cvar="RescueEscort" value="1"/>
+                <consideration class="HasOrder, SCore" order="Follow"/>
+                <consideration class="TargetDistance" min="2.5" max="40" curve="threshold"/>
+            </action>
+        </ai_package>
+
+        <ai_package name="NPCModRescueEscortV4" entity_filter="IsLeader">
+            <action name="RescueEscortFollow" weight="10">
+                <task class="FollowSDXV4, SCore"/>
+                <consideration class="SelfHasCVarV4, SCore" cvar="RescueEscort" value="1"/>
+                <consideration class="HasOrderV4, SCore" order="Follow"/>
+                <consideration class="TargetDistance" min="2.5" max="40" curve="threshold"/>
+            </action>
+        </ai_package>
     </append>
 </configs>

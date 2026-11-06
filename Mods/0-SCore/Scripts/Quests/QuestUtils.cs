@@ -35,7 +35,8 @@ public static class QuestUtils
         {
             // Have we already went to this one?
             var vector = new Vector2(t.boundingBoxPosition.x, t.boundingBoxPosition.z);
-            if (Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+            // ReusePOILocations on means visited POIs may be picked again.
+            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
             {
                 if (usedPOILocations != null && usedPOILocations.Contains(vector)) continue;    
             }
@@ -45,15 +46,20 @@ public static class QuestUtils
             // Check if there's a biome filter.
             if (biomeFilterType != BiomeFilterTypes.AnyBiome)
             {
-                var biomeAt = GameManager.Instance.World.ChunkCache.ChunkProvider.GetBiomeProvider().GetBiomeAt((int)vector.x, (int)vector.y);
-                if (biomeFilterType == BiomeFilterTypes.OnlyBiome && biomeAt.m_sBiomeName != biomeFilter)
+                // Playtest / prefab editor worlds have no biome data, so the lookup returns null.
+                var biomeAt = GameManager.Instance.World.ChunkCache.ChunkProvider.GetBiomeProvider()?.GetBiomeAt((int)vector.x, (int)vector.y);
+                if (biomeAt == null)
+                {
+                    // Nothing to filter on.
+                }
+                else if (biomeFilterType == BiomeFilterTypes.OnlyBiome && biomeAt.m_sBiomeName != biomeFilter)
                 {
                     if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
                         Log.Out($"GotoPOISDX: Prefab Filtered based on Biome Filter Type: {biomeFilterType}  Biome Filter: {biomeFilter}");
 
                     continue;
                 }
-                if (biomeFilterType == BiomeFilterTypes.ExcludeBiome)
+                else if (biomeFilterType == BiomeFilterTypes.ExcludeBiome)
                 {
                     array ??= biomeFilter.Split(new char[] {
                         ','
@@ -102,6 +108,44 @@ public static class QuestUtils
     private static bool? _loggingEnabled;
 
     /// <summary>
+    /// Returns a copy of a trader's used POI list without the POIs the player has completed for that
+    /// trader, keeping the ones taken by quests in the job list being built.
+    /// <para>
+    /// EntityTrader.PopulateActiveQuests fills the list with the player's completed POIs for each
+    /// tier, then adds each quest's POI as it is offered. A POI can appear in both, so this removes
+    /// one entry per completed record rather than every match.
+    /// </para>
+    /// </summary>
+    public static List<Vector2> WithoutCompletedPOIs(List<Vector2> usedPoiLocations, EntityPlayer player, Vector2 traderPosition)
+    {
+        if (usedPoiLocations == null || usedPoiLocations.Count == 0 || player?.QuestJournal == null)
+            return usedPoiLocations;
+
+        var completed = new Dictionary<Vector2, int>();
+        for (var tier = 1; tier <= Quest.MaxQuestTier + 1; tier++)
+        {
+            var tierPois = player.QuestJournal.GetUsedPOIs(traderPosition, tier);
+            if (tierPois == null) continue;
+            foreach (var poi in tierPois)
+                completed[poi] = completed.TryGetValue(poi, out var count) ? count + 1 : 1;
+        }
+
+        if (completed.Count == 0) return usedPoiLocations;
+
+        var result = new List<Vector2>(usedPoiLocations.Count);
+        foreach (var poi in usedPoiLocations)
+        {
+            if (completed.TryGetValue(poi, out var count) && count > 0)
+            {
+                completed[poi] = count - 1;
+                continue;
+            }
+            result.Add(poi);
+        }
+        return result;
+    }
+
+    /// <summary>
     /// Gets a random POI near a trader. This is meant to be a replacement for
     /// <see cref="DynamicPrefabDecorator.GetRandomPOINearTrader"/>,
     /// except it also handles search distance and POI tags used to include or exclude the prefab.
@@ -127,7 +171,8 @@ public static class QuestUtils
         List<Vector2> usedPoiLocations = null,
         int entityIdForQuests = -1,
         BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome,
-        string biomeFilter = "")
+        string biomeFilter = "",
+        string variantSuffix = null)
     {
         var current = QuestEventManager.Current;
         var gameRandom = GameManager.Instance.World.GetGameRandom();
@@ -160,7 +205,8 @@ public static class QuestUtils
                         biomeFilterType,
                         biomeFilter,
                         minSearchDistance,
-                        maxSearchDistance))
+                        maxSearchDistance,
+                        variantSuffix))
                     {
                         return prefabInstance;
                     }
@@ -269,12 +315,26 @@ public static class QuestUtils
         List<Vector2> usedPOILocations = null,
         int entityIDforQuests = -1,
         BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome,
-        string biomeFilter = "")
+        string biomeFilter = "",
+        string variantSuffix = null)
     {
         List<PrefabInstance> prefabsByDifficultyTier = QuestEventManager.Current.GetPrefabsByDifficultyTier(difficulty);
         if (prefabsByDifficultyTier == null)
         {
             return null;
+        }
+
+        // Only a few POIs may have a variant, so narrow the list first; 50 random picks from the
+        // whole tier could easily miss them all.
+        if (!string.IsNullOrEmpty(variantSuffix))
+        {
+            prefabsByDifficultyTier = prefabsByDifficultyTier.FindAll(p => QuestPOIVariantManager.HasVariant(p, variantSuffix));
+            if (prefabsByDifficultyTier.Count == 0)
+            {
+                if (LoggingEnabled)
+                    Log.Out($"Quest {questTag}: no tier {difficulty} POI has a {variantSuffix} variant");
+                return null;
+            }
         }
 
         World world = GameManager.Instance.World;
@@ -297,7 +357,8 @@ public static class QuestUtils
                 biomeFilterType,
                 biomeFilter,
                 minSearchDistance,
-                maxSearchDistance))
+                maxSearchDistance,
+                variantSuffix))
             {
                 continue;
             }
@@ -350,7 +411,8 @@ public static class QuestUtils
         BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome,
         string biomeFilter = "",
         float minSearchDistance = -1,
-        float maxSearchDistance = -1)
+        float maxSearchDistance = -1,
+        string variantSuffix = null)
     {
         // bSleeperVolumes removed in new game version — skip this check
         // if (!prefab.prefab.bSleeperVolumes) return false;
@@ -360,6 +422,15 @@ public static class QuestUtils
             if (LoggingEnabled)
             {
                 Log.Out($"Quest {questTag}: Prefab {prefab.name} does not have quest tag {questTag}");
+            }
+            return false;
+        }
+
+        if (!string.IsNullOrEmpty(variantSuffix) && !QuestPOIVariantManager.HasVariant(prefab, variantSuffix))
+        {
+            if (LoggingEnabled)
+            {
+                Log.Out($"Quest {questTag}: Prefab {prefab.name} has no {variantSuffix} variant");
             }
             return false;
         }
@@ -480,7 +551,13 @@ public static class QuestUtils
 
         IBiomeProvider biomeProvider = GameManager.Instance.World.ChunkCache.ChunkProvider.GetBiomeProvider();
 
-        BiomeDefinition poiBiome = biomeProvider.GetBiomeAt((int)poiLocation.x, (int)poiLocation.y);
+        BiomeDefinition poiBiome = biomeProvider?.GetBiomeAt((int)poiLocation.x, (int)poiLocation.y);
+
+        // No biome data (e.g. Playtest / prefab editor worlds): don't filter.
+        if (poiBiome == null)
+        {
+            return true;
+        }
 
         if (biomeFilterType == BiomeFilterTypes.OnlyBiome && poiBiome.m_sBiomeName != biomeFilter)
         {

@@ -92,6 +92,7 @@ This class enables and configures an advanced lockpicking system.
 This class provides advanced functionalities for quests, particularly regarding POI management.
 
 * **`ReusePOILocations`**: `false` - If `true`, allows Points of Interest (POIs) to be reused for "GotoPOISDX" quests.
+  If `false`, a GotoPOISDX quest skips POIs the player has already been sent to and goes to the next closest one.
 
 ## 8. Advanced Item Features (`<property class="AdvancedItemFeatures">`)
 

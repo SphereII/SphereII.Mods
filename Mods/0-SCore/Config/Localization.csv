@@ -237,3 +237,6 @@ LearnByDoingLevelUp,"Skill Level Up! You are a better","","Fähigkeitslevel aufg
 challengePlaceBlockByTag,"Place Block with Tag","",""
 BrokenItem,"Broken","",""
 xuiNeedPower,"Power","",""
+ObjectiveRescueNPCSDX_keyword,"Free the captive","","",""
+ObjectiveRescueNPCSDX_died,"The captive was killed.","","",""
+ObjectiveEscortNPCSDX_keyword,"Escort the captive to safety","","",""
