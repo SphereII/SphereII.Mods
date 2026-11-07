@@ -344,6 +344,10 @@
     <Compile Include="Features\Portals\Scripts\PortalManager.cs" />
     <Compile Include="Features\QuestPOIVariants\Harmony\WorldResetPOISPatch.cs" />
     <Compile Include="Features\QuestPOIVariants\Scripts\QuestPOIVariantManager.cs" />
+    <Compile Include="Features\POIOutposts\Harmony\QuestEventManagerOutpostPatches.cs" />
+    <Compile Include="Features\POIOutposts\Scripts\ConsoleCmdPOIOutposts.cs" />
+    <Compile Include="Features\POIOutposts\Scripts\POIOutpostManager.cs" />
+    <Compile Include="Features\POIOutposts\Scripts\QuestActionConvertPOISDX.cs" />
     <Compile Include="Features\QuestRescue\Harmony\WorldResetPOISRescuePatch.cs" />
     <Compile Include="Features\QuestRescue\Scripts\DialogActionFreeCaptiveSDX.cs" />
     <Compile Include="Features\QuestRescue\Scripts\DialogRequirementIsCaptiveSDX.cs" />
@@ -982,6 +986,7 @@
     <Content Include="Features\NPCv4\README.md" />
     <Content Include="Features\ParticlesOnBlocks\ReadMe.md" />
     <Content Include="Features\PassiveEffectHooks\Readme.md" />
+    <Content Include="Features\POIOutposts\ReadMe.md" />
     <Content Include="Features\QuestRescue\ReadMe.md" />
     <Content Include="Features\QuestRescue\Tutorial.md" />
     <Content Include="Features\RemoteCrafting\ReadMe.md" />

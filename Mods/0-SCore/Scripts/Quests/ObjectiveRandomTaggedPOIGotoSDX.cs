@@ -199,7 +199,7 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
                 prefabInstance = QuestUtils.GetRandomPOINearTrader(
                     trader,
                     OwnerQuest.QuestTags,
-                    OwnerQuest.QuestClass.DifficultyTier,
+                    (byte)POITier,
                     IncludeTags,
                     ExcludeTags,
                     MinSearchDistance,
@@ -215,7 +215,7 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
                 prefabInstance = QuestUtils.GetRandomPOINearEntityPos(
                     questOwner,
                     OwnerQuest.QuestTags,
-                    OwnerQuest.QuestClass.DifficultyTier,
+                    (byte)POITier,
                     IncludeTags,
                     ExcludeTags,
                     // The values used in vanilla are the square of the distance; adjusted here
@@ -286,7 +286,7 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
                     questOwner.entityId,
                     OwnerQuest.QuestTags,
                     OwnerQuest.QuestCode,
-                    OwnerQuest.QuestClass.DifficultyTier,
+                    (byte)POITier,
                     IncludeTags,
                     ExcludeTags,
                     MinSearchDistance,

@@ -4,6 +4,9 @@ Quest objectives for rescuing a captive NPC: `RescueNPCSDX` spawns the captive i
 quest's POI and completes when it's freed; `EscortNPCSDX` completes when the freed captive
 reaches the quest giver. The quest fails if the captive dies along the way.
 
+To have the rescued survivor turn the POI into an outpost with a trader once the quest is turned
+in, see [POI Outposts](../POIOutposts/ReadMe.md).
+
 For complete, working examples (a custom captive that joins, a marker-block spawn in a POI variant,
 and a stock NPC-pack captive), see [Tutorial.md](Tutorial.md). A commented-out sample quest,
 `score_tier1_rescue`, is in SCore's `Config/quests.xml`; the dialog requirement and action are

@@ -51,6 +51,8 @@ Note: Most of this documentation is AI Generated with tweaks and corrections man
 
 [Quest Rescue](../Features/QuestRescue/ReadMe.md) ([Tutorial](../Features/QuestRescue/Tutorial.md))
 
+[POI Outposts](../Features/POIOutposts/ReadMe.md)
+
 [Version Check](../Features/VersionCheck/Readme.md)
 
 [Weapon Camera Sway](../Features/WeaponCameraSway/ReadMe.md)

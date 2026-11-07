@@ -37,6 +37,7 @@ has probably already done it:
 | Turn SCore features on without writing anything new | `SphereII A Round World/Config/blocks.xml` |
 | Write a rescue quest: spawn a captive in a POI, free it, escort it out | `0-SCore/Features/QuestRescue/Tutorial.md` (three complete examples), and the commented sample quest `score_tier1_rescue` in `0-SCore/Config/quests.xml` |
 | Rebuild a quest's POI from a variant prefab (e.g. a bandit version) | `0-SCore/Features/QuestPOIVariants/Tutorial.md` |
+| Turn a rescue POI into an outpost with a trader when the quest is turned in | `0-SCore/Features/POIOutposts/ReadMe.md` |
 
 Note the load-order rule that governs all of the above: modlets are applied in **alphabetical order
 of folder name**, and a modlet patching a file or node that does not exist yet is skipped in full,
@@ -86,6 +87,41 @@ This release of 0-SCore introduces significant enhancements across several core 
 		- Check the cubes themselves as well as their text: off the BlockSign
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
+
+Version: 3.4.12.1054
+	Game Version: v3.4.0 (b10)
+
+	[ POI Outposts - New Feature ]
+		- New quest action ConvertPOISDX. With on_complete="true" it runs
+		  when the quest is turned in, and turns the quest's POI into a
+		  permanent outpost: the POI is rebuilt from a variant prefab (its
+		  name plus poi_variant_suffix, e.g. cabin_01_outpost) and a settler
+		  NPC is stationed in it, at a random settler_block marker.
+		- The rebuild waits until the POI is loaded and no player is within
+		  10 blocks of it, so it happens out of sight, usually while the
+		  player is back at the trader.
+		- Outposts are saved with the world (SCore_POIOutposts.xml). Quests
+		  never pick an outpost again (vanilla quests, RandomTaggedPOIGotoSDX
+		  and GotoPOISDX), and any reset rebuilds it as the outpost.
+		- The settler can be a trader: give its npc_info a trader_id with
+		  stock, and a dialog with the Trader action. If it dies or leaves,
+		  a new one moves in (settler_respawn, default true).
+		- New console command: outposts list / outposts remove <n>.
+		- Quest POI Variants: a reset can now rebuild each POI from its own
+		  variant, and suffixes used only by ConvertPOISDX are recognised.
+		- Documentation and a worked example: Features/POIOutposts/ReadMe.md.
+
+	[ Quests ]
+		- RandomTaggedPOIGotoSDX now honours poi_tier, as vanilla's
+		  RandomPOIGoto does. It used to always search POIs of the quest's
+		  difficulty_tier, so infested quests looked one tier too high, and
+		  a tier 6 infested quest (vanilla uses poi_tier 5, as there are no
+		  tier 6 POIs) never found a POI. This lets tier 6 infested clear
+		  quests use POI variants such as _bandit on vanilla tier 5 POIs.
+		- biome_filter_type SameBiome now works as in vanilla: the POI must be
+		  in the quest giver's biome. It only filtered when biome_filter was
+		  also set, so SDX quests with an empty biome_filter picked POIs in
+		  any biome. A non-empty biome_filter is still allowed as well.
 
 Version: 3.4.12.1040
 	Game Version: v3.4.0 (b10)

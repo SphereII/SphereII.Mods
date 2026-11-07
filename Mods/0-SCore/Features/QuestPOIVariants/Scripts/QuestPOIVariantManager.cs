@@ -12,7 +12,10 @@ using System.Collections.Generic;
 /// The swap is never reverted on its own. The POI keeps the variant's blocks until another quest resets
 /// it; a quest without the suffix rebuilds the original prefab.
 ///
-/// Nothing is saved. After a restart the POI list (prefabs.xml) points at the original prefab again,
+/// A POI outpost (POIOutposts, ConvertPOISDX) is always rebuilt from its outpost variant, whatever
+/// the quest asks for; outposts are saved by POIOutpostManager.
+///
+/// Nothing else is saved. After a restart the POI list (prefabs.xml) points at the original prefab again,
 /// while the world may still hold a variant's blocks and volumes. So every reset of a POI that has a
 /// variant works over the tallest possible column (the original or any of its variants):
 /// - all sleeper and trigger volumes inside that column are removed first, so the rebuild recreates
@@ -38,6 +41,9 @@ public static class QuestPOIVariantManager
     private static readonly Dictionary<string, bool> HasVariantCache = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
 
     private static readonly List<string> KnownSuffixes = new List<string>();
+
+    // Suffixes used by something other than a quest's poi_variant_suffix (ConvertPOISDX, outposts).
+    private static readonly List<string> ExtraSuffixes = new List<string>();
     private static World _world;
     private static int _questCountAtScan = -1;
 
@@ -53,11 +59,14 @@ public static class QuestPOIVariantManager
         RefreshState(world);
         if (KnownSuffixes.Count == 0) return;
 
-        var suffix = GetSuffix(questClass);
+        var questSuffix = GetSuffix(questClass);
 
         foreach (var prefabInstance in prefabInstances)
         {
             if (prefabInstance?.prefab == null) continue;
+
+            // An outpost is always rebuilt as an outpost.
+            var suffix = POIOutpostManager.GetSuffix(prefabInstance) ?? questSuffix;
 
             var original = OriginalPrefabs.TryGetValue(prefabInstance.id, out var stored) ? stored : prefabInstance.prefab;
             var baseName = original.PrefabName;
@@ -111,6 +120,25 @@ public static class QuestPOIVariantManager
         return has;
     }
 
+    /// <summary>
+    /// Adds a variant suffix that isn't set on any quest (a ConvertPOISDX action's, for example), so
+    /// resets size and clean POIs for its variants too.
+    /// </summary>
+    public static void RegisterSuffix(string suffix)
+    {
+        suffix = suffix?.Trim();
+        if (string.IsNullOrEmpty(suffix) || ExtraSuffixes.Contains(suffix)) return;
+        ExtraSuffixes.Add(suffix);
+        _questCountAtScan = -1; // rescan
+    }
+
+    /// <summary>The name of the prefab the POI was loaded with, even while it's swapped to a variant.</summary>
+    public static string GetOriginalName(PrefabInstance prefabInstance)
+    {
+        if (prefabInstance?.prefab == null) return string.Empty;
+        return OriginalPrefabs.TryGetValue(prefabInstance.id, out var stored) ? stored.PrefabName : prefabInstance.prefab.PrefabName;
+    }
+
     public static string GetSuffix(QuestClass questClass)
     {
         var properties = questClass?.Properties;
@@ -142,6 +170,10 @@ public static class QuestPOIVariantManager
             if (!string.IsNullOrEmpty(suffix) && !KnownSuffixes.Contains(suffix))
                 KnownSuffixes.Add(suffix);
         }
+
+        foreach (var suffix in ExtraSuffixes)
+            if (!KnownSuffixes.Contains(suffix))
+                KnownSuffixes.Add(suffix);
     }
 
     // Tallest height among the original and its usable variants; 0 if there are none.

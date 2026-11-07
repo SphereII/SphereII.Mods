@@ -14,7 +14,8 @@ public static class QuestUtils
 
     public static PrefabInstance FindPrefab(string poiName, Vector3 startPosition, ref List<Vector2> usedPOILocations, BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome, string biomeFilter = "")
     {
-        var listOfPrefabs = GameManager.Instance.GetDynamicPrefabDecorator().allPrefabs.FindAll(instance => instance.name.Contains(poiName));
+        // Outposts (POIOutposts) are never quest targets.
+        var listOfPrefabs = GameManager.Instance.GetDynamicPrefabDecorator().allPrefabs.FindAll(instance => instance.name.Contains(poiName) && !POIOutpostManager.IsOutpost(instance));
         //var listOfPrefabs = GameManager.Instance.GetDynamicPrefabDecorator().GetDynamicPrefabs().FindAll(instance => instance.name.Contains(poiName));
         // Filter the prefab list if there's an exact name
         var filteredPrefabs = listOfPrefabs.FindAll(instance => instance.name == poiName);
@@ -589,7 +590,9 @@ public static class QuestUtils
                 (int)questGiver.position.x,
                 (int)questGiver.position.z);
 
-            if (poiBiome != questGiverBiome && biomeFilter != "" && poiBiome.m_sBiomeName != biomeFilter)
+            // Same as vanilla: the POI must be in the quest giver's biome. If biome_filter is set,
+            // the POI may also be in that biome.
+            if (poiBiome != questGiverBiome && (string.IsNullOrEmpty(biomeFilter) || poiBiome.m_sBiomeName != biomeFilter))
             {
                 return false;
             }

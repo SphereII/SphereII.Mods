@@ -52,6 +52,13 @@ public static class RescueCaptiveManager
             if (prefabInstance != null) ResettingPOIs.Add(prefabInstance.id);
     }
 
+    /// <summary>True while World.ResetPOIS is rebuilding the POI.</summary>
+    public static bool IsResetting(PrefabInstance prefabInstance)
+    {
+        RefreshWorld();
+        return prefabInstance != null && ResettingPOIs.Contains(prefabInstance.id);
+    }
+
     public static void MarkResetFinished(List<PrefabInstance> prefabInstances)
     {
         foreach (var prefabInstance in prefabInstances)
@@ -340,7 +347,7 @@ public static class RescueCaptiveManager
     /// groups usually pad themselves with "none" entries (class id 0) so the biome spawner often
     /// spawns nothing; a captive must always spawn, so only real classes are picked.
     /// </summary>
-    private static int GetEntityClass(World world, string name, out string error)
+    internal static int GetEntityClass(World world, string name, out string error)
     {
         error = null;
         if (string.IsNullOrEmpty(name))
@@ -385,7 +392,7 @@ public static class RescueCaptiveManager
     /// Where the captive goes, in order: a random marker block from spawn_block inside the POI, a
     /// random sleeper spawn point in the POI, or the POI's center at ground level.
     /// </summary>
-    private static Vector3 FindSpawnPosition(World world, PrefabInstance prefabInstance, string spawnBlocks, out string source)
+    internal static Vector3 FindSpawnPosition(World world, PrefabInstance prefabInstance, string spawnBlocks, out string source)
     {
         if (!string.IsNullOrEmpty(spawnBlocks))
         {

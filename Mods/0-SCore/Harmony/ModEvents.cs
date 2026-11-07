@@ -26,6 +26,7 @@ public class SCoreModEvents {
         ModEvents.PlayerSpawnedInWorld.RegisterHandler(AddTriggeredEvents);
 
         SCoreEntityKilled.Init();
+        POIOutpostManager.Init();
 
         // When player starts a game
         // ModEvents.GameShutdown.RegisterHandler(new Action(FireManager.Instance.CleanUp));
