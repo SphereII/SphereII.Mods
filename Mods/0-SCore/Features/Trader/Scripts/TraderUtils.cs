@@ -7,7 +7,9 @@ public static class TraderUtils
     {
         get
         {
-            var player = GameManager.Instance.World.GetPrimaryPlayer();
+            // The world is null while the in-game XUi is parsed, and bindings like {currencyicon}
+            // read TraderInfo.CurrencyItem (patched below) at that point.
+            var player = GameManager.Instance?.World?.GetPrimaryPlayer();
             return player?.playerUI?.xui?.Trader;
         }
     }

@@ -95,6 +95,10 @@ public static class QuestPOIVariantManager
 
             Log.Out($"{LogPrefix}{prefabInstance.name} at {prefabInstance.boundingBoxPosition}: rebuilding from {target.PrefabName} (size {target.size})");
             prefabInstance.prefab = target;
+
+            // Loading the variant registered its sign library on the server only; send it to connected clients.
+            if (target != original)
+                PrefabSignLibraryLoader.EnsureLibrary(target.PrefabName);
         }
     }
 

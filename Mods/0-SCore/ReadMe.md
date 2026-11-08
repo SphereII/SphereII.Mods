@@ -88,6 +88,31 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.4.14.1542
+	Game Version: v3.4.0 (b10)
+
+	[ Quest POI Variants - Signs ]
+		- Sign canvases in a variant POI (e.g. a _bandit or _outpost
+		  conversion) now keep their signs after a restart. A prefab's signs
+		  live in <prefab>_signs.xml and the game only loads that file when
+		  it loads the prefab; variants aren't in prefabs.xml, so after a
+		  restart each canvas logged "references sign ..., which has no data
+		  but is not recorded as deleted" and showed blank. SCore now loads
+		  the missing library when the canvas loads.
+		- When a quest swaps a POI to its variant, the variant's signs are now
+		  sent to players already on the server. Before, only players who
+		  joined afterwards could see them.
+		- If a variant has sign canvases but no _signs.xml shipped next to
+		  it, the server logs one warning naming the prefab. Prefab authors:
+		  ship the _signs.xml the editor saves alongside the prefab.
+
+	[ Traders ]
+		- Fixed the in-game UI failing to load (no toolbelt, no looting
+		  window, errors every frame) when used with SMX. The alt_currency
+		  patch on TraderInfo.CurrencyItem ran while the UI was being built,
+		  before the world existed, and threw. It now falls back to the
+		  normal currency until a world and player exist.
+
 Version: 3.4.12.1054
 	Game Version: v3.4.0 (b10)
 

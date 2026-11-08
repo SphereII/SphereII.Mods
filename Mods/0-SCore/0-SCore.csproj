@@ -342,7 +342,9 @@
     <Compile Include="Features\Portals\Scripts\NetPackages\NetPackagePortalRemovePosition.cs" />
     <Compile Include="Features\Portals\Scripts\PortalItem.cs" />
     <Compile Include="Features\Portals\Scripts\PortalManager.cs" />
+    <Compile Include="Features\QuestPOIVariants\Harmony\TEFeatureCanvasOnLoadPatch.cs" />
     <Compile Include="Features\QuestPOIVariants\Harmony\WorldResetPOISPatch.cs" />
+    <Compile Include="Features\QuestPOIVariants\Scripts\PrefabSignLibraryLoader.cs" />
     <Compile Include="Features\QuestPOIVariants\Scripts\QuestPOIVariantManager.cs" />
     <Compile Include="Features\POIOutposts\Harmony\QuestEventManagerOutpostPatches.cs" />
     <Compile Include="Features\POIOutposts\Scripts\ConsoleCmdPOIOutposts.cs" />

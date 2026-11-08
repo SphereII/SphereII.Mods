@@ -15,6 +15,9 @@ how to verify it), see [Tutorial.md](Tutorial.md).
    - It **may be taller or shorter** than the original. It is built at the original's base height; the
      variant's own `YOffset` is not used (a warning is logged if they differ).
    - Give its sleeper volumes the spawn groups you want (e.g. bandit NPC groups).
+   - If it has sign canvases, ship the `<variant>_signs.xml` the prefab editor saves next to it
+     (e.g. `cabin_01_bandit_signs.xml`). The signs are stored there, not in the prefab. Without it the
+     canvases show blank and the server logs a warning naming the prefab.
 2. Add the property to the quest:
 
 ```xml
