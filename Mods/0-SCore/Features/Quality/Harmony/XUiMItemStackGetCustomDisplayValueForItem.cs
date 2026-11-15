@@ -1,19 +1,22 @@
 using HarmonyLib;
+using UnityEngine;
 
 namespace SCore.Features.Quality.Harmony
 {
     /// <summary>
-    /// Patches XUiM_ItemStack.GetCustomDisplayValueForItem to fix display_value tier lookups
-    /// when using extended quality ranges (1-600 instead of vanilla 1-6).
+    /// Patches XUiM_ItemStack.GetCustomDisplayValueForItem so display_value tier lists work
+    /// with extended quality ranges (e.g. 1-600 instead of vanilla 1-6).
     ///
-    /// The vanilla method calls GetValue((int)itemValue.Quality), which uses quality as a
-    /// direct array index (quality - 1). With raw quality 1-600 this produces an out-of-bounds
-    /// index on a 6-element value array and always returns 0, so item tooltips show
-    /// the wrong value for any display_value that uses a tier list.
+    /// A display_value tier list can be written two ways:
+    ///   - raw quality:  tier="1,100,200,300,400,500,600"
+    ///   - colour tiers: tier="1,2,3,4,5,6"
+    /// If the list goes above the highest colour tier it is read as raw quality, matching how
+    /// passive_effect applies the value. Otherwise the quality is first converted to a 1-6 tier,
+    /// matching the tierList handling in MinEventModifyCVar.cs.
     ///
-    /// The fix mirrors what MinEventModifyCVar.cs already does for triggered effects:
-    /// convert the raw quality to a tier (1-6) via QualityUtils.CalculateTier() before
-    /// passing it to GetValue().
+    /// Vanilla EffectDisplayValue.GetValue only interpolates inside pairs of levels (1-100,
+    /// 200-300, ...), so values between pairs read as 0. The lookup here uses every
+    /// neighbouring range, the same way PassiveEffect.ModValue does.
     /// </summary>
     [HarmonyPatch(typeof(XUiM_ItemStack))]
     [HarmonyPatch(nameof(XUiM_ItemStack.GetCustomDisplayValueForItem))]
@@ -29,14 +32,11 @@ namespace SCore.Features.Quality.Harmony
             // Guard: let vanilla handle null/empty items and items without a class.
             if (itemValue == null || itemValue.IsEmpty() || itemValue.ItemClass == null) return true;
 
-            // Convert raw quality (e.g. 350) to a vanilla-compatible tier (1-6).
-            // GetValue() treats the argument as an array index (tier - 1), so passing
-            // the raw quality would read far out of bounds and return 0.
-            int tier = QualityUtils.CalculateTier((int)itemValue.Quality);
+            int quality = itemValue.Quality;
+            int tier = QualityUtils.CalculateTier(quality);
 
-            // For non-quality items quality == 0 → tier == 0; GetValue(0) would be index -1.
-            // Let vanilla handle those.
-            if (tier == 0) return true;
+            // Non-quality items have quality 0. Let vanilla handle those.
+            if (quality <= 0) return true;
 
             float newValue = 0f;
 
@@ -57,8 +57,7 @@ namespace SCore.Features.Quality.Harmony
                 if (minEffectGroup.EffectDisplayValues.ContainsKey(entry.CustomName) &&
                     minEffectGroup.EffectDisplayValues[entry.CustomName].IsValid(MinEventParams.CachedEventParam))
                 {
-                    // Use tier (1-6) instead of raw quality (1-600)
-                    newValue += minEffectGroup.EffectDisplayValues[entry.CustomName].GetValue(tier);
+                    newValue += GetDisplayValue(minEffectGroup.EffectDisplayValues[entry.CustomName], quality, tier);
                 }
 
                 var primaryEffects = minEffectGroup.GetTriggeredEffects(MinEventTypes.onSelfPrimaryActionEnd);
@@ -74,6 +73,31 @@ namespace SCore.Features.Quality.Harmony
 
             __result = newValue;
             return false;
+        }
+
+        private static float GetDisplayValue(EffectDisplayValue display, int quality, int tier)
+        {
+            var levels = display.Levels;
+            var values = display.Values;
+
+            // No tier list, or a shape we don't reinterpret (random ranges, single level).
+            if (levels == null || values == null || levels.Length < 2 || levels.Length != values.Length)
+                return display.GetValue(tier > 0 ? tier : quality);
+
+            // A list that goes past the top colour tier is written in raw quality.
+            var maxColourTier = QualityInfo.qualityColors.Length - 1;
+            float level = levels[levels.Length - 1] > maxColourTier ? quality : tier;
+
+            // Same range walk as PassiveEffect.ModValue: every neighbouring pair is a range.
+            for (int i = levels.Length - 1; i > 0; i--)
+            {
+                if (level < levels[i - 1] || level > levels[i]) continue;
+                var span = levels[i] - levels[i - 1];
+                if (span <= 0f) return values[i];
+                return Mathf.Lerp(values[i - 1], values[i], (level - levels[i - 1]) / span);
+            }
+
+            return 0f;
         }
 
         // Replicates the vanilla compiler-generated local function

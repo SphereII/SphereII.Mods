@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+    <Name value="SphereII Quest Examples"/>
+    <DisplayName value="SphereII Quest Examples"/>
+    <Description value="Working examples for SCore's Quest POI Variants, Quest Rescue and POI Outposts tutorials. Needs 0-SCore and 0-XNPCCore."/>
+    <Author value="sphereii"/>
+    <Version value="1.0.0"/>
+    <Website value="https://github.com/SphereII/SphereII.Mods"/>
+</xml>

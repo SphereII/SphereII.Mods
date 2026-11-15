@@ -1,6 +1,6 @@
 # Quest POI Variants: Step-by-Step Example
 
-This walks through the test setup in `Z-SphereIIDebugging`: a quest that sends the player to `cabin_01`
+This walks through `test_poi_variant_bandit` in the [`SphereII Quest Examples`](../../../SphereII%20Quest%20Examples/README.md) modlet: a quest that sends the player to `cabin_01`
 and, when the rally point is activated, rebuilds it as `cabin_01_bandit`, a reinforced cabin with
 bandits and different loot. Follow the same steps for your own POIs and quests.
 
@@ -188,6 +188,8 @@ can find its POI. If it can't, the entry is left out of the list.
 | No `QuestPOIVariants` line after activating the rally point, and no warning | The game didn't find `<name><suffix>`. Check the prefab name and that the modlet's `Prefabs` folder loaded. |
 | `The footprint (x and z) must match` warning | The variant's x or z size differs from the original. |
 | `has YOffset ... The variant is built at the original's height` warning | Only a notice; the variant is still used. |
+| The HUD shows `cabin_01_bandit` instead of a readable name | The variant has no Localization entry. Add one keyed by the prefab name, e.g. `cabin_01_bandit,Bandit Cabin`. |
+| A client keeps the original's name and logs `could not switch ... is the prefab installed on this client?` | The variant prefab isn't installed on that client. |
 | No `ResetPOIS` line at all | The rally point wasn't activated, or the POI's `QuestTags` don't include the quest's tags (e.g. `clear`). |
 | Quest missing from the test trader's list | The dialog `quest_entry` is missing (see [Step 3](#the-vanilla-test-trader-also-patch-its-dialog)), or the quest couldn't find its POI. |
 | `Unable to find POI for quest clear` | `RandomTaggedPOIGotoSDX` found no POI that passes every filter. See [Using it in a real quest](#using-it-in-a-real-quest). |

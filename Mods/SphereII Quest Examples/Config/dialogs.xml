@@ -1,0 +1,76 @@
+<configs>
+	<!-- Quest Rescue test captive's dialog: the SDCS NPC dialog plus a "free" response that only
+	     shows while the NPC is an unfreed captive. Skipped when 0-XNPCCore isn't loaded. -->
+	<append xpath="/dialogs[dialog[@id='SdcsNPC']]">
+		<dialog id="RescueCaptiveTest" startstatementid="start" extends="SdcsNPC">
+			<statement id="start" text="Please, get me out of here!">
+				<response_entry id="rescueFree"/>
+				<response_entry id="Hire"/>
+				<response_entry id="Command Menu"/>
+				<response_entry id="Weapon Menu"/>
+				<response_entry id="Admin Menu"/>
+				<response_entry id="Pickup"/>
+				<response_entry id="ShowMe"/>
+				<response_entry id="done"/>
+			</statement>
+			<statement id="rescueFreed" text="Thank you! I'll stay close.">
+				<response_entry id="done"/>
+			</statement>
+			<response id="rescueFree" text="You're free. Follow me." nextstatementid="rescueFreed">
+				<requirement type="IsCaptiveSDX, SCore" requirementtype="Hide"/>
+				<action type="FreeCaptiveSDX, SCore"/>
+			</response>
+		</dialog>
+	</append>
+
+	<!-- Quest Rescue NPC-package test: add the free response to 0-XNPCCore's GenericNPC dialog.
+	     IsCaptiveSDX hides it for every NPC that isn't an unfreed rescue captive. -->
+	<insertBefore xpath="/dialogs/dialog[@id='GenericNPC']/statement[@id='start']/response_entry[@id='Hire']">
+		<response_entry id="rescueFree"/>
+	</insertBefore>
+	<append xpath="/dialogs/dialog[@id='GenericNPC']">
+		<statement id="rescueFreed" text="Thank you! I'll stay close.">
+			<response_entry id="done"/>
+		</statement>
+		<response id="rescueFree" text="You're free. Follow me." nextstatementid="rescueFreed">
+			<requirement type="IsCaptiveSDX, SCore" requirementtype="Hide"/>
+			<action type="FreeCaptiveSDX, SCore"/>
+		</response>
+	</append>
+
+	<!-- Add the test quests to the vanilla test trader's job list (traderTest). -->
+	<insertBefore xpath="/dialogs/dialog[@id='traderTest']/statement[@id='currentjobs']/response_entry[@id='nevermind']">
+		<quest_entry id="test_poi_variant_bandit" type="add" listindex="7" />
+	</insertBefore>
+	<insertBefore xpath="/dialogs/dialog[@id='traderTest']/statement[@id='currentjobs']/response_entry[@id='nevermind']">
+		<quest_entry id="test_rescue_captive" type="add" listindex="8" />
+	</insertBefore>
+	<insertBefore xpath="/dialogs/dialog[@id='traderTest']/statement[@id='currentjobs']/response_entry[@id='nevermind']">
+		<quest_entry id="test_rescue_captive_marker" type="add" listindex="9" />
+	</insertBefore>
+	<insertBefore xpath="/dialogs/dialog[@id='traderTest']/statement[@id='currentjobs']/response_entry[@id='nevermind']">
+		<quest_entry id="test_rescue_npcpack" type="add" listindex="10" />
+	</insertBefore>
+
+	<!-- POI Outposts test settler's dialog: trade, or leave. -->
+	<append xpath="/dialogs">
+		<dialog id="OutpostTraderTest" startstatementid="start">
+			<statement id="start" text="Welcome to the outpost. Thanks again for getting me out of there.">
+				<response_entry id="trade"/>
+				<response_entry id="done"/>
+			</statement>
+			<response id="trade" text="Show me what you have.">
+				<action type="Trader" id="trade"/>
+			</response>
+			<response id="done" text="See you around."/>
+		</dialog>
+	</append>
+
+	<insertBefore xpath="/dialogs/dialog[@id='traderTest']/statement[@id='currentjobs']/response_entry[@id='nevermind']">
+		<quest_entry id="test_rescue_outpost" type="add" listindex="11" />
+	</insertBefore>
+
+	<insertBefore xpath="/dialogs/dialog[@id='traderTest']/statement[@id='currentjobs']/response_entry[@id='nevermind']">
+		<quest_entry id="test_rescue_timed" type="add" listindex="12" />
+	</insertBefore>
+</configs>

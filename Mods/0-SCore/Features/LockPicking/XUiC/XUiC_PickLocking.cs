@@ -28,19 +28,28 @@ public class XUiC_PickLocking : XUiController {
         // Check if the lock is open
         if (Lock.IsLockOpened())
         {
-            if (LockedItem != null)
+            // Whatever happens unlocking the block, the window must still close; otherwise this
+            // throws every frame and the lock stays on screen.
+            try
             {
-                LockedItem.SetLocked(false);
-            }
-            else
-            {
-                LockedFeature.unlockCompletion = 1f;
-                LockedFeature.DowngradeToUnlockedVariant(blockPos);
-                if (!string.IsNullOrEmpty(LockedFeature.lockPickSuccessEvent))
+                if (LockedItem != null)
                 {
-                    GameEventManager.Current.HandleAction(LockedFeature.lockPickSuccessEvent, null,
-                        xui.playerUI.entityPlayer, false, blockPos, "", "", false, true, "", null, null);
+                    LockedItem.SetLocked(false);
                 }
+                else
+                {
+                    LockedFeature.unlockCompletion = 1f;
+                    LockedFeature.DowngradeToUnlockedVariant(blockPos);
+                    if (!string.IsNullOrEmpty(LockedFeature.lockPickSuccessEvent))
+                    {
+                        GameEventManager.Current.HandleAction(LockedFeature.lockPickSuccessEvent, null,
+                            xui.playerUI.entityPlayer, false, blockPos, "", "", false, true, "", null, null);
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error($"[SCore] Lock picking: unlocking the block at {blockPos} failed: {ex}");
             }
             OnClose();
         }
@@ -71,12 +80,23 @@ public class XUiC_PickLocking : XUiController {
     public override void OnOpen() {
         EntityPlayer player = xui.playerUI.entityPlayer;
         base.OnOpen();
+
+        // Remove any lock still around from a previous open before building a new one.
+        Lock?.Disable();
         Lock = new SphereLocks();
 
         // Pass the Player reference to the lock before we enable.
-        Lock.Init(currentBlock, blockPos);
-        Lock.SetPlayer(player);
-        Lock.Enable();
+        try
+        {
+            Lock.Init(currentBlock, blockPos);
+            Lock.SetPlayer(player);
+            Lock.Enable();
+        }
+        catch (System.Exception ex)
+        {
+            Log.Error($"[SCore] Lock picking: could not set up the lock for {currentBlock.Block?.GetBlockName()} at {blockPos}: {ex}");
+            Lock.Disable();
+        }
         if (!ThreadManager.IsMainThread()) return;
         xui.playerUI.entityPlayer.PlayOneShot("open_sign");
     }
@@ -97,29 +117,16 @@ public class XUiC_PickLocking : XUiController {
         closing = true;
         try
         {
-            if (Lock.IsLockOpened())
-            {
-                // adding trigger
-                OnLootContainerPicked.onLootContainerPicked(currentBlock);
+            CompletePick();
+        }
+        catch (System.Exception ex)
+        {
+            Log.Error($"[SCore] Lock picking: finishing the pick at {blockPos} failed: {ex}");
+        }
 
-                // TEFeatureLockPickable already swapped the block itself via DowngradeToUnlockedVariant
-                // in Update() above - don't also run the generic Block-level downgrade below.
-                if (LockedFeature == null)
-                {
-                    // Block.LockpickDowngradeBlock is dead in V2 - the field still exists but nothing
-                    // parses it from XML anymore, so it is always air. Only DowngradeBlock is left.
-                    var blockValue = currentBlock.Block.DowngradeBlock;
-                    if (!blockValue.isair)
-                    {
-                        blockValue = BlockPlaceholderMap.Instance.Replace(blockValue,
-                            GameManager.Instance.World.GetGameRandom(), blockPos.x, blockPos.z, false);
-                        blockValue.rotation = currentBlock.rotation;
-                        blockValue.meta = currentBlock.meta;
-                        GameManager.Instance.World.SetBlockRPC(new BlockValueRef(blockPos), blockValue, blockValue.Block.Density);
-                    }
-                }
-            }
-
+        // Always reached, so the lock never outlives the window.
+        try
+        {
             Lock.Disable();
             LockedItem = null;
             LockedFeature = null;
@@ -131,6 +138,32 @@ public class XUiC_PickLocking : XUiController {
         finally
         {
             closing = false;
+        }
+    }
+
+    // Success handling when the window closes on an opened lock.
+    private void CompletePick() {
+        if (Lock.IsLockOpened())
+        {
+            // adding trigger
+            OnLootContainerPicked.onLootContainerPicked(currentBlock);
+
+            // TEFeatureLockPickable already swapped the block itself via DowngradeToUnlockedVariant
+            // in Update() above - don't also run the generic Block-level downgrade below.
+            if (LockedFeature == null)
+            {
+                // Block.LockpickDowngradeBlock is dead in V2 - the field still exists but nothing
+                // parses it from XML anymore, so it is always air. Only DowngradeBlock is left.
+                var blockValue = currentBlock.Block.DowngradeBlock;
+                if (!blockValue.isair)
+                {
+                    blockValue = BlockPlaceholderMap.Instance.Replace(blockValue,
+                        GameManager.Instance.World.GetGameRandom(), blockPos.x, blockPos.z, false);
+                    blockValue.rotation = currentBlock.rotation;
+                    blockValue.meta = currentBlock.meta;
+                    GameManager.Instance.World.SetBlockRPC(new BlockValueRef(blockPos), blockValue, blockValue.Block.Density);
+                }
+            }
         }
     }
 

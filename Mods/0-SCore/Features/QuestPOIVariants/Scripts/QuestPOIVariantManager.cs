@@ -15,9 +15,11 @@ using System.Collections.Generic;
 /// A POI outpost (POIOutposts, ConvertPOISDX) is always rebuilt from its outpost variant, whatever
 /// the quest asks for; outposts are saved by POIOutpostManager.
 ///
-/// Nothing else is saved. After a restart the POI list (prefabs.xml) points at the original prefab again,
-/// while the world may still hold a variant's blocks and volumes. So every reset of a POI that has a
-/// variant works over the tallest possible column (the original or any of its variants):
+/// Which variant each POI is on is saved with the world and sent to clients (QuestPOIVariantSync), so
+/// the POI's name, tier and tags follow the variant on every machine and after a restart. The world may
+/// still hold blocks and volumes that don't match (a save from before this was tracked, say), so every
+/// reset of a POI that has a variant works over the tallest possible column (the original or any of
+/// its variants):
 /// - all sleeper and trigger volumes inside that column are removed first, so the rebuild recreates
 ///   them from whichever prefab is being built;
 /// - blocks above the prefab being built are cleared, so a taller variant doesn't leave its top
@@ -88,13 +90,11 @@ public static class QuestPOIVariantManager
 
             if (target == prefabInstance.prefab) continue;
 
-            if (target == original)
-                OriginalPrefabs.Remove(prefabInstance.id);
-            else
-                OriginalPrefabs[prefabInstance.id] = original;
-
             Log.Out($"{LogPrefix}{prefabInstance.name} at {prefabInstance.boundingBoxPosition}: rebuilding from {target.PrefabName} (size {target.size})");
-            prefabInstance.prefab = target;
+            SetPrefab(prefabInstance, original, target);
+
+            // Saved with the world and sent to clients, so the POI's name, tier and tags follow the variant everywhere.
+            QuestPOIVariantSync.RecordSwap(prefabInstance, target == original ? null : target.PrefabName);
 
             // Loading the variant registered its sign library on the server only; send it to connected clients.
             if (target != original)
@@ -134,6 +134,47 @@ public static class QuestPOIVariantManager
         if (string.IsNullOrEmpty(suffix) || ExtraSuffixes.Contains(suffix)) return;
         ExtraSuffixes.Add(suffix);
         _questCountAtScan = -1; // rescan
+    }
+
+    /// <summary>
+    /// Points the POI at a variant prefab (or back at its original when variantName is empty) without
+    /// rebuilding any blocks. Used to restore saved swaps on the server and to mirror the server's swaps
+    /// on clients. Returns false if the variant can't be loaded here.
+    /// </summary>
+    public static bool ApplySwap(PrefabInstance prefabInstance, string variantName)
+    {
+        if (prefabInstance?.prefab == null) return false;
+        var world = GameManager.Instance.World;
+        if (world == null) return false;
+
+        RefreshState(world);
+        var original = OriginalPrefabs.TryGetValue(prefabInstance.id, out var stored) ? stored : prefabInstance.prefab;
+        var target = string.IsNullOrEmpty(variantName) || string.Equals(variantName, original.PrefabName, StringComparison.OrdinalIgnoreCase)
+            ? original
+            : LoadVariant(variantName, original, prefabInstance);
+        if (target == null) return false;
+
+        prefabInstance.boundingBoxSize = target.size;
+        if (target != prefabInstance.prefab)
+            SetPrefab(prefabInstance, original, target);
+        return true;
+    }
+
+    private static void SetPrefab(PrefabInstance prefabInstance, Prefab original, Prefab target)
+    {
+        if (target == original)
+            OriginalPrefabs.Remove(prefabInstance.id);
+        else
+            OriginalPrefabs[prefabInstance.id] = original;
+        prefabInstance.prefab = target;
+
+        // A local player standing in the POI gets the "entering" banner again, now with the new name.
+        // The location panel notices the change by itself (XUiCLocationVariantRefreshPatch).
+        var localPlayers = GameManager.Instance.World?.GetLocalPlayers();
+        if (localPlayers == null) return;
+        foreach (var player in localPlayers)
+            if (player != null && player.prefab == prefabInstance)
+                player.prefabInfoEntered = false;
     }
 
     /// <summary>The name of the prefab the POI was loaded with, even while it's swapped to a variant.</summary>
@@ -226,6 +267,12 @@ public static class QuestPOIVariantManager
 
         if (prefab.yOffset != original.yOffset)
             Log.Warning($"{LogPrefix}Variant {variantName} has YOffset {prefab.yOffset} but {original.PrefabName} has {original.yOffset}. The variant is built at the original's height.");
+
+        // The distant (imposter) model is looked up by prefab name. A variant usually ships without one,
+        // which would make the POI vanish from a distance once swapped, so fall back to the original's.
+        if (prefab.distantPOIOverride == null &&
+            PathAbstractions.PrefabImpostersSearchPaths.GetLocation(variantName).Type == PathAbstractions.EAbstractedLocationType.None)
+            prefab.distantPOIOverride = original.distantPOIOverride ?? original.PrefabName;
 
         return prefab;
     }

@@ -1,0 +1,19 @@
+<configs>
+	<!-- Quest Rescue test: spawn marker for RescueNPCSDX's spawn_block. cabin_01_captive is cabin_01
+	     with every chairWood01 renamed to this block in its blocks.nim. -->
+	<append xpath="/blocks">
+		<block name="captiveSpawnMarker">
+			<property name="Extends" value="chairWood01"/>
+			<property name="Collide" value="melee,bullet,arrow,rocket"/>
+		</block>
+	</append>
+
+	<!-- POI Outposts test: where ConvertPOISDX's settler spawns (settler_block). cabin_01_outpost
+	     is cabin_01 with every chairWood01 renamed to this block in its blocks.nim. -->
+	<append xpath="/blocks">
+		<block name="outpostSettlerMarker">
+			<property name="Extends" value="chairWood01"/>
+			<property name="Collide" value="melee,bullet,arrow,rocket"/>
+		</block>
+	</append>
+</configs>

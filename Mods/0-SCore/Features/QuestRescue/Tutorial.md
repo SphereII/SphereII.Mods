@@ -1,6 +1,7 @@
 # Quest Rescue: Step-by-Step Examples
 
-These are the three working test quests in `Z-SphereIIDebugging`. Each one sends the player to the
+These are the four working test quests in the [`SphereII Quest Examples`](../../../SphereII%20Quest%20Examples/README.md) modlet. Install it next to 0-SCore and
+0-XNPCCore to play them, or copy from it. Each one sends the player to the
 nearest `cabin_01`, spawns a captive inside when the rally point is activated, and has the player
 free the captive and bring it back to the trader.
 
@@ -9,14 +10,17 @@ free the captive and bring it back to the trader.
 | [`test_rescue_captive`](#example-1-a-custom-captive) | A captive with its own entity class and dialog. The captive joins the player afterwards. |
 | [`test_rescue_captive_marker`](#example-2-spawn-the-captive-at-a-marker-block) | The captive spawns at a marker block in a POI variant, and leaves once it's out of the POI. |
 | [`test_rescue_npcpack`](#example-3-a-stock-npc-from-an-npc-pack) | The captive is a stock NPC from an NPC pack, and leaves once it's out of the POI. |
+| [`test_rescue_timed`](#example-4-a-time-limit-on-the-escort) | Example 1 with a 5-minute limit on getting the captive back to the trader. |
 
-By default a freed captive goes away once it reaches safety. Only Example 1 keeps its captive, by
-opting in with `on_complete="join"`.
+By default a freed captive goes away once it reaches safety. Only Examples 1 and 4 keep their
+captive, by opting in with `on_complete="join"`.
 
 See [ReadMe.md](ReadMe.md) for every property and how the feature behaves. The captives come from
 **0-XNPCCore**, so all three examples need it installed.
 
 ## Files involved
+
+All paths are inside `SphereII Quest Examples`.
 
 | File | Purpose |
 |---|---|
@@ -28,6 +32,21 @@ See [ReadMe.md](ReadMe.md) for every property and how the feature behaves. The c
 | `Config/blocks.xml` | Example 2's marker block. |
 | `Config/quests.xml` | The quests, plus adding them to a quest list. |
 | `Prefabs/POIs/cabin_01_captive.*` | Example 2's POI variant with the marker blocks. |
+
+## What the POI needs
+
+A rescue quest doesn't need a `rescue` or `_rescue` tag. Nothing in the rescue code looks for one.
+What the POI does need:
+
+- **`clear` in the POI's `QuestTags`.** `ClearSleepers` adds the `clear` quest tag, and the rally
+  point only resets POIs whose `QuestTags` match the quest. Without it the POI isn't reset and the
+  captive never spawns.
+- **For a variant (Example 2), the name has to end in the quest's `poi_variant_suffix`.** The
+  suffix is a file name ending, not a tag. With `poi_variant_suffix="_captive"`, `cabin_01` is
+  rebuilt from `cabin_01_captive`. Any suffix works as long as the two match.
+- **The variant keeps the original's `QuestTags` (including `clear`) and `DifficultyTier`.** Its
+  `Tags` can be emptied so random world generation doesn't place it. `Tags` and `QuestTags` are
+  separate fields.
 
 ## Example 1: a custom captive
 
@@ -415,17 +434,52 @@ leaving captive walk back to the trader first, add `<property name="escort_to" v
 A captive that joins (Example 1) is different: it's escorted to the trader (`escort_to` defaults to
 `quest_giver`), and stays hired after that.
 
+## Example 4: a time limit on the escort
+
+`test_rescue_timed`: Example 1, but the player has 5 minutes to get the captive back to the trader.
+A captive that joins is a free hire until the quest is turned in, so without a limit a player could
+keep it around to clear other POIs or fight a horde first. With `time_limit`, running out of time
+fails the quest, and the captive leaves.
+
+### The quest
+
+Copy `test_rescue_captive` and add `time_limit` to the escort. Nothing else changes:
+
+```xml
+<objective type="EscortNPCSDX, SCore">
+    <property name="phase" value="4"/>
+    <property name="distance" value="10"/>
+    <property name="nav_object" value="quest"/>
+    <property name="on_complete" value="join"/>
+    <!-- 5 minutes, in real seconds. "day" gives one in-game day instead. -->
+    <property name="time_limit" value="300"/>
+</objective>
+```
+
+- **The clock starts with the escort**, once the captive is freed and the cabin is cleared. Time
+  spent clearing doesn't count.
+- **The time left shows in the quest tracker**, next to the escort objective.
+- **Out of time:** the quest fails with "You ran out of time. The captive has left.", and the
+  captive is dismissed and removed `leave_delay` seconds later, even with `join`.
+- **In time:** the escort completes as soon as the captive is within `distance` of the trader.
+- **The deadline is saved with the quest**, so quitting and reloading doesn't reset it.
+- Seconds are converted using the world's day length when the escort starts. For a limit that
+  stays the same in game time whatever the day length, use `day`.
+
+See [ReadMe.md](ReadMe.md#time-limit) for the details.
+
 ## Test it
 
 1. **Turn on Enemy Spawning** for the world. With it off, the game refuses any quest with
    `ClearSleepers` at the rally point: "You cannot accept this quest at this time."
-2. Use a world with a `cabin_01` (any biome), and take the quest from the test trader (job slots 8, 9
-   and 10), or give it with the console:
+2. Use a world with a `cabin_01` (any biome), and take the quest from the test trader (job slots 8,
+   9, 10 and 12), or give it with the console:
 
    ```
    givequest test_rescue_captive
    givequest test_rescue_captive_marker
    givequest test_rescue_npcpack
+   givequest test_rescue_timed
    ```
 
 3. Go to the cabin and activate the rally point. The log shows where the captive spawned:
@@ -442,6 +496,9 @@ A captive that joins (Example 1) is different: it's escorted to the trader (`esc
      10 blocks of the trader, and the captive stays hired.
    - Examples 2 and 3: walk 10 blocks out of the cabin. The log shows `escort ended`, then
      `is leaving; removing it in 10s`, and about 10 seconds later `removing ... it left after the escort`.
+   - Example 4: the quest tracker counts down from 5:00. Get back to the trader in time and it ends
+     like Example 1. To see it fail, stay inside the cabin with the captive until the clock runs
+     out: the quest fails, and the log shows `escort ended` and `is leaving; removing it in 10s`.
 
 A quest given with `givequest` has no trader. Its turn-in completes when you talk to any NPC (the
 captive counts), and an escort to the quest giver completes once the captive is `distance` blocks
@@ -460,5 +517,8 @@ outside the POI instead.
 | "Greet" shows a tooltip about enemies instead of the dialog | An enemy is near the captive. Clear the area first. |
 | No free response in the dialog | The response isn't in the dialog the NPC actually uses (check its `NPCID` → `npc_info` → `dialog_id`), or the NPC isn't an unfreed captive. |
 | The captive wanders off before it's freed | Its AI packages have no action for the `Stay` order. |
+| The captive walks off and disappears once it's out of the POI | That's `on_complete="leave"`, the default (Examples 2 and 3). Removing `leave_delay` doesn't stop it. Set `on_complete="join"` to keep the captive and escort it to the trader. |
+| No countdown in the quest tracker | `time_limit` is missing or misspelled, or the escort hasn't started yet (free the captive *and* clear the POI). A bad value logs `time_limit must be a number of seconds or 'day'`. |
+| A timed escort completes the moment the captive leaves the POI | The quest came from `givequest`, so there's no trader to escort it to. Take it from the test trader to test the full escort. |
 | The captive stops following in a fight | `NPCModRescueEscort` (or the V4 one) is missing from its `AIPackages`. |
 | `EscortNPCSDX ... no captive` | The quest has no `RescueNPCSDX` before the escort. The escort completes so the quest isn't stuck. |

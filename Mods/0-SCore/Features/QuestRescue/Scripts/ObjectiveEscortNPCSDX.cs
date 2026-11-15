@@ -18,6 +18,12 @@ using UnityEngine;
 /// captive leaves either way.
 /// </para>
 /// <para>
+/// <c>time_limit</c> (optional) fails the quest if the escort isn't done in time; the captive then
+/// leaves, even with <c>join</c>. It takes real-time seconds at the world's day length, or
+/// <c>day</c> for one in-game day. The clock runs on world time from when the escort starts, so it
+/// survives a reload, and the time left shows in the quest tracker.
+/// </para>
+/// <para>
 /// Put it in the turn-in phase, next to ReturnToNPC and InteractWithNPC. While it runs, the
 /// captive has the RescueEscort cvar, which the NPCModRescueEscort AI package uses to keep it
 /// following through fights.
@@ -30,6 +36,7 @@ using UnityEngine;
 ///     &lt;property name="on_complete" value="leave"/&gt; &lt;!-- leave (default) or join --&gt;
 ///     &lt;property name="leave_delay" value="10"/&gt;    &lt;!-- leave: seconds before it's removed --&gt;
 ///     &lt;property name="escort_to" value="poi"/&gt;      &lt;!-- poi or quest_giver; default by on_complete --&gt;
+///     &lt;property name="time_limit" value="600"/&gt;    &lt;!-- optional: seconds, or "day" --&gt;
 /// &lt;/objective&gt;
 /// </code>
 /// </summary>
@@ -39,6 +46,12 @@ public class ObjectiveEscortNPCSDX : BaseObjective
     public const string PropOnComplete = "on_complete";
     public const string PropLeaveDelay = "leave_delay";
     public const string PropEscortTo = "escort_to";
+    public const string PropTimeLimit = "time_limit";
+
+    // World time the escort must be done by. Saved with the quest so a reload doesn't restart it.
+    public const string DeadlineVariable = "rescue_escort_deadline";
+
+    private const ulong TicksPerDay = 24000;
 
     private float distance = 10f;
 
@@ -50,11 +63,18 @@ public class ObjectiveEscortNPCSDX : BaseObjective
     // true: done once the captive is out of the POI. false: done at the quest giver.
     private bool escortToPoi;
 
+    // time_limit as written: "" (none), seconds, or "day".
+    private string timeLimit = "";
+    private ulong deadline;
+
     private int captiveId = -1;
     private NavObject navObject;
     private bool escortStarted;
 
-    public override ObjectiveValueTypes ObjectiveValueType => ObjectiveValueTypes.Boolean;
+    // The HUD quest tracker hides the status text of Boolean objectives, so a timed escort reports
+    // itself as Time to show its countdown there.
+    public override ObjectiveValueTypes ObjectiveValueType =>
+        string.IsNullOrEmpty(timeLimit) ? ObjectiveValueTypes.Boolean : ObjectiveValueTypes.Time;
 
     public override bool UpdateUI => ObjectiveState != ObjectiveStates.Failed;
 
@@ -74,6 +94,10 @@ public class ObjectiveEscortNPCSDX : BaseObjective
         captiveId = -1;
         if (OwnerQuest.DataVariables.TryGetValue(ObjectiveRescueNPCSDX.CaptiveIdVariable, out var stored))
             int.TryParse(stored, NumberStyles.Integer, CultureInfo.InvariantCulture, out captiveId);
+
+        deadline = 0;
+        if (OwnerQuest.DataVariables.TryGetValue(DeadlineVariable, out var storedDeadline))
+            ulong.TryParse(storedDeadline, NumberStyles.Integer, CultureInfo.InvariantCulture, out deadline);
 
         QuestEventManager.Current.AddObjectiveToBeUpdated(this);
     }
@@ -118,11 +142,24 @@ public class ObjectiveEscortNPCSDX : BaseObjective
         }
 
         SetEscort(true);
+        StartTimer();
         CurrentValue = (byte)UpdateStates.Update;
     }
 
     public override void UpdateState_Update()
     {
+        // Check the clock before anything that needs the captive: a player who has wandered off
+        // may be too far away for it to be loaded.
+        StartTimer();
+        if (IsOutOfTime())
+        {
+            GameManager.ShowTooltip(OwnerQuest.OwnerJournal.OwnerPlayer, Localization.Get("ObjectiveEscortNPCSDX_outOfTime"));
+            StatusText = "";
+            ObjectiveState = ObjectiveStates.Failed;
+            OwnerQuest.CloseQuest(Quest.QuestState.Failed);
+            return;
+        }
+
         var captive = GameManager.Instance.World.GetEntity(captiveId) as EntityAlive;
         if (captive == null) return; // not loaded on this client yet
 
@@ -165,6 +202,54 @@ public class ObjectiveEscortNPCSDX : BaseObjective
     }
 
     // -------------------------------------------------------------------------
+    // Time limit
+    // -------------------------------------------------------------------------
+
+    /// <summary>Sets the deadline the first time the escort runs. Does nothing without a time_limit.</summary>
+    private void StartTimer()
+    {
+        if (deadline > 0) return;
+
+        var ticks = TimeLimitInTicks();
+        if (ticks == 0) return;
+
+        deadline = GameManager.Instance.World.worldTime + ticks;
+        OwnerQuest.DataVariables[DeadlineVariable] = deadline.ToString(CultureInfo.InvariantCulture);
+    }
+
+    /// <summary>True once the deadline has passed. Also shows the time left in the quest tracker.</summary>
+    private bool IsOutOfTime()
+    {
+        if (deadline == 0) return false;
+
+        var now = GameManager.Instance.World.worldTime;
+        if (now >= deadline) return true;
+
+        StatusText = XUiM_PlayerBuffs.GetTimeString(TicksToSeconds(deadline - now));
+        return false;
+    }
+
+    private ulong TimeLimitInTicks()
+    {
+        if (string.IsNullOrEmpty(timeLimit)) return 0;
+        if (timeLimit.EqualsCaseInsensitive("day")) return TicksPerDay;
+
+        if (!float.TryParse(timeLimit, NumberStyles.Float, CultureInfo.InvariantCulture, out var seconds) || seconds <= 0f)
+        {
+            Log.Error($"[SCore] EscortNPCSDX in quest {OwnerQuestClass?.ID}: {PropTimeLimit} must be a number of seconds or 'day', not '{timeLimit}'. Ignoring it.");
+            timeLimit = "";
+            return 0;
+        }
+
+        return (ulong)Mathf.Max(1f, Mathf.Round(seconds * TicksPerDay / DayLengthInSeconds()));
+    }
+
+    private static float TicksToSeconds(ulong ticks) => ticks * DayLengthInSeconds() / (float)TicksPerDay;
+
+    // A game day lasts DayNightLength real minutes.
+    private static float DayLengthInSeconds() => Mathf.Max(1, GamePrefs.GetInt(EnumGamePrefs.DayNightLength)) * 60f;
+
+    // -------------------------------------------------------------------------
 
     private bool TryGetDestination(out Vector3 destination)
     {
@@ -197,6 +282,7 @@ public class ObjectiveEscortNPCSDX : BaseObjective
 
         RemoveCaptiveNavObject();
         EndEscort();
+        StatusText = "";
         if (leaveOnComplete) SendLeave();
         Complete = true;
         CurrentValue = (byte)UpdateStates.Completed;
@@ -249,6 +335,8 @@ public class ObjectiveEscortNPCSDX : BaseObjective
         properties.ParseFloat(PropDistance, ref distance);
         properties.ParseFloat(PropLeaveDelay, ref leaveDelay);
         if (leaveDelay < 0f) leaveDelay = 0f;
+        properties.ParseString(PropTimeLimit, ref timeLimit);
+        timeLimit = timeLimit?.Trim() ?? "";
 
         var onComplete = "leave";
         properties.ParseString(PropOnComplete, ref onComplete);
@@ -287,6 +375,7 @@ public class ObjectiveEscortNPCSDX : BaseObjective
         escort.leaveOnComplete = leaveOnComplete;
         escort.leaveDelay = leaveDelay;
         escort.escortToPoi = escortToPoi;
+        escort.timeLimit = timeLimit;
     }
 
     public override void InternalToParametersDictionary(ref Dictionary<string, object> parameters)
@@ -294,6 +383,7 @@ public class ObjectiveEscortNPCSDX : BaseObjective
         parameters.Add("distance", distance);
         parameters.Add("on_complete", leaveOnComplete ? "leave" : "join");
         parameters.Add("escort_to", escortToPoi ? "poi" : "quest_giver");
+        parameters.Add("time_limit", timeLimit);
         parameters.Add("captive_id", captiveId);
     }
 }

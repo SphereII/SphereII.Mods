@@ -1,0 +1,11 @@
+<configs>
+	<!-- Quest Rescue test captive (entityclasses.xml). Skipped when 0-XNPCCore isn't loaded. -->
+	<append xpath="/npc[npc_info[@id='npcSdcsTest']]">
+		<npc_info id="npcRescueCaptiveTest" name="Captive" faction="whiteriver" stance="Like" dialog_id="RescueCaptiveTest" trader_id="64"/>
+	</append>
+
+	<!-- POI Outposts test settler (entityclasses.xml). Skipped when 0-XNPCCore isn't loaded. -->
+	<append xpath="/npc[npc_info[@id='npcSdcsTest']]">
+		<npc_info id="npcOutpostTraderTest" name="Outpost Trader" faction="whiteriver" stance="Like" dialog_id="OutpostTraderTest" trader_id="6500"/>
+	</append>
+</configs>

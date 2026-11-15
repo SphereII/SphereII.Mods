@@ -1,0 +1,494 @@
+<configs>
+    <!-- Quest POI Variants test: go to the nearest cabin_01, and the rally point rebuilds it as cabin_01_bandit.
+         Don't add the vanilla "bandit" quest tag (extra_tags): it cuts sleeper spawns to 20%. -->
+    <insertBefore xpath="/quests/quest_list[@id='test_quests']">
+        <quest id="test_poi_variant_bandit">
+            <property name="name_key" value="test quest"/>
+            <property name="subtitle_key" value="Test POI Variant"/>
+            <property name="description_key" value="Go to the nearest cabin_01. The rally point rebuilds it as cabin_01_bandit."/>
+            <property name="icon" value="ui_game_symbol_quest"/>
+            <property name="repeatable" value="true"/>
+            <property name="category_key" value="quest"/>
+            <property name="difficulty_tier" value="1"/>
+            <property name="offer_key" value="Test the bandit POI variant."/>
+            <property name="statement_key" value="Clear the bandit cabin."/>
+            <property name="response_key" value="Test - POI Variant (Bandit)"/>
+            <property name="login_rally_reset" value="true"/>
+            <property name="completiontype" value="TurnIn"/>
+            <property name="completion_key" value="Bandit cabin cleared."/>
+
+            <!-- SCore Quest POI Variants: rebuild the POI from <name>_bandit on rally point reset. -->
+            <property name="poi_variant_suffix" value="_bandit"/>
+
+            <objective type="GotoPOISDX, SCore">
+                <property name="phase" value="1"/>
+                <property name="PrefabName" value="cabin_01"/>
+                <property name="biome_filter_type" value="AnyBiome"/>
+                <property name="nav_object" value="quest"/>
+            </objective>
+
+            <objective type="RallyPoint">
+                <property name="phase" value="2"/>
+                <property name="nav_object" value="rally"/>
+                <property name="rally_marker_type" value="questRallyMarkerClear"/>
+            </objective>
+
+            <objective type="ClearSleepers">
+                <property name="phase" value="3"/>
+                <property name="nav_object" value="sleeper_volume"/>
+            </objective>
+
+            <objective type="POIStayWithin">
+                <property name="phase" value="3"/>
+                <property name="radius" value="25"/>
+            </objective>
+
+            <action type="UnlockPOI">
+                <property name="phase" value="4"/>
+            </action>
+
+            <objective type="ReturnToNPC">
+                <property name="phase" value="4"/>
+                <property name="nav_object" value="return_to_trader"/>
+            </objective>
+
+            <objective type="InteractWithNPC">
+                <property name="phase" value="4"/>
+                <property name="nav_object" value="return_to_trader"/>
+            </objective>
+
+            <reward type="Exp" value="100"/>
+        </quest>
+    </insertBefore>
+
+    <append xpath="/quests/quest_list[@id='test_quests']">
+        <quest id="test_poi_variant_bandit"/>
+    </append>
+
+    <!-- Quest Rescue test: go to the nearest cabin_01, clear it, and free the captive the rally
+         point spawns inside (npcRescueCaptiveTest, needs 0-XNPCCore). Without a spawn_block the
+         captive spawns at one of the cabin's sleeper spawn points. -->
+    <insertBefore xpath="/quests/quest_list[@id='test_quests']">
+        <quest id="test_rescue_captive">
+            <property name="name_key" value="test quest"/>
+            <property name="subtitle_key" value="Test Rescue"/>
+            <property name="description_key" value="Go to the nearest cabin_01, clear it, and free the captive inside."/>
+            <property name="icon" value="ui_game_symbol_quest"/>
+            <property name="repeatable" value="true"/>
+            <property name="category_key" value="quest"/>
+            <property name="difficulty_tier" value="1"/>
+            <property name="offer_key" value="Test the rescue objective."/>
+            <property name="statement_key" value="Someone is held in the cabin. Get them out."/>
+            <property name="response_key" value="Test - Rescue Captive"/>
+            <property name="login_rally_reset" value="true"/>
+            <property name="completiontype" value="TurnIn"/>
+            <property name="completion_key" value="Captive rescued."/>
+
+            <objective type="GotoPOISDX, SCore">
+                <property name="phase" value="1"/>
+                <property name="PrefabName" value="cabin_01"/>
+                <property name="biome_filter_type" value="AnyBiome"/>
+                <property name="nav_object" value="quest"/>
+            </objective>
+
+            <objective type="RallyPoint">
+                <property name="phase" value="2"/>
+                <property name="nav_object" value="rally"/>
+                <property name="rally_marker_type" value="questRallyMarkerClear"/>
+            </objective>
+
+            <objective type="ClearSleepers">
+                <property name="phase" value="3"/>
+                <property name="nav_object" value="sleeper_volume"/>
+            </objective>
+
+            <!-- SCore Quest Rescue: spawn the captive, complete when it's freed. -->
+            <objective type="RescueNPCSDX, SCore">
+                <property name="phase" value="3"/>
+                <property name="entity_group" value="npcRescueCaptiveTest"/>
+                <property name="captive_buff" value="buffRescueCaptiveTest"/>
+                <property name="nav_object" value="quest"/>
+            </objective>
+
+            <objective type="POIStayWithin">
+                <property name="phase" value="3"/>
+                <property name="radius" value="25"/>
+            </objective>
+
+            <action type="UnlockPOI">
+                <property name="phase" value="4"/>
+            </action>
+
+            <objective type="ReturnToNPC">
+                <property name="phase" value="4"/>
+                <property name="nav_object" value="return_to_trader"/>
+            </objective>
+
+            <!-- SCore Quest Rescue: the captive must reach the trader alive, then stays hired. -->
+            <objective type="EscortNPCSDX, SCore">
+                <property name="phase" value="4"/>
+                <property name="distance" value="10"/>
+                <property name="nav_object" value="quest"/>
+                <property name="on_complete" value="join"/>
+            </objective>
+
+            <objective type="InteractWithNPC">
+                <property name="phase" value="4"/>
+                <property name="nav_object" value="return_to_trader"/>
+            </objective>
+
+            <reward type="Exp" value="100"/>
+        </quest>
+    </insertBefore>
+
+    <append xpath="/quests/quest_list[@id='test_quests']">
+        <quest id="test_rescue_captive"/>
+    </append>
+
+    <!-- Quest Rescue marker test: same as test_rescue_captive, but the rally point rebuilds
+         cabin_01 as cabin_01_captive (POI variants), the captive is the SDCS test baker
+         (npcRescueBakerTest), and it spawns at a random captiveSpawnMarker (the cabin's chairs,
+         renamed in the variant's blocks.nim). -->
+    <insertBefore xpath="/quests/quest_list[@id='test_quests']">
+        <quest id="test_rescue_captive_marker">
+            <property name="name_key" value="test quest"/>
+            <property name="subtitle_key" value="Test Rescue (Marker)"/>
+            <property name="description_key" value="Go to the nearest cabin_01. The rally point rebuilds it as cabin_01_captive, and the captive (a baker) is tied to one of its chairs."/>
+            <property name="icon" value="ui_game_symbol_quest"/>
+            <property name="repeatable" value="true"/>
+            <property name="category_key" value="quest"/>
+            <property name="difficulty_tier" value="1"/>
+            <property name="offer_key" value="Test the rescue objective."/>
+            <property name="statement_key" value="Someone is held in the cabin. Get them out."/>
+            <property name="response_key" value="Test - Rescue Captive (Marker)"/>
+            <property name="login_rally_reset" value="true"/>
+            <property name="completiontype" value="TurnIn"/>
+            <property name="completion_key" value="Captive rescued."/>
+
+            <!-- SCore Quest POI Variants: rebuild the POI from cabin_01_captive on rally point reset. -->
+            <property name="poi_variant_suffix" value="_captive"/>
+
+            <objective type="GotoPOISDX, SCore">
+                <property name="phase" value="1"/>
+                <property name="PrefabName" value="cabin_01"/>
+                <property name="biome_filter_type" value="AnyBiome"/>
+                <property name="nav_object" value="quest"/>
+            </objective>
+
+            <objective type="RallyPoint">
+                <property name="phase" value="2"/>
+                <property name="nav_object" value="rally"/>
+                <property name="rally_marker_type" value="questRallyMarkerClear"/>
+            </objective>
+
+            <objective type="ClearSleepers">
+                <property name="phase" value="3"/>
+                <property name="nav_object" value="sleeper_volume"/>
+            </objective>
+
+            <!-- SCore Quest Rescue: spawn the captive, complete when it's freed. -->
+            <objective type="RescueNPCSDX, SCore">
+                <property name="phase" value="3"/>
+                <property name="entity_group" value="npcRescueBakerTest"/>
+                <property name="spawn_block" value="captiveSpawnMarker"/>
+                <property name="captive_buff" value="buffRescueCaptiveTest"/>
+                <property name="nav_object" value="quest"/>
+            </objective>
+
+            <objective type="POIStayWithin">
+                <property name="phase" value="3"/>
+                <property name="radius" value="25"/>
+            </objective>
+
+            <action type="UnlockPOI">
+                <property name="phase" value="4"/>
+            </action>
+
+            <objective type="ReturnToNPC">
+                <property name="phase" value="4"/>
+                <property name="nav_object" value="return_to_trader"/>
+            </objective>
+
+            <!-- SCore Quest Rescue: on_complete defaults to leave, so once the captive is 10 blocks
+                 out of the cabin it's dismissed and removed 10s later. -->
+            <objective type="EscortNPCSDX, SCore">
+                <property name="phase" value="4"/>
+                <property name="distance" value="10"/>
+                <property name="nav_object" value="quest"/>
+            </objective>
+
+            <objective type="InteractWithNPC">
+                <property name="phase" value="4"/>
+                <property name="nav_object" value="return_to_trader"/>
+            </objective>
+
+            <reward type="Exp" value="100"/>
+        </quest>
+    </insertBefore>
+
+    <append xpath="/quests/quest_list[@id='test_quests']">
+        <quest id="test_rescue_captive_marker"/>
+    </append>
+
+    <!-- Quest Rescue NPC-package test: same as test_rescue_captive, but the captive is a stock
+         0-XNPCCore civilian (npcBakerEmptyHand or npcNurseEmptyHand, both friendly to players)
+         instead of a custom class. Their GenericNPC dialog gets the free response in dialogs.xml. -->
+    <insertBefore xpath="/quests/quest_list[@id='test_quests']">
+        <quest id="test_rescue_npcpack">
+            <property name="name_key" value="test quest"/>
+            <property name="subtitle_key" value="Test Rescue (NPC Pack)"/>
+            <property name="description_key" value="Go to the nearest cabin_01, clear it, and free the civilian held inside (a baker or a nurse from 0-XNPCCore)."/>
+            <property name="icon" value="ui_game_symbol_quest"/>
+            <property name="repeatable" value="true"/>
+            <property name="category_key" value="quest"/>
+            <property name="difficulty_tier" value="1"/>
+            <property name="offer_key" value="Test the rescue objective."/>
+            <property name="statement_key" value="Someone is held in the cabin. Get them out."/>
+            <property name="response_key" value="Test - Rescue Civilian (NPC Pack)"/>
+            <property name="login_rally_reset" value="true"/>
+            <property name="completiontype" value="TurnIn"/>
+            <property name="completion_key" value="Captive rescued."/>
+
+            <objective type="GotoPOISDX, SCore">
+                <property name="phase" value="1"/>
+                <property name="PrefabName" value="cabin_01"/>
+                <property name="biome_filter_type" value="AnyBiome"/>
+                <property name="nav_object" value="quest"/>
+            </objective>
+
+            <objective type="RallyPoint">
+                <property name="phase" value="2"/>
+                <property name="nav_object" value="rally"/>
+                <property name="rally_marker_type" value="questRallyMarkerClear"/>
+            </objective>
+
+            <objective type="ClearSleepers">
+                <property name="phase" value="3"/>
+                <property name="nav_object" value="sleeper_volume"/>
+            </objective>
+
+            <!-- SCore Quest Rescue: spawn the captive, complete when it's freed. -->
+            <objective type="RescueNPCSDX, SCore">
+                <property name="phase" value="3"/>
+                <property name="entity_group" value="npcRescueFriendlyTestGroup"/>
+                <property name="captive_buff" value="buffRescueCaptiveTest"/>
+                <property name="nav_object" value="quest"/>
+            </objective>
+
+            <objective type="POIStayWithin">
+                <property name="phase" value="3"/>
+                <property name="radius" value="25"/>
+            </objective>
+
+            <action type="UnlockPOI">
+                <property name="phase" value="4"/>
+            </action>
+
+            <objective type="ReturnToNPC">
+                <property name="phase" value="4"/>
+                <property name="nav_object" value="return_to_trader"/>
+            </objective>
+
+            <!-- SCore Quest Rescue: the captive must get 10 blocks out of the cabin alive. It does
+                 NOT go back to the trader: with on_complete="leave" it's dismissed there and
+                 removed leave_delay seconds later. leave is the default, so removing these two
+                 lines changes nothing. To keep the captive, use on_complete="join" (as
+                 test_rescue_captive does): it's then escorted to the trader and stays hired. -->
+            <objective type="EscortNPCSDX, SCore">
+                <property name="phase" value="4"/>
+                <property name="distance" value="10"/>
+                <property name="nav_object" value="quest"/>
+                <property name="on_complete" value="leave"/>
+                <property name="leave_delay" value="10"/>
+            </objective>
+
+            <objective type="InteractWithNPC">
+                <property name="phase" value="4"/>
+                <property name="nav_object" value="return_to_trader"/>
+            </objective>
+
+            <reward type="Exp" value="100"/>
+        </quest>
+    </insertBefore>
+
+    <append xpath="/quests/quest_list[@id='test_quests']">
+        <quest id="test_rescue_npcpack"/>
+    </append>
+
+    <!-- Quest Rescue timed test: test_rescue_captive with a 5-minute limit on the escort back to
+         the trader. Run out of time and the quest fails and the captive leaves, so it can't be
+         kept as a free hire for clearing other POIs. -->
+    <insertBefore xpath="/quests/quest_list[@id='test_quests']">
+        <quest id="test_rescue_timed">
+            <property name="name_key" value="test quest"/>
+            <property name="subtitle_key" value="Test Rescue (Timed)"/>
+            <property name="description_key" value="Go to the nearest cabin_01, clear it, free the captive inside, and get them back to the trader within 5 minutes."/>
+            <property name="icon" value="ui_game_symbol_quest"/>
+            <property name="repeatable" value="true"/>
+            <property name="category_key" value="quest"/>
+            <property name="difficulty_tier" value="1"/>
+            <property name="offer_key" value="Test the rescue objective."/>
+            <property name="statement_key" value="Someone is held in the cabin. Get them out."/>
+            <property name="response_key" value="Test - Rescue Captive (Timed)"/>
+            <property name="login_rally_reset" value="true"/>
+            <property name="completiontype" value="TurnIn"/>
+            <property name="completion_key" value="Captive rescued."/>
+
+            <objective type="GotoPOISDX, SCore">
+                <property name="phase" value="1"/>
+                <property name="PrefabName" value="cabin_01"/>
+                <property name="biome_filter_type" value="AnyBiome"/>
+                <property name="nav_object" value="quest"/>
+            </objective>
+
+            <objective type="RallyPoint">
+                <property name="phase" value="2"/>
+                <property name="nav_object" value="rally"/>
+                <property name="rally_marker_type" value="questRallyMarkerClear"/>
+            </objective>
+
+            <objective type="ClearSleepers">
+                <property name="phase" value="3"/>
+                <property name="nav_object" value="sleeper_volume"/>
+            </objective>
+
+            <!-- SCore Quest Rescue: spawn the captive, complete when it's freed. -->
+            <objective type="RescueNPCSDX, SCore">
+                <property name="phase" value="3"/>
+                <property name="entity_group" value="npcRescueCaptiveTest"/>
+                <property name="captive_buff" value="buffRescueCaptiveTest"/>
+                <property name="nav_object" value="quest"/>
+            </objective>
+
+            <objective type="POIStayWithin">
+                <property name="phase" value="3"/>
+                <property name="radius" value="25"/>
+            </objective>
+
+            <action type="UnlockPOI">
+                <property name="phase" value="4"/>
+            </action>
+
+            <objective type="ReturnToNPC">
+                <property name="phase" value="4"/>
+                <property name="nav_object" value="return_to_trader"/>
+            </objective>
+
+            <!-- SCore Quest Rescue: the captive must reach the trader alive within time_limit,
+                 then stays hired. The clock starts when the escort does (the captive freed and the
+                 cabin cleared) and shows in the quest tracker. time_limit is in real seconds at
+                 the world's day length, or "day" for one in-game day. -->
+            <objective type="EscortNPCSDX, SCore">
+                <property name="phase" value="4"/>
+                <property name="distance" value="10"/>
+                <property name="nav_object" value="quest"/>
+                <property name="on_complete" value="join"/>
+                <property name="time_limit" value="300"/>
+            </objective>
+
+            <objective type="InteractWithNPC">
+                <property name="phase" value="4"/>
+                <property name="nav_object" value="return_to_trader"/>
+            </objective>
+
+            <reward type="Exp" value="100"/>
+        </quest>
+    </insertBefore>
+
+    <append xpath="/quests/quest_list[@id='test_quests']">
+        <quest id="test_rescue_timed"/>
+    </append>
+
+    <!-- POI Outposts test: test_rescue_captive_marker, but turning it in converts the cabin into
+         an outpost (cabin_01_outpost) run by a trader. -->
+    <insertBefore xpath="/quests/quest_list[@id='test_quests']">
+        <quest id="test_rescue_outpost">
+            <property name="name_key" value="test quest"/>
+            <property name="subtitle_key" value="Test Rescue (Outpost)"/>
+            <property name="description_key" value="Rescue the baker from the nearest cabin_01. Once you turn the quest in, the baker turns the cabin into an outpost (cabin_01_outpost) and trades from it."/>
+            <property name="icon" value="ui_game_symbol_quest"/>
+            <property name="repeatable" value="true"/>
+            <property name="category_key" value="quest"/>
+            <property name="difficulty_tier" value="1"/>
+            <property name="offer_key" value="Test the rescue objective."/>
+            <property name="statement_key" value="Someone is held in the cabin. Get them out."/>
+            <property name="response_key" value="Test - Rescue Captive (Outpost)"/>
+            <property name="login_rally_reset" value="true"/>
+            <property name="completiontype" value="TurnIn"/>
+            <property name="completion_key" value="Captive rescued."/>
+
+            <!-- SCore Quest POI Variants: rebuild the POI from cabin_01_captive on rally point reset. -->
+            <property name="poi_variant_suffix" value="_captive"/>
+
+            <objective type="GotoPOISDX, SCore">
+                <property name="phase" value="1"/>
+                <property name="PrefabName" value="cabin_01"/>
+                <property name="biome_filter_type" value="AnyBiome"/>
+                <property name="nav_object" value="quest"/>
+            </objective>
+
+            <objective type="RallyPoint">
+                <property name="phase" value="2"/>
+                <property name="nav_object" value="rally"/>
+                <property name="rally_marker_type" value="questRallyMarkerClear"/>
+            </objective>
+
+            <objective type="ClearSleepers">
+                <property name="phase" value="3"/>
+                <property name="nav_object" value="sleeper_volume"/>
+            </objective>
+
+            <!-- SCore Quest Rescue: spawn the captive, complete when it's freed. -->
+            <objective type="RescueNPCSDX, SCore">
+                <property name="phase" value="3"/>
+                <property name="entity_group" value="npcRescueBakerTest"/>
+                <property name="spawn_block" value="captiveSpawnMarker"/>
+                <property name="captive_buff" value="buffRescueCaptiveTest"/>
+                <property name="nav_object" value="quest"/>
+            </objective>
+
+            <objective type="POIStayWithin">
+                <property name="phase" value="3"/>
+                <property name="radius" value="25"/>
+            </objective>
+
+            <action type="UnlockPOI">
+                <property name="phase" value="4"/>
+            </action>
+
+            <objective type="ReturnToNPC">
+                <property name="phase" value="4"/>
+                <property name="nav_object" value="return_to_trader"/>
+            </objective>
+
+            <!-- SCore Quest Rescue: on_complete defaults to leave, so once the captive is 10 blocks
+                 out of the cabin it's dismissed and removed 10s later. -->
+            <objective type="EscortNPCSDX, SCore">
+                <property name="phase" value="4"/>
+                <property name="distance" value="10"/>
+                <property name="nav_object" value="quest"/>
+            </objective>
+
+            <objective type="InteractWithNPC">
+                <property name="phase" value="4"/>
+                <property name="nav_object" value="return_to_trader"/>
+            </objective>
+
+            <!-- SCore POI Outposts: on turn-in, rebuild the cabin as cabin_01_outpost (once it's
+                 loaded and no player is near it) and station a trader at one of its chairs.
+                 Quests never pick the cabin again. -->
+            <action type="ConvertPOISDX, SCore">
+                <property name="on_complete" value="true"/>
+                <property name="poi_variant_suffix" value="_outpost"/>
+                <property name="settler" value="npcOutpostTraderTest"/>
+                <property name="settler_block" value="outpostSettlerMarker"/>
+            </action>
+
+            <reward type="Exp" value="100"/>
+        </quest>
+    </insertBefore>
+
+    <append xpath="/quests/quest_list[@id='test_quests']">
+        <quest id="test_rescue_outpost"/>
+    </append>
+</configs>

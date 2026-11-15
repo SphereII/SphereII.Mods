@@ -1,0 +1,10 @@
+<configs>
+	<!-- Quest Rescue NPC-package test: captives are the 0-XNPCCore unarmed civilians, which are
+	     whiteriver and friendly to players. Skipped when 0-XNPCCore isn't loaded. -->
+	<append xpath="/entitygroups[entitygroup[@name='npcFriendlyCoreGroupGS01']]">
+		<entitygroup name="npcRescueFriendlyTestGroup">
+			<e n="npcBakerEmptyHand" p="1"/>
+			<e n="npcNurseEmptyHand" p="1"/>
+		</entitygroup>
+	</append>
+</configs>

@@ -115,7 +115,7 @@ The server log lines start with `[SCore] POIOutposts:`.
 
 ## Test quest
 
-`Z-SphereIIDebugging` has `test_rescue_outpost`: the marker rescue quest (`test_rescue_captive_marker`)
+The [`SphereII Quest Examples`](../../../SphereII%20Quest%20Examples/README.md) modlet has `test_rescue_outpost`: the marker rescue quest (`test_rescue_captive_marker`)
 plus `ConvertPOISDX`. Its outpost, `cabin_01_outpost`, is `cabin_01` with steel walls, a vault door
 and no sleepers, and its chairs are `outpostSettlerMarker` blocks. The settler, `npcOutpostTraderTest`,
 is the SDCS test baker with a small trader stock (`trader_info` 6500).

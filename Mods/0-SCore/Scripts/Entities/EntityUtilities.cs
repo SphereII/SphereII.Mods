@@ -1209,7 +1209,7 @@ public static class EntityUtilities
                         continue;
                     }
 
-                    // Ask before acting. TeleportToPlayer refuses for a Stay or Guard NPC, for one
+                    // Ask before acting. TeleportToPlayer refuses for a Stay, Guard, Patrol or explicit-Wander NPC, for one
                     // already within 20m, and for one mid-teleport - and this used to pull the
                     // entity out of its chunk first regardless. That left it live and belonging to
                     // no chunk, which is never a valid state: Chunk.write persists only the

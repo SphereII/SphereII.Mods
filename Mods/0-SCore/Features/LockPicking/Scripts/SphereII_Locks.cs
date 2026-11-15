@@ -8,6 +8,13 @@ using Object = UnityEngine.Object;
 // This class sits between the thirdparty Keyhole script + prefabs and support scripts.
 public class SphereLocks
 {
+    /// <summary>
+    /// The lock object currently on screen. The lock is a standalone GameObject with its own camera,
+    /// so one that is never cleaned up keeps rendering and reading input, even on the main menu.
+    /// Any lock object that isn't this one removes itself (LockControls.Update).
+    /// </summary>
+    public static GameObject Current { get; private set; }
+
     private GameObject _lockPick;
 
     private GameObject _lockPickAsset;
@@ -49,6 +56,9 @@ public class SphereLocks
         if (string.IsNullOrEmpty(lockPrefab))
             return;
       
+        // Never leave a previous lock behind.
+        Disable();
+
         try
         {
             _lockPickAsset = DataLoader.LoadAsset<GameObject>(lockPrefab);
@@ -59,8 +69,11 @@ public class SphereLocks
             Log.Out($"LockPrefab not valid. Falling back to vanilla.");
             return;
         }
-        Disable();
-        
+
+        // Inactive while the components below are added, so Keyhole.Awake runs once everything is wired.
+        _lockPick.SetActive(false);
+        Current = _lockPick;
+
 
         // Marked transforms
         _transforms = new List<string> { "Baseplate1", "Baseplate2", "ButtonInner", "ButtonInner", "ButtonOuter", "Padlock1_low" };
@@ -141,7 +154,9 @@ public class SphereLocks
 
     public bool IsLockOpened()
     {
-        return _lockPick != null && _lockPick.GetComponent<Keyhole>().LockComplete();
+        if (_lockPick == null) return false;
+        var keyhole = _lockPick.GetComponent<Keyhole>();
+        return keyhole != null && keyhole.LockComplete();
     }
 
     public void SetPlayer(EntityPlayer player)
@@ -161,16 +176,22 @@ public class SphereLocks
         _lockPick.GetComponent<Keyhole>().ResetLock();
     }
 
+    /// <summary>
+    /// Removes the lock. It is destroyed rather than hidden: every open builds a fresh one, so a hidden
+    /// lock is only a leak, and a destroyed one can't report a stale LockComplete() or come back.
+    /// </summary>
     public void Disable()
     {
         if (_lockPick == null) return;
+        DestroyLock(_lockPick);
+        _lockPick = null;
+    }
 
-        // Reset before deactivating: SetActive(false) leaves LockComplete() true, and GetComponent
-        // still resolves on an inactive object, so IsLockOpened() would keep reporting success long
-        // after the window closed. Init() calls Disable() before the Keyhole is attached, hence the check.
-        var keyhole = _lockPick.GetComponent<Keyhole>();
-        if (keyhole != null) keyhole.ResetLock();
-
-        _lockPick.SetActive(false);
+    public static void DestroyLock(GameObject lockObject)
+    {
+        if (lockObject == null) return;
+        if (Current == lockObject) Current = null;
+        lockObject.SetActive(false); // gone this frame; Destroy only happens at the end of it
+        Object.Destroy(lockObject);
     }
 }

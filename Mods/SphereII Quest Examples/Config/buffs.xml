@@ -1,0 +1,11 @@
+<configs>
+	<!-- Quest Rescue test: the captive can't be hurt until it's freed. FreeCaptiveSDX removes it. -->
+	<append xpath="/buffs">
+		<buff name="buffRescueCaptiveTest" hidden="true">
+			<stack_type value="ignore"/>
+			<effect_group>
+				<passive_effect name="GeneralDamageResist" operation="base_add" value="1"/>
+			</effect_group>
+		</buff>
+	</append>
+</configs>

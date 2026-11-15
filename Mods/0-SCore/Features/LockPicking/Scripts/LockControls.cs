@@ -42,7 +42,12 @@ public class LockControls : MonoBehaviour {
         return keys;
     }
 
+    // How long the lock has been on screen without its window open.
+    private float _windowClosedFor;
+
     private void Update() {
+        if (IsOrphaned()) return;
+
         if (!lockpick)
             return;
 
@@ -54,6 +59,29 @@ public class LockControls : MonoBehaviour {
         }
 
         if (lockpick.gameObject.activeSelf) InputControls();
+    }
+
+    // Safety net: the lock must never outlive its window. If it is not the current lock, the world is
+    // gone (main menu), or the lock picking window has been closed for a moment, remove it.
+    private bool IsOrphaned() {
+        string reason = null;
+        if (gameObject != SphereLocks.Current)
+            reason = "it is not the current lock";
+        else if (GameManager.Instance == null || GameManager.Instance.World == null)
+            reason = "the world was unloaded";
+        else
+        {
+            var ui = LocalPlayerUI.GetUIForPrimaryPlayer();
+            var open = ui != null && !string.IsNullOrEmpty(XUiC_PickLocking.ID) && ui.windowManager.IsWindowOpen(XUiC_PickLocking.ID);
+            _windowClosedFor = open ? 0f : _windowClosedFor + Time.unscaledDeltaTime;
+            if (_windowClosedFor > 0.5f)
+                reason = "its window is closed";
+        }
+
+        if (reason == null) return false;
+        Log.Warning($"[SCore] Lock picking: removing a lock left on screen ({reason}).");
+        SphereLocks.DestroyLock(gameObject);
+        return true;
     }
 
     private bool Left() {

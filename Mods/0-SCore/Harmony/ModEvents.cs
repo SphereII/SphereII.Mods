@@ -27,6 +27,7 @@ public class SCoreModEvents {
 
         SCoreEntityKilled.Init();
         POIOutpostManager.Init();
+        QuestPOIVariantSync.Init();
 
         // When player starts a game
         // ModEvents.GameShutdown.RegisterHandler(new Action(FireManager.Instance.CleanUp));

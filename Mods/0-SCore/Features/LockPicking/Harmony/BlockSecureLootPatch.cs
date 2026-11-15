@@ -28,7 +28,6 @@ namespace Features.LockPicking
                 {
                     return true;
                 }
-                Log.Out("Command: " + _commandName);
                 if (_commandName != "TEFeatureLockPickable:pick")
                     return true;
 
@@ -41,8 +40,10 @@ namespace Features.LockPicking
                     if (!lockable.IsLocked() &&
                         lockable.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                     {
-                        __instance.OnBlockActivated(_commandName, _world, _blockPos, _blockValue, _player);
-                        return false;
+                        // Unlocked and this player may use it: let the vanilla activation run. Calling
+                        // __instance.OnBlockActivated here instead re-entered this prefix with the same
+                        // arguments and recursed until the stack overflowed.
+                        return true;
                     }
 
                     // Check if the player has lock picks.

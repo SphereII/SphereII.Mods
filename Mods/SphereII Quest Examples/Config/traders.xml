@@ -1,0 +1,14 @@
+<configs>
+	<!-- POI Outposts test: the outpost settler's stock. -->
+	<append xpath="/traders">
+		<trader_info id="6500" reset_interval="1" allow_sell="true">
+			<trader_items>
+				<item group="cannedfood" count="2,4"/>
+				<item group="groupDrinks" count="2,4"/>
+				<item group="medicine" count="1,3"/>
+				<item group="ammoAll" count="2,4"/>
+			</trader_items>
+		</trader_info>
+	</append>
+
+</configs>

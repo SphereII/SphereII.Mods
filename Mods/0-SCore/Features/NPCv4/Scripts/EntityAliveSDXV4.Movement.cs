@@ -179,8 +179,13 @@ public partial class EntityAliveSDXV4
     public bool CanTeleportToPlayer(EntityAlive target)
     {
         if (target == null) return false;
-        if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Stay)  return false;
-        if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Guard) return false;
+        // Stay, Guard and Patrol all mean "left there on purpose" - never gather them to the player
+        // (Respawn runs on world load and on leaving a vehicle). Wander counts too, but only when it
+        // was set explicitly: GetCurrentOrder also returns Wander for an entity with no order cvar.
+        var order = EntityUtilities.GetCurrentOrder(entityId);
+        if (order == EntityUtilities.Orders.Stay || order == EntityUtilities.Orders.Guard ||
+            order == EntityUtilities.Orders.Patrol) return false;
+        if (order == EntityUtilities.Orders.Wander && Buffs.HasCustomVar("CurrentOrder")) return false;
 
         var dist2D = Vector2.Distance(
             new Vector2(target.position.x, target.position.z),

@@ -18,6 +18,9 @@ how to verify it), see [Tutorial.md](Tutorial.md).
    - If it has sign canvases, ship the `<variant>_signs.xml` the prefab editor saves next to it
      (e.g. `cabin_01_bandit_signs.xml`). The signs are stored there, not in the prefab. Without it the
      canvases show blank and the server logs a warning naming the prefab.
+   - Give it a Localization entry keyed by the prefab name (e.g. `cabin_01_bandit,Bandit Cabin`).
+     Once the POI is swapped, the HUD shows the variant's name, and without an entry it shows the raw
+     prefab name.
 2. Add the property to the quest:
 
 ```xml
@@ -44,10 +47,18 @@ must keep the original's `QuestTags` (e.g. `clear`) and `DifficultyTier`. Withou
 - The swap is never reverted on its own. The POI keeps the variant until another quest resets it. A
   quest without `poi_variant_suffix` rebuilds the original prefab.
 - Blocks are rebuilt on the server, so every player sees the same building.
-- The game's POI list is not changed. The map name, POI tier and tags still describe the original, and
-  from a distance the POI shows the original's low-detail model until its chunks load.
-- Nothing is saved. Every reset of a POI that has a variant works over the tallest column among the
-  original and its variants:
+- Once swapped, the POI's name, tier and tags come from the variant, for every player: the HUD
+  location name and "entering" banner show the variant's name, updating as soon as the rally point
+  is activated, even for players already standing in the POI.
+- Each swap is saved with the world (`SCore_POIVariants.xml` in the save folder) and restored on
+  startup, and the server sends swaps to clients as they happen and in full when a player joins.
+  Clients need the variant prefab installed (as they do for any modlet with prefabs); a client
+  without it keeps the original's name and logs a warning.
+- From a distance the POI shows the variant's low-detail model (`<variant>.mesh`) if it has one,
+  and the original's otherwise.
+- Every reset of a POI that has a variant works over the tallest column among the original and its
+  variants, so a world whose blocks don't match the saved swap (e.g. from an older save) still
+  rebuilds cleanly:
   - all sleeper and trigger volumes in that column are removed first, so a restart can't leave bandit
     volumes inside a rebuilt original (or the other way round);
   - blocks above the prefab being built are cleared to air, so a taller variant's upper floors don't

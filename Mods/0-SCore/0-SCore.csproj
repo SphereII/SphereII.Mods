@@ -344,8 +344,10 @@
     <Compile Include="Features\Portals\Scripts\PortalManager.cs" />
     <Compile Include="Features\QuestPOIVariants\Harmony\TEFeatureCanvasOnLoadPatch.cs" />
     <Compile Include="Features\QuestPOIVariants\Harmony\WorldResetPOISPatch.cs" />
+    <Compile Include="Features\QuestPOIVariants\Harmony\XUiCLocationVariantRefreshPatch.cs" />
     <Compile Include="Features\QuestPOIVariants\Scripts\PrefabSignLibraryLoader.cs" />
     <Compile Include="Features\QuestPOIVariants\Scripts\QuestPOIVariantManager.cs" />
+    <Compile Include="Features\QuestPOIVariants\Scripts\QuestPOIVariantSync.cs" />
     <Compile Include="Features\POIOutposts\Harmony\QuestEventManagerOutpostPatches.cs" />
     <Compile Include="Features\POIOutposts\Scripts\ConsoleCmdPOIOutposts.cs" />
     <Compile Include="Features\POIOutposts\Scripts\POIOutpostManager.cs" />

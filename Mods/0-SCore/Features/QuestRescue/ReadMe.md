@@ -12,7 +12,7 @@ and a stock NPC-pack captive), see [Tutorial.md](Tutorial.md). A commented-out s
 `score_tier1_rescue`, is in SCore's `Config/quests.xml`; the dialog requirement and action are
 documented in `Config/dialogs.xml`, and the escort AI packages are in `Config/utilityai.xml`.
 
-Test quests in `Z-SphereIIDebugging` (offered by the test trader; they need 0-XNPCCore for the
+Test quests in the [`SphereII Quest Examples`](../../../SphereII%20Quest%20Examples/README.md) modlet (offered by the test trader; they need 0-XNPCCore for the
 captive, `npcRescueCaptiveTest`):
 - `test_rescue_captive`: no `spawn_block`, so the captive spawns at a sleeper spawn point in
   `cabin_01`. Its escort uses `on_complete="join"`, so the captive stays hired.
@@ -93,6 +93,7 @@ Put `EscortNPCSDX` in the turn-in phase, next to `ReturnToNPC` and `InteractWith
 | `nav_object` | no | Compass marker that follows the captive. |
 | `on_complete` | no | `leave` (default): when the escort completes, the captive is dismissed, wanders off, and is removed after `leave_delay` seconds. The escort ends as soon as the captive is out of the POI, unless `escort_to` says otherwise. `join`: the captive stays hired by the player who freed it. |
 | `leave_delay` | no | With `leave`, seconds before the captive is removed. Default 10. If a player hires it again in that time, it isn't removed. |
+| `time_limit` | no | Fails the quest if the escort isn't done in time, and the captive leaves, even with `join`. Real-time seconds at the world's day length (e.g. `600`), or `day` for one in-game day. No limit by default. See [Time limit](#time-limit). |
 
 - It uses the captive from the quest's `RescueNPCSDX`. Without one, it logs an error and
   completes, so the quest can't get stuck.
@@ -105,6 +106,30 @@ Put `EscortNPCSDX` in the turn-in phase, next to `ReturnToNPC` and `InteractWith
   outside, it's dismissed and goes away; you don't have to take it to the trader or talk to it.
 - A captive only stays hired when the quest sets `on_complete="join"` and is completed. If the
   quest fails or is abandoned during the escort, the captive leaves either way.
+
+### Time limit
+
+`time_limit` stops a player from keeping a `join` captive as a free hire, for example to clear
+other POIs or fight a horde before turning the quest in:
+
+```xml
+<objective type="EscortNPCSDX, SCore">
+    <property name="phase" value="4"/>
+    <property name="on_complete" value="join"/>
+    <property name="time_limit" value="600"/>
+</objective>
+```
+
+- The clock starts when the escort does, which is once the captive is freed and the POI is cleared.
+  The time left shows in the quest tracker.
+- Run out of time and the quest fails with "You ran out of time. The captive has left." The captive
+  is dismissed and removed after `leave_delay` seconds.
+- Finishing early completes the escort straight away. There's nothing to wait out.
+- The deadline is saved with the quest as a world time, so saving and reloading doesn't reset it.
+  It's checked even when the player is too far away for the captive to be loaded.
+- Seconds are converted to world time using the day length when the escort starts. `600` on a
+  60-minute day is a sixth of a game day (4 game hours).
+- Each party member sharing the quest has their own deadline, set when their own escort starts.
 
 ### Keeping the captive moving in a fight
 

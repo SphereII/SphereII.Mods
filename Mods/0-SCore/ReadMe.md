@@ -43,6 +43,31 @@ Note the load-order rule that governs all of the above: modlets are applied in *
 of folder name**, and a modlet patching a file or node that does not exist yet is skipped in full,
 silently. A modlet that others extend has to sort ahead of them.
 
+### Example Quests (SphereII Quest Examples)
+
+The `SphereII Quest Examples` modlet holds the working test quests behind the quest tutorials.
+Install it next to 0-SCore and 0-XNPCCore, follow a tutorial, and copy what you need into your own
+modlet. Its own `README.md` lists every file.
+
+| Quest | Shows | Tutorial |
+| ----------- | ----------- | ----------- |
+| `test_poi_variant_bandit` | The rally point rebuilds `cabin_01` as `cabin_01_bandit`. | `Features/QuestPOIVariants/Tutorial.md` |
+| `test_rescue_captive` | A captive with its own entity class and dialog, who joins the player. | `Features/QuestRescue/Tutorial.md` (Example 1) |
+| `test_rescue_captive_marker` | The captive spawns at a marker block in `cabin_01_captive`. | `Features/QuestRescue/Tutorial.md` (Example 2) |
+| `test_rescue_npcpack` | The captive is a stock 0-XNPCCore civilian. | `Features/QuestRescue/Tutorial.md` (Example 3) |
+| `test_rescue_timed` | `test_rescue_captive` with a 5-minute `time_limit` on the escort. | `Features/QuestRescue/Tutorial.md` (Example 4) |
+| `test_rescue_outpost` | Turning the rescue in rebuilds the cabin as `cabin_01_outpost` with a trader in it. | `Features/POIOutposts/ReadMe.md` |
+
+- The vanilla test trader (`traderTest`) offers them in job slots 7 to 12, or give one from the
+  console, e.g. `givequest test_rescue_captive`.
+- Turn on **Enemy Spawning**; with it off, quests with `ClearSleepers` are refused at the rally point.
+- Every quest goes to the nearest `cabin_01`. On a small world with only one, turn on
+  `ReusePOILocations` (`AdvancedQuests` in `Config/blocks.xml`) so a quest can send you back to it.
+- The variant prefabs keep `cabin_01`'s `QuestTags` and `DifficultyTier`, and have `Tags` emptied so
+  random world generation doesn't place them.
+- Its patches that depend on 0-XNPCCore check that its classes exist first. Copied into a modlet
+  whose folder name sorts before `0-XNPCCore`, they're skipped silently.
+
 ### Change Logs
 Summary for 2.0 Update:
 This release of 0-SCore introduces significant enhancements across several core systems, with a strong emphasis on **Shared Reading**, **NPC behaviors (including farming and combat)**, **block placement controls within POIs**, and **performance optimizations**.
@@ -87,6 +112,106 @@ This release of 0-SCore introduces significant enhancements across several core 
 		- Check the cubes themselves as well as their text: off the BlockSign
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
+
+Version: 3.4.21.802
+	Game Version: v3.4.0 (b10)
+
+	[ Quest POI Variants - Variant Name Everywhere ]
+		- A POI swapped to a variant now shows the variant's name, tier and
+		  tags for every player. Before, the name only changed in single
+		  player, only after leaving and re-entering the POI, and went back
+		  to the original after a reload. On a dedicated server it never
+		  changed.
+		- The HUD location name and the "entering" banner update as soon as
+		  the rally point is activated, even for players already inside.
+		- Swaps are saved with the world (SCore_POIVariants.xml in the save
+		  folder) and restored on startup. The server sends each swap to
+		  clients as it happens, and the full list when a player joins.
+		  Clients need the variant prefab installed; one without it keeps
+		  the original's name and logs a warning.
+		- Give each variant a Localization entry keyed by its prefab name,
+		  e.g. cabin_01_bandit,Bandit Cabin. Without one the HUD shows the
+		  raw prefab name.
+		- A variant without its own .mesh now uses the original's distant
+		  model instead of vanishing from a distance once swapped.
+		- POIs swapped on an older build aren't in the save file; they show
+		  the original's name until a quest resets them again.
+
+	[ Advanced Lock Picking ]
+		- Fixed the lock minigame staying on screen (and keeping its
+		  controls) after a successful pick, running out of lock picks, or
+		  pressing Escape. Sometimes it stayed even on the main menu, until
+		  the game was closed.
+		- The lock is now destroyed when its window closes instead of
+		  hidden, and a failure while unlocking the block no longer skips
+		  closing it. A lock left on screen for any other reason removes
+		  itself and logs "[SCore] Lock picking: removing a lock left on
+		  screen (reason)". Please send a Player.log if you see it.
+		- Fixed a stack overflow when activating the pick command on an
+		  unlocked container the player is allowed to use.
+		- Removed a debug "Command: ..." log line written on every block
+		  activation.
+
+	[ SphereII Quest Examples ]
+		- New modlet with the working test quests for Quest POI Variants,
+		  Quest Rescue and POI Outposts. Install it next to 0-SCore and
+		  0-XNPCCore. See "Example Quests" near the top of this ReadMe for
+		  the quest list and setup.
+		- Added Config/Localization.csv with HUD names for its variant
+		  prefabs: "Willy's Cabin (Bandit Camp)", "(Captive)" and
+		  "(Outpost)". With the variant-name fix above, the HUD would
+		  otherwise show the raw prefab name once a quest swaps the cabin.
+
+Version: 3.4.16.1447
+	Game Version: v3.4.0 (b10)
+
+	[ Quest Rescue - Escort Time Limit ]
+		- EscortNPCSDX has a new optional property, time_limit. If the escort
+		  isn't done in time, the quest fails and the captive leaves, even
+		  with on_complete="join". This stops a player keeping a rescued
+		  captive as a free hire to clear other POIs or fight hordes before
+		  turning the quest in.
+		    <property name="time_limit" value="600"/>   (real seconds)
+		    <property name="time_limit" value="day"/>   (one in-game day)
+		- The clock starts when the escort does (captive freed and POI
+		  cleared), and the time left shows in the quest tracker.
+		- The deadline is saved with the quest as a world time, so a reload
+		  doesn't reset it. It's checked even when the captive is too far
+		  away to be loaded.
+		- New localization key: ObjectiveEscortNPCSDX_outOfTime.
+		- Example: test_rescue_timed in "SphereII Quest Examples". See
+		  Features/QuestRescue/Tutorial.md, Example 4.
+
+Version: 3.4.15.632
+	Game Version: v3.4.0 (b10)
+
+	[ Custom Quality Levels - Tooltips ]
+		- Fixed item and mod tooltips showing the first value of a
+		  display_value tier list at every quality. A list written in raw
+		  quality, e.g.
+		    <display_value name="dMagazineSize" value=".55,.6,.65,.7,.8,.9,1"
+		                   tier="1,100,200,300,400,500,600"/>
+		  was read against the 1-6 colour tier instead of the quality, so
+		  every drum mod showed +55%. The applied stats were always right;
+		  only the tooltip was wrong.
+		- A tier list that goes above the top colour tier (6) is now read
+		  against raw quality, the same way passive_effect reads it, so the
+		  tooltip matches what the item actually applies. A quality 350 mod
+		  with the list above now shows +75%.
+		- Lists written as tier="1,2,3,4,5,6" still use the colour tier, as
+		  before.
+		- Values between every neighbouring pair of levels now interpolate,
+		  matching passive_effect. Vanilla's display lookup only used fixed
+		  pairs (1-100, 200-300, ...), so quality 100-200 or 300-400 showed 0.
+
+	[ Quest Tutorials ]
+		- The test quests for Quest POI Variants, Quest Rescue and POI
+		  Outposts are now in a new modlet, "SphereII Quest Examples", with
+		  their dialogs, NPCs, marker blocks and variant prefabs. Install it
+		  next to 0-SCore and 0-XNPCCore to play them. The tutorials now
+		  point to it instead of the private debugging modlet.
+		- Quest Rescue tutorial: added "What the POI needs". A rescue quest
+		  needs no "rescue" tag, only "clear" in the POI's QuestTags.
 
 Version: 3.4.14.1542
 	Game Version: v3.4.0 (b10)

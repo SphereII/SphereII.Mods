@@ -1,0 +1,39 @@
+<configs>
+	<!-- Quest Rescue test captive: a V4 SDCS survivor from 0-XNPCCore with its own dialog
+	     (npc.xml, dialogs.xml). The predicate skips this when 0-XNPCCore isn't loaded. -->
+	<append xpath="/entity_classes[entity_class[@name='npcSdcsSurvivorMaleT1']]">
+		<entity_class name="npcRescueCaptiveTest" extends="npcSdcsSurvivorMaleT1">
+			<property name="NPCID" value="npcRescueCaptiveTest"/>
+			<property name="UserSpawnType" value="Menu"/>
+			<!-- npcSdcsBase's packages (0-XNPCCore 3.4.03) plus NPCModRescueEscort, which keeps it
+			     following during the escort. Re-copy the list if npcSdcsBase's changes. -->
+			<property name="AIPackages" value="SdcsNpcCore, SdcsNpcRangedAdvanced, SdcsNpcHired, SdcsNpcMedic, SdcsNpcLoot, SdcsNpcLeave, SdcsCover, NPCModRescueEscort"/>
+		</entity_class>
+	</append>
+
+	<!-- Quest Rescue marker test captive: 0-XNPCCore's SDCS test baker (V4, whiteriver). It
+	     reuses npcRescueCaptiveTest's npc_info, so it gets the RescueCaptiveTest dialog with the
+	     free response, and npcSdcsBase's packages plus NPCModRescueEscort. -->
+	<append xpath="/entity_classes[entity_class[@name='npcBakerPlayerCtrlTest']]">
+		<entity_class name="npcRescueBakerTest" extends="npcBakerPlayerCtrlTest">
+			<property name="NPCID" value="npcRescueCaptiveTest"/>
+			<property name="AIPackages" value="SdcsNpcCore, SdcsNpcRangedAdvanced, SdcsNpcHired, SdcsNpcMedic, SdcsNpcLoot, SdcsNpcLeave, SdcsCover, NPCModRescueEscort"/>
+		</entity_class>
+	</append>
+
+	<!-- Quest Rescue NPC-package test: give the civilian captives the escort AI package. These
+	     are npcAdvancedEmptyHandTemplate's packages plus NPCModRescueEscort. -->
+	<append xpath="/entity_classes/entity_class[@name='npcBakerEmptyHand']">
+		<property name="AIPackages" value="NPCModCore, NPCModNPCMeleeAdvanced, NPCModNPCRangedAdvanced, NPCModNPCHired, NPCModRescueEscort"/>
+	</append>
+	<append xpath="/entity_classes/entity_class[@name='npcNurseEmptyHand']">
+		<property name="AIPackages" value="NPCModCore, NPCModNPCMeleeAdvanced, NPCModNPCRangedAdvanced, NPCModNPCHired, NPCModRescueEscort"/>
+	</append>
+
+	<!-- POI Outposts test settler: the SDCS test baker, with the outpost trader's npc_info. -->
+	<append xpath="/entity_classes[entity_class[@name='npcBakerPlayerCtrlTest']]">
+		<entity_class name="npcOutpostTraderTest" extends="npcBakerPlayerCtrlTest">
+			<property name="NPCID" value="npcOutpostTraderTest"/>
+		</entity_class>
+	</append>
+</configs>
