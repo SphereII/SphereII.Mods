@@ -534,7 +534,8 @@ namespace UAI
                 return true;
 
             // Search in the bounds area to find hostile entities.
-            var bb = new Bounds(self.position, new Vector3(distance, distance, distance));
+            // Bounds takes the full size, so twice the distance reaches distance each way.
+            var bb = new Bounds(self.position, new Vector3(distance, distance, distance) * 2f);
 
             _enemySearchBuffer.Clear();
             self.world.GetEntitiesInBounds(typeof(EntityAlive), bb, _enemySearchBuffer);

@@ -16,7 +16,11 @@ public partial class EntityAliveSDXV4
         if (leader != null)
         {
             leader.Buffs.RemoveCustomVar($"hired_{entityId}");
-            EntityUtilities.SetLeaderAndOwner(entityId, 0);
+            // SetLeaderAndOwner(entityId, 0) resolves entity 0, finds nothing and writes
+            // nothing. Zero the cvars the way the Dismiss order does, and evict the cache.
+            Buffs.SetCustomVar("Leader", 0f);
+            Buffs.SetCustomVar("Owner", 0f);
+            SphereCache.LeaderCache.Remove(entityId);
             GameManager.ShowTooltip(leader, $"Oh no! {EntityName} has died. :(");
 
             if (lootContainer != null && !lootContainer.IsEmpty())

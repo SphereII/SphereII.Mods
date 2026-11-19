@@ -116,10 +116,15 @@ public class NPCLeaderComponent : INPCComponent
     /// </summary>
     private void CheckLeaderProximity()
     {
+        // A ragdoll has switched the blocker and the physics body off. Turning them back on
+        // here leaves an invisible wall where the body lies; the get-up restores them.
+        if (_entity.emodel != null && _entity.emodel.IsRagdollActive)
+            return;
+
         _proximityBuffer.Clear();
         GameManager.Instance.World.GetEntitiesInBounds(
             typeof(EntityPlayer),
-            new Bounds(_entity.position, Vector3.one * 2f),
+            new Bounds(_entity.position, Vector3.one * 4f), // Bounds takes the full size: 2 blocks each way
             _proximityBuffer);
 
         foreach (var e in _proximityBuffer)

@@ -113,6 +113,60 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.4.25.925
+	Game Version: v3.4.0 (b10)
+
+	[ Advanced Prefab Features - No Region Reset ]
+		- New prefab property, SCoreNoRegionReset. Add it to a POI's own
+		  prefab XML (the file next to its .tts, not the world's
+		  prefabs.xml) and the timed region reset skips that POI:
+		    <property name="SCoreNoRegionReset" value="True" />
+		- Every chunk the POI occupies gets the same protection the game
+		  gives trader compounds. Unlike TraderArea, there are no gameplay
+		  side effects: blocks stay breakable, building is allowed, and
+		  there's no trader waypoint or closing hours.
+		- Works for POIs that fit in one chunk, and in every reset grouping
+		  mode. In GroupedPOIs mode the whole chunk group is protected, so a
+		  POI that overlaps another isn't half reset.
+		- Each prefab reads only its own XML; there's no inheritance.
+		  Setting it on cabin_bandit.xml protects every placed cabin_bandit
+		  and nothing else. Numbered variants (cabin_01, cabin_02) each
+		  need it.
+		- POIs swapped by Quest POI Variants or POI Outposts use the
+		  variant's XML while swapped. To protect an outpost, set it in the
+		  outpost variant, e.g. cabin_01_outpost.xml.
+		- Anything players change in a protected POI is permanent, since it
+		  never resets.
+		- The admin regionreset command still resets these POIs in its
+		  no-protection mode, as it does traders.
+		- The server log prints "[SCore] SCoreNoRegionReset: protecting N
+		  POI(s) from region reset." whenever the count changes.
+		- Note: an unprotected POI that's swapped to a variant comes back
+		  as the variant after a region reset, not the original, because
+		  the game regenerates it from the POI's current prefab. An
+		  outpost that resets comes back as the outpost, minus player
+		  changes and its settler (a new settler moves in if
+		  settler_respawn is on).
+		- Details: Harmony/PrefabFeatures/ReadMe.md
+
+	[ NPCs (V4) - Fixes reported by xyth ]
+		- Fixed a downed or ragdolled hire leaving an invisible wall where
+		  she had been standing. The leader proximity check turned her
+		  collisions back on mid-ragdoll whenever no ally was close by. It
+		  now leaves them alone until she gets up.
+		- Fixed a dead hire keeping her Leader and Owner cvars. SetDead now
+		  clears both, the way the Dismiss order does, and drops her from
+		  the leader cache.
+		- The leader proximity check now reaches 2 blocks each way, as
+		  documented; it only reached 1 before. A hire stops blocking
+		  allied players from 2 blocks away.
+		- IsEnemyNearby(self, distance) now searches the full distance in
+		  every direction. It only reached half the distance before, so
+		  the default 20 found enemies within 10 m. This affects both the
+		  SCore UtilityAI and V4 versions: NPCs now notice enemies twice
+		  as far away as before. Remote Crafting's DistanceEnemy check is
+		  unchanged, so existing configs behave the same.
+
 Version: 3.4.21.802
 	Game Version: v3.4.0 (b10)
 

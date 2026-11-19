@@ -262,7 +262,8 @@ namespace UAI
             var buffer = NPCFrameCache.EntityBuffer;
             buffer.Clear();
 
-            var bounds = new Bounds(self.position, new Vector3(distance, distance, distance));
+            // Bounds takes the full size, so twice the distance reaches distance each way.
+            var bounds = new Bounds(self.position, new Vector3(distance, distance, distance) * 2f);
             self.world.GetEntitiesInBounds(typeof(EntityAlive), bounds, buffer);
 
             for (var i = buffer.Count - 1; i >= 0; i--)

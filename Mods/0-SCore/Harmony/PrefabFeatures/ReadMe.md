@@ -31,3 +31,24 @@ The "Remove Trader Protection" feature is controlled by properties within the `A
   for traders within their prefabs, making them vulnerable to damage and other interactions.
 * **`AllowBuildingInTraderArea`**: `false` - If `true`, this allows players to place and remove blocks within the
   trader's protected area. **This property only takes effect if `DisableTraderProtection` is also set to `true`**.
+# No Region Reset (`NoRegionReset.cs`)
+
+Protects individual POIs from the timed region reset, without making them a trader area.
+
+Add this to the POI's own prefab XML, the file next to its `.tts` (not the world's `prefabs.xml`):
+
+```xml
+<property name="SCoreNoRegionReset" value="True" />
+```
+
+* Every chunk the POI occupies gets the same protection the game gives trader compounds, so the reset skips it.
+  The admin `regionreset` command respects it too, except in its "reset everything" mode.
+* No gameplay side effects: blocks stay breakable, building is allowed, no trader waypoint, no closing hours.
+* Works for POIs that fit in a single chunk, and in every reset grouping mode. In `GroupedPOIs` mode the whole chunk
+  group is protected, so a POI that overlaps another won't be half reset.
+* Each prefab reads only its own XML. Setting it on `cabin_bandit.xml` protects every placed `cabin_bandit`, and nothing
+  else. `cabin.xml` is unaffected, and numbered variants (`cabin_01`, `cabin_02`, ...) each need it.
+* POIs swapped to a variant (Quest POI Variants, POI Outposts) use the variant's XML once swapped. To protect outposts,
+  set it in the outpost variant (e.g. `cabin_01_outpost.xml`).
+* Anything players change in a protected POI is permanent, since it never resets.
+* The server log prints `[SCore] SCoreNoRegionReset: protecting N POI(s) from region reset.` whenever the count changes.

@@ -496,6 +496,7 @@
     <Compile Include="Harmony\PlayerFeatures\TeleportNPCs.cs" />
     <Compile Include="Harmony\PrefabFeatures\BlockCanPlaceBlockAt.cs" />
     <Compile Include="Harmony\PrefabFeatures\DynamicPrefabDecorator.cs" />
+    <Compile Include="Harmony\PrefabFeatures\NoRegionReset.cs" />
     <Compile Include="Harmony\PrefabFeatures\RemoveTraderProtection.cs" />
     <Compile Include="Harmony\PrefabFeatures\WorldCanPlaceBlockAt.cs" />
     <Compile Include="Harmony\PrefabFeatures\WorldIsWithinTraderArea.cs" />
