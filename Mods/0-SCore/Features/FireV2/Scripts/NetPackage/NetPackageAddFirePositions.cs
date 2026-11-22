@@ -49,8 +49,18 @@ public class NetPackageAddFirePositions : NetPackage
         {
             return;
         } 
+        var fireManager = FireManager.Instance;
+        if (fireManager == null || !fireManager.Enabled) return;
+
+        // The server checks each request itself; a client applies what the server decided, as is.
+        var isServer = SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer;
         foreach (var position in _positions)
-            FireManager.Instance?.AddFire(position, _entityThatCausedIt);
-    }
+        {
+            if (isServer)
+                fireManager.AddFire(position, _entityThatCausedIt);
+            else
+                fireManager.AddFireFromServer(position, _entityThatCausedIt);
+        }
+}
 }
 

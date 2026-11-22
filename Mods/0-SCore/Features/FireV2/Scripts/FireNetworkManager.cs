@@ -21,15 +21,36 @@ public class FireNetworkManager : IFireNetworkManager
 
     public void SyncAddFireBatch(List<Vector3i> positions, int entityId = -1)
     {
-        if (!_connectionManager.IsServer)
-        {
-            _connectionManager.SendToServer(
-                NetPackageManager.GetPackage<NetPackageAddFirePositions>().Setup(positions, entityId));
-            return;
-        }
+        foreach (var chunk in SplitIntoChunks(positions))
+            Send(NetPackageManager.GetPackage<NetPackageAddFirePositions>().Setup(chunk, entityId));
+    }
 
-        _connectionManager.SendPackage(
-            NetPackageManager.GetPackage<NetPackageAddFirePositions>().Setup(positions, entityId));
+    /// <summary>Server to one client: everything that is burning. Used when a player joins.</summary>
+    public void SendFiresToClient(ClientInfo client, List<Vector3i> positions)
+    {
+        if (client == null || !_connectionManager.IsServer) return;
+
+        foreach (var chunk in SplitIntoChunks(positions))
+            client.SendPackage(NetPackageManager.GetPackage<NetPackageAddFirePositions>().Setup(chunk, -1));
+    }
+
+    private void Send(NetPackage package)
+    {
+        if (_connectionManager.IsServer)
+            _connectionManager.SendPackage(package);
+        else
+            _connectionManager.SendToServer(package);
+    }
+
+    // The batch packets store their count as a short, so large batches go out in chunks. Each chunk
+    // is its own copy: a packet is written some time after it is queued, and the caller is free to
+    // reuse its list in the meantime.
+    private static IEnumerable<List<Vector3i>> SplitIntoChunks(List<Vector3i> positions)
+    {
+        if (positions == null) yield break;
+
+        for (var start = 0; start < positions.Count; start += MaxPositionsPerPackage)
+            yield return positions.GetRange(start, Math.Min(MaxPositionsPerPackage, positions.Count - start));
     }
 
     public void SyncExtinguishFire(Vector3i blockPos, int entityId = -1)
@@ -46,22 +67,12 @@ public class FireNetworkManager : IFireNetworkManager
     }
 
 
-    // The batch packet stores its count as a short, so large batches go out in chunks.
     private const int MaxPositionsPerPackage = 1000;
 
     public void SyncExtinguishFireBatch(List<Vector3i> positions, int entityId = -1)
     {
-        if (positions == null || positions.Count == 0) return;
-
-        for (var start = 0; start < positions.Count; start += MaxPositionsPerPackage)
-        {
-            var chunk = positions.GetRange(start, Math.Min(MaxPositionsPerPackage, positions.Count - start));
-            var package = NetPackageManager.GetPackage<NetPackageAddExtinguishPositions>().Setup(chunk, entityId);
-            if (_connectionManager.IsServer)
-                _connectionManager.SendPackage(package);
-            else
-                _connectionManager.SendToServer(package);
-        }
+        foreach (var chunk in SplitIntoChunks(positions))
+            Send(NetPackageManager.GetPackage<NetPackageAddExtinguishPositions>().Setup(chunk, entityId));
     }
 
     public void SyncExtinguishArea(Vector3i center, int range, int entityId = -1)
@@ -87,15 +98,8 @@ public class FireNetworkManager : IFireNetworkManager
 
     public void SyncRemoveFireBatch(List<Vector3i> positions, int entityId = -1)
     {
-        if (!_connectionManager.IsServer)
-        {
-            _connectionManager.SendToServer(
-                NetPackageManager.GetPackage<NetPackageRemoveFirePositions>().Setup(positions, entityId));
-            return;
-        }
-
-        _connectionManager.SendPackage(
-            NetPackageManager.GetPackage<NetPackageRemoveFirePositions>().Setup(positions, entityId));
+        foreach (var chunk in SplitIntoChunks(positions))
+            Send(NetPackageManager.GetPackage<NetPackageRemoveFirePositions>().Setup(chunk, entityId));
     }
 
     public void SyncFireUpdate(int fireCount)

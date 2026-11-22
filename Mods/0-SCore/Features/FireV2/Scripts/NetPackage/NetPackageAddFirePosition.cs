@@ -38,7 +38,22 @@ public class NetPackageAddFirePosition : NetPackage
         {
             return;
         } 
-        FireManager.Instance?.AddFire(_position, _entityThatCausedIt);
-    }
+        var fireManager = FireManager.Instance;
+        if (fireManager == null || !fireManager.Enabled) return;
+
+        // A client applies what the server decided, as is.
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            fireManager.AddFireFromServer(_position, _entityThatCausedIt);
+            return;
+        }
+
+        // The server checks the request itself and, if it accepts, tells every client.
+        fireManager.AddFire(_position, _entityThatCausedIt);
+
+        // The asking client is already showing the fire. If the server said no, take it back.
+        if (!fireManager.IsBurning(_position))
+            Sender?.SendPackage(NetPackageManager.GetPackage<NetPackageRemoveFirePosition>().Setup(_position, -1));
+}
 }
 

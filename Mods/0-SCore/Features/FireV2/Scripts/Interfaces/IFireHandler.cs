@@ -5,7 +5,7 @@ public interface IFireHandler
 {
 
     Dictionary<Vector3i, FireBlockData> GetFireMap();
-    void AddFire(Vector3i position, int entityId = -1);
+    void AddFire(Vector3i position, int entityId = -1, bool trusted = false);
     void RemoveFire(Vector3i position, int entityId = -1, bool showSmoke = true);
     void SpreadFire(Vector3i sourcePosition);
     bool IsFlammable(Vector3i position);
@@ -23,7 +23,8 @@ public interface IFireHandler
     public bool IsProcessing();
     public int GetFiresPerFrame();
 
-    public List<BlockChangeInfo> GetPendingList();
-    public List<Vector3i> GetRemovalBlocks();
     public void FinalizeBatchProcessing();
+    void UpdateExtinguishedPositions();
+    int RestorePendingFires();
+    List<Vector3i> GetBurningPositions();
 }

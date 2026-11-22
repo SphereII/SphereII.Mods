@@ -113,6 +113,115 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.4.28.720
+	Game Version: v3.4.0 (b10)
+
+	[ Trader - Alt Currency Scale ]
+		- New CurrencyScale property on an alt_currency item. Traders using
+		  that currency multiply their prices by it:
+			<property name="CurrencyScale" value="0.1"/>
+		- One value scales buying and selling; value="buy,sell" scales them
+		  separately.
+		- Applied after the trader markup and the bartering perks, so perks
+		  still work. OverrideBuyMarkup / OverrideSellMarkdown on the trader
+		  disable the bartering perks in vanilla, so use CurrencyScale for
+		  currency conversion instead.
+		- Buy prices round up (minimum 1); sell prices round down.
+		- See Features/Trader/ReadMe.md.
+
+	[ Custom Quality Levels - Trader Prices ]
+		- Fixed trader prices ignoring quality above 6 with CustomQualityLevels
+		  on. A quality 155 and a quality 555 steel club sold for the same.
+		- Cause: vanilla scales price with (quality - 1) / 5, hardcoded for
+		  1-6, in two places per method: one for items with their own
+		  TraderQualityMinMod/MaxMod and one for the global TraderInfo mods.
+		  The sell price patch only rewrote the first, so items priced by the
+		  global mods (most weapons and tools) capped at quality 6. The buy
+		  price patch rewrote both, but kept the "- 1" and so slightly
+		  mis-scaled the range.
+		- Both buy and sell now place the quality within the configured
+		  QualityLevels range, so price rises smoothly from the lowest
+		  quality to the highest. A warning is logged if a game update moves
+		  the code the patch looks for.
+
+	[ NPC Vision - Players in Vehicles ]
+		- Fixed hostile NPCs losing track of a player who is driving or
+		  riding a vehicle. Bandits rammed by a vehicle would get up and
+		  stand around rather than fighting back.
+		- Cause: the line-of-sight raycast toward a seated player hits the
+		  vehicle's collider, which resolves to the EntityVehicle (itself an
+		  EntityAlive), not the player. CanSee rejected that as "something
+		  else in the way", so beyond point-blank range the player was
+		  invisible to the NPC.
+		- A ray that lands on the vehicle the target is attached to now
+		  counts as seeing the target. Applies to both the UAI and NPCv4
+		  vision checks. Stealth, view cone and see-distance still apply.
+		- Fixed bandits leaving a POI to attack an empty, parked vehicle
+		  while the player was still inside. A vehicle has no Faction, so it
+		  falls into faction "none", which the vanilla bandits faction hates
+		  through its "*" rule. Only EntityNPC classes skipped vehicles, and
+		  EntityNPCBandit is an EntityBandit, so it picked them as targets.
+		- NPCs no longer treat any vehicle as an enemy; they fight the
+		  driver instead. This only changes target selection: shots that hit
+		  a vehicle still damage it as before.
+
+	[ Item Degradation - Durability Bar ]
+		- Fixed the durability bar staying full while an SCore-degraded item
+		  wore down, then emptying all at once when it broke. The degradation
+		  itself was tracking correctly - ItemPercentUsed requirements, and
+		  any Weak / Critical buffs built on them, fired at the right times -
+		  only the bar was wrong.
+		- Cause: since the perma-degradation change, the game draws the bar
+		  as (MaxUseTimes - UseTimes) / MaxUseTimesUI, and MaxUseTimesUI
+		  reads MaxUseTimesBase. SCore only patched MaxUseTimes, so the
+		  denominator stayed at the vanilla DegradationMax passive effect,
+		  which is 0 for items that use SCore's DegradationMaxUse property.
+		- SCore now patches MaxUseTimesBase instead, so MaxUseTimes,
+		  MaxUseTimesUI and the bar all agree with DegradationMaxUse. The
+		  game's perma-degradation DurabilityModifier still applies on top.
+		- Affects any item using DegradationMaxUse: item modifiers, and
+		  equipment degraded through DegradeSpecificItemValueMod (e.g.
+		  insulated clothing).
+
+	[ Item Degradation - DegradeOverride ]
+		- DegradeItemValueMod and DegradeSpecificItemValueMod now accept the
+		  DegradeOverride attribute under either spelling. Earlier notes
+		  documented it as "DegradeOveride", which the code silently ignored.
+		  Both spellings work and are case-insensitive:
+			<triggered_effect trigger="onSelfItemDegrade" action="DegradeItemValueMod, SCore" DegradeOverride="50"/>
+		- Note for modders: DegradeSpecificItemValueMod degrades every
+		  matching item in the listed slots each time it fires. If several
+		  worn items each carry the trigger with a shared tag, one hit
+		  degrades each of them once per item. Use item_name, or a single
+		  trigger in a shared buff, to degrade each item once.
+
+	[ Fire Manager - Dedicated Server Sync ]
+		- Fixed fires never going out on clients. Fires that burned out,
+		  self-extinguished, touched water or downgraded their block were
+		  removed on the server, but the removal was never sent.
+		- Fixed fires reappearing on clients after the server had removed
+		  them, and the block changes being sent twice every cycle.
+		- Fixed a block that was put out once never burning again on a
+		  client, and smoke never clearing on clients. Clients now expire
+		  smoke and the "recently extinguished" list themselves. The server
+		  also expires that list when nothing is burning.
+		- Clients now show the fires the server sends as they are, without
+		  re-checking them locally, and no longer send each one back.
+		- Players joining a server are sent everything that is burning.
+		- If the server rejects a fire a client started, the client's copy is
+		  removed.
+		- A burning block destroyed on the server is now removed for clients
+		  that did not have that chunk loaded.
+		- FirePersists: saved fires are restored as their chunks load. Before,
+		  they were read before any chunk was loaded and dropped. Only the
+		  server loads and saves fire state.
+		- Fire no longer writes the old block back when a burning block was
+		  upgraded or replaced; the fire goes out instead. Changes to the
+		  block made while it burns are kept.
+		- The BigFire challenge now receives the fire count on clients, and
+		  the StartFire challenge no longer counts each fire twice.
+		- Large fire batches are split into packets of 1000 positions.
+
 Version: 3.4.25.925
 	Game Version: v3.4.0 (b10)
 

@@ -104,6 +104,11 @@ namespace UAI
             }
 
             var component = hitRoot.GetComponent<EntityAlive>();
+            // A player in a vehicle sits inside the vehicle's collider, and the ray resolves to the
+            // EntityVehicle (itself an EntityAlive). Seeing the vehicle you're riding in is seeing you,
+            // otherwise NPCs lose sight of a driver the moment they're out of point-blank range.
+            if (component != null && component != targetEntity && targetEntity.AttachedToEntity == component)
+                component = targetEntity;
             if (component == null || !component.IsAlive() || targetEntity != component)
             {
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature,

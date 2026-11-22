@@ -9,4 +9,7 @@ public interface IFireNetworkManager
     void SyncAddFireBatch(List<Vector3i> positions, int entityId = -1);
     public void SyncRemoveFireBatch(List<Vector3i> positions, int entityId = -1);
     void SyncBlockDestroyedByFire(int i);
+    void SyncRemoveFire(Vector3i position, int entityId = -1);
+    void SyncFireUpdate(int fireCount);
+    void SendFiresToClient(ClientInfo client, List<Vector3i> positions);
 }

@@ -15,7 +15,9 @@ public class FireHandler : IFireHandler
 
     private Dictionary<Vector3i, FireBlockData> _fireMap = new Dictionary<Vector3i, FireBlockData>();
     private Dictionary<Vector3i, float> _extinguishedPositions = new Dictionary<Vector3i, float>();
-    private readonly FireEvents _events;
+    // Saved fires whose chunk was not loaded when the save file was read. They are restored once the chunk loads.
+    private readonly HashSet<Vector3i> _pendingRestore = new HashSet<Vector3i>();
+private readonly FireEvents _events;
     private readonly FireConfig _config;
     private readonly FireParticleOptimizer _fireParticleOptimizer;
     private readonly GameRandom _random = GameManager.Instance.World.GetGameRandom();
@@ -56,14 +58,30 @@ public class FireHandler : IFireHandler
         return _fireMap;
     }
 
-    public void AddFire(Vector3i position, int entityId = -1)
+    /// <summary>
+    /// Sets a position burning. With <paramref name="trusted"/> the flammability checks are skipped:
+    /// a client uses that for fires the server has already decided on, so the two never disagree.
+    /// </summary>
+    public void AddFire(Vector3i position, int entityId = -1, bool trusted = false)
     {
-        if (!_config.Enabled || _fireMap.ContainsKey(position) || !IsFlammable(position))
+        if (!_config.Enabled || _fireMap.ContainsKey(position))
             return;
 
-        var block = GameManager.Instance.World.GetBlock(position);
+        if (trusted)
+            _extinguishedPositions.Remove(position);
+        else if (!IsFlammable(position))
+            return;
 
-        var fireBlockData = new FireBlockData
+        var fireBlockData = CreateFireBlockData(position, GameManager.Instance.World.GetBlock(position));
+        _fireMap[position] = fireBlockData;
+
+        StartFireEffects(position, fireBlockData.FireParticle);
+        _events.RaiseFireStarted(position, entityId);
+    }
+
+    private FireBlockData CreateFireBlockData(Vector3i position, BlockValue block)
+    {
+        return new FireBlockData
         {
             BlockValue = block,
             FireDamage = GetBlockFireDamage(block),
@@ -72,10 +90,6 @@ public class FireHandler : IFireHandler
             FireParticle = _config.GetRandomFireParticle(position),
             SmokeParticle = _config.GetRandomSmokeParticle(position)
         };
-        _fireMap[position] = fireBlockData;
-        
-        StartFireEffects(position, fireBlockData.FireParticle);
-        _events.RaiseFireStarted(position, entityId);
     }
 
     public void RemoveFire(Vector3i position, int entityId = -1, bool showSmoke = true)
@@ -232,7 +246,17 @@ public class FireHandler : IFireHandler
             return;
         }
 
-        fireBlockData.BlockValue.damage += fireBlockData.FireDamage;
+        // The block was swapped for a different one (upgraded, replaced) since it caught fire.
+        // What was burning is gone, so drop the fire rather than writing the old block back.
+        if (block.type != fireBlockData.BlockValue.type)
+        {
+            _removeFires.Add(position);
+            return;
+        }
+
+        // Work from the live block so changes made since ignition (rotation, meta, other damage) are kept.
+        block.damage += fireBlockData.FireDamage;
+        fireBlockData.BlockValue = block;
 
         if (fireBlockData.BlockValue.damage >= fireBlockData.BlockValue.Block.MaxDamage)
         {
@@ -280,25 +304,36 @@ public class FireHandler : IFireHandler
 
     public void FinalizeBatchProcessing()
     {
+        // Take the fires out of the map first and tell the clients, so the block changes below
+        // do not each trigger their own removal from the Chunk.SetBlock patch.
+        if (_removeFires.Count > 0)
+        {
+            foreach (var position in _removeFires)
+            {
+                RemoveFire(position);
+            }
+
+            _fireNetworkManager.SyncRemoveFireBatch(_removeFires);
+            _removeFires.Clear();
+        }
+
         if (_pendingChanges.Count > 0)
         {
             GameManager.Instance.SetBlocksRPC(_pendingChanges);
+            // The block change packet keeps a reference to this list until it is written, so hand
+            // it over and start a new one rather than clearing it.
+            _pendingChanges = new List<BlockChangeInfo>();
         }
-
-        foreach (var position in _removeFires)
-        {
-            RemoveFire(position);
-        }
-        _removeFires.Clear();
 
         UpdateExtinguishedPositions();
-        // if ( _fireMap.Count > 300)
+// if ( _fireMap.Count > 300)
         //     _fireParticleOptimizer.UpdateCullDistance(2);
         // else
         //     _fireParticleOptimizer.UpdateCullDistance(1);
         // _fireParticleOptimizer.UpdateAndOptimizeFireParticlesRoutine(_fireMap, _config);
 
         _events.RaiseFireUpdate(_fireMap.Count);
+        _fireNetworkManager.SyncFireUpdate(_fireMap.Count);
     }
 
     private float GetBlockChanceToExtinguish(BlockValue block)
@@ -331,16 +366,6 @@ public class FireHandler : IFireHandler
         return block.Block.DowngradeBlock;
     }
 
-    
-    public List<Vector3i> GetRemovalBlocks()
-    {
-        return _removeFires;
-    }
-
-    public List<BlockChangeInfo> GetPendingList()
-    {
-        return _pendingChanges;
-    }
 
     private void StartFireEffects(Vector3i position, string fireParticle)
     {
@@ -361,8 +386,10 @@ public class FireHandler : IFireHandler
         _events.RaiseLightRemoved(position);
     }
 
-    private void UpdateExtinguishedPositions()
+    public void UpdateExtinguishedPositions()
     {
+        if (_extinguishedPositions.Count == 0) return;
+
         var currentTime = GameManager.Instance.World.GetWorldTime();
         var expiredPositions = new List<Vector3i>();
 
@@ -415,6 +442,7 @@ public class FireHandler : IFireHandler
         }
         
         _fireMap.Clear();
+        _pendingRestore.Clear();
         SaveState();
     }
 
@@ -446,8 +474,11 @@ public class FireHandler : IFireHandler
     
     private void Write(BinaryWriter bw)
     {
-        bw.Write(string.Join(";", _fireMap.Keys));
-        bw.Write(string.Join(";", _extinguishedPositions.Keys));
+        // Fires still waiting for their chunk to load are saved too, so they survive another restart.
+        var positions = new List<Vector3i>(_fireMap.Keys);
+        positions.AddRange(_pendingRestore);
+        bw.Write(string.Join(";", positions));
+bw.Write(string.Join(";", _extinguishedPositions.Keys));
     }
 
     public void Read(BinaryReader br)
@@ -455,33 +486,18 @@ public class FireHandler : IFireHandler
         // Clear existing maps to prevent overlaps on manual reload
         _fireMap.Clear();
         _extinguishedPositions.Clear();
+        _pendingRestore.Clear();
 
-        // 1. Process Burning Fires
+        // 1. Process Burning Fires. Chunks are usually not loaded this early, and an unloaded
+        // chunk reads as air, so the positions are parked and restored as their chunks load.
         var positions = br.ReadString();
         foreach (var positionStr in positions.Split(';'))
         {
             if (string.IsNullOrEmpty(positionStr)) continue;
-            var position = StringParsers.ParseVector3i(positionStr);
-
-            var block = GameManager.Instance.World.GetBlock(position);
-            // Don't restore fire if the block is gone (air) or within a trader area
-            if (block.isair || GameManager.Instance.World.IsWithinTraderArea(position)) continue;
-
-            var fireBlockData = new FireBlockData
-            {
-                BlockValue = block,
-                FireDamage = GetBlockFireDamage(block),
-                ChanceToExtinguish = GetBlockChanceToExtinguish(block),
-                DowngradeBlock = GetDowngradedBlock(block),
-                FireParticle = _config.GetRandomFireParticle(position),
-                SmokeParticle = _config.GetRandomSmokeParticle(position)
-            };
-
-            _fireMap[position] = fireBlockData;
-
-            // Trigger the visual particles and lights on the Server
-            StartFireEffects(position, fireBlockData.FireParticle);
+            _pendingRestore.Add(StringParsers.ParseVector3i(positionStr));
         }
+
+        RestorePendingFires();
 
         // 2. Process Extinguished Positions (for smoke persistence)
         var extinguished = br.ReadString();
@@ -497,9 +513,55 @@ public class FireHandler : IFireHandler
         }
     }
 
+    /// <summary>
+    /// Restores saved fires whose chunk has loaded since the save file was read, and tells the
+    /// clients about them. Returns how many fires were restored.
+    /// </summary>
+    public int RestorePendingFires()
+    {
+        if (_pendingRestore.Count == 0) return 0;
+
+        var world = GameManager.Instance.World;
+        var ready = new List<Vector3i>();
+        foreach (var position in _pendingRestore)
+        {
+            if (world.GetChunkFromWorldPos(position) == null) continue;
+            ready.Add(position);
+        }
+
+        var restored = new List<Vector3i>();
+        foreach (var position in ready)
+        {
+            _pendingRestore.Remove(position);
+            if (_fireMap.ContainsKey(position)) continue;
+
+            var block = world.GetBlock(position);
+            // Don't restore fire if the block is gone (air) or within a trader area
+            if (block.isair || world.IsWithinTraderArea(position)) continue;
+
+            var fireBlockData = CreateFireBlockData(position, block);
+            _fireMap[position] = fireBlockData;
+            StartFireEffects(position, fireBlockData.FireParticle);
+            restored.Add(position);
+        }
+
+        if (restored.Count > 0)
+            _fireNetworkManager.SyncAddFireBatch(restored);
+
+        return restored.Count;
+    }
+
+    public List<Vector3i> GetBurningPositions()
+    {
+        return new List<Vector3i>(_fireMap.Keys);
+    }
+
     public void SaveState()
     {
-        if (_dataSaveThreadInfo == null || !ThreadManager.ActiveThreads.ContainsKey("silent_FireDataSave"))
+        // The server owns the fire state. A client has nothing worth saving.
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
+
+if (_dataSaveThreadInfo == null || !ThreadManager.ActiveThreads.ContainsKey("silent_FireDataSave"))
         {
             Log.Out($"FireManager saving {_fireMap.Count} Fires...");
             var pooledExpandableMemoryStream = MemoryPools.poolMemoryStream.AllocSync(true);
@@ -559,18 +621,9 @@ public class FireHandler : IFireHandler
                     Read(pooledBinaryReader);
                 }
             }
-            Log.Out($"Fire Manager: Restored {_fireMap.Count} Fires.");
-
-            // --- FIX: Sync with Clients ---
-            // Only the server should broadcast the loaded state to clients
-            if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer && _fireMap.Count > 0)
-            {
-                Log.Out($"FireManager: Syncing {_fireMap.Count} loaded fires to clients.");
-                // We use the keys of the _fireMap as our batch of positions
-                var loadedPositions = new List<Vector3i>(_fireMap.Keys);
-                _fireNetworkManager.SyncAddFireBatch(loadedPositions);
-            }
-        }
+            // Clients get these when they join, and when the parked fires are restored later.
+            Log.Out($"Fire Manager: Restored {_fireMap.Count} Fires. Waiting on chunks for {_pendingRestore.Count} more.");
+}
         catch (Exception ex)
         {
             Log.Error($"FireManager: Failed to load fire state: {ex.Message}");

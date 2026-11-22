@@ -96,4 +96,17 @@ public static class QualityUtils
         var tier = Mathf.Min(CalculateTier(quality), QualityInfo.hexColors.Length - 1);
         return QualityInfo.hexColors[tier];
     }
+
+    /// <summary>
+    /// Where a quality sits in the configured QualityLevels range, from 0 (lowest) to 1 (highest).
+    /// Trader pricing uses this in place of vanilla's hardcoded (quality - 1) / 5, which assumes 1-6
+    /// and pins every quality of 6 and above to the top price.
+    /// </summary>
+    public static float GetTraderQualityFraction(float quality)
+    {
+        var min = GetMinQuality();
+        var max = GetMaxQuality();
+        if (max <= min) return 1f;
+        return (quality - min) / (max - min);
+    }
 }

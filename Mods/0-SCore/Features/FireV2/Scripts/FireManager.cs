@@ -17,7 +17,10 @@ public class FireManager : MonoBehaviour
     private Coroutine _updateFires;
     private bool _isUpdateCycleRunning; // New flag to track if a cycle is in progress
     private readonly Stopwatch _stopwatch = new Stopwatch();
-    private string _fireSoundLower;
+    private static bool _joinHookRegistered;
+    // How often a client expires its own smoke and "recently extinguished" entries.
+    private const float ClientMaintenanceInterval = 5f;
+private string _fireSoundLower;
 
     public FireEvents Events
     {
@@ -66,19 +69,65 @@ public class FireManager : MonoBehaviour
 
     private void InitializeSystem()
     {
-        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        var isServer = SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer;
+
+        // Init runs once per game on the same component, so drop anything left from the last one.
+        CancelInvoke();
+        StopAllCoroutines();
+        _isUpdateCycleRunning = false;
+
+        if (isServer)
         {
             // Initial call to start the repeating cycle.
             // Subsequent calls will be scheduled at the end of the coroutine.
             Invoke(nameof(StartUpdateCycle), _config.CheckInterval);
+
+            // The handler is static and registered once; it works on whichever instance is current.
+            if (!_joinHookRegistered)
+            {
+                ModEvents.PlayerSpawnedInWorld.RegisterHandler(SyncFiresToJoiningPlayer);
+                _joinHookRegistered = true;
+            }
+        }
+        else
+        {
+            // The server's update cycle does not run here, so smoke and the extinguished list
+            // need their own timer or they never expire on a client.
+            InvokeRepeating(nameof(ClientMaintenance), ClientMaintenanceInterval, ClientMaintenanceInterval);
         }
 
         // Subscribe to events
         _events.OnFireStarted += HandleFireStarted;
         _events.OnFireExtinguished += HandleFireExtinguished;
-        
-        if ( _config.FirePersists)
+
+        // Only the server owns the saved fire state.
+        if (isServer && _config.FirePersists)
             Load();
+    }
+
+    private void ClientMaintenance()
+    {
+        if (GameManager.Instance.World == null) return;
+        _smokeHandler.CheckSmokePositions();
+        _fireHandler.UpdateExtinguishedPositions();
+    }
+
+    /// <summary>Server: sends everything that is burning to a player who has just joined.</summary>
+    private static void SyncFiresToJoiningPlayer(ref ModEvents.SPlayerSpawnedInWorldData data)
+    {
+        var manager = Instance;
+        if (manager == null || manager._config == null || !manager._config.Enabled) return;
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
+        if (data.ClientInfo == null) return;
+        // Only on arrival. Respawning after death or teleporting does not lose the fire map.
+        if (data.RespawnType != RespawnType.JoinMultiplayer && data.RespawnType != RespawnType.EnterMultiplayer) return;
+
+        var positions = manager._fireHandler.GetBurningPositions();
+        if (positions.Count == 0) return;
+
+        manager._networkManager.SendFiresToClient(data.ClientInfo, positions);
+        if (manager._config.Logging)
+            Log.Out($"[FireManager] Sent {positions.Count} fires to joining player {data.ClientInfo.entityId}");
     }
 
     private void OnDestroy()
@@ -118,6 +167,11 @@ public class FireManager : MonoBehaviour
         _smokeHandler.CheckSmokePositions();
         _lightManager.UpdateLights();
 
+        // These have to run even when nothing is burning: otherwise a block that was put out stays
+        // unburnable until some other fire starts, and saved fires never come back.
+        _fireHandler.UpdateExtinguishedPositions();
+        _fireHandler.RestorePendingFires();
+
         // Run the main fire processing coroutine.
         if (_fireHandler.IsAnyFireBurning())
         {
@@ -144,25 +198,7 @@ public class FireManager : MonoBehaviour
             yield return null;
         } while (_fireHandler.IsProcessing());
 
-        var pendingChanges = _fireHandler.GetPendingList();
-        if (pendingChanges.Count > 0)
-        {
-            GameManager.Instance.World.SetBlocksRPC(pendingChanges);
-            List<Vector3i> firePositions = new List<Vector3i>();
-            foreach (var change in pendingChanges)
-            {
-                firePositions.Add(change.blockValueRef.BlockPosition);
-            }
-            _networkManager.SyncAddFireBatch(firePositions);
-        }
-
-        var removal = _fireHandler.GetRemovalBlocks();
-        if (removal.Count > 0)
-        {
-            _networkManager.SyncRemoveFireBatch(removal);
-        }
-  
-        //_fireHandler.FinalizeBatchProcessing();
+        // The handler applies the block changes and sends the removals when its last batch is done.
         _updateFires = null;
     }
 
@@ -219,17 +255,19 @@ public class FireManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Starts a fire here if the block can burn. On the server this tells every client; on a client
+    /// it shows the fire straight away and asks the server, which decides.
+    /// </summary>
     public void AddFire(Vector3i blockPos, int entityId = -1)
     {
         try
         {
             if (_fireHandler.IsBurning(blockPos)) return;
-            if (_fireHandler.IsFlammable(blockPos))
-            {
-                _fireHandler.AddFire(blockPos, entityId);
-                _events.RaiseFireStarted(blockPos, entityId);
-                _networkManager.SyncAddFire(blockPos, entityId);
-            }
+            if (!_fireHandler.IsFlammable(blockPos)) return;
+
+            _fireHandler.AddFire(blockPos, entityId);
+            _networkManager.SyncAddFire(blockPos, entityId);
         }
         catch (Exception ex)
         {
@@ -237,10 +275,27 @@ public class FireManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Client: applies a fire the server has already decided on. It is not re-checked against this
+    /// machine's idea of what can burn, and nothing is sent back.
+    /// </summary>
+    public void AddFireFromServer(Vector3i blockPos, int entityId = -1)
+    {
+        if (!Enabled) return;
+
+        try
+        {
+            _fireHandler.AddFire(blockPos, entityId, true);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error adding fire from server at position {blockPos}: {ex.Message}");
+        }
+    }
+
     public void SyncAddFire(Vector3i blockPos, int entityId = -1)
     {
         AddFire(blockPos, entityId);
-        _networkManager.SyncAddFire(blockPos, entityId);
     }
 
     public void ClearFire(Vector3i blockPos)
@@ -249,9 +304,15 @@ public class FireManager : MonoBehaviour
 
         try
         {
+            var wasBurning = _fireHandler.IsBurning(blockPos);
             _fireHandler.RemoveFire(blockPos, -1, false);
+
+            // A client that does not have this chunk loaded never sees the block change, so the
+            // server tells it directly.
+            if (wasBurning && SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+                _networkManager.SyncRemoveFire(blockPos);
         }
-        catch (Exception ex)
+catch (Exception ex)
         {
             Debug.LogError($"Error Remove fire at position {blockPos}: {ex.Message}");
         }

@@ -74,9 +74,12 @@ public class MinEventActionDegradeSpecificItemValueMod : MinEventActionTargetedB
             return true;
         }
 
-        if (localName == "DegradeOverride")
+        // ReadMe documents the misspelt "DegradeOveride"; accept both.
+        if (localName.Equals("DegradeOverride", StringComparison.OrdinalIgnoreCase) ||
+            localName.Equals("DegradeOveride", StringComparison.OrdinalIgnoreCase))
         {
             _degradeOverride = StringParsers.ParseSInt32(_attribute.Value);
+            return true;
         }
 
         return false;

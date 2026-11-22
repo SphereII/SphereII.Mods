@@ -266,8 +266,12 @@ public static class EntityTargetingUtilities
         if (targetEntity.IsDead())
             return false;
 
-        // Don't start fights with vehicles.
-        if (IsDamageImmuneVehicle(self, target))
+        // Don't start fights with vehicles. A vehicle has no Faction, so it lands in faction 0
+        // ("none"), which the vanilla bandits faction hates through its "*" rule. Checking only
+        // IsDamageImmuneVehicle left EntityNPCBandit (an EntityBandit, not an EntityNPC) treating
+        // every parked vehicle as an enemy. Fight the driver, never the vehicle. This is targeting
+        // only; CanDamage still decides whether shots that hit a vehicle hurt it.
+        if (target is EntityVehicle)
             return false;
 
         // Don't make enemies out of your followers, your leader, or fellow followers.
