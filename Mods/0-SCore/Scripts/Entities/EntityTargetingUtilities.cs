@@ -274,6 +274,12 @@ public static class EntityTargetingUtilities
         if (target is EntityVehicle)
             return false;
 
+        // Blood moon horde members are on the same side. This is what UAI bandits
+        // (entity_filter="IsEnemy") go through; EAI zombies get the same check in EAITarget.check.
+        // It sits before the revenge check, so a stray hit doesn't start a fight either.
+        if (AreBloodMoonHordeMates(self, target))
+            return false;
+
         // Don't make enemies out of your followers, your leader, or fellow followers.
         var myLeader = GetCommander(self);
         if (IsAllyOfLeader(myLeader ?? self, target))
@@ -309,6 +315,18 @@ public static class EntityTargetingUtilities
         return myLeader == null
             ? IsEnemyByFaction(self, target)
             : IsEnemyByFaction(myLeader, target);
+    }
+
+    /// <summary>
+    /// Returns true if both entities were spawned by the blood moon director. The director sets
+    /// IsHordeZombie and IsBloodMoon on its spawns and clears IsHordeZombie when the blood moon
+    /// ends. IsBloodMoon alone isn't enough: vanilla sets it on every enemy that spawns while a
+    /// blood moon is active, including sleepers in POIs.
+    /// </summary>
+    public static bool AreBloodMoonHordeMates(Entity self, Entity target)
+    {
+        return self is EntityEnemy { IsHordeZombie: true, IsBloodMoon: true } &&
+               target is EntityEnemy { IsHordeZombie: true, IsBloodMoon: true };
     }
 
     /// <summary>

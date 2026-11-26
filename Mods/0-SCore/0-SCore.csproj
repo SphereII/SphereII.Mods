@@ -360,6 +360,7 @@
     <Compile Include="Features\QuestRescue\Scripts\ObjectiveRescueNPCSDX.cs" />
     <Compile Include="Features\QuestRescue\Scripts\RescueCaptiveManager.cs" />
     <Compile Include="Features\Quality\Harmony\ItemValueConstructor.cs" />
+    <Compile Include="Features\Quality\Harmony\ItemValueReadDataQuality.cs" />
     <Compile Include="Features\Quality\Harmony\MinEventModifyCVar.cs" />
     <Compile Include="Features\Quality\Harmony\QualityInfoCleanUp.cs" />
     <Compile Include="Features\Quality\Harmony\QualityInfoGetQualityColor.cs" />

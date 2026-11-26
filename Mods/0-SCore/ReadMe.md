@@ -113,6 +113,64 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version: 3.4.30.612
+	Game Version: v3.4.0 (b10)
+
+	[ Custom Quality Levels - Trader Prices ]
+		- Fixed trader prices still ignoring quality above 6. The 3.4.28.720
+		  fix never took effect: a quality 32 and a quality 576 item sold for
+		  the same price.
+		- Cause: the patch checked CustomQualityLevels when Harmony applied
+		  it, as the mod loads. The XML, and so the config block, is not
+		  loaded until later, so the check always read "off" and the patch
+		  left vanilla pricing in place.
+		- The patch is now always applied, and checks CustomQualityLevels
+		  each time a price is worked out. With the feature off, prices are
+		  vanilla.
+
+	[ Trader - Alt Currency Scale ]
+		- Fixed changes to CurrencyScale, or to a trader's alt_currency, being
+		  ignored until the game was restarted. Both were cached the first
+		  time they were read and never cleared, but the XML is read again
+		  every time a world loads. They are now reset when traders.xml is
+		  read.
+
+	[ Blood Moon - Bandits in Hordes ]
+		- Bandits can now be part of a blood moon horde. Entities spawned by
+		  the blood moon director no longer target each other: zombies leave
+		  the bandits alone, bandits leave the zombies alone, and stray hits
+		  don't start a fight. Both still attack players and NPCs.
+		- This covers zombies (EAI) and bandits using either UAI or EAI.
+		- It only applies to blood moon horde spawns. Bandits in POIs and
+		  elsewhere still fight zombies as before, including ones that spawn
+		  while a blood moon is active.
+		- The bandit must use Karl's class:
+			<property name="Class" value="EntityNPCBandit, SCore"/>
+		  The blood moon director only accepts enemy classes, so V4 NPCs
+		  (EntityAliveSDXV4, built on EntityTrader) can't be spawned there.
+		- No faction changes are needed. Keep the bandits in the "bandits"
+		  faction. Putting them in "undead" changes how they behave outside
+		  blood moons.
+		- To add a bandit to horde night as a special entity, the way the
+		  demolition zombie is added, append it to the horde groups that
+		  already contain the demolition zombie:
+			<append xpath="/entitygroups/entitygroup[starts-with(@name,'feralHordeStageGS') and e[@n='zombieDemolition']]">
+				<e n="yourBanditEntity" p="0.1"/>
+			</append>
+		  In vanilla those groups start at gamestage 147. To add bandits at
+		  every gamestage, remove " and e[@n='zombieDemolition']". The p
+		  value sets how often the bandit is picked.
+
+	[ Custom Quality Levels - QualityMin Items ]
+		- Fixed the cooking pot, grill, anvil and bellows losing quality when
+		  a save is reloaded. Any quality above 255 wrapped around (300 became
+		  44, 600 became 88).
+		- Cause: vanilla raises an item's quality to its QualityMin property
+		  on load, and casts the result to a byte. Only items that set
+		  QualityMin are affected.
+		- Items already loaded and saved at the lower quality are not
+		  restored.
+
 Version: 3.4.28.720
 	Game Version: v3.4.0 (b10)
 

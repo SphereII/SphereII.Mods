@@ -100,11 +100,15 @@ public static class QualityUtils
     /// <summary>
     /// Where a quality sits in the configured QualityLevels range, from 0 (lowest) to 1 (highest).
     /// Trader pricing uses this in place of vanilla's hardcoded (quality - 1) / 5, which assumes 1-6
-    /// and pins every quality of 6 and above to the top price.
+    /// and pins every quality of 6 and above to the top price. With CustomQualityLevels off it
+    /// returns the vanilla value, since the trader patch that calls it is always applied.
     /// </summary>
     public static float GetTraderQualityFraction(float quality)
     {
-        var min = GetMinQuality();
+        if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "CustomQualityLevels"))
+            return (quality - 1f) / 5f;
+
+var min = GetMinQuality();
         var max = GetMaxQuality();
         if (max <= min) return 1f;
         return (quality - min) / (max - min);

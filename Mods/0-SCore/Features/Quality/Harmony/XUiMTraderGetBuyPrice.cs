@@ -10,15 +10,16 @@ namespace SCore.Features.Quality.Harmony
     // TraderInfo.QualityMinMod/MaxMod. With CustomQualityLevels, every quality of 6 and above clamps
     // to the top of the lerp, so a 155 and a 555 price the same. Both lerps are rewritten to use
     // QualityUtils.GetTraderQualityFraction, which normalises against the configured range.
+    //
+    // The rewrite is always applied, and GetTraderQualityFraction checks CustomQualityLevels each
+    // time it runs. The check cannot go here: Harmony applies patches when the mod loads, before
+    // the XML is read, so the config block does not exist yet and the check always read false.
+    // That left trader prices on vanilla, where every quality of 6 and above costs the same.
     public static class TraderQualityPriceTranspiler
     {
-        private static readonly string AdvFeatureClass = "AdvancedItemFeatures";
-        private static readonly string Feature = "CustomQualityLevels";
-
         public static IEnumerable<CodeInstruction> Rewrite(IEnumerable<CodeInstruction> instructions, string methodName)
         {
             var codes = new List<CodeInstruction>(instructions);
-            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return codes;
 
             var getQuality = AccessTools.PropertyGetter(typeof(ItemValue), nameof(ItemValue.Quality));
             var fraction = AccessTools.Method(typeof(QualityUtils), nameof(QualityUtils.GetTraderQualityFraction));

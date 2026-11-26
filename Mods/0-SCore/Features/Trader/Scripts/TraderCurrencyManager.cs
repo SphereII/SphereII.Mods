@@ -15,6 +15,17 @@ public class TraderCurrencyManager
         }
     }
 
+    /// <summary>
+    /// Forgets every trader currency and cached CurrencyScale. The XML is read again each time a
+    /// world loads, and these are static, so without this a changed alt_currency or CurrencyScale
+    /// was ignored until the game was restarted.
+    /// </summary>
+    public static void Reset()
+    {
+        _currencyItems.Clear();
+        _currencyScales.Clear();
+    }
+
     public static bool HasCustomCurrency(int traderID)
     {
         return _currencyItems.ContainsKey(traderID);

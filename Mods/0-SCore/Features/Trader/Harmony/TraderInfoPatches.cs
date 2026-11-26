@@ -41,6 +41,12 @@ namespace Features.Trader
         [HarmonyPatch(nameof(TradersFromXml.ParseNode))]
         public class TradersFromXMLPatchParseNode
         {
+            // traders.xml is being read again (a world is loading), so drop what the last one set up.
+            public static void Prefix()
+            {
+                TraderCurrencyManager.Reset();
+            }
+
             public static void Postfix(XElement e)
             {
                 if (e.HasAttribute("currency_item"))

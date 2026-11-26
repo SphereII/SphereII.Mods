@@ -13,6 +13,17 @@ namespace Harmony.EAI
         {
             if (!__result) return;
 
+            // Blood moon horde members never target each other, so zombies leave bandits
+            // (EntityNPCBandit) in a blood moon group alone. Vanilla zombies target EntityBandit
+            // by class, so factions can't do this. SetAsTargetIfHurt also calls check(), so a
+            // stray hit doesn't start a fight either. UAI bandits get the same check through
+            // EntityTargetingUtilities.IsEnemy.
+            if (EntityTargetingUtilities.AreBloodMoonHordeMates(__instance.theEntity, _e))
+            {
+                __result = false;
+                return;
+            }
+
             // Only "humans" and entities with Use Factions tags should use faction-based targeting
             if (!EntityUtilities.IsHuman(__instance.theEntity.entityId)
                 && !EntityUtilities.UseFactions(__instance.theEntity))
