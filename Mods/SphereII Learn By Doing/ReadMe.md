@@ -1,5 +1,14 @@
 
 Version: TBD
+- New: Crafting Backpack (craftingBackpack, added in game 3.4) now levels by doing, in CraftingSkills/CraftingBackpack.xml. Four sources:
+  crafting a backpack ($lbd_xp_crafting_base, not for the same backpack twice in a row),
+  scrapping one ($lbd_xp_scrapping_base),
+  looting a container that pays out (1 XP, 15 second cooldown; the same _xpFromLoot check as Lucky Looter, so your own storage never pays, but with its own mark cvar so the two don't block each other),
+  and moving while wearing a backpack and over carry capacity (1 XP, 60 second cooldown, a quarter of looting's rate so it rewards hauling without becoming the grind).
+  From level 5, looting only counts with a backpack worn. Below 5 it counts without one: no recipe unlocks before level 5, traders don't sell backpacks, and they only drop from Savage Country crates.
+  Backpacks can't be repaired, so there is no repair award. Decay works like the other crafting skills, and reading the backpack magazine, crafting, scrapping, looting and carrying all reset it.
+  Existing characters get the skill's starting threshold (20) from the Settings Restore group, since Init only runs once per character.
+  The Pack Rat magazine (backpackSkillMagazine) is removed from loot like the other skill magazines. Its trader listing was already gone with the skillMagazines trader group, and the lootgroups it leaves empty already had a paper placeholder.
 - Decay now counts more of what actually uses a skill. Players were losing levels for playing well: armor only counted when you were hit, medical only when a medical item restored health, and a crafter who kept their gear in repair but stopped making new items forgot the skill. Only the activity resets changed; the decay timer, the threshold (7 intervals of 3000 seconds) and the one level lost are the same. None of the new resets earn XP.
 - Light, Medium and Heavy Armor: fighting in the armor now counts (damaging a zombie or animal while wearing 3 or more pieces of that class), as does repairing or crafting a piece of it. Sprinting counts for Medium and Heavy. Taking hits still counts, and is still the only thing that earns armor XP.
 - Crafting Medical: using any medical item on yourself counts, whether or not it restores health, so a splint, antibiotics or painkillers keep the skill. Healing with food still does not count for Medical.

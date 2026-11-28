@@ -73,8 +73,7 @@ public class NetPackageMinEventSharedReading : NetPackage
 
     public void DisplayTooltip(EntityPlayerLocal entityAlive, EntityAlive readingPlayer)
     {
-        var unlock = itemValue.ItemClass.Properties.GetString("Unlocks");
-        unlock = SCoreLocalizationHelper.GetLocalization(unlock);
+        var unlock = SCoreLocalizationHelper.GetUnlockLocalization(itemValue.ItemClass);
         var toolTipDisplay = $"{Localization.Get("sharedReadingDesc")} {readingPlayer.EntityName} :: {unlock}";
         GameManager.ShowTooltip(entityAlive, toolTipDisplay);
 

@@ -120,6 +120,12 @@
     </append>
 
     <append xpath="/buffs/buff[@name='buffLBD_General_DecayManager']">
+        <effect_group name="Crafting Backpack Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingbackpack_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingBackpack_Decay">
+                <requirement name="CVarCompare" cvar="$craftingbackpack_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
         <effect_group name="Crafting Armor Decay">
             <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingarmor_decay_counter" operation="add" value="1"/>
             <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingArmor_Decay">
@@ -336,6 +342,15 @@
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingVehicles" level="-1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingvehicles_decay_counter" operation="set" value="0"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingVehicles" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingBackpack_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingBackpack" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingBackpack" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbackpack_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingBackpack" sound="ui_skill_decay"/>
             </effect_group>
         </buff>
         <buff name="buffLBD_craftingArmor_Decay" hidden="true">

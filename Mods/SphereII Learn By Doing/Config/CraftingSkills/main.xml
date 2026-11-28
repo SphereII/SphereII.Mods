@@ -18,6 +18,7 @@
     <include filename="CraftingExplosives.xml"/>
     <include filename="CraftingRobotics.xml"/>
     <include filename="CraftingArmor.xml"/>
+    <include filename="CraftingBackpack.xml"/>
     <include filename="CraftingMedical.xml"/>
     <include filename="CraftingFood.xml"/>
     <include filename="CraftingElectrician.xml"/>

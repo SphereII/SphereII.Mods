@@ -25,8 +25,7 @@ namespace SCore.Features.SharedReading.Harmony
 
               
                 // Show the tooltip for the local player.
-                var unlock = stack.itemValue.ItemClass.Properties.GetString("Unlocks");
-                unlock = SCoreLocalizationHelper.GetLocalization(unlock);
+                var unlock = SCoreLocalizationHelper.GetUnlockLocalization(stack.itemValue.ItemClass);
                 var toolTipDisplay = $"{Localization.Get("sharedReadingSourceDesc")} :: {unlock}";
                 GameManager.ShowTooltip(readingPlayer, toolTipDisplay);
 

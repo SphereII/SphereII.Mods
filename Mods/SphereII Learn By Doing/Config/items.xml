@@ -24,6 +24,12 @@
             <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingarmor_decay_counter" operation="set" value="0"/>
         </effect_group>
     </append>
+    <!-- Reading this skill's magazine keeps craftingBackpack sharp. -->
+    <append xpath="/items/item[property[@name='Unlocks' and @value='craftingBackpack']]">
+        <effect_group name="LBD Decay Reset" tiered="false">
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$craftingbackpack_decay_counter" operation="set" value="0"/>
+        </effect_group>
+    </append>
     <!-- Reading this skill's magazine keeps craftingBlades sharp. -->
     <append xpath="/items/item[property[@name='Unlocks' and @value='craftingBlades']]">
         <effect_group name="LBD Decay Reset" tiered="false">

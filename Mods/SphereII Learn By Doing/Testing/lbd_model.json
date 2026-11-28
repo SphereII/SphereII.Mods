@@ -24,6 +24,12 @@
   "$lbd_xp_synergy_quest_bonus": "6",
   "$lbd_xp_greasemonkey_longcraft_bonus": "30",
   "$lbd_xp_masterchef_longcraft_bonus": "20",
+  "$lbd_xp_animaltracker_skillful_kill": "30",
+  "$lbd_xp_animaltracker_kill": "15",
+  "$lbd_xp_penetrator_multikill": "40",
+  "$lbd_xp_penetrator_armored_hit": "18",
+  "$lbd_xp_treasurehunter_chest": "150",
+  "$lbd_xp_treasurehunter_dig": "5",
   "$perkperceptionmastery_lbd_level": "0",
   "$perkstrengthmastery_lbd_level": "0",
   "$perkfortitudemastery_lbd_level": "0",
@@ -88,6 +94,9 @@
   "$craftingrobotics_lbd_xptonext": "20",
   "$craftingarmor_lbd_xp": "0",
   "$craftingarmor_lbd_xptonext": "20",
+  "$craftingbackpack_lbd_xp": "0",
+  "$craftingbackpack_lbd_xptonext": "20",
+  "$craftingbackpack_lbd_lootxp_mark": "@_xpFromLoot",
   "$craftingmedical_lbd_xp": "0",
   "$craftingmedical_lbd_xptonext": "20",
   "$craftingfood_lbd_xp": "0",
@@ -126,7 +135,7 @@
   "$perkruleonecardio_lbd_xp": "0",
   "$perkruleonecardio_lbd_xptonext": "1200",
   "$perkfortitudemastery_lbd_xp": "0",
-  "$perkfortitudemastery_lbd_xptonext": "1200",
+  "$perkfortitudemastery_lbd_xptonext": "3000",
   "$perkmasterchef_lbd_xp": "0",
   "$perkmasterchef_lbd_xptonext": "1500",
   "$perklivingofftheland_lbd_xp": "0",
@@ -206,7 +215,7 @@
   "$perkpummelpete_decay_counter": "0",
   "$perkskullcrusher_decay_counter": "0",
   "$perkgrandslam_decay_counter": "0",
-  "$perkflurryofblows_decay_counter": "0",
+  "$perkflurryofstrength_decay_counter": "0",
   "$perkminer69r_decay_counter": "0",
   "$perkmotherlode_decay_counter": "0",
   "$perkjunkminer_decay_counter": "0",
@@ -223,8 +232,8 @@
   "$perkskullcrusher_lbd_xptonext": "1200",
   "$perkgrandslam_lbd_xp": "0",
   "$perkgrandslam_lbd_xptonext": "1200",
-  "$perkflurryofblows_lbd_xp": "0",
-  "$perkflurryofblows_lbd_xptonext": "1200",
+  "$perkflurryofstrength_lbd_xp": "0",
+  "$perkflurryofstrength_lbd_xptonext": "1200",
   "$perkminer69r_lbd_xp": "0",
   "$perkminer69r_lbd_xptonext": "1200",
   "$perkmotherlode_lbd_xp": "0",
@@ -264,6 +273,12 @@
   "$lbd_xp_synergy_quest_bonus": "buffs.xml",
   "$lbd_xp_greasemonkey_longcraft_bonus": "buffs.xml",
   "$lbd_xp_masterchef_longcraft_bonus": "General/Init.xml",
+  "$lbd_xp_animaltracker_skillful_kill": "buffs.xml",
+  "$lbd_xp_animaltracker_kill": "buffs.xml",
+  "$lbd_xp_penetrator_multikill": "buffs.xml",
+  "$lbd_xp_penetrator_armored_hit": "buffs.xml",
+  "$lbd_xp_treasurehunter_chest": "buffs.xml",
+  "$lbd_xp_treasurehunter_dig": "buffs.xml",
   "$perkperceptionmastery_lbd_level": "buffs.xml",
   "$perkstrengthmastery_lbd_level": "buffs.xml",
   "$perkfortitudemastery_lbd_level": "buffs.xml",
@@ -328,6 +343,9 @@
   "$craftingrobotics_lbd_xptonext": "CraftingSkills/Init.xml",
   "$craftingarmor_lbd_xp": "CraftingSkills/Init.xml",
   "$craftingarmor_lbd_xptonext": "CraftingSkills/Init.xml",
+  "$craftingbackpack_lbd_xp": "CraftingSkills/Init.xml",
+  "$craftingbackpack_lbd_xptonext": "CraftingSkills/Init.xml",
+  "$craftingbackpack_lbd_lootxp_mark": "CraftingSkills/Init.xml",
   "$craftingmedical_lbd_xp": "CraftingSkills/Init.xml",
   "$craftingmedical_lbd_xptonext": "CraftingSkills/Init.xml",
   "$craftingfood_lbd_xp": "CraftingSkills/Init.xml",
@@ -446,7 +464,7 @@
   "$perkpummelpete_decay_counter": "Strength/Decay.xml",
   "$perkskullcrusher_decay_counter": "Strength/Decay.xml",
   "$perkgrandslam_decay_counter": "Strength/Decay.xml",
-  "$perkflurryofblows_decay_counter": "Strength/Decay.xml",
+  "$perkflurryofstrength_decay_counter": "Strength/Decay.xml",
   "$perkminer69r_decay_counter": "Strength/Decay.xml",
   "$perkmotherlode_decay_counter": "Strength/Decay.xml",
   "$perkjunkminer_decay_counter": "Strength/Decay.xml",
@@ -463,8 +481,8 @@
   "$perkskullcrusher_lbd_xptonext": "Strength/Init.xml",
   "$perkgrandslam_lbd_xp": "Strength/Init.xml",
   "$perkgrandslam_lbd_xptonext": "Strength/Init.xml",
-  "$perkflurryofblows_lbd_xp": "Strength/Init.xml",
-  "$perkflurryofblows_lbd_xptonext": "Strength/Init.xml",
+  "$perkflurryofstrength_lbd_xp": "Strength/Init.xml",
+  "$perkflurryofstrength_lbd_xptonext": "Strength/Init.xml",
   "$perkminer69r_lbd_xp": "Strength/Init.xml",
   "$perkminer69r_lbd_xptonext": "Strength/Init.xml",
   "$perkmotherlode_lbd_xp": "Strength/Init.xml",
@@ -500,15 +518,12 @@
   "buffLBD_perkHiddenStrike_XPCoolDown": 1.0,
   "buffLBD_perkHardTarget_XPCoolDown": 1.0,
   "buffLBD_perkFromTheShadows_XPCoolDown": 10.0,
-  "buffLBD_Flurry_ComboWindow_Agility": 2.0,
-  "buffLBD_perkFlurryOfAgility_XPCoolDown": 1.0,
-  "buffLBD_perkAgilityMastery_CombatCoolDown": 1.0,
-  "buffLBD_perkAgilityMastery_MovementCoolDown": 1.0,
   "buffLBD_Agility_DecayManager": 0.0,
   "buffLBD_attAgility_Decay": 1.0,
   "buffLBD_perkArchery_Decay": 1.0,
   "buffLBD_perkGunslinger_Decay": 1.0,
   "buffLBD_perkDeepCuts_Decay": 1.0,
+  "buffLBD_perkHardTarget_Decay": 1.0,
   "buffLBD_perkParkour_Decay": 1.0,
   "buffLBD_perkRunAndGun_Decay": 1.0,
   "buffLBD_perkHiddenStrike_Decay": 1.0,
@@ -516,6 +531,7 @@
   "buffLBD_perkFlurryOfAgility_Decay": 1.0,
   "buffLBD_perkAgilityMastery_Decay": 1.0,
   "buffLBD_perkDeepCuts_LevelUpCheck": 1.0,
+  "buffLBD_Flurry_ComboWindow_Agility": 2.0,
   "buffLBD_perkFlurryOfAgility_LevelUpCheck": 1.0,
   "buffLBD_perkFromTheShadows_LevelUpCheck": 1.0,
   "buffLBD_perkGunslinger_LevelUpCheck": 1.0,
@@ -527,6 +543,10 @@
   "buffLBD_craftingArmor_ActionCoolDown": 1.0,
   "buffLBD_craftingArmor_UseCoolDown": 15.0,
   "buffLBD_craftingArmor_T0RepairCoolDown": 5.0,
+  "buffLBD_craftingBackpack_LevelUpCheck": 1.0,
+  "buffLBD_craftingBackpack_ActionCoolDown": 1.0,
+  "buffLBD_craftingBackpack_UseCoolDown": 15.0,
+  "buffLBD_craftingBackpack_CarryCoolDown": 60.0,
   "buffLBD_craftingBlades_LevelUpCheck": 1.0,
   "buffLBD_craftingBlades_ActionCoolDown": 1.0,
   "buffLBD_craftingBlades_UseCoolDown": 15.0,
@@ -599,6 +619,8 @@
   "buffLBD_craftingWorkstations_LevelUpCheck": 1.0,
   "buffLBD_craftingWorkstations_ActionCoolDown": 1.0,
   "buffLBD_craftingWorkstations_HitCoolDown": 5.0,
+  "buffLBD_craftingKnuckles_Decay": 1.0,
+  "buffLBD_craftingMachineGuns_Decay": 1.0,
   "buffLBD_craftingHarvestingTools_Decay": 1.0,
   "buffLBD_craftingRepairTools_Decay": 1.0,
   "buffLBD_craftingClubs_Decay": 1.0,
@@ -617,6 +639,7 @@
   "buffLBD_craftingTraps_Decay": 1.0,
   "buffLBD_craftingRobotics_Decay": 1.0,
   "buffLBD_craftingVehicles_Decay": 1.0,
+  "buffLBD_craftingBackpack_Decay": 1.0,
   "buffLBD_craftingArmor_Decay": 1.0,
   "buffLBD_craftingFood_Decay": 1.0,
   "buffLBD_craftingSeeds_Decay": 1.0,
@@ -632,17 +655,14 @@
   "buffLBD_attFortitude_MoveCoolDown": 10.0,
   "buffLBD_perkBrawler_XPCoolDown": 1.0,
   "buffLBD_perkMachineGunner_XPCoolDown": 1.0,
-  "buffLBD_Flurry_ComboWindow_Fortitude": 2.0,
   "buffLBD_perkTheHuntsman_XPCoolDown": 5.0,
   "buffLBD_perkSiphoningStrikes_XPCoolDown": 1.0,
   "buffLBD_perkPainTolerance_DamageCoolDown": 1.0,
   "buffLBD_perkPainTolerance_StunCoolDown": 5.0,
   "buffLBD_perkPainTolerance_ConcussionCoolDown": 60.0,
-  "buffLBD_perkPainTolerance_ConcussionChecker": 0.1,
   "buffLBD_perkHealingFactor_XPCoolDown": 10.0,
   "buffLBD_perkHealingFactor_HealCoolDown": 15.0,
   "buffLBD_perkSlowMetabolism_ConsumeCoolDown": 10.0,
-  "buffLBD_perkSlowMetabolism_RecoveryCoolDown": 600.0,
   "buffLBD_perkRuleOneCardio_XPCoolDown": 10.0,
   "buffLBD_Fortitude_DecayManager": 0.0,
   "buffLBD_attFortitude_Decay": 1.0,
@@ -656,12 +676,14 @@
   "buffLBD_perkSlowMetabolism_Decay": 1.0,
   "buffLBD_perkRuleOneCardio_Decay": 1.0,
   "buffLBD_perkFortitudeMastery_Decay": 1.0,
+  "buffLBD_Flurry_ComboWindow_Fortitude": 2.0,
   "buffLBD_perkFlurryOfFortitude_LevelUpCheck": 1.0,
   "buffLBD_attFortitude_LevelUpCheck": 1.0,
   "buffLBD_attFortitude_MasteryChecker": 0.1,
   "buffLBD_perkFortitudeMastery_LevelUpCheck": 1.0,
   "buffLBD_perkHealingFactor_LevelUpCheck": 1.0,
   "buffLBD_perkMachineGunner_LevelUpCheck": 1.0,
+  "buffLBD_perkPainTolerance_ConcussionChecker": 0.1,
   "buffLBD_perkPainTolerance_LevelUpCheck": 1.0,
   "buffLBD_perkRuleOneCardio_LevelUpCheck": 1.0,
   "buffLBD_perkSiphoningStrikes_LevelUpCheck": 1.0,
@@ -696,8 +718,6 @@
   "buffLBD_attIntellect_XPCoolDown": 1.0,
   "buffLBD_perkElectrocutioner_XPCoolDown": 1.0,
   "buffLBD_perkTurrets_XPCoolDown": 1.0,
-  "buffLBD_Flurry_ComboWindow_Intellect": 2.0,
-  "buffLBD_perkFlurryOfIntellect_XPCoolDown": 1.0,
   "buffLBD_perkDaringAdventurer_XPCoolDown": 60.0,
   "buffLBD_perkPhysician_XPCoolDown": 5.0,
   "buffLBD_perkAdvancedEngineering_XPCoolDown": 1.0,
@@ -708,7 +728,6 @@
   "buffLBD_perkGreaseMonkey_TeardownCoolDown": 15.0,
   "buffLBD_perkGreaseMonkey_LongCraftCoolDown": 1.0,
   "buffLBD_perkCharismaticNature_XPCoolDown": 10.0,
-  "buffLBD_perkIntellectMastery_XPCoolDown": 1.0,
   "buffLBD_perkDaringAdventurer_LevelUpCheck": 1.0,
   "buffLBD_Intellect_DecayManager": 0.0,
   "buffLBD_attIntellect_Decay": 1.0,
@@ -723,6 +742,7 @@
   "buffLBD_perkCharismaticNature_Decay": 1.0,
   "buffLBD_perkIntellectMastery_Decay": 1.0,
   "buffLBD_perkElectrocutioner_LevelUpCheck": 1.0,
+  "buffLBD_Flurry_ComboWindow_Intellect": 2.0,
   "buffLBD_perkFlurryOfIntellect_LevelUpCheck": 1.0,
   "buffLBD_perkGreaseMonkey_LevelUpCheck": 1.0,
   "buffLBD_attIntellect_LevelUpCheck": 1.0,
@@ -736,14 +756,11 @@
   "buffLBD_perkJavelinMaster_XPCoolDown": 1.0,
   "buffLBD_perkSalvageOperations_XPCoolDown": 1.5,
   "buffLBD_perkAnimalTracker_KillCoolDown": 1.0,
-  "buffLBD_Flurry_ComboWindow": 2.0,
   "buffLBD_perkPenetrator_XPCoolDown": 1.0,
   "buffLBD_Penetrator_MultiHitWindow": 0.1,
   "buffLBD_perkTreasureHunter_DigCoolDown": 1.0,
   "buffLBD_perkTreasureHunter_LootCoolDown": 1.0,
   "buffLBD_perkInfiltrator_ActionCoolDown": 2.0,
-  "buffLBD_perkPerceptionMastery_HarvestCoolDown": 2.0,
-  "buffLBD_perkPerceptionMastery_CombatCoolDown": 1.0,
   "buffLBD_perkDeadEye_LevelUpCheck": 1.0,
   "buffLBD_Perception_DecayManager": 0.0,
   "buffLBD_attPerception_Decay": 1.0,
@@ -758,6 +775,7 @@
   "buffLBD_perkInfiltrator_Decay": 1.0,
   "buffLBD_perkPerceptionMastery_Decay": 1.0,
   "buffLBD_perkDemolitionsExpert_LevelUpCheck": 1.0,
+  "buffLBD_Flurry_ComboWindow_Perception": 2.0,
   "buffLBD_perkFlurryOfPerception_LevelUpCheck": 1.0,
   "buffLBD_perkJavelinMaster_LevelUpCheck": 1.0,
   "buffLBD_attPerception_LevelUpCheck": 1.0,
@@ -773,26 +791,24 @@
   "buffLBD_perkPummelPete_XPCoolDown": 1.0,
   "buffLBD_perkSkullCrusher_XPCoolDown": 1.0,
   "buffLBD_perkGrandSlam_XPCoolDown": 1.0,
-  "buffLBD_Flurry_ComboWindow_Strength": 2.0,
   "buffLBD_perkMiner69r_XPCoolDown": 1.5,
   "buffLBD_perkMotherLode_XPCoolDown": 1.0,
   "buffLBD_perkJunkMiner_XPCoolDown": 1.0,
   "buffLBD_perkPackMule_XPCoolDown": 5.0,
-  "buffLBD_perkStrengthMastery_CombatCoolDown": 1.0,
-  "buffLBD_perkStrengthMastery_MiningCoolDown": 2.0,
   "buffLBD_Strength_DecayManager": 0.0,
   "buffLBD_attStrength_Decay": 1.0,
   "buffLBD_perkBoomstick_Decay": 1.0,
   "buffLBD_perkPummelPete_Decay": 1.0,
   "buffLBD_perkSkullCrusher_Decay": 1.0,
   "buffLBD_perkGrandSlam_Decay": 1.0,
-  "buffLBD_perkFlurryOfBlows_Decay": 1.0,
+  "buffLBD_perkFlurryOfStrength_Decay": 1.0,
   "buffLBD_perkMiner69r_Decay": 1.0,
   "buffLBD_perkMotherLode_Decay": 1.0,
   "buffLBD_perkJunkMiner_Decay": 1.0,
   "buffLBD_perkPackMule_Decay": 1.0,
   "buffLBD_perkStrengthMastery_Decay": 1.0,
-  "buffLBD_perkFlurryOfBlows_LevelUpCheck": 1.0,
+  "buffLBD_Flurry_ComboWindow_Strength": 2.0,
+  "buffLBD_perkFlurryOfStrength_LevelUpCheck": 1.0,
   "buffLBD_perkGrandSlam_LevelUpCheck": 1.0,
   "buffLBD_perkJunkMiner_LevelUpCheck": 1.0,
   "buffLBD_perkMiner69r_LevelUpCheck": 1.0,
@@ -2544,6 +2560,734 @@
    "labels": [
     "Armor",
     "Crafting Armor"
+   ]
+  },
+  "craftingbackpack": {
+   "progression": "craftingBackpack",
+   "max_level": 100,
+   "xptonext_start": 20.0,
+   "curve": 1.04,
+   "awards": [
+    {
+     "file": "CraftingSkills/CraftingBackpack.xml",
+     "manager": "buffLBD_GeneralManager",
+     "group": "LBD Crafting Skill - Backpack",
+     "trigger": "onSelfItemCrafted",
+     "value_expr": "@$lbd_xp_crafting_base",
+     "value": 3.0,
+     "runtime": true,
+     "cooldown_buff": "buffLBD_craftingBackpack_ActionCoolDown",
+     "cooldown_s": 1.0,
+     "cooldown_defined": true,
+     "reqs": [
+      "ItemHasProperty, SCore(property=UnlockedBy, prop_value=craftingBackpack)",
+      "NotHasBuff(buff=buffLBD_craftingBackpack_ActionCoolDown)",
+      "!RequirementCraftedItemMatchesCVar, SCore(cvar=$craftingbackpack_lbd_lastitem)"
+     ]
+    },
+    {
+     "file": "CraftingSkills/CraftingBackpack.xml",
+     "manager": "buffLBD_GeneralManager",
+     "group": "LBD Crafting Skill - Backpack",
+     "trigger": "onSelfScrapItem",
+     "value_expr": "@$lbd_xp_scrapping_base",
+     "value": 1.0,
+     "runtime": true,
+     "cooldown_buff": "buffLBD_craftingBackpack_ActionCoolDown",
+     "cooldown_s": 1.0,
+     "cooldown_defined": true,
+     "reqs": [
+      "ItemHasProperty, SCore(property=UnlockedBy, prop_value=craftingBackpack)",
+      "NotHasBuff(buff=buffLBD_craftingBackpack_ActionCoolDown)"
+     ]
+    },
+    {
+     "file": "CraftingSkills/CraftingBackpack.xml",
+     "manager": "buffLBD_GeneralManager",
+     "group": "LBD Crafting Skill - Backpack (Loot)",
+     "trigger": "onSelfCloseLootContainer",
+     "value_expr": "@$lbd_xp_crafting_use_base",
+     "value": 1.0,
+     "runtime": true,
+     "cooldown_buff": "buffLBD_craftingBackpack_UseCoolDown",
+     "cooldown_s": 15.0,
+     "cooldown_defined": true,
+     "reqs": [
+      "ProgressionLevel(progression_name=craftingBackpack, operation=LT, value=5)",
+      "CVarCompare(cvar=_xpFromLoot, operation=GT, value=@$craftingbackpack_lbd_lootxp_mark)",
+      "NotHasBuff(buff=buffLBD_craftingBackpack_UseCoolDown)"
+     ]
+    },
+    {
+     "file": "CraftingSkills/CraftingBackpack.xml",
+     "manager": "buffLBD_GeneralManager",
+     "group": "LBD Crafting Skill - Backpack (Loot)",
+     "trigger": "onSelfCloseLootContainer",
+     "value_expr": "@$lbd_xp_crafting_use_base",
+     "value": 1.0,
+     "runtime": true,
+     "cooldown_buff": "buffLBD_craftingBackpack_UseCoolDown",
+     "cooldown_s": 15.0,
+     "cooldown_defined": true,
+     "reqs": [
+      "ProgressionLevel(progression_name=craftingBackpack, operation=GTE, value=5)",
+      "WornItems(tags=backpackT1,backpackT2,backpackT3, operation=GTE, value=1)",
+      "CVarCompare(cvar=_xpFromLoot, operation=GT, value=@$craftingbackpack_lbd_lootxp_mark)",
+      "NotHasBuff(buff=buffLBD_craftingBackpack_UseCoolDown)"
+     ]
+    },
+    {
+     "file": "CraftingSkills/CraftingBackpack.xml",
+     "manager": "buffLBD_GeneralManager",
+     "group": "LBD Crafting Skill - Backpack (Carry)",
+     "trigger": "onSelfRun",
+     "value_expr": "@$lbd_xp_crafting_use_base",
+     "value": 1.0,
+     "runtime": true,
+     "cooldown_buff": "buffLBD_craftingBackpack_CarryCoolDown",
+     "cooldown_s": 60.0,
+     "cooldown_defined": true,
+     "reqs": [
+      "NotHasBuff(buff=buffLBD_craftingBackpack_CarryCoolDown)"
+     ]
+    },
+    {
+     "file": "CraftingSkills/CraftingBackpack.xml",
+     "manager": "buffLBD_GeneralManager",
+     "group": "LBD Crafting Skill - Backpack (Carry)",
+     "trigger": "onSelfWalk",
+     "value_expr": "@$lbd_xp_crafting_use_base",
+     "value": 1.0,
+     "runtime": true,
+     "cooldown_buff": "buffLBD_craftingBackpack_CarryCoolDown",
+     "cooldown_s": 60.0,
+     "cooldown_defined": true,
+     "reqs": [
+      "NotHasBuff(buff=buffLBD_craftingBackpack_CarryCoolDown)"
+     ]
+    }
+   ],
+   "levelup_buff": "buffLBD_craftingBackpack_LevelUpCheck",
+   "levelup_groups": [
+    1
+   ],
+   "gates": [],
+   "levels": [
+    {
+     "level": 1,
+     "threshold": 20.0,
+     "actions": 7,
+     "floor_s": 7.0
+    },
+    {
+     "level": 2,
+     "threshold": 20.8,
+     "actions": 7,
+     "floor_s": 7.0
+    },
+    {
+     "level": 3,
+     "threshold": 21.6,
+     "actions": 8,
+     "floor_s": 8.0
+    },
+    {
+     "level": 4,
+     "threshold": 22.5,
+     "actions": 8,
+     "floor_s": 8.0
+    },
+    {
+     "level": 5,
+     "threshold": 23.4,
+     "actions": 8,
+     "floor_s": 8.0
+    },
+    {
+     "level": 6,
+     "threshold": 24.3,
+     "actions": 9,
+     "floor_s": 9.0
+    },
+    {
+     "level": 7,
+     "threshold": 25.3,
+     "actions": 9,
+     "floor_s": 9.0
+    },
+    {
+     "level": 8,
+     "threshold": 26.3,
+     "actions": 9,
+     "floor_s": 9.0
+    },
+    {
+     "level": 9,
+     "threshold": 27.4,
+     "actions": 10,
+     "floor_s": 10.0
+    },
+    {
+     "level": 10,
+     "threshold": 28.5,
+     "actions": 10,
+     "floor_s": 10.0
+    },
+    {
+     "level": 11,
+     "threshold": 29.6,
+     "actions": 10,
+     "floor_s": 10.0
+    },
+    {
+     "level": 12,
+     "threshold": 30.8,
+     "actions": 11,
+     "floor_s": 11.0
+    },
+    {
+     "level": 13,
+     "threshold": 32.0,
+     "actions": 11,
+     "floor_s": 11.0
+    },
+    {
+     "level": 14,
+     "threshold": 33.3,
+     "actions": 12,
+     "floor_s": 12.0
+    },
+    {
+     "level": 15,
+     "threshold": 34.6,
+     "actions": 12,
+     "floor_s": 12.0
+    },
+    {
+     "level": 16,
+     "threshold": 36.0,
+     "actions": 13,
+     "floor_s": 13.0
+    },
+    {
+     "level": 17,
+     "threshold": 37.5,
+     "actions": 13,
+     "floor_s": 13.0
+    },
+    {
+     "level": 18,
+     "threshold": 39.0,
+     "actions": 13,
+     "floor_s": 13.0
+    },
+    {
+     "level": 19,
+     "threshold": 40.5,
+     "actions": 14,
+     "floor_s": 14.0
+    },
+    {
+     "level": 20,
+     "threshold": 42.1,
+     "actions": 15,
+     "floor_s": 15.0
+    },
+    {
+     "level": 21,
+     "threshold": 43.8,
+     "actions": 15,
+     "floor_s": 15.0
+    },
+    {
+     "level": 22,
+     "threshold": 45.6,
+     "actions": 16,
+     "floor_s": 16.0
+    },
+    {
+     "level": 23,
+     "threshold": 47.4,
+     "actions": 16,
+     "floor_s": 16.0
+    },
+    {
+     "level": 24,
+     "threshold": 49.3,
+     "actions": 17,
+     "floor_s": 17.0
+    },
+    {
+     "level": 25,
+     "threshold": 51.3,
+     "actions": 18,
+     "floor_s": 18.0
+    },
+    {
+     "level": 26,
+     "threshold": 53.3,
+     "actions": 18,
+     "floor_s": 18.0
+    },
+    {
+     "level": 27,
+     "threshold": 55.4,
+     "actions": 19,
+     "floor_s": 19.0
+    },
+    {
+     "level": 28,
+     "threshold": 57.7,
+     "actions": 20,
+     "floor_s": 20.0
+    },
+    {
+     "level": 29,
+     "threshold": 60.0,
+     "actions": 20,
+     "floor_s": 20.0
+    },
+    {
+     "level": 30,
+     "threshold": 62.4,
+     "actions": 21,
+     "floor_s": 21.0
+    },
+    {
+     "level": 31,
+     "threshold": 64.9,
+     "actions": 22,
+     "floor_s": 22.0
+    },
+    {
+     "level": 32,
+     "threshold": 67.5,
+     "actions": 23,
+     "floor_s": 23.0
+    },
+    {
+     "level": 33,
+     "threshold": 70.2,
+     "actions": 24,
+     "floor_s": 24.0
+    },
+    {
+     "level": 34,
+     "threshold": 73.0,
+     "actions": 25,
+     "floor_s": 25.0
+    },
+    {
+     "level": 35,
+     "threshold": 75.9,
+     "actions": 26,
+     "floor_s": 26.0
+    },
+    {
+     "level": 36,
+     "threshold": 78.9,
+     "actions": 27,
+     "floor_s": 27.0
+    },
+    {
+     "level": 37,
+     "threshold": 82.1,
+     "actions": 28,
+     "floor_s": 28.0
+    },
+    {
+     "level": 38,
+     "threshold": 85.4,
+     "actions": 29,
+     "floor_s": 29.0
+    },
+    {
+     "level": 39,
+     "threshold": 88.8,
+     "actions": 30,
+     "floor_s": 30.0
+    },
+    {
+     "level": 40,
+     "threshold": 92.3,
+     "actions": 31,
+     "floor_s": 31.0
+    },
+    {
+     "level": 41,
+     "threshold": 96.0,
+     "actions": 33,
+     "floor_s": 33.0
+    },
+    {
+     "level": 42,
+     "threshold": 99.9,
+     "actions": 34,
+     "floor_s": 34.0
+    },
+    {
+     "level": 43,
+     "threshold": 103.9,
+     "actions": 35,
+     "floor_s": 35.0
+    },
+    {
+     "level": 44,
+     "threshold": 108.0,
+     "actions": 37,
+     "floor_s": 37.0
+    },
+    {
+     "level": 45,
+     "threshold": 112.3,
+     "actions": 38,
+     "floor_s": 38.0
+    },
+    {
+     "level": 46,
+     "threshold": 116.8,
+     "actions": 39,
+     "floor_s": 39.0
+    },
+    {
+     "level": 47,
+     "threshold": 121.5,
+     "actions": 41,
+     "floor_s": 41.0
+    },
+    {
+     "level": 48,
+     "threshold": 126.4,
+     "actions": 43,
+     "floor_s": 43.0
+    },
+    {
+     "level": 49,
+     "threshold": 131.4,
+     "actions": 44,
+     "floor_s": 44.0
+    },
+    {
+     "level": 50,
+     "threshold": 136.7,
+     "actions": 46,
+     "floor_s": 46.0
+    },
+    {
+     "level": 51,
+     "threshold": 142.1,
+     "actions": 48,
+     "floor_s": 48.0
+    },
+    {
+     "level": 52,
+     "threshold": 147.8,
+     "actions": 50,
+     "floor_s": 50.0
+    },
+    {
+     "level": 53,
+     "threshold": 153.7,
+     "actions": 52,
+     "floor_s": 52.0
+    },
+    {
+     "level": 54,
+     "threshold": 159.9,
+     "actions": 54,
+     "floor_s": 54.0
+    },
+    {
+     "level": 55,
+     "threshold": 166.3,
+     "actions": 56,
+     "floor_s": 56.0
+    },
+    {
+     "level": 56,
+     "threshold": 172.9,
+     "actions": 58,
+     "floor_s": 58.0
+    },
+    {
+     "level": 57,
+     "threshold": 179.8,
+     "actions": 60,
+     "floor_s": 60.0
+    },
+    {
+     "level": 58,
+     "threshold": 187.0,
+     "actions": 63,
+     "floor_s": 63.0
+    },
+    {
+     "level": 59,
+     "threshold": 194.5,
+     "actions": 65,
+     "floor_s": 65.0
+    },
+    {
+     "level": 60,
+     "threshold": 202.3,
+     "actions": 68,
+     "floor_s": 68.0
+    },
+    {
+     "level": 61,
+     "threshold": 210.4,
+     "actions": 71,
+     "floor_s": 71.0
+    },
+    {
+     "level": 62,
+     "threshold": 218.8,
+     "actions": 73,
+     "floor_s": 73.0
+    },
+    {
+     "level": 63,
+     "threshold": 227.6,
+     "actions": 76,
+     "floor_s": 76.0
+    },
+    {
+     "level": 64,
+     "threshold": 236.7,
+     "actions": 79,
+     "floor_s": 79.0
+    },
+    {
+     "level": 65,
+     "threshold": 246.1,
+     "actions": 83,
+     "floor_s": 83.0
+    },
+    {
+     "level": 66,
+     "threshold": 256.0,
+     "actions": 86,
+     "floor_s": 86.0
+    },
+    {
+     "level": 67,
+     "threshold": 266.2,
+     "actions": 89,
+     "floor_s": 89.0
+    },
+    {
+     "level": 68,
+     "threshold": 276.9,
+     "actions": 93,
+     "floor_s": 93.0
+    },
+    {
+     "level": 69,
+     "threshold": 287.9,
+     "actions": 96,
+     "floor_s": 96.0
+    },
+    {
+     "level": 70,
+     "threshold": 299.5,
+     "actions": 100,
+     "floor_s": 100.0
+    },
+    {
+     "level": 71,
+     "threshold": 311.4,
+     "actions": 104,
+     "floor_s": 104.0
+    },
+    {
+     "level": 72,
+     "threshold": 323.9,
+     "actions": 108,
+     "floor_s": 108.0
+    },
+    {
+     "level": 73,
+     "threshold": 336.8,
+     "actions": 113,
+     "floor_s": 113.0
+    },
+    {
+     "level": 74,
+     "threshold": 350.3,
+     "actions": 117,
+     "floor_s": 117.0
+    },
+    {
+     "level": 75,
+     "threshold": 364.3,
+     "actions": 122,
+     "floor_s": 122.0
+    },
+    {
+     "level": 76,
+     "threshold": 378.9,
+     "actions": 127,
+     "floor_s": 127.0
+    },
+    {
+     "level": 77,
+     "threshold": 394.1,
+     "actions": 132,
+     "floor_s": 132.0
+    },
+    {
+     "level": 78,
+     "threshold": 409.8,
+     "actions": 137,
+     "floor_s": 137.0
+    },
+    {
+     "level": 79,
+     "threshold": 426.2,
+     "actions": 143,
+     "floor_s": 143.0
+    },
+    {
+     "level": 80,
+     "threshold": 443.3,
+     "actions": 148,
+     "floor_s": 148.0
+    },
+    {
+     "level": 81,
+     "threshold": 461.0,
+     "actions": 154,
+     "floor_s": 154.0
+    },
+    {
+     "level": 82,
+     "threshold": 479.4,
+     "actions": 160,
+     "floor_s": 160.0
+    },
+    {
+     "level": 83,
+     "threshold": 498.6,
+     "actions": 167,
+     "floor_s": 167.0
+    },
+    {
+     "level": 84,
+     "threshold": 518.6,
+     "actions": 173,
+     "floor_s": 173.0
+    },
+    {
+     "level": 85,
+     "threshold": 539.3,
+     "actions": 180,
+     "floor_s": 180.0
+    },
+    {
+     "level": 86,
+     "threshold": 560.9,
+     "actions": 187,
+     "floor_s": 187.0
+    },
+    {
+     "level": 87,
+     "threshold": 583.3,
+     "actions": 195,
+     "floor_s": 195.0
+    },
+    {
+     "level": 88,
+     "threshold": 606.6,
+     "actions": 203,
+     "floor_s": 203.0
+    },
+    {
+     "level": 89,
+     "threshold": 630.9,
+     "actions": 211,
+     "floor_s": 211.0
+    },
+    {
+     "level": 90,
+     "threshold": 656.1,
+     "actions": 219,
+     "floor_s": 219.0
+    },
+    {
+     "level": 91,
+     "threshold": 682.4,
+     "actions": 228,
+     "floor_s": 228.0
+    },
+    {
+     "level": 92,
+     "threshold": 709.7,
+     "actions": 237,
+     "floor_s": 237.0
+    },
+    {
+     "level": 93,
+     "threshold": 738.1,
+     "actions": 247,
+     "floor_s": 247.0
+    },
+    {
+     "level": 94,
+     "threshold": 767.6,
+     "actions": 256,
+     "floor_s": 256.0
+    },
+    {
+     "level": 95,
+     "threshold": 798.3,
+     "actions": 267,
+     "floor_s": 267.0
+    },
+    {
+     "level": 96,
+     "threshold": 830.2,
+     "actions": 277,
+     "floor_s": 277.0
+    },
+    {
+     "level": 97,
+     "threshold": 863.4,
+     "actions": 288,
+     "floor_s": 288.0
+    },
+    {
+     "level": 98,
+     "threshold": 898.0,
+     "actions": 300,
+     "floor_s": 300.0
+    },
+    {
+     "level": 99,
+     "threshold": 933.9,
+     "actions": 312,
+     "floor_s": 312.0
+    },
+    {
+     "level": 100,
+     "threshold": 971.2,
+     "actions": 324,
+     "floor_s": 324.0
+    }
+   ],
+   "obs": {
+    "award_logs": 6,
+    "award_paths": 6,
+    "levelcheck_log": false,
+    "success_log": true,
+    "fail_log": true
+   },
+   "group": [
+    "buffLBD_GeneralManager",
+    "LBD Crafting Skill - Backpack (Carry)"
+   ],
+   "labels": [
+    "Backpack",
+    "Crafting Backpack"
    ]
   },
   "craftingblades": {
@@ -16501,9 +17245,9 @@
      "manager": "buffLBD_PerceptionManager",
      "group": "Animal Tracker",
      "trigger": "onSelfKilledOther",
-     "value_expr": "30",
+     "value_expr": "@$lbd_xp_animaltracker_skillful_kill",
      "value": 30.0,
-     "runtime": false,
+     "runtime": true,
      "cooldown_buff": "buffLBD_perkAnimalTracker_KillCoolDown",
      "cooldown_s": 1.0,
      "cooldown_defined": true,
@@ -16516,9 +17260,9 @@
      "manager": "buffLBD_PerceptionManager",
      "group": "Animal Tracker",
      "trigger": "onSelfKilledOther",
-     "value_expr": "15",
+     "value_expr": "@$lbd_xp_animaltracker_kill",
      "value": 15.0,
-     "runtime": false,
+     "runtime": true,
      "cooldown_buff": "buffLBD_perkAnimalTracker_KillCoolDown",
      "cooldown_s": 1.0,
      "cooldown_defined": true,
@@ -16757,9 +17501,9 @@
      "manager": "buffLBD_StrengthManager",
      "group": "Boomstick",
      "trigger": "onSelfPrimaryActionRayHit",
-     "value_expr": "15",
-     "value": 15.0,
-     "runtime": false,
+     "value_expr": "@$lbd_xp_ranged_base",
+     "value": 1.0,
+     "runtime": true,
      "cooldown_buff": "buffLBD_perkBoomstick_XPCoolDown",
      "cooldown_s": 1.0,
      "cooldown_defined": true,
@@ -16778,32 +17522,32 @@
     {
      "level": 1,
      "threshold": 1200.0,
-     "actions": 80,
-     "floor_s": 80.0
+     "actions": 1200,
+     "floor_s": 1200.0
     },
     {
      "level": 2,
      "threshold": 1320.0,
-     "actions": 88,
-     "floor_s": 88.0
+     "actions": 1320,
+     "floor_s": 1320.0
     },
     {
      "level": 3,
      "threshold": 1452.0,
-     "actions": 97,
-     "floor_s": 97.0
+     "actions": 1453,
+     "floor_s": 1453.0
     },
     {
      "level": 4,
      "threshold": 1597.2,
-     "actions": 107,
-     "floor_s": 107.0
+     "actions": 1598,
+     "floor_s": 1598.0
     },
     {
      "level": 5,
      "threshold": 1756.9,
-     "actions": 118,
-     "floor_s": 118.0
+     "actions": 1757,
+     "floor_s": 1757.0
     }
    ],
    "obs": {
@@ -17470,6 +18214,21 @@
      "reqs": [
       "HasBuff(buff=buffLBD_Flurry_ComboWindow_Agility)"
      ]
+    },
+    {
+     "file": "Agility/FlurryOfAgility.xml",
+     "manager": "buffLBD_AgilityManager",
+     "group": "Flurry of Agility",
+     "trigger": "onSelfSecondaryActionRayHit",
+     "value_expr": "@$lbd_xp_flurry_bonus",
+     "value": 5.0,
+     "runtime": true,
+     "cooldown_buff": null,
+     "cooldown_s": null,
+     "cooldown_defined": null,
+     "reqs": [
+      "HasBuff(buff=buffLBD_Flurry_ComboWindow_Agility)"
+     ]
     }
    ],
    "levelup_buff": "buffLBD_perkFlurryOfAgility_LevelUpCheck",
@@ -17510,8 +18269,8 @@
     }
    ],
    "obs": {
-    "award_logs": 1,
-    "award_paths": 1,
+    "award_logs": 2,
+    "award_paths": 2,
     "levelcheck_log": true,
     "success_log": true,
     "fail_log": true
@@ -17521,98 +18280,8 @@
     "Flurry of Agility"
    ],
    "labels": [
-    "Flurry of Agility"
-   ]
-  },
-  "perkflurryofblows": {
-   "progression": "perkFlurryOfStrength",
-   "max_level": 5,
-   "xptonext_start": 1200.0,
-   "curve": 1.1,
-   "awards": [
-    {
-     "file": "Strength/FlurryOfBlows.xml",
-     "manager": "buffLBD_StrengthManager",
-     "group": "Flurry of Blows",
-     "trigger": "onSelfPrimaryActionRayHit",
-     "value_expr": "@$lbd_xp_flurry_bonus",
-     "value": 5.0,
-     "runtime": true,
-     "cooldown_buff": null,
-     "cooldown_s": null,
-     "cooldown_defined": null,
-     "reqs": [
-      "HasBuff(buff=buffLBD_Flurry_ComboWindow_Strength)"
-     ]
-    },
-    {
-     "file": "Strength/FlurryOfBlows.xml",
-     "manager": "buffLBD_StrengthManager",
-     "group": "Flurry of Blows",
-     "trigger": "onSelfSecondaryActionRayHit",
-     "value_expr": "@$lbd_xp_flurry_bonus",
-     "value": 5.0,
-     "runtime": true,
-     "cooldown_buff": null,
-     "cooldown_s": null,
-     "cooldown_defined": null,
-     "reqs": [
-      "HasBuff(buff=buffLBD_Flurry_ComboWindow_Strength)"
-     ]
-    }
-   ],
-   "levelup_buff": "buffLBD_perkFlurryOfBlows_LevelUpCheck",
-   "levelup_groups": [
-    1
-   ],
-   "gates": [],
-   "levels": [
-    {
-     "level": 1,
-     "threshold": 1200.0,
-     "actions": 240,
-     "floor_s": null
-    },
-    {
-     "level": 2,
-     "threshold": 1320.0,
-     "actions": 264,
-     "floor_s": null
-    },
-    {
-     "level": 3,
-     "threshold": 1452.0,
-     "actions": 291,
-     "floor_s": null
-    },
-    {
-     "level": 4,
-     "threshold": 1597.2,
-     "actions": 320,
-     "floor_s": null
-    },
-    {
-     "level": 5,
-     "threshold": 1756.9,
-     "actions": 352,
-     "floor_s": null
-    }
-   ],
-   "obs": {
-    "award_logs": 2,
-    "award_paths": 2,
-    "levelcheck_log": false,
-    "success_log": true,
-    "fail_log": true
-   },
-   "group": [
-    "buffLBD_StrengthManager",
-    "Flurry of Blows"
-   ],
-   "labels": [
-    "Flurry of Blows",
-    "Flurry of Blows Power",
-    "Flurry of Blows Primary"
+    "Flurry of Agility",
+    "Flurry of Agility Power"
    ]
   },
   "perkflurryoffortitude": {
@@ -17727,6 +18396,21 @@
      "reqs": [
       "HasBuff(buff=buffLBD_Flurry_ComboWindow_Intellect)"
      ]
+    },
+    {
+     "file": "Intellect/FlurryOfIntellect.xml",
+     "manager": "buffLBD_IntellectManager",
+     "group": "Flurry of Intellect",
+     "trigger": "onSelfSecondaryActionRayHit",
+     "value_expr": "@$lbd_xp_flurry_bonus",
+     "value": 5.0,
+     "runtime": true,
+     "cooldown_buff": null,
+     "cooldown_s": null,
+     "cooldown_defined": null,
+     "reqs": [
+      "HasBuff(buff=buffLBD_Flurry_ComboWindow_Intellect)"
+     ]
     }
    ],
    "levelup_buff": "buffLBD_perkFlurryOfIntellect_LevelUpCheck",
@@ -17767,8 +18451,8 @@
     }
    ],
    "obs": {
-    "award_logs": 1,
-    "award_paths": 1,
+    "award_logs": 2,
+    "award_paths": 2,
     "levelcheck_log": true,
     "success_log": true,
     "fail_log": true
@@ -17778,7 +18462,8 @@
     "Flurry of Intellect"
    ],
    "labels": [
-    "Flurry of Intellect"
+    "Flurry of Intellect",
+    "Flurry of Intellect Power"
    ]
   },
   "perkflurryofperception": {
@@ -17788,7 +18473,7 @@
    "curve": 1.1,
    "awards": [
     {
-     "file": "Perception/FlurryOfPerceptions.xml",
+     "file": "Perception/FlurryOfPerception.xml",
      "manager": "buffLBD_PerceptionManager",
      "group": "Flurry of Perception",
      "trigger": "onSelfPrimaryActionRayHit",
@@ -17799,11 +18484,11 @@
      "cooldown_s": null,
      "cooldown_defined": null,
      "reqs": [
-      "HasBuff(buff=buffLBD_Flurry_ComboWindow)"
+      "HasBuff(buff=buffLBD_Flurry_ComboWindow_Perception)"
      ]
     },
     {
-     "file": "Perception/FlurryOfPerceptions.xml",
+     "file": "Perception/FlurryOfPerception.xml",
      "manager": "buffLBD_PerceptionManager",
      "group": "Flurry of Perception",
      "trigger": "onSelfSecondaryActionRayHit",
@@ -17814,7 +18499,7 @@
      "cooldown_s": null,
      "cooldown_defined": null,
      "reqs": [
-      "HasBuff(buff=buffLBD_Flurry_ComboWindow)"
+      "HasBuff(buff=buffLBD_Flurry_ComboWindow_Perception)"
      ]
     }
    ],
@@ -17870,6 +18555,97 @@
     "Flurry of Perception",
     "Flurry of Perception Primary",
     "Flurry of Perception Secondary"
+   ]
+  },
+  "perkflurryofstrength": {
+   "progression": "perkFlurryOfStrength",
+   "max_level": 5,
+   "xptonext_start": 1200.0,
+   "curve": 1.1,
+   "awards": [
+    {
+     "file": "Strength/FlurryOfStrength.xml",
+     "manager": "buffLBD_StrengthManager",
+     "group": "Flurry of Strength",
+     "trigger": "onSelfPrimaryActionRayHit",
+     "value_expr": "@$lbd_xp_flurry_bonus",
+     "value": 5.0,
+     "runtime": true,
+     "cooldown_buff": null,
+     "cooldown_s": null,
+     "cooldown_defined": null,
+     "reqs": [
+      "HasBuff(buff=buffLBD_Flurry_ComboWindow_Strength)"
+     ]
+    },
+    {
+     "file": "Strength/FlurryOfStrength.xml",
+     "manager": "buffLBD_StrengthManager",
+     "group": "Flurry of Strength",
+     "trigger": "onSelfSecondaryActionRayHit",
+     "value_expr": "@$lbd_xp_flurry_bonus",
+     "value": 5.0,
+     "runtime": true,
+     "cooldown_buff": null,
+     "cooldown_s": null,
+     "cooldown_defined": null,
+     "reqs": [
+      "HasBuff(buff=buffLBD_Flurry_ComboWindow_Strength)"
+     ]
+    }
+   ],
+   "levelup_buff": "buffLBD_perkFlurryOfStrength_LevelUpCheck",
+   "levelup_groups": [
+    1
+   ],
+   "gates": [],
+   "levels": [
+    {
+     "level": 1,
+     "threshold": 1200.0,
+     "actions": 240,
+     "floor_s": null
+    },
+    {
+     "level": 2,
+     "threshold": 1320.0,
+     "actions": 264,
+     "floor_s": null
+    },
+    {
+     "level": 3,
+     "threshold": 1452.0,
+     "actions": 291,
+     "floor_s": null
+    },
+    {
+     "level": 4,
+     "threshold": 1597.2,
+     "actions": 320,
+     "floor_s": null
+    },
+    {
+     "level": 5,
+     "threshold": 1756.9,
+     "actions": 352,
+     "floor_s": null
+    }
+   ],
+   "obs": {
+    "award_logs": 2,
+    "award_paths": 2,
+    "levelcheck_log": false,
+    "success_log": true,
+    "fail_log": true
+   },
+   "group": [
+    "buffLBD_StrengthManager",
+    "Flurry of Strength"
+   ],
+   "labels": [
+    "Flurry of Strength",
+    "Flurry of Strength Power",
+    "Flurry of Strength Primary"
    ]
   },
   "perkfromtheshadows": {
@@ -20007,9 +20783,9 @@
      "manager": "buffLBD_PerceptionManager",
      "group": "The Penetrator",
      "trigger": "onSelfPrimaryActionRayHit",
-     "value_expr": "40",
+     "value_expr": "@$lbd_xp_penetrator_multikill",
      "value": 40.0,
-     "runtime": false,
+     "runtime": true,
      "cooldown_buff": null,
      "cooldown_s": null,
      "cooldown_defined": null,
@@ -20023,9 +20799,9 @@
      "manager": "buffLBD_PerceptionManager",
      "group": "The Penetrator",
      "trigger": "onSelfPrimaryActionRayHit",
-     "value_expr": "18",
+     "value_expr": "@$lbd_xp_penetrator_armored_hit",
      "value": 18.0,
-     "runtime": false,
+     "runtime": true,
      "cooldown_buff": "buffLBD_perkPenetrator_XPCoolDown",
      "cooldown_s": 1.0,
      "cooldown_defined": true,
@@ -20883,9 +21659,9 @@
      "manager": "buffLBD_PerceptionManager",
      "group": "Treasure Hunter",
      "trigger": "onSelfPrimaryActionRayHit",
-     "value_expr": "5",
+     "value_expr": "@$lbd_xp_treasurehunter_dig",
      "value": 5.0,
-     "runtime": false,
+     "runtime": true,
      "cooldown_buff": "buffLBD_perkTreasureHunter_DigCoolDown",
      "cooldown_s": 1.0,
      "cooldown_defined": true,
@@ -20900,9 +21676,9 @@
      "manager": "buffLBD_PerceptionManager",
      "group": "Treasure Hunter",
      "trigger": "onSelfCloseLootContainer",
-     "value_expr": "150",
+     "value_expr": "@$lbd_xp_treasurehunter_chest",
      "value": 150.0,
-     "runtime": false,
+     "runtime": true,
      "cooldown_buff": "buffLBD_perkTreasureHunter_LootCoolDown",
      "cooldown_s": 1.0,
      "cooldown_defined": true,
@@ -20916,9 +21692,9 @@
      "manager": "buffLBD_PerceptionManager",
      "group": "Treasure Hunter",
      "trigger": "onSelfSecondaryActionRayHit",
-     "value_expr": "5",
+     "value_expr": "@$lbd_xp_treasurehunter_dig",
      "value": 5.0,
-     "runtime": false,
+     "runtime": true,
      "cooldown_buff": "buffLBD_perkTreasureHunter_DigCoolDown",
      "cooldown_s": 1.0,
      "cooldown_defined": true,

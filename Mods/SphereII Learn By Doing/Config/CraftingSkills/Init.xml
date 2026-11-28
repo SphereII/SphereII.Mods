@@ -89,6 +89,12 @@
             <!-- Armor -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingarmor_lbd_xp" operation="set" value="0"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingarmor_lbd_xptonext" operation="set" value="20"/>
+
+            <!-- Backpack (new in 3.4). Characters initialised before this skill existed get the
+                 threshold from the Settings Restore group in Config/buffs.xml. -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbackpack_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbackpack_lbd_xptonext" operation="set" value="20"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbackpack_lbd_lootxp_mark" operation="set" value="@_xpFromLoot"/>
              <!-- Medical -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingmedical_lbd_xp" operation="set" value="0"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingmedical_lbd_xptonext" operation="set" value="20"/>

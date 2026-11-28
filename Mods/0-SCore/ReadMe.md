@@ -113,6 +113,22 @@ This release of 0-SCore introduces significant enhancements across several core 
 		  base they no longer stamp a phantom duplicate one cell above, so a
 		  cube declared "1,1,1" now genuinely occupies one cell.
 
+Version:3.4.34.641
+	Game Version: v3.4.0 (b10)
+
+	[ Shared Reading ]
+		- The shared-reading tooltip no longer shows a raw localization key,
+		  such as perkLuckyLooterAmmunitionLongDesc for Lucky Looter Vol 2.
+		  When the perk's keys don't follow its name, the tooltip now uses
+		  the desc_key or long_desc_key from progression.xml, and failing
+		  that the book's own name.
+
+	[ NPC Interaction Prompt ]
+		- Fixed a NullReferenceException in PlayerMoveControllerUpdate,
+		  logged repeatedly when the crosshair was on an entity that had
+		  just been removed, such as bodies despawning after a group of
+		  bandits was killed.
+
 Version: 3.4.30.612
 	Game Version: v3.4.0 (b10)
 

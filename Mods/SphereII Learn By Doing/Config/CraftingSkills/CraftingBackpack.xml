@@ -1,0 +1,228 @@
+<configs>
+    <!--
+        CRAFTING BACKPACK (craftingBackpack, new in 3.4, levels 1-100).
+
+        Vanilla gives this skill three items - backpackSmall, backpackMedium, backpackLarge -
+        all UnlockedBy craftingBackpack and worn in the new Backpack equipment slot. Their
+        recipes unlock at levels 5, 40 and 75. Backpacks have no repair path, so the repair
+        awards the other crafting skills carry are left out: they could never fire.
+
+        Four ways to earn XP:
+          1. Craft a backpack   - $lbd_xp_crafting_base, 1s cooldown, no repeat of the same item
+          2. Scrap a backpack   - $lbd_xp_scrapping_base, 1s cooldown
+          3. Loot a container   - 1 XP per 15s, only when the container actually pays out
+          4. Carry a full pack  - 1 XP per 60s, wearing a backpack while over carry capacity
+
+        Looting is the main source. Below level 5 it pays without a backpack: vanilla only
+        drops backpacks from Savage Country crates, traders don't sell them, and no recipe
+        unlocks before level 5, so a player can't be asked to wear one to start.
+    -->
+    <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
+        <effect_group name="LBD Crafting Skill - Backpack">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Backpack - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBackpack"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_ActionCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingbackpack_lbd_lastitem"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingbackpack_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBackpack"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_ActionCoolDown"/>
+                <requirement name="!RequirementCraftedItemMatchesCVar, SCore" cvar="$craftingbackpack_lbd_lastitem"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Backpack - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBackpack"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_ActionCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingbackpack_lbd_xp" operation="add" value="@$lbd_xp_scrapping_base">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBackpack"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingBackpack_ActionCoolDown">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBackpack"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_ActionCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingBackpack_ActionCoolDown">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBackpack"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingBackpack_LevelUpCheck">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBackpack"/>
+                <requirement name="CVarCompare" cvar="$craftingbackpack_lbd_xp" operation="GTE" value="@$craftingbackpack_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingBackpack_LevelUpCheck">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBackpack"/>
+                <requirement name="CVarCompare" cvar="$craftingbackpack_lbd_xp" operation="GTE" value="@$craftingbackpack_lbd_xptonext"/>
+            </triggered_effect>
+
+            <!-- Remember what was just crafted. Ordered last so the award above compares
+                 against the PREVIOUS craft. With only three backpacks, this is what stops a
+                 queue of small backpacks being the whole skill. -->
+            <triggered_effect trigger="onSelfItemCrafted" action="SetCVarFromItemType, SCore" cvar="$craftingbackpack_lbd_lastitem"/>
+        </effect_group>
+
+        <!--
+            LEARNING BY LOOTING. Filling a bag is what a backpack is for.
+
+            onSelfCloseLootContainer fires for any container, including your own storage. The
+            game's running loot XP total, _xpFromLoot, only rises when a container actually pays
+            out, so comparing it against the mark taken at the previous close tells real looting
+            apart (see LuckyLooter.xml). This skill keeps its OWN mark: Lucky Looter refreshes
+            $perkluckylooter_lbd_lootxp_mark on the same trigger, so sharing it would make
+            whichever group ran second never pay.
+
+            Two branches, split on level 5 so only one can pay per close:
+              below 5 - no backpack needed (no recipe yet, and they rarely drop)
+              5 and up - a backpack must be worn
+
+            The mark is refreshed at the end of this group, so it must stay last.
+        -->
+        <effect_group name="LBD Crafting Skill - Backpack (Loot)">
+            <triggered_effect trigger="onSelfCloseLootContainer" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Backpack - Attempting 'Loot' XP, no backpack yet (+@$lbd_xp_crafting_use_base)">
+                <requirement name="ProgressionLevel" progression_name="craftingBackpack" operation="LT" value="5"/>
+                <requirement name="CVarCompare" cvar="_xpFromLoot" operation="GT" value="@$craftingbackpack_lbd_lootxp_mark"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$craftingbackpack_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="ProgressionLevel" progression_name="craftingBackpack" operation="LT" value="5"/>
+                <requirement name="CVarCompare" cvar="_xpFromLoot" operation="GT" value="@$craftingbackpack_lbd_lootxp_mark"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$craftingbackpack_decay_counter" operation="set" value="0">
+                <requirement name="ProgressionLevel" progression_name="craftingBackpack" operation="LT" value="5"/>
+                <requirement name="CVarCompare" cvar="_xpFromLoot" operation="GT" value="@$craftingbackpack_lbd_lootxp_mark"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCloseLootContainer" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Backpack - Attempting 'Loot' XP, backpack worn (+@$lbd_xp_crafting_use_base)">
+                <requirement name="ProgressionLevel" progression_name="craftingBackpack" operation="GTE" value="5"/>
+                <requirement name="WornItems" tags="backpackT1,backpackT2,backpackT3" operation="GTE" value="1"/>
+                <requirement name="CVarCompare" cvar="_xpFromLoot" operation="GT" value="@$craftingbackpack_lbd_lootxp_mark"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_UseCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$craftingbackpack_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="ProgressionLevel" progression_name="craftingBackpack" operation="GTE" value="5"/>
+                <requirement name="WornItems" tags="backpackT1,backpackT2,backpackT3" operation="GTE" value="1"/>
+                <requirement name="CVarCompare" cvar="_xpFromLoot" operation="GT" value="@$craftingbackpack_lbd_lootxp_mark"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$craftingbackpack_decay_counter" operation="set" value="0">
+                <requirement name="ProgressionLevel" progression_name="craftingBackpack" operation="GTE" value="5"/>
+                <requirement name="WornItems" tags="backpackT1,backpackT2,backpackT3" operation="GTE" value="1"/>
+                <requirement name="CVarCompare" cvar="_xpFromLoot" operation="GT" value="@$craftingbackpack_lbd_lootxp_mark"/>
+            </triggered_effect>
+            <!-- Both cooldowns come after both branches' log lines and awards, so no debug
+                 line is ever suppressed by the other branch's cooldown. -->
+            <triggered_effect trigger="onSelfCloseLootContainer" action="AddBuff" buff="buffLBD_craftingBackpack_UseCoolDown">
+                <requirement name="ProgressionLevel" progression_name="craftingBackpack" operation="LT" value="5"/>
+                <requirement name="CVarCompare" cvar="_xpFromLoot" operation="GT" value="@$craftingbackpack_lbd_lootxp_mark"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_UseCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCloseLootContainer" action="AddBuff" buff="buffLBD_craftingBackpack_UseCoolDown">
+                <requirement name="ProgressionLevel" progression_name="craftingBackpack" operation="GTE" value="5"/>
+                <requirement name="WornItems" tags="backpackT1,backpackT2,backpackT3" operation="GTE" value="1"/>
+                <requirement name="CVarCompare" cvar="_xpFromLoot" operation="GT" value="@$craftingbackpack_lbd_lootxp_mark"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_UseCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfCloseLootContainer" action="AddBuff" buff="buffLBD_craftingBackpack_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingbackpack_lbd_xp" operation="GTE" value="@$craftingbackpack_lbd_xptonext"/>
+            </triggered_effect>
+
+            <!-- Must stay last: every check above compares against the mark from the
+                 PREVIOUS close. -->
+            <triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$craftingbackpack_lbd_lootxp_mark" operation="set" value="@_xpFromLoot"/>
+        </effect_group>
+
+        <!--
+            LEARNING BY CARRYING. A small trickle for players who haul a lot but loot little.
+
+            Wearing a backpack while over carry capacity (_encumberedslots >= 1, set by the game
+            every tick) and moving. Standing still at base earns nothing. 1 XP per 60 seconds,
+            a quarter of looting's ceiling, so it rewards hauling without becoming the way to
+            level - the passive grind the armour use path avoids (see CraftingArmor.xml).
+
+            Pack Mule pays for the same walk (Strength/PackMule.xml). They are separate skills,
+            which is why this rate stays low. As Pack Mule raises carry capacity, the player is
+            encumbered less and this trickle shrinks with it.
+        -->
+        <effect_group name="LBD Crafting Skill - Backpack (Carry)">
+            <requirement name="WornItems" tags="backpackT1,backpackT2,backpackT3" operation="GTE" value="1"/>
+            <requirement name="CVarCompare" cvar="_encumberedslots" operation="GTE" value="1"/>
+
+            <triggered_effect trigger="onSelfRun" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Backpack - Attempting 'Carry' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_CarryCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$craftingbackpack_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_CarryCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$craftingbackpack_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_craftingBackpack_CarryCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_CarryCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_craftingBackpack_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingbackpack_lbd_xp" operation="GTE" value="@$craftingbackpack_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfWalk" action="LogMessageCVars, SCore" message="LBD DEBUG: Crafting Backpack - Attempting 'Carry' XP (+@$lbd_xp_crafting_use_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_CarryCoolDown"/>
+                <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$craftingbackpack_lbd_xp" operation="add" value="@$lbd_xp_crafting_use_base">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_CarryCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$craftingbackpack_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_craftingBackpack_CarryCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_craftingBackpack_CarryCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_craftingBackpack_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$craftingbackpack_lbd_xp" operation="GTE" value="@$craftingbackpack_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+
+        <effect_group name="LBD Decay Activity Resets for Crafting Backpack">
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingbackpack_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBackpack"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingbackpack_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBackpack"/>
+            </triggered_effect>
+            <!-- Looting and carrying reset the counter in their own groups above, under the
+                 same gates as their awards. Reading the magazine resets it in Config/items.xml. -->
+        </effect_group>
+    </append>
+
+    <append xpath="/buffs">
+        <buff name="buffLBD_craftingBackpack_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="CanPurchasePerk, SCore" progression_name="craftingBackpack"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Backpack - Level Up SUCCESS (craftingBackpack)">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingBackpack" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbackpack_lbd_xp" operation="subtract" value="@$craftingbackpack_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbackpack_lbd_xptonext" operation="multiply" value="@$lbd_xp_crafting_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingBackpack" sound="read_skillbook_final"/>
+            </effect_group>
+            <effect_group>
+                <requirement name="CVarCompare" cvar="$craftingbackpack_lbd_xp" operation="GTE" value="@$craftingbackpack_lbd_xptonext"/>
+                <requirement name="!CanPurchasePerk, SCore" progression_name="craftingBackpack"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessageCVars, SCore" message="LBD DEBUG: Backpack - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="CVarCompare" cvar="$lbd_debug" operation="GTE" value="1"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingBackpack_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+        <!-- Throttles looting. Separate from ActionCoolDown, which only stops one craft
+             double-scoring. -->
+        <buff name="buffLBD_craftingBackpack_UseCoolDown" hidden="true"><duration value="15"/></buff>
+        <!-- Throttles carrying: a quarter of looting's rate. -->
+        <buff name="buffLBD_craftingBackpack_CarryCoolDown" hidden="true"><duration value="60"/></buff>
+    </append>
+</configs>

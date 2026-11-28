@@ -56,6 +56,16 @@
             <triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$lbd_xp_treasurehunter_dig" operation="set" value="5">
                 <requirement name="CVarCompare" cvar="$lbd_xp_treasurehunter_dig" operation="LTE" value="0"/>
             </triggered_effect>
+            <!-- Crafting Backpack, new in 3.4. Without a threshold, every award would pass the
+                 level up check (XP >= 0) and the 1.04 multiply would keep it at 0, so the skill
+                 would level on every award. The loot mark starts at the current total so the
+                 first close after updating doesn't pay for all loot ever collected. -->
+            <triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$craftingbackpack_lbd_lootxp_mark" operation="set" value="@_xpFromLoot">
+                <requirement name="CVarCompare" cvar="$craftingbackpack_lbd_xptonext" operation="LTE" value="0"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$craftingbackpack_lbd_xptonext" operation="set" value="20">
+                <requirement name="CVarCompare" cvar="$craftingbackpack_lbd_xptonext" operation="LTE" value="0"/>
+            </triggered_effect>
         </effect_group>
         <effect_group name="Learn By Doing Manager Restore">
             <requirement name="CVarCompare" cvar="$lbd_xp_melee_base" operation="GTE" value="1"/>

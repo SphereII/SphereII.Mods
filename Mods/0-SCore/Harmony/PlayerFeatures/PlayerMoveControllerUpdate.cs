@@ -62,6 +62,12 @@ namespace Harmony.PlayerFeatures {
                 hitInfo.hit.distanceSq >= Constants.cCollectItemDistance * Constants.cCollectItemDistance)
                 return;
 
+            // The last hit can belong to an entity that has just been removed, such as a corpse
+            // despawning while the player looks at it. Its transform is then a destroyed Unity
+            // object, which GetHitRootTransform doesn't check for. Unity's == null catches it.
+            if (hitInfo.transform == null)
+                return;
+
             var rootTransform = GameUtils.GetHitRootTransform(hitInfo.tag, hitInfo.transform);
             if (rootTransform == null)
                 return;

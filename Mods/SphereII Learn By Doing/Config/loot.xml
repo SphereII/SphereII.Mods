@@ -15,6 +15,7 @@
 
     <!-- Skill magazines, everywhere they appear in a lootgroup. -->
     <remove xpath="/lootcontainers/lootgroup/item[@name='armorSkillMagazine']"/>
+    <remove xpath="/lootcontainers/lootgroup/item[@name='backpackSkillMagazine']"/>
     <remove xpath="/lootcontainers/lootgroup/item[@name='bladesSkillMagazine']"/>
     <remove xpath="/lootcontainers/lootgroup/item[@name='bowsSkillMagazine']"/>
     <remove xpath="/lootcontainers/lootgroup/item[@name='clubsSkillMagazine']"/>
